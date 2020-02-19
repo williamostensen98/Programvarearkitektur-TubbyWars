@@ -30,4 +30,5 @@ public class TubbyWars extends ApplicationAdapter {
 		batch.dispose();
 		img.dispose();
 	}
+	// added comment to test closing issue
 }
