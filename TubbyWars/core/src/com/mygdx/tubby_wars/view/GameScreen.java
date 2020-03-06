@@ -12,6 +12,7 @@ import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.CourseSystem;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.World;
+import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
 
     @Override
     public void update(float dt) {
+        checkEndTurn();
         handleinput();
         engine.update(dt);
         gameStage.act(Gdx.graphics.getDeltaTime());
@@ -105,8 +107,35 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
             }
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+        // shoot
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
 
+            // if player one's turn and player one has not shot yet
+            if(engine.getSystem(PlayerSystem.class).getIsYourTurn(players.get(0)) && !engine.getSystem(PlayerSystem.class).getHasFired(players.get(0))){
+                engine.getSystem(PlayerSystem.class).setInitBulletPos(players.get(0), 100, 75);
+                engine.getSystem(PlayerSystem.class).setHasFired(players.get(0),true);
+                engine.getSystem(PlayerSystem.class).setBulletPos(players.get(0));
+
+            }
+
+            // if player two's turn and player two has not shot yet
+            if(engine.getSystem(PlayerSystem.class).getIsYourTurn(players.get(1)) && !engine.getSystem(PlayerSystem.class).getHasFired(players.get(1))){
+                engine.getSystem(PlayerSystem.class).setInitBulletPos(players.get(1), TubbyWars.WIDTH - 100, 75);
+                engine.getSystem(PlayerSystem.class).setHasFired(players.get(1),true);
+                engine.getSystem(PlayerSystem.class).setBulletPos(players.get(1));
+
+            }
+        }
+
+        // if player one's turn and player one has fired
+        if(engine.getSystem(PlayerSystem.class).getIsYourTurn(players.get(0)) && engine.getSystem(PlayerSystem.class).getHasFired(players.get(0))){
+            engine.getSystem(PlayerSystem.class).setBulletPos(players.get(0));
+
+        }
+
+        // if player two's turn and player one has fired
+        if(engine.getSystem(PlayerSystem.class).getIsYourTurn(players.get(1)) && engine.getSystem(PlayerSystem.class).getHasFired(players.get(1))){
+            engine.getSystem(PlayerSystem.class).setBulletPos(players.get(1));
         }
 
 
@@ -135,6 +164,17 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
             engine.getSystem(PlayerSystem.class).setIsYourTurn(players.get(1), false);
             engine.getSystem(PlayerSystem.class).setIsYourTurn(players.get(0), true);
         }
+        turnCounter = 0;
     }
 
+    public void checkEndTurn(){
+        if(engine.getSystem(PlayerSystem.class).getShotCounter(players.get(0)) == 3 && engine.getSystem(PlayerSystem.class).getIsYourTurn(players.get(0))){
+            engine.getSystem(PlayerSystem.class).setShotCounter(players.get(0));
+            endTurn(courseEntity);
+        }
+        else if(engine.getSystem(PlayerSystem.class).getShotCounter(players.get(1)) == 3 && engine.getSystem(PlayerSystem.class).getIsYourTurn(players.get(1))){
+            engine.getSystem(PlayerSystem.class).setShotCounter(players.get(1));
+            endTurn(courseEntity);
+        }
+    }
 }

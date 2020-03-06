@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.tubby_wars.model.World;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
@@ -62,12 +63,61 @@ public class PlayerSystem extends IteratingSystem {
     }
 
     public void setHasFired(Entity playerEntity, boolean hasFired){
+        if(pm.get(playerEntity).hasFired && !hasFired){
+            setShotCounter(playerEntity);
+        }
         pm.get(playerEntity).hasFired = hasFired;
     }
 
 
+    public void setBulletPos(Entity playerEntity){
+
+        // define previous bullet point and aimArrow for easier access.
+        Vector3 prevPos = pm.get(playerEntity).bulletPos;
+        Vector3 aimArrow = pm.get(playerEntity).aimArrow;
+
+        // home-made x and y velocity
+        int xVelocity = (int) (aimArrow.x  - pm.get(playerEntity).position.x) / 20;
+        int yVelocity = (int) (aimArrow.y - 75) / 20;
+
+        // creates the new bullet position
+        Vector3 newPos = new Vector3(prevPos.x + xVelocity, prevPos.y + (yVelocity - prevPos.z), prevPos.z + (float)0.1);
+        pm.get(playerEntity).bulletPos = newPos;
+
+        // if the bullet is below ground, 20 = radius of bullet
+        if(getBulletPos(playerEntity).y + 20 < 0){
+            setHasFired(playerEntity, false);
+            setInitBulletPos(playerEntity, (int) pm.get(playerEntity).position.x, 75);
+        }
+    }
+
+    // set the initial bullet coords.
+    public void setInitBulletPos(Entity playerEntity, int x, int y){
+        //setShotCounter(playerEntity);
+        pm.get(playerEntity).bulletPos.x = x;
+        pm.get(playerEntity).bulletPos.y = y;
+        pm.get(playerEntity).bulletPos.z = 0;
 
 
+    }
+
+
+    public Vector3 getBulletPos(Entity playerEntity){
+        return pm.get(playerEntity).bulletPos;
+    }
+
+    public void setShotCounter(Entity playerEntity){
+        if(pm.get(playerEntity).shotCounter == 3){
+            pm.get(playerEntity).shotCounter = 0;
+        }
+        else{
+            pm.get(playerEntity).shotCounter += 1;
+        }
+    }
+
+    public int getShotCounter(Entity playerEntity){
+        return pm.get(playerEntity).shotCounter;
+    }
 
 
 

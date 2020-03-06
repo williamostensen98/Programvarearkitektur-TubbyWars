@@ -67,12 +67,18 @@ public class CourseView {
             // vet ikke helt hva som skal komme her enda... sikkert noe smart
         }
 
-        if(pm.get(playerOne).isYourTurn && pm.get(playerOne).hasFired){
-            // draw bullet
+        if(pm.get(playerOne).isYourTurn && pm.get(playerOne).hasFired && (pm.get(playerOne).bulletPos.y >= 0)){
+            // draw bullet for player one
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.circle(pm.get(playerOne).bulletPos.x, pm.get(playerOne).bulletPos.y, 20);
+            shapeRenderer.end();
         }
 
-        else if(pm.get(playerTwo).isYourTurn && pm.get(playerTwo).hasFired){
-            // draw bullet
+        else if(pm.get(playerTwo).isYourTurn && pm.get(playerTwo).hasFired && (pm.get(playerTwo).bulletPos.y >= 0)){
+            // draw bullet for player two
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.circle(pm.get(playerTwo).bulletPos.x, pm.get(playerTwo).bulletPos.y, 20);
+            shapeRenderer.end();
         }
 
         else{

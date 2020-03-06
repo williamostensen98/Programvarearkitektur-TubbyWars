@@ -22,6 +22,10 @@ public class PlayerComponent implements Component {
 
     public boolean hasFired = false;
 
+    // x and y is start pos of the bullet, and we use z as a in y direction, aka gravity.
+    public Vector3 bulletPos = new Vector3(100,75,0);
 
+    // after using up all shots, switch to the other player. e.g. shotcounter == 3  => endturn
+    public int shotCounter = 0;
 
 }
