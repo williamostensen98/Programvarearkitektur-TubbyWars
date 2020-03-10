@@ -10,9 +10,9 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
-        
-
+        classpath 'org.wisepersist:gwt-gradle-plugin:1.0.9'
+        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.8'
     }
 }
 
@@ -70,7 +70,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
-        
+        api "com.badlogicgames.ashley:ashley:$ashleyVersion"
     }
 }
 
@@ -81,6 +81,6 @@ project(":core") {
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        
+        api "com.badlogicgames.ashley:ashley:$ashleyVersion"
     }
 }
