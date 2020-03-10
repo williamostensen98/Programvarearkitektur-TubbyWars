@@ -5,7 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.tubby_wars.view.MenuScreen;
+import com.mygdx.tubby_wars.model.Assets;
+import com.mygdx.tubby_wars.view.LoadingScreen;
+
 
 
 public class TubbyWars extends Game {
@@ -18,16 +20,19 @@ public class TubbyWars extends Game {
 	SpriteBatch batch;
 	Texture img;
 
+	private Assets assets;
+
 	@Override
 	public void create () {
 		Gdx.graphics.setWindowedMode(WIDTH, HEIGHT);
 
+		assets = new Assets();
 		engine = new Engine();
 
 		batch = new SpriteBatch();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 
-		this.setScreen(new MenuScreen(this, engine));
+		this.setScreen(new LoadingScreen(this, engine));
 	}
 
 	@Override
