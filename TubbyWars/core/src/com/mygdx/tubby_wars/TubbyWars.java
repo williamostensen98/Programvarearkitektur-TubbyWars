@@ -1,34 +1,49 @@
 package com.mygdx.tubby_wars;
-
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.tubby_wars.model.Assets;
+import com.mygdx.tubby_wars.view.LoadingScreen;
 
-public class TubbyWars extends ApplicationAdapter {
+
+
+public class TubbyWars extends Game {
+
+	public final static int HEIGHT = 375;
+	public final static int WIDTH = 812;
+
+	private Engine engine;
+
 	SpriteBatch batch;
 	Texture img;
-	
+
+	private Assets assets;
+
 	@Override
 	public void create () {
+		Gdx.graphics.setWindowedMode(WIDTH, HEIGHT);
+
+		assets = new Assets();
+		engine = new Engine();
+
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		Gdx.gl.glClearColor(1, 0, 0, 1);
+
+		this.setScreen(new LoadingScreen(this, engine));
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+		GL20 gl = Gdx.gl;
+		super.render();
 	}
-	
+
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
 	}
 	// added comment to test closing issue
 }
