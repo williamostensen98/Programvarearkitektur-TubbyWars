@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.view.LoadingScreen;
-
+import com.mygdx.tubby_wars.view.SettingScreen;
 
 
 public class TubbyWars extends Game {
@@ -32,7 +32,7 @@ public class TubbyWars extends Game {
 		batch = new SpriteBatch();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 
-		this.setScreen(new LoadingScreen(this, engine));
+		this.setScreen(new SettingScreen(this, engine));
 	}
 
 	@Override
