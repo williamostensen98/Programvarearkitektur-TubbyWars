@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
-public class Gun extends ApplicationAdapter implements Component {
+public class Revolver extends ApplicationAdapter implements Component {
 
     private SpriteBatch batch;
     private Texture texture;
@@ -19,7 +19,7 @@ public class Gun extends ApplicationAdapter implements Component {
     public void create() {
 
         batch = new SpriteBatch();
-        texture = new Texture("gun.png");
+        texture = new Texture("revolver.png");
         sprite = new Sprite(texture);
         pos = new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
     }
@@ -38,3 +38,4 @@ public class Gun extends ApplicationAdapter implements Component {
         batch.dispose();
     }
 }
+

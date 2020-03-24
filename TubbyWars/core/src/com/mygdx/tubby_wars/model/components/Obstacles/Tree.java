@@ -1,4 +1,4 @@
-package com.mygdx.tubby_wars.model.components.Weapons;
+package com.mygdx.tubby_wars.model.components.Obstacles;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -8,8 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
-public class Gun extends ApplicationAdapter implements Component {
-
+public class Tree extends ApplicationAdapter implements Component {
     private SpriteBatch batch;
     private Texture texture;
     private Sprite sprite;
@@ -19,7 +18,7 @@ public class Gun extends ApplicationAdapter implements Component {
     public void create() {
 
         batch = new SpriteBatch();
-        texture = new Texture("gun.png");
+        texture = new Texture("tree.png");
         sprite = new Sprite(texture);
         pos = new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
     }
