@@ -23,12 +23,12 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     private Engine engine;
 
     private Label menuText;
+
     private Texture logo;
     private Texture background;
     private Texture startButton;
     private Texture highScoreButton;
-    //private Button start;
-    //private Button highscore;
+
     private Sprite sprite;
     private Stage stage;
 

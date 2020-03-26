@@ -10,4 +10,5 @@ public class CourseComponent implements Component {
 
     public int turnNumber;
 
+
 }
