@@ -7,7 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.view.LoadingScreen;
-
+import com.mygdx.tubby_wars.view.MenuScreen;
+import com.mygdx.tubby_wars.view.ShopScreen;
 
 
 public class TubbyWars extends Game {
