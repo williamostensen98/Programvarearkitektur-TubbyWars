@@ -21,7 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
-import com.mygdx.tubby_wars.model.Assets;
 
 
 public class SettingScreen extends ScreenAdapter implements ScreenInterface {
@@ -44,12 +43,10 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void create() {
-        // create the menuscreen here
+
         settingsText = new Label("SETTINGS:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        //settingsText.setSize(200,200);
         settingsText.setPosition(Gdx.graphics.getWidth()/2,(Gdx.graphics.getHeight()/4)*3);
-        //Virker ikke - Vet ikke hvordan vi skal få til å scale overskriften
-        //settingsText.getData().setScale(2, 2);
+
         batch = new SpriteBatch();
         playButtonText = new Texture("play.png");
         play = new Sprite(playButtonText);
@@ -58,10 +55,12 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         stage.addActor(settingsText);
         Gdx.input.setInputProcessor(stage); //Vet ikke: sets input to be handled by stage
 
+        //Initialiserer playButton
         final Button playButton= new Button(new TextureRegionDrawable(new TextureRegion(playButtonText)), new TextureRegionDrawable(new TextureRegion(playButtonText)));
-        playButton.setTransform(true);
-        playButton.setSize(174,174);
+        playButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
+        playButton.setSize(50,50);
         playButton.setOrigin(playButton.getWidth()/2,playButton.getHeight()/2);
+
 
         playButton.addListener(new ClickListener() {
             @Override
@@ -69,18 +68,17 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
                 System.out.println("Button pressed");
             }
 
-            //fires when button is pressed down
+            //Kjøres når knappen trykkes ned
             @Override
             public boolean touchDown(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
-                playButton.addAction(Actions.scaleTo(0.95f, 0.95f,0.1f));
-                System.out.println("touch down fired");
+                playButton.addAction(Actions.scaleTo(0.95f, 0.95f,0.1f)); //Minker størrelsen på knappen når den trykkes
                 return super.touchDown(inputEvent, xpos, ypos,pointer,button);
             }
 
-
+            //Kjører når knappen slippes opp
             public void touchUp(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
                 super.touchUp(inputEvent, xpos, ypos,pointer,button);
-                playButton.addAction(Actions.scaleTo(1f, 1f,1f));
+                playButton.addAction(Actions.scaleTo(1f, 1f,0.1f)); //Setter størrelsen på knappen tilbake til original størrelse
             }
 
         });
@@ -115,6 +113,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void render(float dt){
         update(dt);
+        stage.act(Gdx.graphics.getDeltaTime());
         draw();
 
     }
