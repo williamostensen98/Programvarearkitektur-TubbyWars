@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -32,21 +33,25 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     private Sprite play;
     private Texture playButtonText;
     private SpriteBatch batch;
-    private int xpos;
-    private int ypos;
+    private Texture titleTexture;
+    private Sprite title;
+    private Vector3 pos;
 
     public SettingScreen(TubbyWars game, Engine engine){
         super();
         this.game = game;
         this.engine = engine;
-
         create();
     }
 
     @Override
     public void create() {
 
+        batch = new SpriteBatch();
+        titleTexture = new Texture("settings.png");
+        pos = new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight()/8*7, 0);
 
+        title = new Sprite(titleTexture);
         settingsText = new Label("SETTINGS:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         settingsText.setPosition(Gdx.graphics.getWidth()/2,(Gdx.graphics.getHeight()/4)*3);
 
@@ -64,7 +69,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         playButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         playButton.setSize(50,50);
         playButton.setOrigin(50,50);
-        playButton.setPosition(Gdx.graphics.getWidth()/2-playButton.getWidth()/2,Gdx.graphics.getHeight()/2);
+        playButton.setPosition(Gdx.graphics.getWidth()/2-playButton.getWidth()/2,Gdx.graphics.getHeight()/2 - playButton.getHeight()/2);
 
 
 
@@ -105,6 +110,11 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glClearColor(254.0f/255.0f, 127.0f/255.0f, 156.0f/255.0f, 1.0f);
         stage.draw();
+        batch.begin();
+        batch.draw(title,
+                pos.x - title.getWidth() / 2,
+                pos.y - title.getHeight() / 2);
+        batch.end();
     }
 
     @Override
