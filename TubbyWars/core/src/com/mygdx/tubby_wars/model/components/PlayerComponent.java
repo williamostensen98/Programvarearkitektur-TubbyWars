@@ -26,6 +26,7 @@ public class PlayerComponent implements Component {
     public Vector3 bulletPos = new Vector3(100,75,0);
 
     // after using up all shots, switch to the other player. e.g. shotcounter == 3  => endturn
+    // should in the future be when health == 0  => endturn
     public int shotCounter = 0;
 
 }

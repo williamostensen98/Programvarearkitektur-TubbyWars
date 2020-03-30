@@ -112,6 +112,9 @@ public class PlayerSystem extends IteratingSystem {
         }
         else{
             pm.get(playerEntity).shotCounter += 1;
+
+            // deal 10 damage each turn to test
+            dealDamage(playerEntity, 10);
         }
     }
 
@@ -121,7 +124,21 @@ public class PlayerSystem extends IteratingSystem {
 
 
 
+    public void setHealth(Entity playerEntity, int health){
+        pm.get(playerEntity).health = health;
+    }
 
+    public void dealDamage(Entity playerEntity, int damage){
+        if(pm.get(playerEntity).health - damage <= 0){
+            // Should go to the shop, current turn is ended.
+
+            // Atm I just reset the health when dead
+            pm.get(playerEntity).health = 100;
+        }
+        else{
+            pm.get(playerEntity).health -= damage;
+        }
+    }
 
 
 

@@ -56,6 +56,7 @@ public class World {
         engine.getSystem(PlayerSystem.class).setUpPosition(this, playerOneEntity, 50, 50);
         engine.getSystem(PlayerSystem.class).setIsYourTurn(playerOneEntity, true);
         engine.getSystem(PlayerSystem.class).setInitialAimArrow(playerOneEntity, 200, 150);
+        engine.getSystem(PlayerSystem.class).setHealth(playerOneEntity, 100);
 
         // creation of player 2, both component and system
         Entity playerTwoEntity = new Entity();
@@ -67,6 +68,7 @@ public class World {
         engine.addSystem(new PlayerSystem());
         engine.getSystem(PlayerSystem.class).setUpPosition(this, playerTwoEntity, TubbyWars.WIDTH - 100, 50);
         engine.getSystem(PlayerSystem.class).setInitialAimArrow(playerTwoEntity, TubbyWars.WIDTH - 200, 150);
+        engine.getSystem(PlayerSystem.class).setHealth(playerTwoEntity, 100);
 
         // adds both entities into the same list and return it.
         entities.add(playerOneEntity);
