@@ -64,7 +64,7 @@ public class CourseView {
             shapeRenderer.end();
         }
         else{
-            // vet ikke helt hva som skal komme her enda... sikkert noe smart
+            // vet ikke helt hva som skal komme her enda... sikkert noe smart Hei
         }
 
         if(pm.get(playerOne).isYourTurn && pm.get(playerOne).hasFired && (pm.get(playerOne).bulletPos.y >= 0)){

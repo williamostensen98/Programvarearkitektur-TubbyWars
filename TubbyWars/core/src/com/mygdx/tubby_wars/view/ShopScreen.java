@@ -36,12 +36,11 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void create() {
 
-        stage = new Stage(new ScreenViewport());
-
+        //stage = new Stage(new ScreenViewport());
         batch = new SpriteBatch();
         texture = new Texture("shop.png");
         sprite = new Sprite(texture);
-        pos = new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() /2, 0);
+        pos = new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight()/8*7, 0);
     }
 
     @Override
@@ -52,8 +51,13 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void draw() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(1, 0, 0, 1);
-        stage.draw();
+        Gdx.gl.glClearColor(220.0f/255.0f, 220.0f/255.0f, 220.0f/255.0f, 1.0f);
+        batch.begin();
+        batch.draw(sprite,
+                pos.x - sprite.getWidth() / 2,
+                pos.y - sprite.getHeight() / 2);
+        batch.end();
+        //stage.draw();
     }
 
     @Override
@@ -66,11 +70,6 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void render(float dt){
-        batch.begin();
-        batch.draw(sprite,
-                pos.x - sprite.getWidth() / 2,
-                pos.y - sprite.getHeight() / 2);
-        batch.end();
         update(dt);
         draw();
     }
