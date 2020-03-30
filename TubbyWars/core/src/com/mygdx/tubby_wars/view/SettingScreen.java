@@ -33,16 +33,21 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     private Sprite play;
     private Texture playButtonText;
     private SpriteBatch batch;
+    private int xpos;
+    private int ypos;
 
     public SettingScreen(TubbyWars game, Engine engine){
         super();
         this.game = game;
         this.engine = engine;
+        xpos = 50;
+        ypos=50;
         create();
     }
 
     @Override
     public void create() {
+
 
         settingsText = new Label("SETTINGS:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         settingsText.setPosition(Gdx.graphics.getWidth()/2,(Gdx.graphics.getHeight()/4)*3);
@@ -59,7 +64,9 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         final Button playButton= new Button(new TextureRegionDrawable(new TextureRegion(playButtonText)), new TextureRegionDrawable(new TextureRegion(playButtonText)));
         playButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         playButton.setSize(50,50);
-        playButton.setOrigin(playButton.getWidth()/2,playButton.getHeight()/2);
+        //playButton.setOrigin(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        playButton.setOrigin(50,50);   //Denne gjør ikke noe, må få flyttet knappen
+
 
 
         playButton.addListener(new ClickListener() {
@@ -71,13 +78,13 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
             //Kjøres når knappen trykkes ned
             @Override
             public boolean touchDown(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
-                playButton.addAction(Actions.scaleTo(0.95f, 0.95f,0.1f)); //Minker størrelsen på knappen når den trykkes
-                return super.touchDown(inputEvent, xpos, ypos,pointer,button);
+                playButton.addAction(Actions.scaleTo(0.65f, 0.65f,0.1f)); //Minker størrelsen på knappen når den trykkes
+                return super.touchDown(inputEvent, 100, 100,pointer,button);
             }
 
             //Kjører når knappen slippes opp
             public void touchUp(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
-                super.touchUp(inputEvent, xpos, ypos,pointer,button);
+                super.touchUp(inputEvent, 100, 100 ,pointer,button);
                 playButton.addAction(Actions.scaleTo(1f, 1f,0.1f)); //Setter størrelsen på knappen tilbake til original størrelse
             }
 
