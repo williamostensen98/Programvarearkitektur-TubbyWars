@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -40,8 +39,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         super();
         this.game = game;
         this.engine = engine;
-        xpos = 50;
-        ypos=50;
+
         create();
     }
 
@@ -58,14 +56,15 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
         stage = new Stage(new ScreenViewport());
         stage.addActor(settingsText);
+
         Gdx.input.setInputProcessor(stage); //Vet ikke: sets input to be handled by stage
 
         //Initialiserer playButton
         final Button playButton= new Button(new TextureRegionDrawable(new TextureRegion(playButtonText)), new TextureRegionDrawable(new TextureRegion(playButtonText)));
         playButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         playButton.setSize(50,50);
-        //playButton.setOrigin(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        playButton.setOrigin(50,50);   //Denne gjør ikke noe, må få flyttet knappen
+        playButton.setOrigin(50,50);
+        playButton.setPosition(Gdx.graphics.getWidth()/2-playButton.getWidth()/2,Gdx.graphics.getHeight()/2);
 
 
 
@@ -78,7 +77,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
             //Kjøres når knappen trykkes ned
             @Override
             public boolean touchDown(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
-                playButton.addAction(Actions.scaleTo(0.65f, 0.65f,0.1f)); //Minker størrelsen på knappen når den trykkes
+                playButton.addAction(Actions.scaleTo(0.95f, 0.95f,0.1f)); //Minker størrelsen på knappen når den trykkes
                 return super.touchDown(inputEvent, 100, 100,pointer,button);
             }
 
