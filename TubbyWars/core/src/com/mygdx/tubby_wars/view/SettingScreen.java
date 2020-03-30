@@ -91,18 +91,13 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
                 super.touchUp(inputEvent, 100, 100 ,pointer,button);
                 playButton.addAction(Actions.scaleTo(1f, 1f,0.1f)); //Setter størrelsen på knappen tilbake til original størrelse
             }
-
         });
-
         stage.addActor(playButton);
-
-
     }
 
     @Override
     public void update(float dt) {
         handleinput();
-
     }
 
     @Override
