@@ -16,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.badlogic.gdx.audio.Music;
+import com.mygdx.tubby_wars.model.Assets;
 
 public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
@@ -23,33 +25,37 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     private Engine engine;
 
     private Label menuText;
+
     private Texture logo;
     private Texture background;
     private Texture startButton;
     private Texture highScoreButton;
-    //private Button start;
-    //private Button highscore;
-    private Sprite sprite;
-    private Stage stage;
+    private Texture settingsButton;
 
+    private Music music;
+
+    private Sprite sprite;
     private SpriteBatch sb;
+    private Stage stage;
 
     public MenuScreen(TubbyWars game, Engine engine){
         super();
         this.game = game;
         this.engine = engine;
 
+        background = Assets.getTexture(Assets.menuBackground);
+        logo = Assets.getTexture(Assets.logo);
+
+        this.music = game.getMusic();
+        this.music.setVolume(0.3f);
+        this.music.play();
+        game.playMusic(music);
+
         // one-time operations
         create();
     }
 
     public void create(){
-        // create the menuscreen here
-        logo = new Texture("Logo.png");
-        background = new Texture("background.jpg");
-        highScoreButton = new Texture("ButtonHighscore.png");
-        startButton = new Texture("ButtonStart.png");
-
         menuText = new Label("Midlertidig; enter to start", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         menuText.setSize(Gdx.graphics.getWidth(), 100);
         menuText.setPosition(5,0);
@@ -67,15 +73,21 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void draw(){
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(0, 1, 1,0);
+        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //Gdx.gl.glClearColor(0, 1, 1,0);
 
-        sb.begin();
-        sb.draw(background, 0,0);
-        sb.draw(logo, 200, 270, 400,100);
-        sb.draw(startButton, 200,50, 100,100);
-        sb.draw(highScoreButton, 500,50, 100,100);
+        sb.begin(); // Draw elements to Sprite Batch
+        sb.draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT);
+        //sb.draw(logo, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT);
         sb.end();
+
+        //sb.begin();
+        //sb.draw(background, 0,0);
+        //sb.draw(logo, 200, 270, 400,100);
+        //sb.draw(startButton, 200,50, 100,100);
+        //sb.draw(highScoreButton, 500,50, 100,100);
+        //sb.draw(settingsButton, 500,50, 100,100);
+        //sb.end();
 
         stage.draw();
     }
