@@ -1,7 +1,6 @@
 package com.mygdx.tubby_wars.view;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -19,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.model.MusicStateManager;
 
 
 public class SettingScreen extends ScreenAdapter implements ScreenInterface {
@@ -26,6 +26,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     private TubbyWars game;
     private Engine engine;
     private Stage stage;
+    private MusicStateManager musicStateManager;
 
     private Texture titleTexture;
     private Image title;
@@ -85,19 +86,21 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         musicButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         musicButton.setSize(50, 50);
         musicButton.setOrigin(50, 50);
-        musicButton.setChecked(isMute);
+        musicButton.setChecked(!game.musicStateManager.getMusicState());
         musicButton.setPosition(pos2.x*3/ 6, pos2.y * 2 / 3 - musicButton.getHeight() / 3);
 
 
         musicButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                if (isMute == false)
+                if (game.musicStateManager.getMusicState()==true) {
+                    game.musicStateManager.stopMusic();
                     System.out.println("Music is muted");
+                }
                 else {
+                    game.musicStateManager.playMusic();
                     System.out.println("Music is playing");
                 }
-                isMute = !isMute;
             }
 
             //Kjøres når knappen trykkes ned
@@ -179,7 +182,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.setScreen(new MenuScreen(game, engine));
+                game.setScreen(new LoadingScreen(game, engine));
             }
         });
         stage.addActor(backButton);
