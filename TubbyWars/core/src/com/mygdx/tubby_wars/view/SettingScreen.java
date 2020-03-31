@@ -159,58 +159,27 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
      */
     final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeButtonTexture)), new TextureRegionDrawable(new TextureRegion(resumeButtonTexture)));
-        resumeButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         resumeButton.setSize(50, 50);
-        resumeButton.setOrigin(50, 50);
-        resumeButton.setChecked(soundEffectsIsMute);
         resumeButton.setPosition(pos2.x *10/ 6 , pos2.y/8);
-
         resumeButton.addListener(new ClickListener() {
+
         @Override
         public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-            System.out.println("Resume game");
+            game.setScreen(new GameScreen(game, engine));
         }
 
-        //Kjøres når knappen trykkes ned
-        @Override
-        public boolean touchDown(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
-            resumeButton.addAction(Actions.scaleTo(0.96f, 0.96f, 0.2f)); //Minker størrelsen på knappen når den trykkes
-            return super.touchDown(inputEvent, 100, 100, pointer, button);
-        }
-
-        //Kjører når knappen slippes opp
-        public void touchUp(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
-            super.touchUp(inputEvent, 100, 100, pointer, button);
-            resumeButton.addAction(Actions.scaleTo(1f, 1f, 0.2f)); //Setter størrelsen på knappen tilbake til original størrelse
-        }
     });
         stage.addActor(resumeButton);
 
         //Initialiserer backButton
         final Button backButton = new Button(new TextureRegionDrawable(new TextureRegion(backButtonTexture)), new TextureRegionDrawable(new TextureRegion(backButtonTexture)));
-        backButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         backButton.setSize(60, 60);
-        backButton.setOrigin(60, 60);
-        backButton.setChecked(soundEffectsIsMute);
         backButton.setPosition(pos2.x / 6 , pos2.y/8);
 
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                System.out.println("Back to Menu-screen");
-            }
-
-            //Kjøres når knappen trykkes ned
-            @Override
-            public boolean touchDown(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
-                backButton.addAction(Actions.scaleTo(0.96f, 0.96f, 0.2f)); //Minker størrelsen på knappen når den trykkes
-                return super.touchDown(inputEvent, 100, 100, pointer, button);
-            }
-
-            //Kjører når knappen slippes opp
-            public void touchUp(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
-                super.touchUp(inputEvent, 100, 100, pointer, button);
-                backButton.addAction(Actions.scaleTo(1f, 1f, 0.2f)); //Setter størrelsen på knappen tilbake til original størrelse
+                game.setScreen(new MenuScreen(game, engine));
             }
         });
         stage.addActor(backButton);
@@ -222,7 +191,6 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void update(float dt) {
         handleinput();
-        //stage.act(Gdx.graphics.getDeltaTime());
     }
 
     @Override
