@@ -14,6 +14,14 @@ public class Assets {
     public static String highScoreButton = "textures/ButtonHighscore.png";
     public static String startButton = "textures/ButtonStart.png";
     public static String settingsButton = "textures/ButtonStart.png";
+    public static String cloudObstacle = "textures/cloud.png";
+    public static String treeObstacle = "textures/tree.png";
+    public static String wallObstacle = "textures/wall.png";
+    public static String gunWeapon = "textures/gun.png";
+    public static String rifleWeapon = "textures/Rifle.png";
+    public static String revolverWeapon = "textures/revolver.png";
+
+
 
     public static String backgroundMusic = "music/music.mp3";
 
@@ -34,6 +42,14 @@ public class Assets {
         assetManager.load(highScoreButton, Texture.class);
         assetManager.load(startButton, Texture.class);
         assetManager.load(settingsButton, Texture.class);
+        assetManager.load(cloudObstacle, Texture.class);
+        assetManager.load(treeObstacle, Texture.class);
+        assetManager.load(wallObstacle, Texture.class);
+        assetManager.load(gunWeapon, Texture.class);
+        assetManager.load(rifleWeapon, Texture.class);
+        assetManager.load(revolverWeapon, Texture.class);
+
+
 
         assetManager.load(backgroundMusic, Music.class);
     }
