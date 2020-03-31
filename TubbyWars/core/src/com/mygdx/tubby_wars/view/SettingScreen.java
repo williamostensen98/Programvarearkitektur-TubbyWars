@@ -1,5 +1,4 @@
 package com.mygdx.tubby_wars.view;
-
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -39,6 +38,9 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     private boolean isMute = false;
     private boolean soundEffectsIsMute = false;
 
+    private Texture resumeButtonTexture;
+    private Texture backButtonTexture;
+
     private Vector3 pos1;
     private Vector3 pos2;
 
@@ -58,13 +60,16 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         title.setPosition(pos1.x, pos1.y);
 
         pos2 = new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 8 * 7, 0);
-        musicText = new Label("Music:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        musicText = new Label("Music:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
         musicText.setPosition(pos2.x / 3, pos2.y * 2 / 3);
-        soundsText = new Label("Sound effects:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
+        soundsText = new Label("Sound effects:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
         soundsText.setPosition(pos2.x / 3, pos2.y * 4 / 7);
 
         playButtonTexture = new Texture("soundOn.png");
         pauseButtonTexture = new Texture("soundOff.png");
+        resumeButtonTexture = new Texture("play.png");
+        backButtonTexture = new Texture("back.png");
 
 
         stage = new Stage(new ScreenViewport());
@@ -120,7 +125,6 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         soundEffectButton.setChecked(soundEffectsIsMute);
         soundEffectButton.setPosition(pos2.x / 3 + 100, pos2.y * 4 / 7 - soundEffectButton.getHeight() / 3);
 
-
         soundEffectButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
@@ -145,9 +149,72 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
                 soundEffectButton.addAction(Actions.scaleTo(1f, 1f, 0.2f)); //Setter størrelsen på knappen tilbake til original størrelse
             }
         });
-
         stage.addActor(soundEffectButton);
-    }
+
+
+    //Initialiserer resumeButton
+    /*
+        Vet ikke om vi burde ha en resume-knapp eller ikke?
+       Kan jo kanskje være greit om man går til settings midt i en runde for å skru av musikken for eksempel.
+
+     */
+    final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeButtonTexture)), new TextureRegionDrawable(new TextureRegion(resumeButtonTexture)));
+        resumeButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
+        resumeButton.setSize(50, 50);
+        resumeButton.setOrigin(50, 50);
+        resumeButton.setChecked(soundEffectsIsMute);
+        resumeButton.setPosition(pos2.x *10/ 6 , pos2.y/8);
+
+        resumeButton.addListener(new ClickListener() {
+        @Override
+        public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+            System.out.println("Resume game");
+        }
+
+        //Kjøres når knappen trykkes ned
+        @Override
+        public boolean touchDown(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
+            resumeButton.addAction(Actions.scaleTo(0.96f, 0.96f, 0.2f)); //Minker størrelsen på knappen når den trykkes
+            return super.touchDown(inputEvent, 100, 100, pointer, button);
+        }
+
+        //Kjører når knappen slippes opp
+        public void touchUp(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
+            super.touchUp(inputEvent, 100, 100, pointer, button);
+            resumeButton.addAction(Actions.scaleTo(1f, 1f, 0.2f)); //Setter størrelsen på knappen tilbake til original størrelse
+        }
+    });
+        stage.addActor(resumeButton);
+
+        //Initialiserer backButton
+        final Button backButton = new Button(new TextureRegionDrawable(new TextureRegion(backButtonTexture)), new TextureRegionDrawable(new TextureRegion(backButtonTexture)));
+        backButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
+        backButton.setSize(60, 60);
+        backButton.setOrigin(60, 60);
+        backButton.setChecked(soundEffectsIsMute);
+        backButton.setPosition(pos2.x / 6 , pos2.y/8);
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                System.out.println("Back to Menu-screen");
+            }
+
+            //Kjøres når knappen trykkes ned
+            @Override
+            public boolean touchDown(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
+                backButton.addAction(Actions.scaleTo(0.96f, 0.96f, 0.2f)); //Minker størrelsen på knappen når den trykkes
+                return super.touchDown(inputEvent, 100, 100, pointer, button);
+            }
+
+            //Kjører når knappen slippes opp
+            public void touchUp(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
+                super.touchUp(inputEvent, 100, 100, pointer, button);
+                backButton.addAction(Actions.scaleTo(1f, 1f, 0.2f)); //Setter størrelsen på knappen tilbake til original størrelse
+            }
+        });
+        stage.addActor(backButton);
+}
 
 
 
@@ -155,7 +222,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void update(float dt) {
         handleinput();
-        stage.act(Gdx.graphics.getDeltaTime());
+        //stage.act(Gdx.graphics.getDeltaTime());
     }
 
     @Override
@@ -167,19 +234,14 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void handleinput() {
-        if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
-            System.out.println("Enter ble trykket på");
-        }
-
 
     }
 
     @Override
     public void render(float dt){
         update(dt);
-        stage.act(Gdx.graphics.getDeltaTime());
+        //stage.act(Gdx.graphics.getDeltaTime());
         draw();
-
     }
 
     @Override
