@@ -86,7 +86,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         musicButton.setSize(50, 50);
         musicButton.setOrigin(50, 50);
         musicButton.setChecked(isMute);
-        musicButton.setPosition(pos2.x / 3 + 50, pos2.y * 2 / 3 - musicButton.getHeight() / 3);
+        musicButton.setPosition(pos2.x*3/ 6, pos2.y * 2 / 3 - musicButton.getHeight() / 3);
 
 
         musicButton.addListener(new ClickListener() {
@@ -123,7 +123,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         soundEffectButton.setSize(50, 50);
         soundEffectButton.setOrigin(50, 50);
         soundEffectButton.setChecked(soundEffectsIsMute);
-        soundEffectButton.setPosition(pos2.x / 3 + 100, pos2.y * 4 / 7 - soundEffectButton.getHeight() / 3);
+        soundEffectButton.setPosition(pos2.x* 4/ 6, pos2.y * 4 / 7 - soundEffectButton.getHeight() / 3);
 
         soundEffectButton.addListener(new ClickListener() {
             @Override
