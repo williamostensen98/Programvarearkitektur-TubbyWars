@@ -5,20 +5,22 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.tubby_wars.model.World;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
+import com.mygdx.tubby_wars.model.components.WeaponComponent;
 
 public class PlayerSystem extends IteratingSystem {
 
     private static final Family family = Family.all(PlayerComponent.class).get();
     private ComponentMapper<PlayerComponent> pm;
 
+    private ComponentMapper<WeaponComponent> wm;
 
     public PlayerSystem(){
         super(family);
         pm = ComponentMapper.getFor(PlayerComponent.class);
+        wm = ComponentMapper.getFor(WeaponComponent.class);
     }
 
     @Override
@@ -113,8 +115,9 @@ public class PlayerSystem extends IteratingSystem {
         else{
             pm.get(playerEntity).shotCounter += 1;
 
-            // deal 10 damage each turn to test
-            dealDamage(playerEntity, 10);
+            // deal damage each turn to test, uses weapon damage from playerComponent.weapon.damage
+            int damage = wm.get(pm.get(playerEntity).weapon).weaponPower;
+            dealDamage(playerEntity, damage);
         }
     }
 
@@ -141,5 +144,8 @@ public class PlayerSystem extends IteratingSystem {
     }
 
 
+    public void setWeapon(Entity playerEntity, Entity weaponEntity){
+        pm.get(playerEntity).weapon = weaponEntity;
+    }
 
 }
