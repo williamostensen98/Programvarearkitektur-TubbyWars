@@ -47,19 +47,43 @@ public class CourseView {
         shapeRenderer.rect(pm.get(playerOne).position.x, pm.get(playerOne).position.y, 50,50);
         shapeRenderer.end();
 
+        // healthbar player one
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        // green area
+        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.rect(pm.get(playerOne).position.x - 25,pm.get(playerOne).position.y + 75,pm.get(playerOne).health,10);
+        // red area, uses blue until the background changes from red.. :)
+        shapeRenderer.setColor(Color.BLUE);
+        shapeRenderer.rect(pm.get(playerOne).position.x - 25 + pm.get(playerOne).health,pm.get(playerOne).position.y + 75,100 - pm.get(playerOne).health,10);
+        shapeRenderer.end();
+
+
+
         // draw player two
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.BLACK);
         shapeRenderer.rect(pm.get(playerTwo).position.x, pm.get(playerTwo).position.y, 50,50);
         shapeRenderer.end();
 
+        // healthbar player two
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        // green area
+        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.rect(pm.get(playerTwo).position.x - 25,pm.get(playerTwo).position.y + 75,pm.get(playerTwo).health,10);
+        // red area, uses blue until the background changes from red.. :)
+        shapeRenderer.setColor(Color.BLUE);
+        shapeRenderer.rect(pm.get(playerTwo).position.x - 25 + pm.get(playerTwo).health,pm.get(playerTwo).position.y + 75,100 - pm.get(playerTwo).health,10);
+        shapeRenderer.end();
+
         if(pm.get(playerOne).isYourTurn){
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.BLACK);
             shapeRenderer.line(pm.get(playerOne).position.x + 50, pm.get(playerOne).position.y + 25, pm.get(playerOne).aimArrow.x, pm.get(playerOne).aimArrow.y);
             shapeRenderer.end();
         }
         else if(pm.get(playerTwo).isYourTurn){
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.BLACK);
             shapeRenderer.line(pm.get(playerTwo).position.x, pm.get(playerTwo).position.y + 25, pm.get(playerTwo).aimArrow.x, pm.get(playerTwo).aimArrow.y);
             shapeRenderer.end();
         }
