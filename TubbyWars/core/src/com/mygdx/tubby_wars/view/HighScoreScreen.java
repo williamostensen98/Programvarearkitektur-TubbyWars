@@ -38,8 +38,8 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         this.game = game;
         this.engine = engine;
 
-        background = Assets.getTexture(Assets.menuBackground);
-        backB = Assets.getTexture(Assets.startButton); //TODO: change to back-button
+        background = Assets.getTexture(Assets.mainBackground);
+        backB = Assets.getTexture(Assets.backButton);
 
         this.music = game.getMusic();
         this.music.setVolume(0.3f);

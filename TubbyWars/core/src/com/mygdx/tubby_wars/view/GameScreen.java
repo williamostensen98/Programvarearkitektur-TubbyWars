@@ -6,11 +6,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.CourseSystem;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
+import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.World;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
@@ -21,6 +29,8 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
     private TubbyWars game;
     private Engine engine;
     private World world;
+
+    private Texture settingsB;
 
     private Stage gameStage;
 
@@ -40,6 +50,8 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
         this.engine = engine;
         this.world = new World(engine);
 
+        settingsB = Assets.getTexture(Assets.settingsButton);
+
         // one-time operations that occur when creating a new game
         create();
     }
@@ -51,12 +63,9 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
         // set stage able to handle input, e.g. buttons/input fields
         Gdx.input.setInputProcessor(gameStage);
 
-
         // create players and course
         players = world.createPlayers();
         courseEntity = world.createCourse();
-        
-        
 
         // adds player and course system (controller) to the engine
         engine.addSystem(new PlayerSystem());
@@ -67,8 +76,20 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
         cv = new CourseView(game, courseEntity);
         
         playerSystem = engine.getSystem(PlayerSystem.class);
-        
 
+        //Initialiserer button to get GameScreen
+        final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
+        settingsButton.setSize(60, 60);
+        settingsButton.setPosition(Gdx.graphics.getWidth() - 100 - settingsButton.getWidth() / 2 , Gdx.graphics.getHeight()- 50 - settingsButton.getHeight() / 2);
+
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.setScreen(new SettingScreen(game, engine));
+            }
+
+        });
+        gameStage.addActor(settingsButton);
     }
 
     @Override
@@ -89,6 +110,7 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
 
         // Draws buttons, have yet to implement them
         // gameStage.draw();
+        gameStage.draw();
     }
 
     @Override
@@ -149,11 +171,6 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
             playerSystem.setBulletPos(players.get(1));
 
         }
-
-
-
-
-
     }
 
     @Override

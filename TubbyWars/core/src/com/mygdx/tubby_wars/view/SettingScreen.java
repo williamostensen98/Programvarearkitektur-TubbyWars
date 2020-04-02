@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.MusicStateManager;
 
 
@@ -29,18 +30,18 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     private MusicStateManager musicStateManager;
 
     private Texture titleTexture;
+    private Texture background;
+    private Texture resumeButtonTexture;
+    private Texture backButtonTexture;
+    private Texture playButtonTexture;
+    private Texture pauseButtonTexture;
+
     private Image title;
     private Label musicText;
     private Label soundsText;
 
-
-    private Texture playButtonTexture;
-    private Texture pauseButtonTexture;
     private boolean isMute = false;
     private boolean soundEffectsIsMute = false;
-
-    private Texture resumeButtonTexture;
-    private Texture backButtonTexture;
 
     private Vector3 pos1;
     private Vector3 pos2;
@@ -49,13 +50,20 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         super();
         this.game = game;
         this.engine = engine;
+
+        background = Assets.getTexture(Assets.mainBackground);
+        resumeButtonTexture = Assets.getTexture(Assets.resumeGameButton);
+        backButtonTexture = Assets.getTexture(Assets.backButton);
+        playButtonTexture = Assets.getTexture(Assets.soundOnButton);
+        pauseButtonTexture = Assets.getTexture(Assets.soundOffButton);
+
         create();
     }
 
     @Override
     public void create() {
 
-        titleTexture = new Texture("settings.png");
+        titleTexture = new Texture("textures/settings.png");
         title = new Image(titleTexture);
         pos1 = new Vector3((Gdx.graphics.getWidth() - title.getWidth()) / 2, Gdx.graphics.getHeight() * 5 / 6, 0);
         title.setPosition(pos1.x, pos1.y);
@@ -67,10 +75,10 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         soundsText = new Label("Sound effects:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
         soundsText.setPosition(pos2.x / 3, pos2.y * 4 / 7);
 
-        playButtonTexture = new Texture("soundOn.png");
-        pauseButtonTexture = new Texture("soundOff.png");
-        resumeButtonTexture = new Texture("play.png");
-        backButtonTexture = new Texture("back.png");
+        //playButtonTexture = new Texture("soundOn.png");
+        //pauseButtonTexture = new Texture("soundOff.png");
+        //resumeButtonTexture = new Texture("play.png");
+        //backButtonTexture = new Texture("back.png");
 
 
         stage = new Stage(new ScreenViewport());

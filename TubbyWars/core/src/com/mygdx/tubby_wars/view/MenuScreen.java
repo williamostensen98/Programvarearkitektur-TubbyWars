@@ -27,7 +27,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     //Initializing the textures
     private Texture logo;
     private Texture background;
-    private Texture startB;
+    private Texture playB;
     private Texture highScoreB;
     private Texture settingsB;
 
@@ -43,9 +43,9 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
         this.game = game;
         this.engine = engine;
 
-        background = Assets.getTexture(Assets.menuBackground);
+        background = Assets.getTexture(Assets.mainBackground);
         logo = Assets.getTexture(Assets.logo);
-        startB = Assets.getTexture(Assets.startButton);
+        playB = Assets.getTexture(Assets.playButton);
         highScoreB = Assets.getTexture(Assets.highScoreButton);
         settingsB = Assets.getTexture(Assets.settingsButton);
 
@@ -65,7 +65,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
         Gdx.input.setInputProcessor(stage);
 
         //Initialiserer button to get GameScreen
-        final Button gameButton = new Button(new TextureRegionDrawable(new TextureRegion(startB)));
+        final Button gameButton = new Button(new TextureRegionDrawable(new TextureRegion(playB)));
         gameButton.setSize(60, 60);
         gameButton.setPosition(Gdx.graphics.getWidth() / 2 - gameButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - gameButton.getHeight() / 2);
 
@@ -78,7 +78,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
         });
 
         //Initialiserer button to get to SettingsScreen
-        final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(startB)));
+        final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
         settingsButton.setSize(60, 60);
         settingsButton.setPosition(Gdx.graphics.getWidth()/4 - settingsButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - settingsButton.getHeight() / 2);
 
