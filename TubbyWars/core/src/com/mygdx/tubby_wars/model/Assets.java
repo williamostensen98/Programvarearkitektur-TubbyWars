@@ -8,7 +8,6 @@ public class Assets {
 
     // alle textures legges inn her på denne måten.
     // nb, vi må huske å ha fin mappestruktur i Android/assets
-
     public static String logo = "textures/Logo.png"; //Logo for game
     public static String mainBackground = "textures/background.jpg"; //Background used outside gameplay
     public static String highScoreButton = "textures/ButtonHighscore.png"; //Go to HighScore screen
@@ -21,6 +20,13 @@ public class Assets {
     public static String soundOffButton = "textures/soundOff.png";
     public static String resumeGameButton = "textures/play.png"; //Used in SettingsScreen for continuing to play game
     public static String quitGameButton = "textures/back.png"; //Used in SettingsScreen for continuing to quit game (go to menu)
+    public static String cloudObstacle = "textures/cloud.png";
+    public static String treeObstacle = "textures/tree.png";
+    public static String wallObstacle = "textures/wall.png";
+    public static String gunWeapon = "textures/gun.png";
+    public static String rifleWeapon = "textures/Rifle.png";
+    public static String revolverWeapon = "textures/revolver.png";
+    public static String shop = "textures/shop.png";
 
     public static String backgroundMusic = "music/music.mp3";
 
@@ -48,6 +54,13 @@ public class Assets {
         assetManager.load(soundOffButton, Texture.class);
         assetManager.load(resumeGameButton, Texture.class);
         assetManager.load(quitGameButton, Texture.class);
+        assetManager.load(cloudObstacle, Texture.class);
+        assetManager.load(treeObstacle, Texture.class);
+        assetManager.load(wallObstacle, Texture.class);
+        assetManager.load(gunWeapon, Texture.class);
+        assetManager.load(rifleWeapon, Texture.class);
+        assetManager.load(revolverWeapon, Texture.class);
+        assetManager.load(shop, Texture.class);
 
         assetManager.load(backgroundMusic, Music.class);
     }

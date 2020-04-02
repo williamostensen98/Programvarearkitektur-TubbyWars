@@ -9,6 +9,9 @@ import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.MusicStateManager;
 import com.mygdx.tubby_wars.view.LoadingScreen;
 import com.badlogic.gdx.audio.Music;
+import com.mygdx.tubby_wars.view.MenuScreen;
+import com.mygdx.tubby_wars.view.SettingScreen;
+import com.mygdx.tubby_wars.view.ShopScreen;
 
 public class TubbyWars extends Game {
 
