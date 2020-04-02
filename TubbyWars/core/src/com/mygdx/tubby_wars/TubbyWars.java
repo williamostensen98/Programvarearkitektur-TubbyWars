@@ -6,9 +6,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.tubby_wars.model.Assets;
+import com.mygdx.tubby_wars.model.MusicStateManager;
 import com.mygdx.tubby_wars.view.LoadingScreen;
-
-
+import com.badlogic.gdx.audio.Music;
+import com.mygdx.tubby_wars.view.MenuScreen;
+import com.mygdx.tubby_wars.view.SettingScreen;
+import com.mygdx.tubby_wars.view.ShopScreen;
 
 public class TubbyWars extends Game {
 
@@ -21,6 +24,7 @@ public class TubbyWars extends Game {
 	Texture img;
 
 	private Assets assets;
+	public MusicStateManager musicStateManager;
 
 	@Override
 	public void create () {
@@ -33,6 +37,7 @@ public class TubbyWars extends Game {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 
 		this.setScreen(new LoadingScreen(this, engine));
+		this.musicStateManager = new MusicStateManager(this);
 	}
 
 	@Override
@@ -46,4 +51,16 @@ public class TubbyWars extends Game {
 		batch.dispose();
 	}
 	// added comment to test closing issue
+
+	public Music getMusic() {
+		return Assets.getMusic(Assets.backgroundMusic);
+	}
+
+	public void playMusic(Music mus){
+		Music music = getMusic();
+		if(musicStateManager.getMusicState() && !music.isPlaying()){
+			music.play();
+			music.setLooping(true);
+		}
+	}
 }
