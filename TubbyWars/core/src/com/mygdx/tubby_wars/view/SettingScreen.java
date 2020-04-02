@@ -1,43 +1,51 @@
 package com.mygdx.tubby_wars.view;
-
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.model.MusicStateManager;
 
 
 public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
     private TubbyWars game;
     private Engine engine;
-
-    private Label settingsText;
     private Stage stage;
-    private Sprite play;
-    private Texture playButtonText;
-    private SpriteBatch batch;
-    private BitmapFont title;
-    private int xpos;
-    private int ypos;
+    private MusicStateManager musicStateManager;
 
-    public SettingScreen(TubbyWars game, Engine engine){
+    private Texture titleTexture;
+    private Image title;
+    private Label musicText;
+    private Label soundsText;
+
+
+    private Texture playButtonTexture;
+    private Texture pauseButtonTexture;
+    private boolean isMute = false;
+    private boolean soundEffectsIsMute = false;
+
+    private Texture resumeButtonTexture;
+    private Texture backButtonTexture;
+
+    private Vector3 pos1;
+    private Vector3 pos2;
+
+    public SettingScreen(TubbyWars game, Engine engine) {
         super();
         this.game = game;
         this.engine = engine;
@@ -47,59 +55,144 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void create() {
 
-        title = new BitmapFont();
-        title.getData().setScale(3, 3);
-        settingsText = new Label("SETTINGS:", new Label.LabelStyle(title, Color.WHITE));
-        settingsText.setPosition(Gdx.graphics.getWidth()/2 - settingsText.getWidth()/2,(Gdx.graphics.getHeight()/4)*3);
+        titleTexture = new Texture("settings.png");
+        title = new Image(titleTexture);
+        pos1 = new Vector3((Gdx.graphics.getWidth() - title.getWidth()) / 2, Gdx.graphics.getHeight() * 5 / 6, 0);
+        title.setPosition(pos1.x, pos1.y);
 
-        batch = new SpriteBatch();
-        playButtonText = new Texture("textures/play.png");
-        play = new Sprite(playButtonText);
+        pos2 = new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 8 * 7, 0);
+        musicText = new Label("Music:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        musicText.setPosition(pos2.x / 3, pos2.y * 2 / 3);
+
+        soundsText = new Label("Sound effects:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        soundsText.setPosition(pos2.x / 3, pos2.y * 4 / 7);
+
+        playButtonTexture = new Texture("soundOn.png");
+        pauseButtonTexture = new Texture("soundOff.png");
+        resumeButtonTexture = new Texture("play.png");
+        backButtonTexture = new Texture("back.png");
+
 
         stage = new Stage(new ScreenViewport());
-        stage.addActor(settingsText);
-        Gdx.input.setInputProcessor(stage); //Vet ikke: sets input to be handled by stage
-
-        //Initialiserer playButton
-        final Button playButton= new Button(new TextureRegionDrawable(new TextureRegion(playButtonText)), new TextureRegionDrawable(new TextureRegion(playButtonText)));
-        playButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
-        playButton.setSize(50,50);
-        //playButton.setOrigin(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        playButton.setOrigin(50,50);   //Denne gjør ikke noe, må få flyttet knappen
-        playButton.setPosition(Gdx.graphics.getWidth()/2 - playButton.getWidth()/2, Gdx.graphics.getHeight()/2);
+        stage.addActor(musicText);
+        stage.addActor(soundsText);
+        stage.addActor(title);
 
 
+        Gdx.input.setInputProcessor(stage);
 
-        playButton.addListener(new ClickListener() {
+        //Initialiserer musicButton
+        final Button musicButton = new Button(new TextureRegionDrawable(new TextureRegion(playButtonTexture)), new TextureRegionDrawable(new TextureRegion(playButtonTexture)), new TextureRegionDrawable(new TextureRegion(pauseButtonTexture)));
+        musicButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
+        musicButton.setSize(50, 50);
+        musicButton.setOrigin(50, 50);
+        musicButton.setChecked(!game.musicStateManager.getMusicState());
+        musicButton.setPosition(pos2.x*3/ 6, pos2.y * 2 / 3 - musicButton.getHeight() / 3);
+
+
+        musicButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                System.out.println("Button pressed");
+                if (game.musicStateManager.getMusicState()==true) {
+                    game.musicStateManager.stopMusic();
+                    System.out.println("Music is muted");
+                }
+                else {
+                    game.musicStateManager.playMusic();
+                    System.out.println("Music is playing");
+                }
             }
 
             //Kjøres når knappen trykkes ned
             @Override
             public boolean touchDown(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
-                playButton.addAction(Actions.scaleTo(0.95f, 0.95f,0.1f)); //Minker størrelsen på knappen når den trykkes
-                return super.touchDown(inputEvent, 100, 100,pointer,button);
+                musicButton.addAction(Actions.scaleTo(0.96f, 0.96f, 0.2f)); //Minker størrelsen på knappen når den trykkes
+                return super.touchDown(inputEvent, 100, 100, pointer, button);
             }
 
             //Kjører når knappen slippes opp
             public void touchUp(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
-                super.touchUp(inputEvent, 100, 100 ,pointer,button);
-                playButton.addAction(Actions.scaleTo(1f, 1f,0.1f)); //Setter størrelsen på knappen tilbake til original størrelse
+                super.touchUp(inputEvent, 100, 100, pointer, button);
+                musicButton.addAction(Actions.scaleTo(1f, 1f, 0.2f)); //Setter størrelsen på knappen tilbake til original størrelse
+            }
+        });
+
+        stage.addActor(musicButton);
+
+
+        //Initialiserer soundEffectButton
+        final Button soundEffectButton = new Button(new TextureRegionDrawable(new TextureRegion(playButtonTexture)), new TextureRegionDrawable(new TextureRegion(playButtonTexture)), new TextureRegionDrawable(new TextureRegion(pauseButtonTexture)));
+        soundEffectButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
+        soundEffectButton.setSize(50, 50);
+        soundEffectButton.setOrigin(50, 50);
+        soundEffectButton.setChecked(soundEffectsIsMute);
+        soundEffectButton.setPosition(pos2.x* 4/ 6, pos2.y * 4 / 7 - soundEffectButton.getHeight() / 3);
+
+        soundEffectButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                if (soundEffectsIsMute == false)
+                    System.out.println("Soundeffects is off");
+                else {
+                    System.out.println("Soundeffects is on");
+                }
+                soundEffectsIsMute = !soundEffectsIsMute;
+            }
+
+            //Kjøres når knappen trykkes ned
+            @Override
+            public boolean touchDown(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
+                soundEffectButton.addAction(Actions.scaleTo(0.96f, 0.96f, 0.2f)); //Minker størrelsen på knappen når den trykkes
+                return super.touchDown(inputEvent, 100, 100, pointer, button);
+            }
+
+            //Kjører når knappen slippes opp
+            public void touchUp(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
+                super.touchUp(inputEvent, 100, 100, pointer, button);
+                soundEffectButton.addAction(Actions.scaleTo(1f, 1f, 0.2f)); //Setter størrelsen på knappen tilbake til original størrelse
+            }
+        });
+        stage.addActor(soundEffectButton);
+
+
+        //Initialiserer resumeButton
+    /*
+        Vet ikke om vi burde ha en resume-knapp eller ikke?
+       Kan jo kanskje være greit om man går til settings midt i en runde for å skru av musikken for eksempel.
+     */
+        final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeButtonTexture)), new TextureRegionDrawable(new TextureRegion(resumeButtonTexture)));
+        resumeButton.setSize(50, 50);
+        resumeButton.setPosition(pos2.x *10/ 6 , pos2.y/8);
+        resumeButton.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.setScreen(new GameScreen(game, engine));
             }
 
         });
+        stage.addActor(resumeButton);
 
-        stage.addActor(playButton);
+        //Initialiserer backButton
+        final Button backButton = new Button(new TextureRegionDrawable(new TextureRegion(backButtonTexture)), new TextureRegionDrawable(new TextureRegion(backButtonTexture)));
+        backButton.setSize(60, 60);
+        backButton.setPosition(pos2.x / 6 , pos2.y/8);
 
-
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.setScreen(new MenuScreen(game, engine));
+            }
+        });
+        stage.addActor(backButton);
     }
+
+
+
 
     @Override
     public void update(float dt) {
         handleinput();
-
     }
 
     @Override
@@ -111,19 +204,14 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void handleinput() {
-        if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
-            System.out.println("Enter ble trykket på");
-        }
-
 
     }
 
     @Override
     public void render(float dt){
         update(dt);
-        stage.act(Gdx.graphics.getDeltaTime());
+        //stage.act(Gdx.graphics.getDeltaTime());
         draw();
-
     }
 
     @Override
@@ -131,4 +219,3 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         super.dispose();
     }
 }
-
