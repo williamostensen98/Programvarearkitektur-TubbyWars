@@ -182,7 +182,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.setScreen(new LoadingScreen(game, engine));
+                game.setScreen(new MenuScreen(game, engine));
             }
         });
         stage.addActor(backButton);
