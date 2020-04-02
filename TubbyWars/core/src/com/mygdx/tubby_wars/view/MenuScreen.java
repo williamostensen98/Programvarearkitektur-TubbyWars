@@ -51,7 +51,6 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
         this.music = game.getMusic();
         this.music.setVolume(0.3f);
-        this.music.play();
         game.playMusic(music);
 
         // one-time operations
