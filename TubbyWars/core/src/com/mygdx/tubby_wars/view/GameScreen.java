@@ -93,6 +93,10 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
 
     @Override
     public void handleinput() {
+
+        if(Gdx.input.isKeyPressed(Input.Keys.S)){
+            game.setScreen(new SettingScreen(game, engine));
+        }
         // create a new MenuScreen and set the screen to that, Should perhaps not create a new one, but use the previous
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
             game.setScreen(new MenuScreen(game, engine));
