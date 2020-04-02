@@ -85,7 +85,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.setScreen(new GameScreen(game, engine)); //TODO: oppdater!
+                game.setScreen(new SettingScreen(game, engine));
             }
         });
 
@@ -97,7 +97,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
         highScoreButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.setScreen(new GameScreen(game, engine)); //TODO: oppdater!
+                game.setScreen(new HighScoreScreen(game, engine));
             }
         });
 
