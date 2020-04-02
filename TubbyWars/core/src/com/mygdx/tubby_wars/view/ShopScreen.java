@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.model.Assets;
 
 public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
@@ -32,7 +33,8 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
     public void create() {
 
         stage = new Stage(new ScreenViewport());
-        texture = new Texture("shop.png");
+        //texture = new Texture("textures/shop.png");
+        texture = Assets.getTexture(Assets.shop);
         title = new Image(texture);
         title.setPosition(Gdx.graphics.getWidth()/2 - title.getWidth()/2, Gdx.graphics.getHeight()/8*7);
         stage.addActor(title);

@@ -20,6 +20,7 @@ public class Assets {
     public static String gunWeapon = "textures/gun.png";
     public static String rifleWeapon = "textures/Rifle.png";
     public static String revolverWeapon = "textures/revolver.png";
+    public static String shop = "textures/shop.png";
 
 
 
@@ -48,6 +49,7 @@ public class Assets {
         assetManager.load(gunWeapon, Texture.class);
         assetManager.load(rifleWeapon, Texture.class);
         assetManager.load(revolverWeapon, Texture.class);
+        assetManager.load(shop, Texture.class);
 
 
 

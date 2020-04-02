@@ -53,7 +53,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         settingsText.setPosition(Gdx.graphics.getWidth()/2 - settingsText.getWidth()/2,(Gdx.graphics.getHeight()/4)*3);
 
         batch = new SpriteBatch();
-        playButtonText = new Texture("play.png");
+        playButtonText = new Texture("textures/play.png");
         play = new Sprite(playButtonText);
 
         stage = new Stage(new ScreenViewport());
