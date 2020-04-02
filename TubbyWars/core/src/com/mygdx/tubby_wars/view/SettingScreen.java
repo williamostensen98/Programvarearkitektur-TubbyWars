@@ -154,13 +154,13 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         });
         stage.addActor(soundEffectButton);
 
-
         //Initialiserer resumeButton
     /*
         Vet ikke om vi burde ha en resume-knapp eller ikke?
        Kan jo kanskje være greit om man går til settings midt i en runde for å skru av musikken for eksempel.
      */
         final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeButtonTexture)), new TextureRegionDrawable(new TextureRegion(resumeButtonTexture)));
+
         resumeButton.setSize(50, 50);
         resumeButton.setPosition(pos2.x *10/ 6 , pos2.y/8);
         resumeButton.addListener(new ClickListener() {
@@ -171,6 +171,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
             }
 
         });
+
         stage.addActor(resumeButton);
 
         //Initialiserer backButton
@@ -186,8 +187,6 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         });
         stage.addActor(backButton);
     }
-
-
 
 
     @Override
@@ -219,3 +218,4 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         super.dispose();
     }
 }
+

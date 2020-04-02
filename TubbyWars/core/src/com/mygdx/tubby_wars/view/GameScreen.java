@@ -25,6 +25,8 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
     private Stage gameStage;
 
     private List<Entity> players;
+    private PlayerSystem playerSystem;
+    
     private Entity courseEntity;
 
     private CourseView cv;
@@ -53,6 +55,8 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
         // create players and course
         players = world.createPlayers();
         courseEntity = world.createCourse();
+        
+        
 
         // adds player and course system (controller) to the engine
         engine.addSystem(new PlayerSystem());
@@ -61,7 +65,9 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
 
         // creates the CourseView
         cv = new CourseView(game, courseEntity);
-
+        
+        playerSystem = engine.getSystem(PlayerSystem.class);
+        
 
     }
 
@@ -87,6 +93,10 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
 
     @Override
     public void handleinput() {
+
+        if(Gdx.input.isKeyPressed(Input.Keys.S)){
+            game.setScreen(new SettingScreen(game, engine));
+        }
         // create a new MenuScreen and set the screen to that, Should perhaps not create a new one, but use the previous
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
             game.setScreen(new MenuScreen(game, engine));
@@ -99,11 +109,11 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
 
         // Send updates about how to draw the aim arrow
         if(Gdx.input.isTouched()){
-            if(engine.getSystem(PlayerSystem.class).getIsYourTurn(players.get(0))){
-                engine.getSystem(PlayerSystem.class).setAimArrow(players.get(0), Gdx.input.getDeltaX() * -1, Gdx.input.getDeltaY());
+            if(playerSystem.getIsYourTurn(players.get(0))){
+                playerSystem.setAimArrow(players.get(0), Gdx.input.getDeltaX() * -1, Gdx.input.getDeltaY());
             }
-            if(engine.getSystem(PlayerSystem.class).getIsYourTurn(players.get(1))){
-                engine.getSystem(PlayerSystem.class).setAimArrow(players.get(1), Gdx.input.getDeltaX() * -1, Gdx.input.getDeltaY());
+            if(playerSystem.getIsYourTurn(players.get(1))){
+                playerSystem.setAimArrow(players.get(1), Gdx.input.getDeltaX() * -1, Gdx.input.getDeltaY());
             }
         }
 
@@ -111,31 +121,33 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
 
             // if player one's turn and player one has not shot yet
-            if(engine.getSystem(PlayerSystem.class).getIsYourTurn(players.get(0)) && !engine.getSystem(PlayerSystem.class).getHasFired(players.get(0))){
-                engine.getSystem(PlayerSystem.class).setInitBulletPos(players.get(0), 100, 75);
-                engine.getSystem(PlayerSystem.class).setHasFired(players.get(0),true);
-                engine.getSystem(PlayerSystem.class).setBulletPos(players.get(0));
+            if(playerSystem.getIsYourTurn(players.get(0)) && !playerSystem.getHasFired(players.get(0))){
+                playerSystem.setInitBulletPos(players.get(0), 100, 75);
+                playerSystem.setHasFired(players.get(0),true);
+                playerSystem.setBulletPos(players.get(0));
 
             }
 
             // if player two's turn and player two has not shot yet
-            if(engine.getSystem(PlayerSystem.class).getIsYourTurn(players.get(1)) && !engine.getSystem(PlayerSystem.class).getHasFired(players.get(1))){
-                engine.getSystem(PlayerSystem.class).setInitBulletPos(players.get(1), TubbyWars.WIDTH - 100, 75);
-                engine.getSystem(PlayerSystem.class).setHasFired(players.get(1),true);
-                engine.getSystem(PlayerSystem.class).setBulletPos(players.get(1));
+            if(playerSystem.getIsYourTurn(players.get(1)) && !playerSystem.getHasFired(players.get(1))){
+                playerSystem.setInitBulletPos(players.get(1), TubbyWars.WIDTH - 100, 75);
+                playerSystem.setHasFired(players.get(1),true);
+                playerSystem.setBulletPos(players.get(1));
 
             }
         }
 
         // if player one's turn and player one has fired
-        if(engine.getSystem(PlayerSystem.class).getIsYourTurn(players.get(0)) && engine.getSystem(PlayerSystem.class).getHasFired(players.get(0))){
-            engine.getSystem(PlayerSystem.class).setBulletPos(players.get(0));
+        if(playerSystem.getIsYourTurn(players.get(0)) && playerSystem.getHasFired(players.get(0))){
+            playerSystem.setBulletPos(players.get(0));
+
 
         }
 
         // if player two's turn and player one has fired
-        if(engine.getSystem(PlayerSystem.class).getIsYourTurn(players.get(1)) && engine.getSystem(PlayerSystem.class).getHasFired(players.get(1))){
-            engine.getSystem(PlayerSystem.class).setBulletPos(players.get(1));
+        if(playerSystem.getIsYourTurn(players.get(1)) && playerSystem.getHasFired(players.get(1))){
+            playerSystem.setBulletPos(players.get(1));
+
         }
 
 
@@ -156,24 +168,24 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
     }
 
     public void endTurn(Entity courseEntity){
-        if(engine.getSystem(PlayerSystem.class).getIsYourTurn(players.get(0))){
-            engine.getSystem(PlayerSystem.class).setIsYourTurn(players.get(0), false);
-            engine.getSystem(PlayerSystem.class).setIsYourTurn(players.get(1), true);
+        if(playerSystem.getIsYourTurn(players.get(0))){
+            playerSystem.setIsYourTurn(players.get(0), false);
+            playerSystem.setIsYourTurn(players.get(1), true);
         }
         else{
-            engine.getSystem(PlayerSystem.class).setIsYourTurn(players.get(1), false);
-            engine.getSystem(PlayerSystem.class).setIsYourTurn(players.get(0), true);
+            playerSystem.setIsYourTurn(players.get(1), false);
+            playerSystem.setIsYourTurn(players.get(0), true);
         }
         turnCounter = 0;
     }
 
     public void checkEndTurn(){
-        if(engine.getSystem(PlayerSystem.class).getShotCounter(players.get(0)) == 3 && engine.getSystem(PlayerSystem.class).getIsYourTurn(players.get(0))){
-            engine.getSystem(PlayerSystem.class).setShotCounter(players.get(0));
+        if(playerSystem.getShotCounter(players.get(0)) == 3 && playerSystem.getIsYourTurn(players.get(0))){
+            playerSystem.setShotCounter(players.get(0));
             endTurn(courseEntity);
         }
-        else if(engine.getSystem(PlayerSystem.class).getShotCounter(players.get(1)) == 3 && engine.getSystem(PlayerSystem.class).getIsYourTurn(players.get(1))){
-            engine.getSystem(PlayerSystem.class).setShotCounter(players.get(1));
+        else if(playerSystem.getShotCounter(players.get(1)) == 3 && playerSystem.getIsYourTurn(players.get(1))){
+            playerSystem.setShotCounter(players.get(1));
             endTurn(courseEntity);
         }
     }
