@@ -34,7 +34,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
         stage = new Stage(new ScreenViewport());
         //texture = new Texture("textures/shop.png");
-        texture = Assets.getTexture(Assets.shop);
+        texture = Assets.getTexture(Assets.shopTitle);
         title = new Image(texture);
         title.setPosition(Gdx.graphics.getWidth()/2 - title.getWidth()/2, Gdx.graphics.getHeight()/8*7);
         stage.addActor(title);

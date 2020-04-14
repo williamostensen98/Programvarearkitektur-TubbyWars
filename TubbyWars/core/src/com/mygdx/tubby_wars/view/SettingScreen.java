@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -27,23 +29,28 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     private TubbyWars game;
     private Engine engine;
     private Stage stage;
+    private SpriteBatch sb;
+
+    //Music
     private MusicStateManager musicStateManager;
-
-    private Texture titleTexture;
-    private Texture background;
-    private Texture resumeButtonTexture;
-    private Texture backButtonTexture;
-    private Texture playButtonTexture;
-    private Texture pauseButtonTexture;
-
-    private Image title;
-    private Label musicText;
-    private Label soundsText;
-
     private boolean isMute = false;
     private boolean soundEffectsIsMute = false;
 
-    private Vector3 pos1;
+    //Textures for title of page and the background
+    private Texture title;
+    private Texture background;
+
+    //Textures for the buttons
+    private Texture resumeGame;
+    private Texture quitGame;
+    private Texture soundOn; //Used for both music and sounds
+    private Texture soundOff; //Used for both music and sounds
+
+    //private Image title;
+    private Label musicText;
+    private Label soundsText;
+
+    //private Vector3 pos1;
     private Vector3 pos2;
 
     public SettingScreen(TubbyWars game, Engine engine) {
@@ -52,22 +59,20 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         this.engine = engine;
 
         background = Assets.getTexture(Assets.mainBackground);
-        resumeButtonTexture = Assets.getTexture(Assets.resumeGameButton);
-        backButtonTexture = Assets.getTexture(Assets.backButton);
-        playButtonTexture = Assets.getTexture(Assets.soundOnButton);
-        pauseButtonTexture = Assets.getTexture(Assets.soundOffButton);
+        title = Assets.getTexture(Assets.settingsTitle);
+        resumeGame = Assets.getTexture(Assets.resumeGameButton);
+        quitGame = Assets.getTexture(Assets.quitGameButton);
+        soundOn = Assets.getTexture(Assets.soundOnButton);
+        soundOff = Assets.getTexture(Assets.soundOffButton);
 
         create();
     }
 
     @Override
     public void create() {
+        sb = new SpriteBatch();
 
-        titleTexture = new Texture("textures/settings.png");
-        title = new Image(titleTexture);
-        pos1 = new Vector3((Gdx.graphics.getWidth() - title.getWidth()) / 2, Gdx.graphics.getHeight() * 5 / 6, 0);
-        title.setPosition(pos1.x, pos1.y);
-
+        //Text
         pos2 = new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 8 * 7, 0);
         musicText = new Label("Music:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
         musicText.setPosition(pos2.x / 3, pos2.y * 2 / 3);
@@ -75,28 +80,19 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         soundsText = new Label("Sound effects:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
         soundsText.setPosition(pos2.x / 3, pos2.y * 4 / 7);
 
-        //playButtonTexture = new Texture("soundOn.png");
-        //pauseButtonTexture = new Texture("soundOff.png");
-        //resumeButtonTexture = new Texture("play.png");
-        //backButtonTexture = new Texture("back.png");
-
-
         stage = new Stage(new ScreenViewport());
         stage.addActor(musicText);
         stage.addActor(soundsText);
-        stage.addActor(title);
-
 
         Gdx.input.setInputProcessor(stage);
 
         //Initialiserer musicButton
-        final Button musicButton = new Button(new TextureRegionDrawable(new TextureRegion(playButtonTexture)), new TextureRegionDrawable(new TextureRegion(playButtonTexture)), new TextureRegionDrawable(new TextureRegion(pauseButtonTexture)));
+        final Button musicButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOff)));
         musicButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         musicButton.setSize(50, 50);
         musicButton.setOrigin(50, 50);
         musicButton.setChecked(!game.musicStateManager.getMusicState());
         musicButton.setPosition(pos2.x*3/ 6, pos2.y * 2 / 3 - musicButton.getHeight() / 3);
-
 
         musicButton.addListener(new ClickListener() {
             @Override
@@ -127,9 +123,8 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
         stage.addActor(musicButton);
 
-
         //Initialiserer soundEffectButton
-        final Button soundEffectButton = new Button(new TextureRegionDrawable(new TextureRegion(playButtonTexture)), new TextureRegionDrawable(new TextureRegion(playButtonTexture)), new TextureRegionDrawable(new TextureRegion(pauseButtonTexture)));
+        final Button soundEffectButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOff)));
         soundEffectButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         soundEffectButton.setSize(50, 50);
         soundEffectButton.setOrigin(50, 50);
@@ -162,12 +157,8 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         });
         stage.addActor(soundEffectButton);
 
-        //Initialiserer resumeButton
-    /*
-        Vet ikke om vi burde ha en resume-knapp eller ikke?
-       Kan jo kanskje være greit om man går til settings midt i en runde for å skru av musikken for eksempel.
-     */
-        final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeButtonTexture)), new TextureRegionDrawable(new TextureRegion(resumeButtonTexture)));
+        //Initialiserer resumeButton TODO: Denne er ikke med i modellen vår i Achitecture dokumentet
+        final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeGame)), new TextureRegionDrawable(new TextureRegion(resumeGame)));
 
         resumeButton.setSize(50, 50);
         resumeButton.setPosition(pos2.x *10/ 6 , pos2.y/8);
@@ -182,8 +173,8 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
         stage.addActor(resumeButton);
 
-        //Initialiserer backButton
-        final Button backButton = new Button(new TextureRegionDrawable(new TextureRegion(backButtonTexture)), new TextureRegionDrawable(new TextureRegion(backButtonTexture)));
+        //Initialiserer quit button, going back to settings
+        final Button backButton = new Button(new TextureRegionDrawable(new TextureRegion(quitGame)), new TextureRegionDrawable(new TextureRegion(quitGame)));
         backButton.setSize(60, 60);
         backButton.setPosition(pos2.x / 6 , pos2.y/8);
 
@@ -196,7 +187,6 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         stage.addActor(backButton);
     }
 
-
     @Override
     public void update(float dt) {
         handleinput();
@@ -204,8 +194,11 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void draw() {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(254.0f/255.0f, 127.0f/255.0f, 156.0f/255.0f, 1.0f);
+        sb.begin(); // Draw elements to Sprite Batch
+        sb.draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        sb.draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
+        sb.end();
+
         stage.draw();
     }
 
@@ -217,7 +210,6 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void render(float dt){
         update(dt);
-        //stage.act(Gdx.graphics.getDeltaTime());
         draw();
     }
 

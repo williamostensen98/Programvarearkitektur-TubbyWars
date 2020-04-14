@@ -22,9 +22,12 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     private TubbyWars game;
     private Engine engine;
 
-    //Initializing the textures
-    private Texture backB;
+    //Textures for title of page and the background
+    private Texture title;
     private Texture background;
+
+    //Textures for buttons
+    private Texture backB;
 
     //Initiializing the background music
     private Music music;
@@ -40,6 +43,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
         background = Assets.getTexture(Assets.mainBackground);
         backB = Assets.getTexture(Assets.backButton);
+        title = Assets.getTexture(Assets.highscoreTitle);
 
         this.music = game.getMusic();
         this.music.setVolume(0.3f);
@@ -82,6 +86,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     public void draw(){
         sb.begin(); // Draw elements to Sprite Batch
         sb.draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        sb.draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
         sb.end();
 
         stage.draw();
