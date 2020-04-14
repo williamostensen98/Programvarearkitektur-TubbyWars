@@ -71,7 +71,8 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
         gameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.setScreen(new GameScreen(game, engine));
+                game.setScreen(new PlayScreen(game));
+                dispose();
             }
 
         });
@@ -114,7 +115,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void draw(){
         sb.begin(); // Draw elements to Sprite Batch
-        sb.draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        sb.draw(background, 0,0, TubbyWars.V_WIDTH*100, TubbyWars.V_HEIGHT*100); //Draws background photo
         sb.draw(logo, Gdx.graphics.getWidth()/2 - 200,
                 Gdx.graphics.getHeight()/2, 400,100); //Draws logo
         sb.end();

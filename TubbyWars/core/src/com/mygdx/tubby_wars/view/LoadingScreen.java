@@ -45,6 +45,7 @@ public class LoadingScreen extends ScreenAdapter implements ScreenInterface{
         progress = MathUtils.lerp(progress, Assets.getProgress(), .1f);
         if (Assets.update() && progress >= Assets.getProgress() - 0.001f) {
             game.setScreen(new MenuScreen(game, engine));
+            dispose();
         }
     }
 
@@ -76,6 +77,8 @@ public class LoadingScreen extends ScreenAdapter implements ScreenInterface{
 
     @Override
     public void dispose(){
+        super.dispose();
+        
 
     }
 

@@ -20,34 +20,36 @@ public class TubbyWars extends Game {
 
 	private Engine engine;
 
-	SpriteBatch batch;
-	Texture img;
+	public SpriteBatch batch;
+	public final static float V_WIDTH = 12.8f;
+	public final static float V_HEIGHT = 6;
+
+
 
 	private Assets assets;
 	public MusicStateManager musicStateManager;
 
 	@Override
 	public void create () {
-		Gdx.graphics.setWindowedMode(WIDTH, HEIGHT);
+		//Gdx.graphics.setWindowedMode(WIDTH, HEIGHT);
 
 		assets = new Assets();
 		engine = new Engine();
-
 		batch = new SpriteBatch();
-		Gdx.gl.glClearColor(1, 0, 0, 1);
 
-		this.setScreen(new LoadingScreen(this, engine));
+		LoadingScreen loadingScreen = new LoadingScreen(this, engine);
+		setScreen(loadingScreen);
 		this.musicStateManager = new MusicStateManager(this);
 	}
 
 	@Override
 	public void render () {
-		GL20 gl = Gdx.gl;
 		super.render();
 	}
 
 	@Override
 	public void dispose () {
+
 		batch.dispose();
 	}
 	// added comment to test closing issue
