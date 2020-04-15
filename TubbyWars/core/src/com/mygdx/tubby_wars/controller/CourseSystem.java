@@ -16,7 +16,6 @@ public class CourseSystem extends IteratingSystem {
 
     public CourseSystem(){
         super(family);
-
         cm = ComponentMapper.getFor(CourseComponent.class);
     }
 

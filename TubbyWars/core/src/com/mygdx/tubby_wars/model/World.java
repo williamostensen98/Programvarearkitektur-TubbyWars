@@ -30,20 +30,17 @@ public class World {
      */
 
     public Entity createCourse(){
-
         Entity courseEntity = new Entity();
-
         CourseComponent cc = new CourseComponent();
-
         courseEntity.add(cc);
-
         engine.addEntity(courseEntity);
-
         return courseEntity;
     }
 
 
     public List<Entity> createPlayers(){
+
+        // NB: HER MÅ NOK MYE ENDRES, MEN VENTER MED DET TIL VI FAKTISK VET HVA
 
         List<Entity> entities = new ArrayList<Entity>();
 
@@ -58,9 +55,6 @@ public class World {
 
         // connect player 1 to the game engine and set initial variables
         engine.addEntity(playerOneEntity);
-        engine.getSystem(PlayerSystem.class).setUpPosition(this, playerOneEntity, 50, 50);
-        engine.getSystem(PlayerSystem.class).setIsYourTurn(playerOneEntity, true);
-        engine.getSystem(PlayerSystem.class).setInitialAimArrow(playerOneEntity, 200, 150);
         engine.getSystem(PlayerSystem.class).setHealth(playerOneEntity, 100);
 
         // create weapon component and system, then add them to player one.
@@ -79,8 +73,6 @@ public class World {
 
         // connect player 2 to the game engine, and set initial variables
         engine.addEntity(playerTwoEntity);
-        engine.getSystem(PlayerSystem.class).setUpPosition(this, playerTwoEntity, TubbyWars.WIDTH - 100, 50);
-        engine.getSystem(PlayerSystem.class).setInitialAimArrow(playerTwoEntity, TubbyWars.WIDTH - 200, 150);
         engine.getSystem(PlayerSystem.class).setHealth(playerTwoEntity, 100);
 
         // create weapon component and system, then add them to player two.
