@@ -28,6 +28,7 @@ public class TubbyWars extends Game {
 
 	@Override
 	public void create () {
+
 		Gdx.graphics.setWindowedMode(WIDTH, HEIGHT);
 
 		assets = new Assets();
@@ -63,4 +64,6 @@ public class TubbyWars extends Game {
 			music.setLooping(true);
 		}
 	}
+
+
 }
