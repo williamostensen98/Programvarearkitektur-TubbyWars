@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -29,8 +30,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     //Textures for buttons
     private Texture backB;
 
-    //Initiializing the background music
-    private Music music;
+    private Sound click;
 
     private Sprite sprite;
     private SpriteBatch sb;
@@ -45,10 +45,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         backB = Assets.getTexture(Assets.backButton);
         title = Assets.getTexture(Assets.highscoreTitle);
 
-        this.music = game.getMusic();
-        this.music.setVolume(0.3f);
-        this.music.play();
-        game.playMusic(music);
+        this.click = game.getClickSound();
 
         // one-time operations
         create();
@@ -68,6 +65,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
                 game.setScreen(new MenuScreen(game, engine));
             }
 

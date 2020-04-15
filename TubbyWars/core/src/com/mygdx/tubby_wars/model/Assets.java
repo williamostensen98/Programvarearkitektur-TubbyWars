@@ -3,6 +3,7 @@ package com.mygdx.tubby_wars.model;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 
 public class Assets {
     //Backgrounds
@@ -11,6 +12,7 @@ public class Assets {
 
     //Screen Buttons TODO: Make for all screens
     public static String playButton = "textures/play.png"; //Go to Game screen
+    public static String newGameButton = "textures/play.png"; //Go to Game screen
     public static String highScoreButton = "textures/ButtonHighscore.png"; //Go to HighScore screen
     public static String menuScreenButton = "textures/ButtonStart.png"; //Go to Menu screen
     public static String shopScreenButton = "textures/shop.png";
@@ -46,6 +48,7 @@ public class Assets {
     public static String jumpingSound = "music/Jumping-sound-effect.mp3";
     public static String shootingSound = "music/Shotgun-sound.mp3"; //When shooting weapon
     public static String hitSound = "music/Cartoon-game-ending.mp3"; //When player is hit by opponent
+    public static String clickSound = "music/Mouse-click-sound.mp3"; //When clicking on button TODO: Add in game screen
 
     private static AssetManager assetManager;
 
@@ -58,14 +61,13 @@ public class Assets {
     }
 
     public static void load(){
-        //TODO: her skal alle textures inn!
-
         //Backgrounds
         assetManager.load(mainBackground, Texture.class);
         assetManager.load(gameBackground, Texture.class);
 
         //Screen Buttons
         assetManager.load(playButton, Texture.class);
+        assetManager.load(newGameButton, Texture.class);
         assetManager.load(highScoreButton, Texture.class);
         assetManager.load(menuScreenButton, Texture.class);
         assetManager.load(shopScreenButton, Texture.class);
@@ -98,9 +100,10 @@ public class Assets {
 
         //Music and sounds
         assetManager.load(backgroundMusic, Music.class);
-        assetManager.load(jumpingSound, Music.class);
-        assetManager.load(shootingSound, Music.class);
-        assetManager.load(hitSound, Music.class);
+        assetManager.load(jumpingSound, Sound.class);
+        assetManager.load(shootingSound, Sound.class);
+        assetManager.load(hitSound, Sound.class);
+        assetManager.load(clickSound, Sound.class);
     }
 
     public static boolean update(){
@@ -118,5 +121,8 @@ public class Assets {
     //Getter for music
     public static Music getMusic(String path) { return assetManager.get(path, Music.class); }
 
-    // må også ha get sound når det blir lagt inn.
+    //Getter for sound effects
+    public  static Sound getSound(String path) {
+        return assetManager.get(path, Sound.class);
+    }
 }

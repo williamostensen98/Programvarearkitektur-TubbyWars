@@ -2,6 +2,7 @@ package com.mygdx.tubby_wars.view;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.Assets;
-import com.mygdx.tubby_wars.model.MusicStateManager;
 
 
 public class SettingScreen extends ScreenAdapter implements ScreenInterface {
@@ -32,8 +32,6 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     private SpriteBatch sb;
 
     //Music
-    private MusicStateManager musicStateManager;
-    private boolean isMute = false;
     private boolean soundEffectsIsMute = false;
 
     //Textures for title of page and the background
@@ -45,6 +43,8 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     private Texture quitGame;
     private Texture soundOn; //Used for both music and sounds
     private Texture soundOff; //Used for both music and sounds
+
+    private Sound click;
 
     //private Image title;
     private Label musicText;
@@ -64,6 +64,8 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         quitGame = Assets.getTexture(Assets.quitGameButton);
         soundOn = Assets.getTexture(Assets.soundOnButton);
         soundOff = Assets.getTexture(Assets.soundOffButton);
+
+        click = game.getClickSound();
 
         create();
     }
@@ -91,19 +93,17 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         musicButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         musicButton.setSize(50, 50);
         musicButton.setOrigin(50, 50);
-        musicButton.setChecked(!game.musicStateManager.getMusicState());
+        musicButton.setChecked(game.musicStateManager.getMuteMusicState());
         musicButton.setPosition(pos2.x*3/ 6, pos2.y * 2 / 3 - musicButton.getHeight() / 3);
 
         musicButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                if (game.musicStateManager.getMusicState()==true) {
-                    game.musicStateManager.stopMusic();
-                    System.out.println("Music is muted");
-                }
-                else {
-                    game.musicStateManager.playMusic();
-                    System.out.println("Music is playing");
+                game.playSound(click);
+                if (!game.musicStateManager.getMuteMusicState()) {
+                    game.muteMusic(game.getBackgroundMusic());
+                } else {
+                    game.unmuteMusic(game.getBackgroundMusic());
                 }
             }
 
@@ -128,18 +128,19 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         soundEffectButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         soundEffectButton.setSize(50, 50);
         soundEffectButton.setOrigin(50, 50);
-        soundEffectButton.setChecked(soundEffectsIsMute);
+        soundEffectButton.setChecked(game.soundStateManager.getMuteSoundState());
         soundEffectButton.setPosition(pos2.x* 4/ 6, pos2.y * 4 / 7 - soundEffectButton.getHeight() / 3);
 
         soundEffectButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                if (soundEffectsIsMute == false)
-                    System.out.println("Soundeffects is off");
-                else {
-                    System.out.println("Soundeffects is on");
+                if (game.soundStateManager.getMuteSoundState()) {
+                    game.soundStateManager.unmuteSound();
+                    game.playSound(click);
                 }
-                soundEffectsIsMute = !soundEffectsIsMute;
+                else {
+                    game.soundStateManager.muteSound();
+                }
             }
 
             //Kjøres når knappen trykkes ned
@@ -166,6 +167,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
                 game.setScreen(new GameScreen(game, engine));
             }
 
@@ -181,6 +183,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
                 game.setScreen(new MenuScreen(game, engine));
             }
         });
