@@ -39,8 +39,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     private Stage stage;
 
 
-    Table table = new Table();
-
     public HighScoreScreen(TubbyWars game, Engine engine){
         super();
         this.game = game;
@@ -69,30 +67,26 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         style.fontColor = Color.BLACK;
 
         TextField field = new TextField("", style);
-        field.setText("Test");
-        field.setWidth(150);
+        field.setText("Testern ja ");
+        TextField field2 = new TextField("", style);
+        field2.setText("Testern2 ja ");
+
 
         Table menuTable = new Table(); // Table containing the buttons on the screen
+        menuTable.setPosition(100, 100);
         menuTable.add(field);
-        menuTable.getCell(field).height(300).width(413);
+        menuTable.getCell(field).height(50).width(200);
         menuTable.row();
-        menuTable.add(field);
-        menuTable.getCell(field).height(300).width(413);
+        menuTable.add(field2);
+        menuTable.getCell(field2).height(50).width(200);
         menuTable.row();
-        /*menuTable.add(setBtn).pad(10);
 
-        menuTable.row();
-        menuTable.add(tutBtn);
-        menuTable.getCell(tutBtn).height(buttonHeight).width(413);
-        menuTable.setFillParent(true);
-        menuTable.moveBy(0,-240);
-        menuTable.row();
-        menuTable.add(signInBtn).pad(10);
-        menuTable.getCell(signInBtn).height(buttonHeight).width(413);
-        menuTable.setFillParent(true);*/
+
+
+
 
         //stage.addActor(menuTable);
-        stage.addActor(field);
+        stage.addActor(menuTable);
 
         Gdx.input.setInputProcessor(stage);
 
