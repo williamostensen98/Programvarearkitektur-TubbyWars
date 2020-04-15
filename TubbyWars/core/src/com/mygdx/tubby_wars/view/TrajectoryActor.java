@@ -26,7 +26,6 @@ public class TrajectoryActor extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
 
-        //  TODO DRAW WEAPON SPRITE HERE
         /***
          * Checks if the weapon is actually charging(i.e. being dragged).
          */

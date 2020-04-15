@@ -97,8 +97,7 @@ public class Physics {
         ControllerLogic.charging = false;
         currentPlayer.showBullet();
         bullet.b2Body.setLinearVelocity(velvec);
-        if(ControllerLogic.isPlayersTurn){ControllerLogic.isPlayersTurn = false;}
-        else {ControllerLogic.isPlayersTurn = true;}
+
 
      }
 
