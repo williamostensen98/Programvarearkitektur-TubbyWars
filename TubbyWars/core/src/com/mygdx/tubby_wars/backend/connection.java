@@ -1,5 +1,7 @@
 package com.mygdx.tubby_wars.backend;
 
+import com.mongodb.stitch.android.core.Stitch;
+
 // https://stitch.mongodb.com/groups/5e81d351b91d536e6d636684/apps/5e8afdc16898b88af61e26c3/sdks/android
 // https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/android/core/Stitch.html#getDefaultAppClient--
 public class connection {
