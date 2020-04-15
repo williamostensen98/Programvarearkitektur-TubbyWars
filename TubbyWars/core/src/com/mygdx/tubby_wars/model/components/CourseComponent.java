@@ -8,7 +8,6 @@ public class CourseComponent implements Component {
     public Entity playerOne;
     public Entity playerTwo;
 
-    public int turnNumber;
 
 
 }

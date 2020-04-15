@@ -11,25 +11,25 @@ public class PlayerComponent implements Component {
     public int health;
     public int score;
 
-    // skal vi ha en egen for cææsh?
-    // public int coins;
-
-    public boolean isYourTurn = false;
-
-    // add weapon entity eller component her, for så addNewWeapon i playerSystem
-
     public Entity weapon;
 
 
-    public Vector3 aimArrow = new Vector3(0,0,0);
-    public Vector3 position;
-    public boolean hasFired = false;
+    // NBNB: FORSLAG TIL HVORDAN VI KAN FÅ INN LITT MER MVC FUNKSJONALITET
+    public int posX;
+    public int posY;
+    public boolean whichturn; // litt rart navnvalg kanskje?
 
-    // x and y is start pos of the bullet, and we use z as a in y direction, aka gravity.
-    public Vector3 bulletPos = new Vector3(100,75,0);
+    // også lager vi funksjoner som gjør endringer på disse i playerSystem.
+    // i playScreen når vi oppretter en player, bør vi daa gå via world, som oppretter playerSystem og component
+    // deretter blir Player opprettet derifra, eller der det passer.
+    // En slik metode vil jeg tro vil være mer korrekt siden vi bruker MVC
 
-    // after using up all shots, switch to the other player. e.g. shotcounter == 3  => endturn
-    // should in the future be when health == 0  => endturn
-    public int shotCounter = 0;
+
+
+
+
+    // skal vi ha en egen for cææsh?
+    // public int coins;
+
 
 }
