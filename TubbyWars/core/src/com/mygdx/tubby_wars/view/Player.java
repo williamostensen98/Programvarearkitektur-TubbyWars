@@ -79,12 +79,14 @@ public class Player extends Sprite {
     public void update(float dt){
 
         if(bullets.isEmpty() && isPlayersTurn()){
+
             addBullet();
         }
         for(Bullet b: bullets){
             b.update(dt);
             if(b.isDestroyed()){
                 bullets.removeValue(b, true);
+
 
             }
         }

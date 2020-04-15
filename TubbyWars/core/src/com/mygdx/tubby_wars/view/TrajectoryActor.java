@@ -41,6 +41,7 @@ public class TrajectoryActor extends Actor {
             Vector2 trajectoryPoint = physics.getTrajectoryPoint(i, vec);
             float x = trajectoryPoint.x;
             float y = trajectoryPoint.y;
+
             t += timeSeparation;
             game.batch.draw(trajectoryTexture, x, y, trajectoryTexture.getWidth(), trajectoryTexture.getHeight());
         }

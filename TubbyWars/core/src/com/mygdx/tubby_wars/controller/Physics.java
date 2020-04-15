@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 
 import com.mygdx.tubby_wars.model.ControllerLogic;
 import com.mygdx.tubby_wars.view.Bullet;
+import com.mygdx.tubby_wars.view.PlayScreen;
 import com.mygdx.tubby_wars.view.Player;
 
 import java.util.Vector;
@@ -28,6 +29,8 @@ public class Physics {
 
     public void setPlayer(Player player){
         currentPlayer = player;
+        //startPoint = new Vector2(player.getBullet().b2Body.getPosition()).scl(100);
+
         startPoint = player.getStartPoint().scl(100);
         bullet = currentPlayer.getBullet();
 
@@ -49,8 +52,8 @@ public class Physics {
         float stepVelocityY = t * -startVelocity.y;
         float stepGravityX = tt * 0;
         float stepGravityY = tt * (-9.81f);
-        float tpx = startPoint.x + n * stepVelocityX + 0.5f * (n * n + n) * stepGravityX;
-        float tpy = startPoint.y + n * stepVelocityY + 0.5f * (n * n + n) * stepGravityY;
+        float tpx = pressedPosition.x + n * stepVelocityX + 0.5f * (n * n + n) * stepGravityX;
+        float tpy = pressedPosition.y + n * stepVelocityY + 0.5f * (n * n + n) * stepGravityY;
         return new Vector2(tpx , tpy);
 
      }
@@ -64,7 +67,8 @@ public class Physics {
          /*if(circle.contains(screenX, Gdx.graphics.getHeight() - screenY)){*/
          /*    wasPressed = true;*/
          /*}*/
-         pressedPosition.set(startPoint);
+
+         pressedPosition.set(new Vector2(screenX, Gdx.graphics.getHeight() - screenY));
          wasPressed = true;
 
      }
@@ -97,7 +101,6 @@ public class Physics {
         ControllerLogic.charging = false;
         currentPlayer.showBullet();
         bullet.b2Body.setLinearVelocity(velvec);
-
 
      }
 
