@@ -79,12 +79,15 @@ public class Player extends Sprite {
     public void update(float dt){
 
         if(bullets.isEmpty() && isPlayersTurn()){
+
             addBullet();
         }
         for(Bullet b: bullets){
             b.update(dt);
             if(b.isDestroyed()){
                 bullets.removeValue(b, true);
+
+
             }
         }
         setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);
@@ -140,4 +143,6 @@ public class Player extends Sprite {
         b2Body.createFixture(fdef).setUserData(this);
 
     }
+
+
 }

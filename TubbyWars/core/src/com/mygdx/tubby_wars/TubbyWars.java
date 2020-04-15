@@ -22,7 +22,7 @@ public class TubbyWars extends Game {
 
 	public SpriteBatch batch;
 	public final static float V_WIDTH = 12.8f;
-	public final static float V_HEIGHT = 6;
+	public final static float V_HEIGHT = 5.76f;
 
 
 

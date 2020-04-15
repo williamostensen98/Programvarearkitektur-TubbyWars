@@ -2,8 +2,9 @@ package com.mygdx.tubby_wars.model;
 
 public class ControllerLogic {
     public static boolean charging = false;
-    public static boolean isPlayersTurn = true;
+    public static boolean isPlayersTurn = false;
     public static boolean showBullet = false;
+    public static boolean hasFired = false;
 
     //BITS
 
