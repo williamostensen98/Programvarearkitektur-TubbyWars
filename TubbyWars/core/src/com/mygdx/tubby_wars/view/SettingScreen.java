@@ -46,7 +46,6 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
     private Sound click;
 
-    //private Image title;
     private Label musicText;
     private Label soundsText;
 
@@ -58,7 +57,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         this.game = game;
         this.engine = engine;
 
-        background = Assets.getTexture(Assets.mainBackground);
+        background = Assets.getTexture(Assets.settingsBackground);
         title = Assets.getTexture(Assets.settingsTitle);
         resumeGame = Assets.getTexture(Assets.resumeGameButton);
         quitGame = Assets.getTexture(Assets.quitGameButton);
@@ -72,19 +71,28 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void create() {
+        stage = new Stage(new ScreenViewport());
         sb = new SpriteBatch();
+
+        //Initiate title text image
+        final Image logo = new Image(title);
+        logo.setSize(150,75);
+        logo.setPosition(Gdx.graphics.getWidth()/2 - logo.getWidth()/2, Gdx.graphics.getHeight()/8*7 - logo.getHeight()/2);
+        stage.addActor(logo);
+
 
         //Text
         pos2 = new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 8 * 7, 0);
         musicText = new Label("Music:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        musicText.setPosition(pos2.x / 3, pos2.y * 2 / 3);
+        musicText.setPosition(Gdx.graphics.getWidth() / 8*2, Gdx.graphics.getHeight() / 9*5);
 
         soundsText = new Label("Sound effects:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        soundsText.setPosition(pos2.x / 3, pos2.y * 4 / 7);
+        soundsText.setPosition(Gdx.graphics.getWidth() / 8*2, Gdx.graphics.getHeight() / 9*3);
 
-        stage = new Stage(new ScreenViewport());
+
         stage.addActor(musicText);
         stage.addActor(soundsText);
+
 
         Gdx.input.setInputProcessor(stage);
 
@@ -94,7 +102,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         musicButton.setSize(50, 50);
         musicButton.setOrigin(50, 50);
         musicButton.setChecked(game.musicStateManager.getMuteMusicState());
-        musicButton.setPosition(pos2.x*3/ 6, pos2.y * 2 / 3 - musicButton.getHeight() / 3);
+        musicButton.setPosition(Gdx.graphics.getWidth() / 13*4, Gdx.graphics.getHeight() / 9*5- musicButton.getHeight() / 3);
 
         musicButton.addListener(new ClickListener() {
             @Override
@@ -129,7 +137,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         soundEffectButton.setSize(50, 50);
         soundEffectButton.setOrigin(50, 50);
         soundEffectButton.setChecked(game.soundStateManager.getMuteSoundState());
-        soundEffectButton.setPosition(pos2.x* 4/ 6, pos2.y * 4 / 7 - soundEffectButton.getHeight() / 3);
+        soundEffectButton.setPosition(Gdx.graphics.getWidth() / 8*3, Gdx.graphics.getHeight() / 9*3 - soundEffectButton.getHeight() / 3);
 
         soundEffectButton.addListener(new ClickListener() {
             @Override
@@ -161,8 +169,8 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         //Initialiserer resumeButton TODO: Denne er ikke med i modellen vår i Achitecture dokumentet
         final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeGame)), new TextureRegionDrawable(new TextureRegion(resumeGame)));
 
-        resumeButton.setSize(50, 50);
-        resumeButton.setPosition(pos2.x *10/ 6 , pos2.y/8);
+        resumeButton.setSize(100, 50);
+        resumeButton.setPosition(Gdx.graphics.getWidth() / 6*5 - resumeButton.getWidth() / 2, Gdx.graphics.getHeight() / 6 - resumeButton.getHeight() / 2);
         resumeButton.addListener(new ClickListener() {
 
             @Override
@@ -177,8 +185,8 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
         //Initialiserer quit button, going back to settings
         final Button backButton = new Button(new TextureRegionDrawable(new TextureRegion(quitGame)), new TextureRegionDrawable(new TextureRegion(quitGame)));
-        backButton.setSize(60, 60);
-        backButton.setPosition(pos2.x / 6 , pos2.y/8);
+        backButton.setSize(100, 50);
+        backButton.setPosition(Gdx.graphics.getWidth() / 6 - backButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - backButton.getHeight() / 2);
 
         backButton.addListener(new ClickListener() {
             @Override
@@ -199,7 +207,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     public void draw() {
         sb.begin(); // Draw elements to Sprite Batch
         sb.draw( background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
-        sb.draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
+        //sb.draw(title,Gdx.graphics.getWidth()/2 - title.getWidth()/2,Gdx.graphics.getHeight()/8*7 - title.getHeight()/2,150,75); //Draws logo
         sb.end();
 
         stage.draw();
