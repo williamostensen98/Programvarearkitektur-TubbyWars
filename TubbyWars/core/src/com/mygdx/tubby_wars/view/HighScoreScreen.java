@@ -64,28 +64,28 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.font = new BitmapFont();
-        style.fontColor = Color.BLACK;
-
-        TextField field = new TextField("", style);
-        field.setText("Testern ja ");
-        TextField field2 = new TextField("", style);
-        field2.setText("Testern2 ja ");
+        style.fontColor = Color.PINK;
 
 
         Table menuTable = new Table(); // Table containing the buttons on the screen
-        menuTable.setPosition(100, 100);
-        menuTable.add(field);
-        menuTable.getCell(field).height(50).width(200);
-        menuTable.row();
-        menuTable.add(field2);
-        menuTable.getCell(field2).height(50).width(200);
-        menuTable.row();
+        menuTable.setPosition(Gdx.graphics.getWidth()/8, Gdx.graphics.getHeight()*7/10);
+
+        for (int i=1; i<11;i++){
+            TextField tf = new TextField("Plass nr: "+i, style);
+             menuTable.add(tf);
+             menuTable.getCell(tf).height(20).width(100);
+             menuTable.row();
+
+        }
+
+        
 
 
 
 
 
-        //stage.addActor(menuTable);
+
+
         stage.addActor(menuTable);
 
         Gdx.input.setInputProcessor(stage);
