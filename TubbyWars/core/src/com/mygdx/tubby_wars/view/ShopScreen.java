@@ -18,10 +18,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.Assets;
 import com.badlogic.gdx.audio.Sound;
+import com.mygdx.tubby_wars.model.ControllerLogic;
 
 public class ShopScreen extends ScreenAdapter implements ScreenInterface {
-
-    private SpriteBatch sb;
 
     private TubbyWars game;
     private Engine engine;
@@ -50,7 +49,6 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void create() {
-        sb = new SpriteBatch();
 
         stage = new Stage(new ScreenViewport());
         //texture = new Texture("textures/shop.png");
@@ -84,6 +82,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
+                ControllerLogic.loggedIn = false; //Quits game
                 game.setScreen(new MenuScreen(game, engine));
             }
 

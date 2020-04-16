@@ -32,8 +32,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
     private Sound click;
 
-    private Sprite sprite;
-    private SpriteBatch sb;
     private Stage stage;
 
     public HighScoreScreen(TubbyWars game, Engine engine){
@@ -53,7 +51,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
     public void create(){
         stage = new Stage(new ScreenViewport());
-        sb = new SpriteBatch();
 
         Gdx.input.setInputProcessor(stage);
 
@@ -82,10 +79,10 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
     @Override
     public void draw(){
-        sb.begin(); // Draw elements to Sprite Batch
-        sb.draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
-        sb.draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
-        sb.end();
+        game.getBatch().begin(); // Draw elements to Sprite Batch
+        game.getBatch().draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        game.getBatch().draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
+        game.getBatch().end();
 
         stage.draw();
     }

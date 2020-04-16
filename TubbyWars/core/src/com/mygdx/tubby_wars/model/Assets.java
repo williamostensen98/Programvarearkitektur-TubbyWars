@@ -32,6 +32,7 @@ public class Assets {
     public static String settingsTitle =  "textures/settings.png"; //Title for settings page
     public static String shopTitle =  "textures/shop.png"; //Title for shop page
     public static String highscoreTitle =  "textures/settings.png"; //Title for highscore page
+    public static String usernameTitle = "textures/shop.png"; //"Registrer brukernavn"
 
     //Obstacles
     public static String cloudObstacle = "textures/cloud.png";
@@ -87,6 +88,7 @@ public class Assets {
         assetManager.load(shopTitle, Texture.class);
         assetManager.load(settingsTitle, Texture.class);
         assetManager.load(highscoreTitle, Texture.class);
+        assetManager.load(usernameTitle, Texture.class);
 
         //Obstacles
         assetManager.load(cloudObstacle, Texture.class);

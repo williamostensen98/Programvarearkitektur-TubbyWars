@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.Assets;
+import com.mygdx.tubby_wars.model.ControllerLogic;
 
 
 public class SettingScreen extends ScreenAdapter implements ScreenInterface {
@@ -29,7 +30,6 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     private TubbyWars game;
     private Engine engine;
     private Stage stage;
-    private SpriteBatch sb;
 
     //Music
     private boolean soundEffectsIsMute = false;
@@ -72,7 +72,6 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void create() {
-        sb = new SpriteBatch();
 
         //Text
         pos2 = new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 8 * 7, 0);
@@ -158,7 +157,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         });
         stage.addActor(soundEffectButton);
 
-        //Initialiserer resumeButton TODO: Denne er ikke med i modellen vår i Achitecture dokumentet
+        //Initialiserer resumeButton TODO: Denne er ikke med i modellen vår i Achitecture dokumentet, Only visible when ControllerLogic.loggedIn = true;
         final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeGame)), new TextureRegionDrawable(new TextureRegion(resumeGame)));
 
         resumeButton.setSize(50, 50);
@@ -175,7 +174,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
         stage.addActor(resumeButton);
 
-        //Initialiserer quit button, going back to settings
+        //Initialiserer quit button, going back to settings TODO: Only visible when ControllerLogic.loggedIn = true;
         final Button backButton = new Button(new TextureRegionDrawable(new TextureRegion(quitGame)), new TextureRegionDrawable(new TextureRegion(quitGame)));
         backButton.setSize(60, 60);
         backButton.setPosition(pos2.x / 6 , pos2.y/8);
@@ -184,10 +183,13 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
+                ControllerLogic.loggedIn = false; //Quits game
                 game.setScreen(new MenuScreen(game, engine));
             }
         });
         stage.addActor(backButton);
+
+        //TODO: Add "back to Menu screen button" visible when ControllerLogic.loggedIn = false;
     }
 
     @Override
@@ -197,10 +199,10 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void draw() {
-        sb.begin(); // Draw elements to Sprite Batch
-        sb.draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
-        sb.draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
-        sb.end();
+        game.getBatch().begin(); // Draw elements to Sprite Batch
+        game.getBatch().draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        game.getBatch().draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
+        game.getBatch().end();
 
         stage.draw();
     }
