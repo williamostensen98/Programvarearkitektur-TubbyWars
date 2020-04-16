@@ -34,6 +34,8 @@ public class Player extends Sprite {
 
     public boolean whichplayer;
 
+    public Healthbar healthbar;
+
     /**
      * Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn.
      */
@@ -55,6 +57,10 @@ public class Player extends Sprite {
         setBounds(0, 0, 0.5f, 0.7f);
         setRegion(region);
         setFlip(whichplayer, false);
+
+        healthbar = new Healthbar(80,this);
+
+
     }
 
 
@@ -73,7 +79,7 @@ public class Player extends Sprite {
             }
         }
         weapon.draw(game.batch);
-
+        // healthbar.draw();
     }
 
     public void update(float dt){
@@ -92,6 +98,7 @@ public class Player extends Sprite {
         }
         setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);
         weapon.update(dt);
+
     }
 
     /**

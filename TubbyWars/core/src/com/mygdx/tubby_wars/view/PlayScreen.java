@@ -48,6 +48,9 @@ public class PlayScreen implements Screen {
     public Physics physics;
     private Stage stage;
 
+    // HUD
+    private Hud hud;
+
     private InputMultiplexer inputMultiplexer;
     public static TextureAtlas atlas;
 
@@ -92,6 +95,7 @@ public class PlayScreen implements Screen {
         physics.setPlayer(player1);
         // LOADS THE PACK FILE WITH INTO AN ATLAS WHERE ALL THE CHARACTER SPRITES ARE
 
+        hud = new Hud(game.batch);
 
     }
 
@@ -165,7 +169,12 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(stage.getCamera().combined);
         stage.draw();
 
+        //Set our batch to now draw what the Hud camera sees.
+        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
 
+        player1.healthbar.draw();
+        player2.healthbar.draw();
 
 
     }
@@ -175,6 +184,7 @@ public class PlayScreen implements Screen {
         gameCam.update();
         player1.update(dt);
         player2.update(dt);
+        hud.update(dt);
         if(ControllerLogic.isPlayersTurn){
             physics.setPlayer(player2);
             //System.out.println( player2.b2Body.getPosition());
@@ -241,6 +251,7 @@ public class PlayScreen implements Screen {
         mapRenderer.dispose();
         world.dispose();
         b2dr.dispose();
+        hud.dispose();
 
     }
 
