@@ -58,7 +58,7 @@ public class Player extends Sprite {
         setRegion(region);
         setFlip(whichplayer, false);
 
-        healthbar = new Healthbar(80,this);
+        healthbar = new Healthbar(120,this);
 
 
     }
@@ -79,7 +79,7 @@ public class Player extends Sprite {
             }
         }
         weapon.draw(game.batch);
-        // healthbar.draw();
+        healthbar.draw(game.batch);
     }
 
     public void update(float dt){
@@ -98,6 +98,7 @@ public class Player extends Sprite {
         }
         setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);
         weapon.update(dt);
+        healthbar.update(dt);
 
     }
 

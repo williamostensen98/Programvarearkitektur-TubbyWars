@@ -173,8 +173,6 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
-        player1.healthbar.draw();
-        player2.healthbar.draw();
 
 
     }

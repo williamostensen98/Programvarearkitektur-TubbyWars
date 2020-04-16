@@ -78,7 +78,7 @@ public class Hud implements Disposable {
 
         playerOneName = new Label("Player 1", new Label.LabelStyle(new BitmapFont(), Color.RED));
         playerTwoName = new Label("Player 2", new Label.LabelStyle(new BitmapFont(), Color.RED));
-        playerOneScore = new Label("1", new Label.LabelStyle(new BitmapFont(), Color.RED));
+        playerOneScore = new Label("1337", new Label.LabelStyle(new BitmapFont(), Color.RED));
         playerTwoScore = new Label("69", new Label.LabelStyle(new BitmapFont(), Color.RED));
 
         table.add(playerOneName).expandX().padTop(10);
