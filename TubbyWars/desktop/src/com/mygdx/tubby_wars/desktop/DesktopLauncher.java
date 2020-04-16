@@ -7,7 +7,7 @@ import com.mygdx.tubby_wars.TubbyWars;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.height = 544;
+		config.height =576;
 		config.width = 1280;
 		new LwjglApplication(new TubbyWars(), config);
 	}

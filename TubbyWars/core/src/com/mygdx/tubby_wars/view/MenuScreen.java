@@ -115,7 +115,9 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void draw(){
         sb.begin(); // Draw elements to Sprite Batch
-        sb.draw(background, 0,0, TubbyWars.V_WIDTH*100, TubbyWars.V_HEIGHT*100); //Draws background photo
+        //sb.draw(background, 0,0, TubbyWars.V_WIDTH*100, TubbyWars.V_HEIGHT*100); //Draws background photo
+        sb.draw(background, 0,0); //Draws background photo
+
         sb.draw(logo, Gdx.graphics.getWidth()/2 - 200,
                 Gdx.graphics.getHeight()/2, 400,100); //Draws logo
         sb.end();
@@ -135,6 +137,8 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void dispose(){
+
         super.dispose();
+
     }
 }

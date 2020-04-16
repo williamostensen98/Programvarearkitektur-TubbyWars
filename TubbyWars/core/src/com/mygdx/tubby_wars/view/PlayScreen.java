@@ -13,7 +13,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.InputProcessor;
@@ -43,7 +45,7 @@ public class PlayScreen implements Screen {
     private int tilePixelWidth;
 
     private TrajectoryActor trajectoryActor;
-    private Physics physics;
+    public Physics physics;
     private Stage stage;
 
     // HUD
@@ -52,11 +54,17 @@ public class PlayScreen implements Screen {
     private InputMultiplexer inputMultiplexer;
     public static TextureAtlas atlas;
 
+    public float position_player1, position_player2;
+
+
     public PlayScreen(TubbyWars game) {
         this.game = game;
         gameCam = new OrthographicCamera(TubbyWars.V_WIDTH, TubbyWars.V_HEIGHT);
-        viewPort = new FitViewport(TubbyWars.V_WIDTH, TubbyWars.V_HEIGHT);
+        viewPort = new StretchViewport(TubbyWars.V_WIDTH, TubbyWars.V_HEIGHT, gameCam);
+        viewPort.apply();
         gameCam.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0);
+        //gameCam.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0);
+
         gameCam.update();
 
         // INITIALIZES NEW WORLD AND STAGE
@@ -70,7 +78,7 @@ public class PlayScreen implements Screen {
 
         // LOADS THE MAP
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("map.tmx");
+        map = mapLoader.load("map2.tmx");
         mapRenderer =  new OrthogonalTiledMapRenderer(map, 0.01f);
         b2dr = new Box2DDebugRenderer();
 
@@ -82,8 +90,8 @@ public class PlayScreen implements Screen {
 
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
         // ADDS THE PLAYERS
-        player1 = new Player(world, game, 2, 0.64f, false);
-        player2 = new Player(world, game, viewPort.getWorldWidth() - 2, 0.64f, true);
+        player1 = new Player(world, game,viewPort.getWorldWidth() / 2 , 0.64f, false);
+        player2 = new Player(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 - 2, 0.64f, true);
         physics.setPlayer(player1);
         // LOADS THE PACK FILE WITH INTO AN ATLAS WHERE ALL THE CHARACTER SPRITES ARE
 
@@ -91,6 +99,14 @@ public class PlayScreen implements Screen {
 
     }
 
+    public void setGameCamPosition(){
+        if(ControllerLogic.isPlayersTurn){
+            gameCam.position.x = player2.b2Body.getPosition().x;
+        }
+        else{
+            gameCam.position.x = player1.b2Body.getPosition().x;
+        }
+    }
     public TextureAtlas getAtlas() {
         return atlas;
     }
@@ -120,6 +136,8 @@ public class PlayScreen implements Screen {
 
         // SET PLAYER1's TURN.
 
+        position_player2 = player2.b2Body.getPosition().x;
+        position_player1 = player1.b2Body.getPosition().x;
 
 
 
@@ -161,19 +179,43 @@ public class PlayScreen implements Screen {
 
     }
 
-    public void update(float dt){
-        world.step(1/60f, 6, 2);
+    public void update(float dt) {
+        world.step(1 / 60f, 6, 2);
         gameCam.update();
         player1.update(dt);
         player2.update(dt);
         hud.update(dt);
-
         if(ControllerLogic.isPlayersTurn){
             physics.setPlayer(player2);
+            //System.out.println( player2.b2Body.getPosition());
         }
-        else {
+        else{
             physics.setPlayer(player1);
         }
+
+
+        if(player1.isPlayersTurn()) {
+            //gameCam.position.x = position_player1;
+
+            if (player1.getBullet() != null && (player1.getBullet().b2Body.getPosition().x < mapPixelWidth / 100f - gameCam.viewportWidth / 2)) {
+                gameCam.position.x = player1.getBullet().b2Body.getPosition().x;
+            }
+        }
+        else if(player2.isPlayersTurn()){
+
+            //gameCam.position.x = player2.b2Body.getPosition().x;
+            //gameCam.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0);
+
+            if ((player2.getBullet().b2Body.getPosition().x > gameCam.viewportWidth / 2)) {
+                gameCam.position.x = player2.getBullet().b2Body.getPosition().x;
+            }
+
+        }
+
+
+
+
+
     }
 
 

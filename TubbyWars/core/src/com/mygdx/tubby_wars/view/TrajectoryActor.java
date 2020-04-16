@@ -26,7 +26,6 @@ public class TrajectoryActor extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
 
-        //  TODO DRAW WEAPON SPRITE HERE
         /***
          * Checks if the weapon is actually charging(i.e. being dragged).
          */
@@ -42,6 +41,7 @@ public class TrajectoryActor extends Actor {
             Vector2 trajectoryPoint = physics.getTrajectoryPoint(i, vec);
             float x = trajectoryPoint.x;
             float y = trajectoryPoint.y;
+
             t += timeSeparation;
             game.batch.draw(trajectoryTexture, x, y, trajectoryTexture.getWidth(), trajectoryTexture.getHeight());
         }
