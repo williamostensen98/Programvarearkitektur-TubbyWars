@@ -2,24 +2,23 @@ package com.mygdx.tubby_wars.view;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygdx.tubby_wars.TubbyWars;
-import com.badlogic.gdx.audio.Music;
-import com.mygdx.tubby_wars.model.Assets;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.backend.IBackend;
+import com.mygdx.tubby_wars.model.Assets;
 
-public class MenuScreen extends ScreenAdapter implements ScreenInterface {
+public class MenuScreen extends ScreenAdapter implements ScreenInterface, IBackend {
 
     private TubbyWars game;
     private Engine engine;
@@ -135,5 +134,35 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void dispose(){
         super.dispose();
+    }
+
+    @Override
+    public void Connect() {
+
+    }
+
+    @Override
+    public String getPlayerName() {
+        return null;
+    }
+
+    @Override
+    public int getScore() {
+        return 0;
+    }
+
+    @Override
+    public void setPlayerName() {
+
+    }
+
+    @Override
+    public void setScore() {
+
+    }
+
+    @Override
+    public void getTopTen() {
+
     }
 }
