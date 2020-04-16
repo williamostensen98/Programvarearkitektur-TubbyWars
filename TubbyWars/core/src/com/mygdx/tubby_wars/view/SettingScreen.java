@@ -198,7 +198,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void draw() {
         sb.begin(); // Draw elements to Sprite Batch
-        sb.draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        sb.draw( background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
         sb.draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
         sb.end();
 

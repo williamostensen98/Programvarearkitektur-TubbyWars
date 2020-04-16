@@ -71,7 +71,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
         //Initialiserer button to get GameScreen
         final Button gameButton = new Button(new TextureRegionDrawable(new TextureRegion(playB)));
-       // gameButton.setSize(60, 60);
+        gameButton.setSize(60, 60);
         gameButton.setPosition(Gdx.graphics.getWidth() / 2 - gameButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - gameButton.getHeight() / 2);
 
         gameButton.addListener(new ClickListener() {
@@ -85,7 +85,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
         //Initialiserer button to get to SettingsScreen
         final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
-        //settingsButton.setSize(60, 60);
+        settingsButton.setSize(60, 60);
         settingsButton.setPosition(Gdx.graphics.getWidth()/4 - settingsButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - settingsButton.getHeight() / 2);
 
         settingsButton.addListener(new ClickListener() {
@@ -98,7 +98,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
         //Initialiserer button to get to HighScoreScreen
         final Button highScoreButton = new Button(new TextureRegionDrawable(new TextureRegion(highScoreB)));
-        //highScoreButton.setSize(60, 60);
+        highScoreButton.setSize(60, 60);
         highScoreButton.setPosition(Gdx.graphics.getWidth() - 210 - highScoreButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - highScoreButton.getHeight() / 2);
 
         highScoreButton.addListener(new ClickListener() {
