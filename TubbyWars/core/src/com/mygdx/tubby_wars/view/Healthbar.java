@@ -1,36 +1,65 @@
 package com.mygdx.tubby_wars.view;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Healthbar {
+public class Healthbar extends Sprite {
 
     private int health;
-
-    private ShapeRenderer sr;
-
     private Player player;
 
-
+    private Texture bar;
+    private TextureRegion region1;
 
     public Healthbar(int health, Player player){
         this.health = health;
         this.player = player;
-        sr = new ShapeRenderer();
+
+        // creates the healthbar through pixmap
+        create();
+
+        region1 = new TextureRegion(bar,0,0,150,20);
+        setBounds(player.b2Body.getPosition().x, player.b2Body.getPosition().y + 100,1.5f, 0.2f);
+        setRegion(region1);
     }
 
     public void update(float dt){
         // find updated health here
+        setPosition(player.b2Body.getPosition().x - 0.75f, player.b2Body.getPosition().y + 1f);
+
+        // må kjøre create() her for å få updated healthbaren, kan evt ha en if som sjekker om health er endret
     }
 
-    public void draw(){
-        sr.begin(ShapeRenderer.ShapeType.Filled);
-        sr.setColor(Color.GREEN);
-        sr.rect(player.b2Body.getPosition().x*100 - (50), player.b2Body.getPosition().y*100 + 70, 100,10);
-        sr.setColor(Color.RED);
-        sr.rect(player.b2Body.getPosition().x*100 - (50) + health,player.b2Body.getPosition().y*100 + 70,100 - health, 10);
-        sr.end();
+
+
+
+    private void create(){
+        int width = 150;
+        int height = 20;
+        Pixmap pixmap1 = createPixmap(width, height, health);
+
+        bar = new Texture(pixmap1);
+
+        pixmap1.dispose();
+    }
+
+
+    private Pixmap createPixmap(int width, int height, int health){
+        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.RED);
+        pixmap.fill();
+
+        pixmap.setColor(Color.GREEN);
+        pixmap.fillRectangle(0,0,health,height);
+
+
+
+        return pixmap;
     }
 
 }
