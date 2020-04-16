@@ -9,7 +9,7 @@ public class Assets {
     // alle textures legges inn her på denne måten.
     // nb, vi må huske å ha fin mappestruktur i Android/assets
     public static String logo = "textures/logo.png"; //Logo for game
-    public static String mainBackground = "textures/Artboard1.png"; //Background used outside gameplay
+    public static String mainBackground = "textures/background.png"; //Background used outside gameplay
     public static String highScoreButton = "textures/highscoreButton.png"; //Go to HighScore screen
     public static String menuScreenButton = "textures/ButtonStart.png"; //Go to Menu screen
     public static String shopScreenButton = "textures/shop.png";
