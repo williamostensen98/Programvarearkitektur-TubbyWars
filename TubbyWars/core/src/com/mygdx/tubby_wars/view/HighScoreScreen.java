@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,12 +23,14 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     private TubbyWars game;
     private Engine engine;
 
-    //Initializing the textures
-    private Texture backB;
+    //Textures for title of page and the background
+    private Texture title;
     private Texture background;
 
-    //Initiializing the background music
-    private Music music;
+    //Textures for buttons
+    private Texture backB;
+
+    private Sound click;
 
     private Sprite sprite;
     private SpriteBatch sb;
@@ -40,11 +43,9 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
         background = Assets.getTexture(Assets.mainBackground);
         backB = Assets.getTexture(Assets.backButton);
+        title = Assets.getTexture(Assets.highscoreTitle);
 
-        this.music = game.getMusic();
-        this.music.setVolume(0.3f);
-        this.music.play();
-        game.playMusic(music);
+        this.click = game.getClickSound();
 
         // one-time operations
         create();
@@ -64,6 +65,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
                 game.setScreen(new MenuScreen(game, engine));
             }
 
@@ -82,6 +84,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     public void draw(){
         sb.begin(); // Draw elements to Sprite Batch
         sb.draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        sb.draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
         sb.end();
 
         stage.draw();
