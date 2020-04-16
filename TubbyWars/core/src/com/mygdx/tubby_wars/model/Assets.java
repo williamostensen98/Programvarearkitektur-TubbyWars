@@ -27,7 +27,7 @@ public class Assets {
     public static String soundOnButton = "textures/soundOn.png";
     public static String soundOffButton = "textures/soundOff.png";
 
-    //Text titles for pages 
+    //Text titles for pages
     public static String logo = "textures/Logo.png"; //Logo for game
     public static String settingsTitle =  "textures/settings.png"; //Title for settings page
     public static String shopTitle =  "textures/shop.png"; //Title for shop page
