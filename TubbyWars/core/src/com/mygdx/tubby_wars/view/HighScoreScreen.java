@@ -8,12 +8,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -27,16 +27,15 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     private TubbyWars game;
     private Engine engine;
 
-    //Textures for title of page and the background
-    private Texture title;
-    private Texture background;
+    //Textures for title of page
+    private Texture titleText;
 
     //Textures for buttons
     private Texture backB;
+    private Texture newGameB;
 
     private Sound click;
 
-    private Sprite sprite;
     private SpriteBatch sb;
     private Stage stage;
 
@@ -46,10 +45,10 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         this.game = game;
         this.engine = engine;
 
-
-        background = Assets.getTexture(Assets.mainBackground);
-        backB = Assets.getTexture(Assets.backButton);
-        title = Assets.getTexture(Assets.highscoreTitle);
+        //background = Assets.getTexture(Assets.mainBackground);
+        titleText = Assets.getTexture(Assets.highscoreTitle);
+        backB = Assets.getTexture(Assets.menuScreenButton);
+        newGameB = Assets.getTexture(Assets.newGameButton);
 
         this.click = game.getClickSound();
 
@@ -60,32 +59,33 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     public void create(){
 
         stage = new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
         sb = new SpriteBatch();
 
+        //Initialize title text image
+        final Image title = new Image(titleText);
+        title.setSize(150,75);
+        title.setPosition(Gdx.graphics.getWidth()/2f - title.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - title.getHeight()/2f);
+
+        //Textfield style
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.font = new BitmapFont();
-        style.fontColor = Color.PINK;
-
+        style.fontColor = Color.BLACK;
 
         Table menuTable = new Table(); // Table containing the buttons on the screen
-        menuTable.setPosition(Gdx.graphics.getWidth()/8, Gdx.graphics.getHeight()*7/10);
+        menuTable.setPosition(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/100f*60f);
 
         for (int i=1; i<11;i++){
             TextField tf = new TextField("Plass nr: "+i, style);
              menuTable.add(tf);
              menuTable.getCell(tf).height(20).width(100);
              menuTable.row();
-
         }
-
-        stage.addActor(menuTable);
-
-        Gdx.input.setInputProcessor(stage);
 
         //Initialiserer button to get GameScreen
         final Button menuButton = new Button(new TextureRegionDrawable(new TextureRegion(backB)));
-        menuButton.setSize(60, 60);
-        menuButton.setPosition(Gdx.graphics.getWidth() / 2f - menuButton.getWidth() / 2f, Gdx.graphics.getHeight() / 6f - menuButton.getHeight() / 2f);
+        menuButton.setSize(100, 50);
+        menuButton.setPosition(Gdx.graphics.getWidth() / 6f - menuButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - menuButton.getHeight() / 2f);
 
         menuButton.addListener(new ClickListener() {
             @Override
@@ -96,7 +96,34 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
         });
 
+        //Initialiserer button to get GameScreen
+        final Button newGameButton = new Button(new TextureRegionDrawable(new TextureRegion(newGameB)));
+        newGameButton.setSize(100, 50);
+        newGameButton.setPosition(Gdx.graphics.getWidth() / 6f*5f - newGameButton.getWidth() / 2f, Gdx.graphics.getHeight() / 6f - newGameButton.getHeight() / 2f);
+
+        newGameButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+                game.setScreen(new MenuScreen(game, engine));
+            }
+
+        });
+
+        stage.addActor(title);
+        stage.addActor(menuTable);
+
+        //TODO: remove when merged
+        stage.addActor(newGameButton);
         stage.addActor(menuButton);
+
+        //TODO: Add when merged
+        //if (LoggedIn = true) {
+        //    stage.addActor(newGameButton);
+        //}
+        //else {
+        //    stage.addActor(menuButton);
+        //}
     }
 
     @Override
@@ -107,10 +134,8 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
     @Override
     public void draw(){
-        sb.begin(); // Draw elements to Sprite Batch
-        sb.draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
-        sb.draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
-        sb.end();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(187.0f/255.0f, 231.0f/255.0f, 255.0f/255.0f, 1.0f);
 
         stage.draw();
     }
@@ -122,8 +147,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     @Override
     public void render(float dt){
         update(dt);
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         draw();
     }
 
