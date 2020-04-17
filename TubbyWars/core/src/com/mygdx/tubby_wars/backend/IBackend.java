@@ -5,4 +5,6 @@ public interface IBackend {
     //Declare methods needed here
     void Connect();
 
+    void printPlayers();
+
 }
