@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,20 +23,14 @@ import com.badlogic.gdx.audio.Sound;
 
 public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
-    private SpriteBatch sb;
-
     private TubbyWars game;
     private Engine engine;
     private Stage stage;
     private Texture titleText;
-    //private Image title;
 
     // Navigation buttons
     private Texture menuB;
     private Texture newGameB;
-
-    // information text
-    private Label text;
 
     // Weapons
     private Texture gun;
@@ -67,7 +60,6 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void create() {
-        sb = new SpriteBatch();
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -81,13 +73,11 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         infoText.setFontScale(1f,1f);
         infoText.setPosition(Gdx.graphics.getWidth() / 5 - infoText.getWidth()/2 , Gdx.graphics.getHeight() / 12*8);
 
-
-
         //Initialize button to get GameScreen
         final Button newGameButton = new Button(new TextureRegionDrawable(new TextureRegion(newGameB)));
         newGameButton.setSize(100, 50);
         newGameButton.setPosition(Gdx.graphics.getWidth() / 6*5 - newGameButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - newGameButton.getHeight() / 2);
-
+        //Add click effect
         newGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
@@ -101,7 +91,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         final Button menuButton = new Button(new TextureRegionDrawable(new TextureRegion(menuB)));
         menuButton.setSize(100, 50);
         menuButton.setPosition(Gdx.graphics.getWidth() / 6 - menuButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - menuButton.getHeight() / 2);
-
+        //Add click effect
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
@@ -114,7 +104,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         final Button newGun = new Button(new TextureRegionDrawable(new TextureRegion(gun)));
         newGun.setSize(150, 50);
         newGun.setPosition(Gdx.graphics.getWidth()/3 - newGun.getWidth() , Gdx.graphics.getHeight() / 2 - newGun.getHeight() / 2);
-
+        //Add click effect
         newGun.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
@@ -127,7 +117,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         final Button newRifle = new Button(new TextureRegionDrawable(new TextureRegion(rifle)));
         newRifle.setSize(150, 50);
         newRifle.setPosition(Gdx.graphics.getWidth() / 2 - newRifle.getWidth()/2 , Gdx.graphics.getHeight() /2 - newRifle.getHeight() / 2);
-
+        //Add click effect
         newRifle.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
@@ -141,7 +131,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         final Button newRevolver = new Button(new TextureRegionDrawable(new TextureRegion(revolver)));
         newRevolver.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() /6);
         newRevolver.setPosition(Gdx.graphics.getWidth() / 3*2 , Gdx.graphics.getHeight() / 2 - newRevolver.getHeight() / 2);
-
+        //Add click effect
         newRevolver.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
