@@ -6,10 +6,18 @@ public class ControllerLogic {
     public static boolean showBullet = false;
     public static boolean hasFired = false;
 
-    public static Boolean loggedIn = false; //Used to check if users need to register usernames
+    //Used to check if users need to register usernames
+    public static Boolean loggedIn = false;
 
     public static String username1 = "";
     public static String username2 = "";
+
+    //TODO: Change to prefered formate
+    //Chooses character. Either r (red) or p (purple) depending on players choise.
+    public static String character1 = "";
+
+    //Chooses character. Either y (yellow) or g (green) depending on players choise.
+    public static String character2 = "";
 
     //BITS
 
