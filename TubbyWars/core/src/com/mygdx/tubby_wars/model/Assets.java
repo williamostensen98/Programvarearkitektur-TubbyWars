@@ -10,6 +10,9 @@ public class Assets {
     public static String mainBackground = "textures/background.jpg"; //Background used outside gameplay
     public static String gameBackground = "textures/background.jpg"; //Background used in gameplay TODO: Legg inn her og bruk
 
+    //TextField
+    public static String textFieldBackground = "textures/textfield.png"; //Used to make TextField visible
+
     //Screen Buttons TODO: Make for all screens
     public static String playButton = "textures/play.png"; //Go to Game screen
     public static String newGameButton = "textures/play.png"; //Go to Game screen
@@ -65,6 +68,9 @@ public class Assets {
         //Backgrounds
         assetManager.load(mainBackground, Texture.class);
         assetManager.load(gameBackground, Texture.class);
+
+        //TextField
+        assetManager.load(textFieldBackground, Texture.class);
 
         //Screen Buttons
         assetManager.load(playButton, Texture.class);

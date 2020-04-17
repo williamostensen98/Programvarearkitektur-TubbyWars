@@ -39,10 +39,11 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     private Texture background;
 
     //Textures for the buttons
-    private Texture resumeGame;
-    private Texture quitGame;
-    private Texture soundOn; //Used for both music and sounds
-    private Texture soundOff; //Used for both music and sounds
+    private Texture resumeGameB;
+    private Texture quitGameB;
+    private Texture menuGameB;
+    private Texture soundOnB; //Used for both music and sounds
+    private Texture soundOffB; //Used for both music and sounds
 
     private Sound click;
 
@@ -60,10 +61,11 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
         background = Assets.getTexture(Assets.mainBackground);
         title = Assets.getTexture(Assets.settingsTitle);
-        resumeGame = Assets.getTexture(Assets.resumeGameButton);
-        quitGame = Assets.getTexture(Assets.quitGameButton);
-        soundOn = Assets.getTexture(Assets.soundOnButton);
-        soundOff = Assets.getTexture(Assets.soundOffButton);
+        resumeGameB = Assets.getTexture(Assets.resumeGameButton);
+        quitGameB = Assets.getTexture(Assets.quitGameButton);
+        menuGameB = Assets.getTexture(Assets.menuScreenButton);
+        soundOnB = Assets.getTexture(Assets.soundOnButton);
+        soundOffB = Assets.getTexture(Assets.soundOffButton);
 
         click = game.getClickSound();
 
@@ -88,7 +90,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         Gdx.input.setInputProcessor(stage);
 
         //Initialiserer musicButton
-        final Button musicButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOff)));
+        final Button musicButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOffB)));
         musicButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         musicButton.setSize(50, 50);
         musicButton.setOrigin(50, 50);
@@ -123,7 +125,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         stage.addActor(musicButton);
 
         //Initialiserer soundEffectButton
-        final Button soundEffectButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOff)));
+        final Button soundEffectButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOffB)));
         soundEffectButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         soundEffectButton.setSize(50, 50);
         soundEffectButton.setOrigin(50, 50);
@@ -158,7 +160,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         stage.addActor(soundEffectButton);
 
         //Initialiserer resumeButton TODO: Denne er ikke med i modellen vår i Achitecture dokumentet, Only visible when ControllerLogic.loggedIn = true;
-        final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeGame)), new TextureRegionDrawable(new TextureRegion(resumeGame)));
+        final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeGameB)), new TextureRegionDrawable(new TextureRegion(resumeGameB)));
 
         resumeButton.setSize(50, 50);
         resumeButton.setPosition(pos2.x *10/ 6 , pos2.y/8);
@@ -172,14 +174,12 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
         });
 
-        stage.addActor(resumeButton);
-
         //Initialiserer quit button, going back to settings TODO: Only visible when ControllerLogic.loggedIn = true;
-        final Button backButton = new Button(new TextureRegionDrawable(new TextureRegion(quitGame)), new TextureRegionDrawable(new TextureRegion(quitGame)));
-        backButton.setSize(60, 60);
-        backButton.setPosition(pos2.x / 6 , pos2.y/8);
+        final Button quitButton = new Button(new TextureRegionDrawable(new TextureRegion(quitGameB)), new TextureRegionDrawable(new TextureRegion(quitGameB)));
+        quitButton.setSize(60, 60);
+        quitButton.setPosition(pos2.x / 6 , pos2.y/8);
 
-        backButton.addListener(new ClickListener() {
+        quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
@@ -187,9 +187,27 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
                 game.setScreen(new MenuScreen(game, engine));
             }
         });
-        //stage.addActor(backButton);
 
-        //TODO: Add "back to Menu screen button" visible when ControllerLogic.loggedIn = false;
+        //Initialiserer quit button, going back to settings
+        final Button menuButton = new Button(new TextureRegionDrawable(new TextureRegion(menuGameB)), new TextureRegionDrawable(new TextureRegion(menuGameB)));
+        menuButton.setSize(60, 60);
+        menuButton.setPosition(pos2.x / 6 , pos2.y/8);
+
+        menuButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+                game.setScreen(new MenuScreen(game, engine));
+            }
+        });
+
+        if (ControllerLogic.loggedIn) {
+            stage.addActor(quitButton);
+            stage.addActor(resumeButton);
+        }
+        else {
+            stage.addActor(menuButton);
+        }
     }
 
     @Override

@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -31,7 +30,10 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
     //Initializing the textures
     private Texture logo;
     private Texture background;
+    private Texture textField1;
+    private Texture textField2;
     private Texture playB;
+
 
     //Initializing Clicking sound when pressing button
     private Sound click;
@@ -53,6 +55,8 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
         //Getting the right assets
         background = Assets.getTexture(Assets.mainBackground);
         logo = Assets.getTexture(Assets.usernameTitle);
+        textField1 = Assets.getTexture(Assets.textFieldBackground);
+        textField2 = Assets.getTexture(Assets.textFieldBackground);
         playB = Assets.getTexture(Assets.playButton);
 
         //Getting rigth sound
@@ -74,25 +78,25 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
 
         //Placing textFields for username input TODO: Place better
         user1Input = new TextField("", style);
-        user1Input.setPosition(Gdx.graphics.getWidth() / 3 , Gdx.graphics.getHeight() / 3);
+        user1Input.setPosition(Gdx.graphics.getWidth() / 3f , Gdx.graphics.getHeight() / 3f);
         user1Input.setSize(300, 100);
         stage.addActor(user1Input);
 
         user2Input = new TextField("", style);
-        user2Input.setPosition(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 4);
+        user2Input.setPosition(Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 4f);
         user2Input.setSize(300, 100);
         stage.addActor(user2Input);
 
         //Placing text
         user1Text = new Label("Player 1 username:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        user1Text.setPosition(Gdx.graphics.getWidth() / 6, Gdx.graphics.getHeight()/3);
+        user1Text.setPosition(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight()/3f);
 
         user2Text  = new Label("Player 2 username:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        user2Text .setPosition(Gdx.graphics.getWidth() / 6, Gdx.graphics.getHeight() / 4);
+        user2Text .setPosition(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 4f);
 
         informationText = new Label("Write usernames without æ, ø, å or ' ', then press the button",
                 new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        informationText .setPosition(Gdx.graphics.getWidth() / 6, Gdx.graphics.getHeight() / 2);
+        informationText .setPosition(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 2f);
 
         stage.addActor(user1Text);
         stage.addActor(user2Text);
@@ -100,7 +104,7 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
         //Initialiserer button to get GameScreen
         final Button gameButton = new Button(new TextureRegionDrawable(new TextureRegion(playB)));
         gameButton.setSize(60, 60);
-        gameButton.setPosition(Gdx.graphics.getWidth() / 2 - gameButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - gameButton.getHeight() / 2);
+        gameButton.setPosition(Gdx.graphics.getWidth() / 2f - gameButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - gameButton.getHeight() / 2f);
 
         gameButton.addListener(new ClickListener() {
             @Override
@@ -117,7 +121,7 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
     }
 
     //Checks if username is correctly written
-    public void usernameCheck() {
+    private void usernameCheck() {
         String username1 = user1Input.getText();
         String username2 = user2Input.getText();
 
@@ -155,8 +159,10 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
     public void draw(){
         game.getBatch().begin(); // Draw elements to Sprite Batch
         game.getBatch().draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
-        game.getBatch().draw(logo, Gdx.graphics.getWidth()/2,
-                Gdx.graphics.getHeight()/2, 200,50); //Draws logo
+        game.getBatch().draw(logo, Gdx.graphics.getWidth()/2f,
+                Gdx.graphics.getHeight()/2f, 200,50); //Draws logo
+        game.getBatch().draw(textField1, Gdx.graphics.getWidth() / 3f , Gdx.graphics.getHeight() / 3f, 300,100); //Draws logo
+        game.getBatch().draw(textField2, Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 4f, 300,100); //Draws logo
         game.getBatch().end();
 
         stage.draw();
