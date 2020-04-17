@@ -2,28 +2,28 @@ package com.mygdx.tubby_wars.view;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.badlogic.gdx.audio.Music;
 import com.mygdx.tubby_wars.backend.IBackend;
 import com.mygdx.tubby_wars.model.Assets;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 
 
 
 public class MenuScreen extends ScreenAdapter implements ScreenInterface {
+
 
     private TubbyWars game;
     private Engine engine;
@@ -42,7 +42,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     private SpriteBatch sb;
     private Stage stage;
 
-    public MenuScreen(TubbyWars game, Engine engine){
+    public MenuScreen(TubbyWars game, Engine engine) {
         super();
         this.game = game;
         this.engine = engine;
@@ -61,7 +61,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
         create();
     }
 
-    public void create(){
+    public void create() {
         stage = new Stage(new ScreenViewport());
         sb = new SpriteBatch();
 
@@ -70,7 +70,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
         //Initialiserer button to get GameScreen
         final Button gameButton = new Button(new TextureRegionDrawable(new TextureRegion(playB)));
         gameButton.setSize(60, 60);
-        gameButton.setPosition(Gdx.graphics.getWidth() / 2 - gameButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - gameButton.getHeight() / 2);
+        gameButton.setPosition(Gdx.graphics.getWidth() / 2 - gameButton.getWidth() / 2, Gdx.graphics.getHeight() / 6 - gameButton.getHeight() / 2);
 
         gameButton.addListener(new ClickListener() {
             @Override
@@ -83,7 +83,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
         //Initialiserer button to get to SettingsScreen
         final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
         settingsButton.setSize(60, 60);
-        settingsButton.setPosition(Gdx.graphics.getWidth()/4 - settingsButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - settingsButton.getHeight() / 2);
+        settingsButton.setPosition(Gdx.graphics.getWidth() / 4 - settingsButton.getWidth() / 2, Gdx.graphics.getHeight() / 6 - settingsButton.getHeight() / 2);
 
         settingsButton.addListener(new ClickListener() {
             @Override
@@ -95,7 +95,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
         //Initialiserer button to get to HighScoreScreen
         final Button highScoreButton = new Button(new TextureRegionDrawable(new TextureRegion(highScoreB)));
         highScoreButton.setSize(60, 60);
-        highScoreButton.setPosition(Gdx.graphics.getWidth() - 210 - highScoreButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - highScoreButton.getHeight() / 2);
+        highScoreButton.setPosition(Gdx.graphics.getWidth() - 210 - highScoreButton.getWidth() / 2, Gdx.graphics.getHeight() / 6 - highScoreButton.getHeight() / 2);
 
         highScoreButton.addListener(new ClickListener() {
             @Override
@@ -110,36 +110,36 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     }
 
     @Override
-    public void update(float dt){
+    public void update(float dt) {
         // check for user input
         handleinput();
     }
 
     @Override
-    public void draw(){
+    public void draw() {
         sb.begin(); // Draw elements to Sprite Batch
-        sb.draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
-        sb.draw(logo, Gdx.graphics.getWidth()/2 - 200,
-                Gdx.graphics.getHeight()/2, 400,100); //Draws logo
+        sb.draw(background, 0, 0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        sb.draw(logo, Gdx.graphics.getWidth() / 2 - 200,
+                Gdx.graphics.getHeight() / 2, 400, 100); //Draws logo
         sb.end();
 
         stage.draw();
     }
 
     @Override
-    public void handleinput(){
+    public void handleinput() {
     }
 
     @Override
-    public void render(float dt){
+    public void render(float dt) {
         update(dt);
         draw();
     }
 
     @Override
-    public void dispose(){
+    public void dispose() {
         super.dispose();
     }
-
-
 }
+
+

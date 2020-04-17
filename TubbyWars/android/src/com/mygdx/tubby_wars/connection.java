@@ -9,7 +9,6 @@ import com.mongodb.stitch.android.core.StitchAppClient;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteFindIterable;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection;
-import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateResult;
 import com.mygdx.tubby_wars.backend.IBackend;
 
 import org.bson.Document;
@@ -25,6 +24,7 @@ public class connection implements IBackend {
         client = Stitch.initializeDefaultAppClient("tubbywars-scpta");
         mongoClient = client.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
         coll = mongoClient.getDatabase("tubbywars").getCollection("tubby");
+
 
 
     }
@@ -44,7 +44,6 @@ public class connection implements IBackend {
 
         });
     }
-
 
 }
 
