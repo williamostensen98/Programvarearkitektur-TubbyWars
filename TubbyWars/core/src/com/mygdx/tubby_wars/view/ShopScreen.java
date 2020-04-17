@@ -125,7 +125,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
                 //game.setScreen(new GameScreen(game, engine));
-                //hva skal sje når vi trykker på knappen?
+                //TODO: hva skal sje når vi trykker på knappen?
             }
         });
 

@@ -34,7 +34,6 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
     private Texture textField2;
     private Texture playB;
 
-
     //Initializing Clicking sound when pressing button
     private Sound click;
 
@@ -74,7 +73,7 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.font = new BitmapFont();
         style.fontColor = Color.BLACK;
-        //TODO: Add boxes behind TextField
+        //TODO: Size text-field
 
         //Placing textFields for username input TODO: Place better
         user1Input = new TextField("", style);
