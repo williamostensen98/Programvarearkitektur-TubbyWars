@@ -29,11 +29,18 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
     private Stage stage;
 
     //Initializing the textures
-    private Texture logo;
+    //private Texture logo;
     private Texture background;
     private Texture textField1;
     private Texture textField2;
     private Texture playB;
+
+    //Sprites
+    private Texture gulTubby;
+    private Texture gronnTubby;
+    private Texture rodTubby;
+    private Texture lillaTubby;
+
 
     //Initializing Clicking sound when pressing button
     private Sound click;
@@ -43,9 +50,14 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
     private Label user2Text;
     private Label informationText;
 
+    // Choose sprite text
+    private Label leftText;
+    private Label rightText;
+
     //Initiializing TextFields for username input
     private TextField user1Input;
     private TextField user2Input;
+
 
     public UsernameScreen(TubbyWars game, Engine engine){
         super();
@@ -53,11 +65,17 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
         this.engine = engine;
 
         //Getting the right assets
-        background = Assets.getTexture(Assets.mainBackground);
-        logo = Assets.getTexture(Assets.usernameTitle);
+        background = Assets.getTexture(Assets.characterBackground);
+        //logo = Assets.getTexture(Assets.usernameTitle);
         textField1 = Assets.getTexture(Assets.textFieldBackground);
         textField2 = Assets.getTexture(Assets.textFieldBackground);
         playB = Assets.getTexture(Assets.playButton);
+
+        //Sprites
+        gulTubby = Assets.getTexture(Assets.gulTubby);
+        gronnTubby = Assets.getTexture(Assets.gronnTubby);
+        rodTubby = Assets.getTexture(Assets.rodTubby);
+        lillaTubby = Assets.getTexture(Assets.lillaTubby);
 
         //Getting rigth sound
         this.click = game.getClickSound();
@@ -71,10 +89,54 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
         Gdx.input.setInputProcessor(stage);
 
         // Initialize title logo
-        final Image usernameTile = new Image(logo);
-        usernameTile.setSize(150,75);
-        usernameTile.setPosition(Gdx.graphics.getWidth()/2f - usernameTile.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - usernameTile.getHeight()/2f);
+       // final Image usernameTile = new Image(logo);
+       // usernameTile.setSize(150,75);
+        //usernameTile.setPosition(Gdx.graphics.getWidth()/2f - usernameTile.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - usernameTile.getHeight()/2f);
 
+        //Initializing sprites as buttons
+        final Button redTubby = new Button(new TextureRegionDrawable(new TextureRegion(rodTubby)));
+        redTubby.setSize(50, 70);
+        redTubby.setPosition(Gdx.graphics.getWidth()/8f*2f - redTubby.getWidth() , Gdx.graphics.getHeight() /24f*7f - redTubby.getHeight() / 2f);
+        //Add click effect
+        redTubby.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+            }
+        });
+
+        final Button purpleTubby = new Button(new TextureRegionDrawable(new TextureRegion(lillaTubby)));
+        purpleTubby.setSize(50, 70);
+        purpleTubby.setPosition(Gdx.graphics.getWidth()/8f*3f - purpleTubby.getWidth() , Gdx.graphics.getHeight() /24f*7f - purpleTubby.getHeight() / 2f);
+        //Add click effect
+        purpleTubby.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+            }
+        });
+
+        final Button yellowTubby = new Button(new TextureRegionDrawable(new TextureRegion(gulTubby)));
+        yellowTubby.setSize(50, 70);
+        yellowTubby.setPosition(Gdx.graphics.getWidth()/16f*11f - yellowTubby.getWidth() , Gdx.graphics.getHeight() /24f*7f - yellowTubby.getHeight() / 2f);
+        //Add click effect
+        yellowTubby.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+            }
+        });
+
+        final Button greenTubby = new Button(new TextureRegionDrawable(new TextureRegion(gronnTubby)));
+        greenTubby.setSize(50, 70);
+        greenTubby.setPosition(Gdx.graphics.getWidth()/16f*13f - greenTubby.getWidth() , Gdx.graphics.getHeight() /24f*7f - greenTubby.getHeight() / 2f);
+        //Add click effect
+        greenTubby.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+            }
+        });
 
         //Making style for TextField
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
@@ -84,31 +146,39 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
 
         //Placing textFields for username input
         user1Input = new TextField("", style);
-        user1Input.setPosition(Gdx.graphics.getWidth() / 7f*4f- user1Input.getWidth()/5f*2f, Gdx.graphics.getHeight()/8f*5f - user1Input.getHeight()/2 );
+        user1Input.setPosition(Gdx.graphics.getWidth() /50f*11f- user1Input.getWidth()/5f*2f, Gdx.graphics.getHeight()/8f*5f - user1Input.getHeight()/2 );
         user1Input.setSize(150, 20);
 
 
         user2Input = new TextField("", style);
-        user2Input.setPosition(Gdx.graphics.getWidth() / 7f*4f - user2Input.getWidth()/5f*2f, Gdx.graphics.getHeight()/2f - user1Input.getHeight()/2);
+        user2Input.setPosition(Gdx.graphics.getWidth() / 100f*73f - user2Input.getWidth()/5f*2f, Gdx.graphics.getHeight()/8f*5f - user1Input.getHeight()/2);
         user2Input.setSize(150, 20);
 
 
         //Placing text
-        user1Text = new Label("Player 1 username:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        user1Text.setPosition(Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight()/8f*5f- user1Text.getHeight()/2);
+        user1Text = new Label("Player 1:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        user1Text.setPosition(Gdx.graphics.getWidth() / 11f- user1Text.getWidth()/2, Gdx.graphics.getHeight()/8f*5f- user1Text.getHeight()/2);
 
-        user2Text  = new Label("Player 2 username:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        user2Text .setPosition(Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() /2f - user2Text.getHeight()/2);
+        user2Text  = new Label("Player 2:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        user2Text .setPosition(Gdx.graphics.getWidth() / 5f*3f- user2Text.getWidth()/2, Gdx.graphics.getHeight() /8f*5f - user2Text.getHeight()/2);
 
         informationText = new Label("Write usernames without æ, ø, å or ' ', then press the button",
                 new Label.LabelStyle(new BitmapFont(), Color.PINK));
-        informationText.setPosition(Gdx.graphics.getWidth() / 2f - informationText.getWidth()/2 , Gdx.graphics.getHeight() / 8f*5f);
+        informationText.setPosition(Gdx.graphics.getWidth() / 2f - informationText.getWidth()/2 , Gdx.graphics.getHeight() / 8f*6f);
+
+
+        //Info text for choosing character
+        leftText = new Label("Choose character:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        leftText.setPosition(Gdx.graphics.getWidth() / 11f- leftText.getWidth()/4, Gdx.graphics.getHeight()/8f*4f- leftText.getHeight()/2);
+
+        rightText = new Label("Choose character:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        rightText .setPosition(Gdx.graphics.getWidth() / 5f*3f- rightText.getWidth()/4, Gdx.graphics.getHeight() /8f*4f - rightText.getHeight()/2);
 
 
         //Initialiserer button to get GameScreen
         final Button gameButton = new Button(new TextureRegionDrawable(new TextureRegion(playB)));
         gameButton.setSize(100, 50);
-        gameButton.setPosition(Gdx.graphics.getWidth() / 2f - gameButton.getWidth() / 2f , Gdx.graphics.getHeight() / 3f - gameButton.getHeight() / 2f);
+        gameButton.setPosition(Gdx.graphics.getWidth() / 2f - gameButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f - gameButton.getHeight() / 2f);
 
         gameButton.addListener(new ClickListener() {
             @Override
@@ -121,12 +191,18 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
         });
 
         //Add actors
-        stage.addActor(usernameTile);
+        //stage.addActor(usernameTile);
         stage.addActor(user1Input);
         stage.addActor(user2Input);
         stage.addActor(user1Text);
         stage.addActor(user2Text);
+        stage.addActor(leftText);
+        stage.addActor(rightText);
         stage.addActor(gameButton);
+        stage.addActor(yellowTubby);
+        stage.addActor(greenTubby);
+        stage.addActor(redTubby);
+        stage.addActor(purpleTubby);
     }
 
     //Checks if username is correctly written
@@ -168,8 +244,8 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
     public void draw(){
         game.getBatch().begin(); // Draw elements to Sprite Batch
         game.getBatch().draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
-        game.getBatch().draw(textField1, Gdx.graphics.getWidth() / 6f*3f, Gdx.graphics.getHeight()/8f*5f - textField1.getHeight()/3f, 150,20); //Draws logo
-        game.getBatch().draw(textField2, Gdx.graphics.getWidth() / 6f*3f, Gdx.graphics.getHeight()/2f - textField2.getHeight()/3f, 150,20); //Draws logo
+        game.getBatch().draw(textField1, Gdx.graphics.getWidth() / 14f*2f, Gdx.graphics.getHeight()/8f*5f - textField1.getHeight()/3f, 150,20); //Draws logo
+        game.getBatch().draw(textField2, Gdx.graphics.getWidth() / 20f*13f, Gdx.graphics.getHeight()/8f*5f - textField2.getHeight()/3f, 150,20); //Draws logo
         game.getBatch().end();
 
         stage.draw();
