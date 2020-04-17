@@ -71,16 +71,16 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
         final Image logo = new Image(title);
         logo.setSize(150,75);
-        logo.setPosition(Gdx.graphics.getWidth()/2 - logo.getWidth()/2, Gdx.graphics.getHeight()/8*7 - logo.getHeight()/2);
+        logo.setPosition(Gdx.graphics.getWidth()/2f - logo.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - logo.getHeight()/2f);
 
 
         //Initialize text labels, musicText and soundsText
 
         final Label musicText = new Label("Music:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        musicText.setPosition(Gdx.graphics.getWidth() / 8*2, Gdx.graphics.getHeight() / 9*5);
+        musicText.setPosition(Gdx.graphics.getWidth() / 8f*2f, Gdx.graphics.getHeight() / 9f*5f);
 
         final Label soundsText = new Label("Sound effects:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        soundsText.setPosition(Gdx.graphics.getWidth() / 8*2, Gdx.graphics.getHeight() / 9*3);
+        soundsText.setPosition(Gdx.graphics.getWidth() / 8f*2f, Gdx.graphics.getHeight() / 9f*3f);
 
 
         //Initialize musicButton
@@ -90,7 +90,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         musicButton.setSize(50, 50);
         musicButton.setOrigin(50, 50);
         musicButton.setChecked(game.musicStateManager.getMuteMusicState());
-        musicButton.setPosition(Gdx.graphics.getWidth() / 13*4, Gdx.graphics.getHeight() / 9*5- musicButton.getHeight() / 3);
+        musicButton.setPosition(Gdx.graphics.getWidth() / 13f*4f, Gdx.graphics.getHeight() / 9f*5f- musicButton.getHeight() / 3f);
         //Add click effect
         musicButton.addListener(new ClickListener() {
             @Override
@@ -123,7 +123,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         soundEffectButton.setSize(50, 50);
         soundEffectButton.setOrigin(50, 50);
         soundEffectButton.setChecked(game.soundStateManager.getMuteSoundState());
-        soundEffectButton.setPosition(Gdx.graphics.getWidth() / 8*3, Gdx.graphics.getHeight() / 9*3 - soundEffectButton.getHeight() / 3);
+        soundEffectButton.setPosition(Gdx.graphics.getWidth() / 8f*3f, Gdx.graphics.getHeight() / 9f*3f - soundEffectButton.getHeight() / 3f);
         //Add click effect
         soundEffectButton.addListener(new ClickListener() {
                 @Override
@@ -154,7 +154,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
         final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeGame)), new TextureRegionDrawable(new TextureRegion(resumeGame)));
         resumeButton.setSize(100, 50);
-        resumeButton.setPosition(Gdx.graphics.getWidth() / 6*5 - resumeButton.getWidth() / 2, Gdx.graphics.getHeight() / 6 - resumeButton.getHeight() / 2);
+        resumeButton.setPosition(Gdx.graphics.getWidth() / 6f*5f - resumeButton.getWidth() / 2f, Gdx.graphics.getHeight() / 6f - resumeButton.getHeight() / 2f);
         //Add click effect
         resumeButton.addListener(new ClickListener() {
                 @Override
@@ -169,7 +169,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
         final Button backButton = new Button(new TextureRegionDrawable(new TextureRegion(quitGame)), new TextureRegionDrawable(new TextureRegion(quitGame)));
         backButton.setSize(100, 50);
-        backButton.setPosition(Gdx.graphics.getWidth() / 6 - backButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - backButton.getHeight() / 2);
+        backButton.setPosition(Gdx.graphics.getWidth() / 6f - backButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - backButton.getHeight() / 2f);
         //Add click effect
         backButton.addListener(new ClickListener() {
                 @Override
