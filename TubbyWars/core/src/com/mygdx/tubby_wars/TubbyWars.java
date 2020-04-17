@@ -2,6 +2,7 @@ package com.mygdx.tubby_wars;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,10 +10,6 @@ import com.mygdx.tubby_wars.backend.IBackend;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.MusicStateManager;
 import com.mygdx.tubby_wars.view.LoadingScreen;
-import com.badlogic.gdx.audio.Music;
-import com.mygdx.tubby_wars.view.MenuScreen;
-import com.mygdx.tubby_wars.view.SettingScreen;
-import com.mygdx.tubby_wars.view.ShopScreen;
 
 public class TubbyWars extends Game {
 
@@ -33,9 +30,9 @@ public class TubbyWars extends Game {
 			this.engine = new Engine();
 			this.IBack=IBack;
 
-
+			//Hvis vi prøver å kjøre disse linjene, så kræsjer koden
 			this.IBack.Connect();
-			this.IBack.printPlayers();
+			//this.IBack.printPlayers();
 
 
 	}
