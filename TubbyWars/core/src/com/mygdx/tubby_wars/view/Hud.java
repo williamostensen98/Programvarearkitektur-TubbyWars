@@ -17,6 +17,8 @@ import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.components.CourseComponent;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
+import java.util.List;
+
 
 /**
  * NB!! HAR LAGT INN ET FORSLAG PÅ HVORDAN VI KAN ACCESSE COMPONENTS FOR Å SE HEALTH, SCORE ETC.
@@ -33,19 +35,22 @@ public class Hud implements Disposable {
     // Scene2D widgets
     private Label playerOneName;
     private Label playerTwoName;
-    private Label playerOneScore;
-    private Label playerTwoScore;
+    private Label playerOneScoreLabel;
+    private Label playerTwoScoreLabel;
 
-/*
-    private ComponentMapper<CourseComponent> cm;
+    // ASHLEY
     private ComponentMapper<PlayerComponent> pm;
-    private Entity playerOne;
-    private Entity playerTwo;
-*/
+    private List<Entity> players;
+
+    // SCORE
+    private int playerOneScore, playerTwoScore;
+
 
     // if switching to use componentmapper and entity for finding player score, add courseEntity next to the spritebatch
-    public Hud(SpriteBatch sb){
+    public Hud(SpriteBatch sb, List<Entity> players){
 
+        this.players = players;
+        pm = ComponentMapper.getFor(PlayerComponent.class);
 
         viewport = new FitViewport(TubbyWars.WIDTH, TubbyWars.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
@@ -57,35 +62,23 @@ public class Hud implements Disposable {
         //make the table fill the entire stage
         table.setFillParent(true);
 
-
-        /*
-
-        // GETS HOLD OF EACH COURSE
-        cm = ComponentMapper.getFor(CourseComponent.class);
-        // FOR EACH COURSE, THIS WILL GRAB THE CORRESPONDING PLAYERS
-        pm = ComponentMapper.getFor(PlayerComponent.class);
-
-        playerOne = cm.get(courseEntity).playerOne;
-        playerTwo = cm.get(courseEntity).playerTwo;
-
-        // when we want to access attributes in playerComponenet, such as score for instance
-        // pm.get(playerOne).score
+        playerOneScore = pm.get(players.get(0)).score;
+        playerTwoScore = pm.get(players.get(1)).score;
 
 
-         */
 
         // if we want more or different labels, feel free to change.
 
-        playerOneName = new Label("Player 1", new Label.LabelStyle(new BitmapFont(), Color.RED));
-        playerTwoName = new Label("Player 2", new Label.LabelStyle(new BitmapFont(), Color.RED));
-        playerOneScore = new Label("1337", new Label.LabelStyle(new BitmapFont(), Color.RED));
-        playerTwoScore = new Label("69", new Label.LabelStyle(new BitmapFont(), Color.RED));
+        playerOneName = new Label(pm.get(players.get(0)).playerName, new Label.LabelStyle(new BitmapFont(), Color.RED));
+        playerTwoName = new Label(pm.get(players.get(1)).playerName, new Label.LabelStyle(new BitmapFont(), Color.RED));
+        playerOneScoreLabel = new Label(String.valueOf(playerOneScore), new Label.LabelStyle(new BitmapFont(), Color.RED));
+        playerTwoScoreLabel = new Label(String.valueOf(playerTwoScore), new Label.LabelStyle(new BitmapFont(), Color.RED));
 
         table.add(playerOneName).expandX().padTop(10);
         table.add(playerTwoName).expandX().padTop(10);
         table.row();
-        table.add(playerOneScore).expandX();
-        table.add(playerTwoScore).expandX();
+        table.add(playerOneScoreLabel).expandX();
+        table.add(playerTwoScoreLabel).expandX();
 
         stage.addActor(table);
 
@@ -95,6 +88,13 @@ public class Hud implements Disposable {
     public void update(float dt){
         // update score here, i would like to do that through componentmapper, but think we should wait until more of the project is complete.
         // - yours truly Håkon <3
+        if(pm.get(players.get(0)).score != playerOneScore || pm.get(players.get(1)).score != playerTwoScore){
+            playerOneScore = pm.get(players.get(0)).score;
+            playerTwoScore = pm.get(players.get(1)).score;
+
+            playerOneScoreLabel.setText(playerOneScore);
+            playerTwoScoreLabel.setText(playerTwoScore);
+        }
     }
 
 

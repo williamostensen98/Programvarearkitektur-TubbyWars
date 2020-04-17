@@ -1,5 +1,7 @@
 package com.mygdx.tubby_wars.view;
 
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -18,10 +20,14 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.controller.CourseSystem;
 import com.mygdx.tubby_wars.controller.InputProcessor;
 import com.mygdx.tubby_wars.controller.Physics;
+import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.B2WorldCreator;
 import com.mygdx.tubby_wars.model.ControllerLogic;
+
+import java.util.List;
 
 
 public class PlayScreen implements Screen {
@@ -57,8 +63,26 @@ public class PlayScreen implements Screen {
     public float position_player1, position_player2;
 
 
+
+    // ASHLEY, MIGHT WANT TO MOVE THE CREATION OF THIS TO THE USERNAME SCREEN
+
+    // the engine keeps track of the entities and manages the entity systems
+    private Engine engine;
+    // World.java in model, used to create players and course.
+    private com.mygdx.tubby_wars.model.World ashleyWorld;
+
+    private List<Entity> players;
+    private Entity courseEntity;
+    private PlayerSystem playerSystem;
+
+
     public PlayScreen(TubbyWars game) {
         this.game = game;
+
+        // RUNS ALL THE ASHLEY STUFF, THIS COULD BE MOVED TO USERNAME SCREEN
+        setupAshley();
+
+
         gameCam = new OrthographicCamera(TubbyWars.V_WIDTH, TubbyWars.V_HEIGHT);
         viewPort = new StretchViewport(TubbyWars.V_WIDTH, TubbyWars.V_HEIGHT, gameCam);
         viewPort.apply();
@@ -90,14 +114,38 @@ public class PlayScreen implements Screen {
 
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
         // ADDS THE PLAYERS
-        player1 = new Player(world, game,viewPort.getWorldWidth() / 2 , 0.64f, false);
-        player2 = new Player(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 - 2, 0.64f, true);
+        player1 = new Player(world, game,viewPort.getWorldWidth() / 2 , 0.64f, false, players.get(0));
+        player2 = new Player(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 - 2, 0.64f, true, players.get(1));
         physics.setPlayer(player1);
         // LOADS THE PACK FILE WITH INTO AN ATLAS WHERE ALL THE CHARACTER SPRITES ARE
 
-        hud = new Hud(game.batch);
+        hud = new Hud(game.batch, players);
+
+
+
 
     }
+
+    public void setupAshley(){
+        engine = new Engine();
+        ashleyWorld = new com.mygdx.tubby_wars.model.World(engine);
+
+        // ADDS SYSTEMS TO THE ENGINE
+        engine.addSystem(new PlayerSystem());
+        engine.addSystem(new CourseSystem());
+
+        // CREATE PLAYERS AND COURSE
+        players = ashleyWorld.createPlayers();
+        courseEntity = ashleyWorld.createCourse();
+
+        // CONNECT PLAYERS TO THE COURSE, (NOT CRUCIAL ATM)
+        engine.getSystem(CourseSystem.class).addPlayers(courseEntity, players);
+
+        // if we want to use functions from playerSystem, use the following
+        // playerSystem.thefunction(players.get(0)), 0 for player 1 and 1 for player 2
+        playerSystem = engine.getSystem(PlayerSystem.class);
+    }
+
 
     public void setGameCamPosition(){
         if(ControllerLogic.isPlayersTurn){

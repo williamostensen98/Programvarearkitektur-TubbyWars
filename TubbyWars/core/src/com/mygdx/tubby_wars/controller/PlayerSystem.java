@@ -26,6 +26,13 @@ public class PlayerSystem extends IteratingSystem {
     }
 
 
+    public void setUsername(Entity playerEntity, String username){
+        pm.get(playerEntity).playerName = username;
+    }
+
+    public void setScore(Entity playerEntity, int score){
+        pm.get(playerEntity).score = score;
+    }
 
 
     public void setHealth(Entity playerEntity, int health){
