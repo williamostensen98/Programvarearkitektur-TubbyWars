@@ -31,9 +31,6 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     private Engine engine;
     private Stage stage;
 
-    //Music
-    private boolean soundEffectsIsMute = false;
-
     //Textures for title of page and the background
     private Texture title;
     private Texture background;
@@ -45,21 +42,15 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     private Texture soundOnB; //Used for both music and sounds
     private Texture soundOffB; //Used for both music and sounds
 
+    // Click effect
     private Sound click;
-
-    //private Image title;
-    private Label musicText;
-    private Label soundsText;
-
-    //private Vector3 pos1;
-    private Vector3 pos2;
 
     public SettingScreen(TubbyWars game, Engine engine) {
         super();
         this.game = game;
         this.engine = engine;
 
-        background = Assets.getTexture(Assets.mainBackground);
+        background = Assets.getTexture(Assets.settingsBackground);
         title = Assets.getTexture(Assets.settingsTitle);
         resumeGameB = Assets.getTexture(Assets.resumeGameButton);
         quitGameB = Assets.getTexture(Assets.quitGameButton);
@@ -84,19 +75,35 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         soundsText.setPosition(pos2.x / 3, pos2.y * 4 / 7);
 
         stage = new Stage(new ScreenViewport());
-        stage.addActor(musicText);
-        stage.addActor(soundsText);
-
         Gdx.input.setInputProcessor(stage);
 
+        //Initialize title image, logo
+
+        final Image logo = new Image(title);
+        logo.setSize(150,75);
+        logo.setPosition(Gdx.graphics.getWidth()/2f - logo.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - logo.getHeight()/2f);
+
+
+        //Initialize text labels, musicText and soundsText
+
+        final Label musicText = new Label("Music:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        musicText.setPosition(Gdx.graphics.getWidth() / 8f*2f, Gdx.graphics.getHeight() / 9f*5f);
+
+        final Label soundsText = new Label("Sound effects:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        soundsText.setPosition(Gdx.graphics.getWidth() / 8f*2f, Gdx.graphics.getHeight() / 9f*3f);
+
+
+        //Initialize musicButton
+
+        final Button musicButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOff)));
         //Initialiserer musicButton
         final Button musicButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOffB)));
         musicButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         musicButton.setSize(50, 50);
         musicButton.setOrigin(50, 50);
         musicButton.setChecked(game.musicStateManager.getMuteMusicState());
-        musicButton.setPosition(pos2.x*3/ 6, pos2.y * 2 / 3 - musicButton.getHeight() / 3);
-
+        musicButton.setPosition(Gdx.graphics.getWidth() / 13f*4f, Gdx.graphics.getHeight() / 9f*5f- musicButton.getHeight() / 3f);
+        //Add click effect
         musicButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
@@ -107,71 +114,73 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
                     game.unmuteMusic(game.getBackgroundMusic());
                 }
             }
-
-            //Kjøres når knappen trykkes ned
+            //Runs when the button is pressed down
             @Override
             public boolean touchDown(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
                 musicButton.addAction(Actions.scaleTo(0.96f, 0.96f, 0.2f)); //Minker størrelsen på knappen når den trykkes
                 return super.touchDown(inputEvent, 100, 100, pointer, button);
             }
-
-            //Kjører når knappen slippes opp
+            //Runs when the button is not pressed down
             public void touchUp(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
                 super.touchUp(inputEvent, 100, 100, pointer, button);
                 musicButton.addAction(Actions.scaleTo(1f, 1f, 0.2f)); //Setter størrelsen på knappen tilbake til original størrelse
             }
         });
 
-        stage.addActor(musicButton);
 
+        //Initialize soundEffectButton
+
+        final Button soundEffectButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOff)));
         //Initialiserer soundEffectButton
         final Button soundEffectButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOffB)));
         soundEffectButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         soundEffectButton.setSize(50, 50);
         soundEffectButton.setOrigin(50, 50);
         soundEffectButton.setChecked(game.soundStateManager.getMuteSoundState());
-        soundEffectButton.setPosition(pos2.x* 4/ 6, pos2.y * 4 / 7 - soundEffectButton.getHeight() / 3);
-
+        soundEffectButton.setPosition(Gdx.graphics.getWidth() / 8f*3f, Gdx.graphics.getHeight() / 9f*3f - soundEffectButton.getHeight() / 3f);
+        //Add click effect
         soundEffectButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                if (game.soundStateManager.getMuteSoundState()) {
-                    game.soundStateManager.unmuteSound();
-                    game.playSound(click);
+                @Override
+                public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                    if (game.soundStateManager.getMuteSoundState()) {
+                        game.soundStateManager.unmuteSound();
+                        game.playSound(click);
+                    }
+                    else {
+                        game.soundStateManager.muteSound();
+                    }
                 }
-                else {
-                    game.soundStateManager.muteSound();
+                //Runs when the button is pressed down
+                @Override
+                public boolean touchDown(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
+                    soundEffectButton.addAction(Actions.scaleTo(0.96f, 0.96f, 0.2f)); //Minker størrelsen på knappen når den trykkes
+                    return super.touchDown(inputEvent, 100, 100, pointer, button);
                 }
-            }
+                //Runs when the button is not pressed down
+                public void touchUp(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
+                    super.touchUp(inputEvent, 100, 100, pointer, button);
+                    soundEffectButton.addAction(Actions.scaleTo(1f, 1f, 0.2f)); //Setter størrelsen på knappen tilbake til original størrelse
+                }
+            });
 
-            //Kjøres når knappen trykkes ned
-            @Override
-            public boolean touchDown(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
-                soundEffectButton.addAction(Actions.scaleTo(0.96f, 0.96f, 0.2f)); //Minker størrelsen på knappen når den trykkes
-                return super.touchDown(inputEvent, 100, 100, pointer, button);
-            }
-
-            //Kjører når knappen slippes opp
-            public void touchUp(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
-                super.touchUp(inputEvent, 100, 100, pointer, button);
-                soundEffectButton.addAction(Actions.scaleTo(1f, 1f, 0.2f)); //Setter størrelsen på knappen tilbake til original størrelse
-            }
-        });
-        stage.addActor(soundEffectButton);
 
         //Initialiserer resumeButton TODO: Denne er ikke med i modellen vår i Achitecture dokumentet, Only visible when ControllerLogic.loggedIn = true;
         final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeGameB)), new TextureRegionDrawable(new TextureRegion(resumeGameB)));
 
         resumeButton.setSize(50, 50);
         resumeButton.setPosition(pos2.x *10/ 6 , pos2.y/8);
+        //Initialize resumeButton TODO: Denne er ikke med i modellen vår i Achitecture dokumentet
+
+        final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeGame)), new TextureRegionDrawable(new TextureRegion(resumeGame)));
+        resumeButton.setSize(100, 50);
+        resumeButton.setPosition(Gdx.graphics.getWidth() / 6f*5f - resumeButton.getWidth() / 2f, Gdx.graphics.getHeight() / 6f - resumeButton.getHeight() / 2f);
+        //Add click effect
         resumeButton.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                game.setScreen(new GameScreen(game, engine));
-            }
-
+                @Override
+                public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                    game.playSound(click);
+                    game.setScreen(new GameScreen(game, engine));
+                }
         });
 
         //Initialiserer quit button, going back to settings TODO: Only visible when ControllerLogic.loggedIn = true;
@@ -199,6 +208,18 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
                 game.playSound(click);
                 game.setScreen(new MenuScreen(game, engine));
             }
+        //Initialize backButton, going back to menu
+
+        final Button backButton = new Button(new TextureRegionDrawable(new TextureRegion(quitGame)), new TextureRegionDrawable(new TextureRegion(quitGame)));
+        backButton.setSize(100, 50);
+        backButton.setPosition(Gdx.graphics.getWidth() / 6f - backButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - backButton.getHeight() / 2f);
+        //Add click effect
+        backButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                    game.playSound(click);
+                    game.setScreen(new MenuScreen(game, engine));
+                }
         });
 
         if (ControllerLogic.loggedIn) {
@@ -208,6 +229,15 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         else {
             stage.addActor(menuButton);
         }
+
+        // Add all objects to the stage
+        stage.addActor(logo);
+        stage.addActor(musicText);
+        stage.addActor(soundsText);
+        stage.addActor(musicButton);
+        stage.addActor(soundEffectButton);
+        stage.addActor(resumeButton);
+        stage.addActor(backButton);
     }
 
     @Override
@@ -219,7 +249,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     public void draw() {
         game.getBatch().begin(); // Draw elements to Sprite Batch
         game.getBatch().draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
-        game.getBatch().draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
+        //game.getBatch().draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
         game.getBatch().end();
 
         stage.draw();

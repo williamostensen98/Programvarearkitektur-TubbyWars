@@ -7,30 +7,31 @@ import com.badlogic.gdx.audio.Sound;
 
 public class Assets {
     //Backgrounds
-    public static String mainBackground = "textures/background.jpg"; //Background used outside gameplay
-    public static String gameBackground = "textures/background.jpg"; //Background used in gameplay TODO: Legg inn her og bruk
+    public static String mainBackground = "textures/background.png"; //Background used outside gameplay
+    public static String settingsBackground = "textures/settingsBackground.png"; //Background used outside gameplay
+    public static String gameBackground = "textures/background.png"; //Background used in gameplay TODO: Legg inn her og bruk
 
     //TextField
     public static String textFieldBackground = "textures/textfield.png"; //Used to make TextField visible
 
     //Screen Buttons TODO: Make for all screens
     public static String playButton = "textures/play.png"; //Go to Game screen
-    public static String newGameButton = "textures/play.png"; //Go to Game screen
-    public static String highScoreButton = "textures/ButtonHighscore.png"; //Go to HighScore screen
-    public static String menuScreenButton = "textures/ButtonStart.png"; //Go to Menu screen
-    public static String shopScreenButton = "textures/shop.png";
-    public static String settingsButton = "textures/ButtonStart.png"; //Go to Settings screen
+    public static String newGameButton = "textures/resumeButton.png"; // Resume toGame screen
+    public static String highScoreButton = "textures/highscoreButton.png"; //Go to HighScore screen
+    public static String menuScreenButton = "textures/backButton.png"; //Go to Menu screen
+    public static String shopScreenButton = "textures/shopButton.png";
+    public static String settingsButton = "textures/settingsButton.png"; //Go to Settings screen
 
     //Navigation buttons
     public static String backButton = "textures/back.png"; //Go back to former screen
-    public static String resumeGameButton = "textures/play.png"; //Used in SettingsScreen for continuing to play game
-    public static String quitGameButton = "textures/back.png"; //Used in SettingsScreen for continuing to quit game (go to menu)
+    public static String resumeGameButton = "textures/playGameButton.png"; //Used in SettingsScreen for continuing to play game
+    public static String quitGameButton = "textures/backButton.png"; //Used in SettingsScreen for continuing to quit game (go to menu)
 
     //Sound buttons
     public static String soundOnButton = "textures/soundOn.png";
     public static String soundOffButton = "textures/soundOff.png";
 
-    //Text titles for pages TODO: Make desings
+    //Text titles for pages
     public static String logo = "textures/Logo.png"; //Logo for game
     public static String settingsTitle =  "textures/settings.png"; //Title for settings page
     public static String shopTitle =  "textures/shop.png"; //Title for shop page
@@ -67,6 +68,7 @@ public class Assets {
     public static void load(){
         //Backgrounds
         assetManager.load(mainBackground, Texture.class);
+        assetManager.load(settingsBackground, Texture.class);
         assetManager.load(gameBackground, Texture.class);
 
         //TextField
