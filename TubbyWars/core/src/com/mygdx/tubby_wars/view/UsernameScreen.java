@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -69,53 +70,62 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
+        // Initialize title logo
+        final Image usernameTile = new Image(logo);
+        usernameTile.setSize(150,75);
+        usernameTile.setPosition(Gdx.graphics.getWidth()/2f - usernameTile.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - usernameTile.getHeight()/2f);
+
+
         //Making style for TextField
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.font = new BitmapFont();
         style.fontColor = Color.BLACK;
         //TODO: Size text-field
 
-        //Placing textFields for username input TODO: Place better
+        //Placing textFields for username input
         user1Input = new TextField("", style);
-        user1Input.setPosition(Gdx.graphics.getWidth() / 3f , Gdx.graphics.getHeight() / 3f);
-        user1Input.setSize(300, 100);
-        stage.addActor(user1Input);
+        user1Input.setPosition(Gdx.graphics.getWidth() / 7f*4f- user1Input.getWidth()/5f*2f, Gdx.graphics.getHeight()/8f*5f - user1Input.getHeight()/2 );
+        user1Input.setSize(150, 20);
+
 
         user2Input = new TextField("", style);
-        user2Input.setPosition(Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 4f);
-        user2Input.setSize(300, 100);
-        stage.addActor(user2Input);
+        user2Input.setPosition(Gdx.graphics.getWidth() / 7f*4f - user2Input.getWidth()/5f*2f, Gdx.graphics.getHeight()/2f - user1Input.getHeight()/2);
+        user2Input.setSize(150, 20);
+
 
         //Placing text
         user1Text = new Label("Player 1 username:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        user1Text.setPosition(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight()/3f);
+        user1Text.setPosition(Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight()/8f*5f- user1Text.getHeight()/2);
 
         user2Text  = new Label("Player 2 username:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        user2Text .setPosition(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 4f);
+        user2Text .setPosition(Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() /2f - user2Text.getHeight()/2);
 
         informationText = new Label("Write usernames without æ, ø, å or ' ', then press the button",
-                new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        informationText .setPosition(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 2f);
+                new Label.LabelStyle(new BitmapFont(), Color.PINK));
+        informationText.setPosition(Gdx.graphics.getWidth() / 2f - informationText.getWidth()/2 , Gdx.graphics.getHeight() / 8f*5f);
 
-        stage.addActor(user1Text);
-        stage.addActor(user2Text);
 
         //Initialiserer button to get GameScreen
         final Button gameButton = new Button(new TextureRegionDrawable(new TextureRegion(playB)));
-        gameButton.setSize(60, 60);
-        gameButton.setPosition(Gdx.graphics.getWidth() / 2f - gameButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - gameButton.getHeight() / 2f);
+        gameButton.setSize(100, 50);
+        gameButton.setPosition(Gdx.graphics.getWidth() / 2f - gameButton.getWidth() / 2f , Gdx.graphics.getHeight() / 3f - gameButton.getHeight() / 2f);
 
         gameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 //Adds sound
                 game.playSound(click);
-
                 usernameCheck();
             }
 
         });
 
+        //Add actors
+        stage.addActor(usernameTile);
+        stage.addActor(user1Input);
+        stage.addActor(user2Input);
+        stage.addActor(user1Text);
+        stage.addActor(user2Text);
         stage.addActor(gameButton);
     }
 
@@ -158,10 +168,8 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface{
     public void draw(){
         game.getBatch().begin(); // Draw elements to Sprite Batch
         game.getBatch().draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
-        game.getBatch().draw(logo, Gdx.graphics.getWidth()/2f,
-                Gdx.graphics.getHeight()/2f, 200,50); //Draws logo
-        game.getBatch().draw(textField1, Gdx.graphics.getWidth() / 3f , Gdx.graphics.getHeight() / 3f, 300,100); //Draws logo
-        game.getBatch().draw(textField2, Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 4f, 300,100); //Draws logo
+        game.getBatch().draw(textField1, Gdx.graphics.getWidth() / 6f*3f, Gdx.graphics.getHeight()/8f*5f - textField1.getHeight()/3f, 150,20); //Draws logo
+        game.getBatch().draw(textField2, Gdx.graphics.getWidth() / 6f*3f, Gdx.graphics.getHeight()/2f - textField2.getHeight()/3f, 150,20); //Draws logo
         game.getBatch().end();
 
         stage.draw();
