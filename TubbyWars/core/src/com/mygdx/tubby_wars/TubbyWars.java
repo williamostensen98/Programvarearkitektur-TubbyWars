@@ -32,7 +32,7 @@ public class TubbyWars extends Game {
 
 			//Hvis vi prøver å kjøre disse linjene, så kræsjer koden
 			this.IBack.Connect();
-			//this.IBack.printPlayers();
+			this.IBack.printPlayers();
 
 
 	}
