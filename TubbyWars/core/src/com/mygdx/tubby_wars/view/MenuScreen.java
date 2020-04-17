@@ -26,7 +26,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     private TubbyWars game;
     private Engine engine;
 
-    //Initializing the textures
+    //Initialize textures
     private Texture logo;
     private Texture background;
     private Texture playB;
@@ -34,11 +34,10 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     private Texture settingsB;
     private Texture shopB;
 
-    //Initiializing the background music and sound effects
+    //Initialize  background music and sound effects
     private Music music;
     private Sound click;
 
-    private Sprite sprite;
     private SpriteBatch sb;
     private Stage stage;
 
@@ -69,10 +68,10 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
         Gdx.input.setInputProcessor(stage);
 
-        //Initialiserer button to get GameScreen
+        //Initialize button to get GameScreen
         final Button gameButton = new Button(new TextureRegionDrawable(new TextureRegion(playB)));
-        gameButton.setSize(60, 60);
-        gameButton.setPosition(Gdx.graphics.getWidth() / 2 - gameButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - gameButton.getHeight() / 2);
+        gameButton.setSize(100, 39);
+        gameButton.setPosition(Gdx.graphics.getWidth() / 2f - gameButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - gameButton.getHeight() / 2f);
 
         gameButton.addListener(new ClickListener() {
             @Override
@@ -83,10 +82,10 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
         });
 
-        //Initialiserer button to get to SettingsScreen
+        //Initialize button to get to SettingsScreen
         final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
-        settingsButton.setSize(60, 60);
-        settingsButton.setPosition(Gdx.graphics.getWidth()/4 - settingsButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - settingsButton.getHeight() / 2);
+        settingsButton.setSize(100, 39);
+        settingsButton.setPosition(Gdx.graphics.getWidth()/4f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - settingsButton.getHeight() / 2f);
 
         settingsButton.addListener(new ClickListener() {
             @Override
@@ -96,10 +95,10 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
             }
         });
 
-        //Initialiserer button to get to HighScoreScreen
+        //Initialize button to get to HighScoreScreen
         final Button highScoreButton = new Button(new TextureRegionDrawable(new TextureRegion(highScoreB)));
-        highScoreButton.setSize(60, 60);
-        highScoreButton.setPosition(Gdx.graphics.getWidth() - 210 - highScoreButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - highScoreButton.getHeight() / 2);
+        highScoreButton.setSize(100, 39);
+        highScoreButton.setPosition(Gdx.graphics.getWidth()/4f*3f - highScoreButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - highScoreButton.getHeight() / 2f);
 
         highScoreButton.addListener(new ClickListener() {
             @Override
@@ -109,10 +108,10 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
             }
         });
 
-        //Initialiserer button to get StopScreen TODO:Remove later, for access befoure it is done
+        //Initialize button to get ShopScreen TODO:Remove later, for access befoure it is done
         final Button shopButton = new Button(new TextureRegionDrawable(new TextureRegion(shopB)));
-        shopButton.setSize(60, 60);
-        shopButton.setPosition(Gdx.graphics.getWidth() / 2 - gameButton.getWidth() / 2 , Gdx.graphics.getHeight() / 3 - gameButton.getHeight() / 2);
+        shopButton.setSize(100, 39);
+        shopButton.setPosition(Gdx.graphics.getWidth() /20f*19f - shopButton.getWidth()/2f , Gdx.graphics.getHeight() / 10f*3f - shopButton.getHeight() / 2f);
 
         shopButton.addListener(new ClickListener() {
             @Override
@@ -139,8 +138,8 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     public void draw(){
         sb.begin(); // Draw elements to Sprite Batch
         sb.draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
-        sb.draw(logo, Gdx.graphics.getWidth()/2 - 200,
-                Gdx.graphics.getHeight()/2, 400,100); //Draws logo
+        sb.draw(logo, Gdx.graphics.getWidth()/2f - logo.getWidth()/2f,
+                Gdx.graphics.getHeight()/2f, 300,150); //Draws logo
         sb.end();
 
         stage.draw();
