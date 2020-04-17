@@ -187,7 +187,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
                 game.setScreen(new MenuScreen(game, engine));
             }
         });
-        stage.addActor(backButton);
+        //stage.addActor(backButton);
 
         //TODO: Add "back to Menu screen button" visible when ControllerLogic.loggedIn = false;
     }

@@ -7,8 +7,8 @@ public class ControllerLogic {
     public static boolean hasFired = false;
 
     public static Boolean loggedIn = false; //Used to check if users need to register usernames
-    //public static Boolean startedGame = false; //Used to check if player is in a game when navigating screens
 
+    //TODO: Give information to PlayerComponent
     public static String username1 = "";
     public static String username2 = "";
 
