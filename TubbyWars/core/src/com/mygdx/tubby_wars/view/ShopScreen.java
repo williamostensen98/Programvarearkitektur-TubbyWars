@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.Assets;
 import com.badlogic.gdx.audio.Sound;
+import com.mygdx.tubby_wars.model.ControllerLogic;
 
 public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
@@ -50,6 +51,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         gun = Assets.getTexture(Assets.gunWeapon); // choose gun button
         rifle = Assets.getTexture(Assets.rifleWeapon); // choose rifle button
         revolver = Assets.getTexture(Assets.revolverWeapon); //choose revolver button
+
         click = game.getClickSound();
 
         // one-time operations
@@ -58,6 +60,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void create() {
+
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -94,6 +97,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
+                ControllerLogic.loggedIn = false; //Quits game
                 game.setScreen(new MenuScreen(game, engine));
             }
         });
@@ -121,7 +125,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
                 //game.setScreen(new GameScreen(game, engine));
-                //hva skal sje når vi trykker på knappen?
+                //TODO: hva skal sje når vi trykker på knappen?
             }
         });
 
