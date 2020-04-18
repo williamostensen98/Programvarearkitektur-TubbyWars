@@ -2,11 +2,8 @@ package com.mygdx.tubby_wars.view;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -17,8 +14,7 @@ import com.mygdx.tubby_wars.model.Assets;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.mygdx.tubby_wars.model.MusicStateManager;
+import com.mygdx.tubby_wars.model.ControllerLogic;
 import com.badlogic.gdx.audio.Sound;
 
 public class MenuScreen extends ScreenAdapter implements ScreenInterface {
@@ -38,7 +34,6 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     private Music music;
     private Sound click;
 
-    private SpriteBatch sb;
     private Stage stage;
 
     public MenuScreen(TubbyWars game, Engine engine){
@@ -64,7 +59,6 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
     public void create(){
         stage = new Stage(new ScreenViewport());
-        sb = new SpriteBatch();
 
         Gdx.input.setInputProcessor(stage);
 
@@ -77,7 +71,12 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                game.setScreen(new GameScreen(game, engine));
+                if (ControllerLogic.loggedIn) { //Checks that usernames are saved TODO: Check if can be removed
+                    game.setScreen(new GameScreen(game, engine));
+                }
+                else {
+                    game.setScreen(new UsernameScreen(game, engine));
+                }
             }
 
         });
@@ -136,11 +135,11 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void draw(){
-        sb.begin(); // Draw elements to Sprite Batch
-        sb.draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
-        sb.draw(logo, Gdx.graphics.getWidth()/2f - logo.getWidth()/2f,
+        game.getBatch().begin(); // Draw elements to Sprite Batch
+        game.getBatch().draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        game.getBatch().draw(logo, Gdx.graphics.getWidth()/2f - logo.getWidth()/2f,
                 Gdx.graphics.getHeight()/2f, 300,150); //Draws logo
-        sb.end();
+        game.getBatch().end();
 
         stage.draw();
     }

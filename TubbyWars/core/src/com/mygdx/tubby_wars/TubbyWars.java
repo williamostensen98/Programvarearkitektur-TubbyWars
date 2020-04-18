@@ -48,6 +48,8 @@ public class TubbyWars extends Game {
         super.render();
     }
 
+    public SpriteBatch getBatch() { return batch; }
+
     @Override
     public void dispose() {
         batch.dispose();

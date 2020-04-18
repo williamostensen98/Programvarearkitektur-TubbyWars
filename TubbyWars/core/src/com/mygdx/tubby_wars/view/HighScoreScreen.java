@@ -35,8 +35,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     private Texture newGameB;
 
     private Sound click;
-
-    private SpriteBatch sb;
     private Stage stage;
 
 
@@ -60,7 +58,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        sb = new SpriteBatch();
 
         //Initialize title text image
         final Image title = new Image(titleText);

@@ -4,13 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -22,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.Assets;
+import com.mygdx.tubby_wars.model.ControllerLogic;
 
 
 public class SettingScreen extends ScreenAdapter implements ScreenInterface {
@@ -29,17 +26,17 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     private TubbyWars game;
     private Engine engine;
     private Stage stage;
-    private SpriteBatch sb;
 
     //Textures for title of page and the background
     private Texture title;
     private Texture background;
 
     //Textures for the buttons
-    private Texture resumeGame;
-    private Texture quitGame;
-    private Texture soundOn; //Used for both music and sounds
-    private Texture soundOff; //Used for both music and sounds
+    private Texture resumeGameB;
+    private Texture quitGameB;
+    private Texture menuGameB;
+    private Texture soundOnB; //Used for both music and sounds
+    private Texture soundOffB; //Used for both music and sounds
 
     // Click effect
     private Sound click;
@@ -51,10 +48,11 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
         background = Assets.getTexture(Assets.settingsBackground);
         title = Assets.getTexture(Assets.settingsTitle);
-        resumeGame = Assets.getTexture(Assets.resumeGameButton);
-        quitGame = Assets.getTexture(Assets.quitGameButton);
-        soundOn = Assets.getTexture(Assets.soundOnButton);
-        soundOff = Assets.getTexture(Assets.soundOffButton);
+        resumeGameB = Assets.getTexture(Assets.resumeGameButton);
+        quitGameB = Assets.getTexture(Assets.quitGameButton);
+        menuGameB = Assets.getTexture(Assets.menuScreenButton);
+        soundOnB = Assets.getTexture(Assets.soundOnButton);
+        soundOffB = Assets.getTexture(Assets.soundOffButton);
 
         click = game.getClickSound();
 
@@ -64,18 +62,14 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void create() {
         stage = new Stage(new ScreenViewport());
-        sb = new SpriteBatch();
         Gdx.input.setInputProcessor(stage);
 
         //Initialize title image, logo
-
         final Image logo = new Image(title);
         logo.setSize(150,75);
         logo.setPosition(Gdx.graphics.getWidth()/2f - logo.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - logo.getHeight()/2f);
 
-
         //Initialize text labels, musicText and soundsText
-
         final Label musicText = new Label("Music:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
         musicText.setPosition(Gdx.graphics.getWidth() / 8f*2f, Gdx.graphics.getHeight() / 9f*5f);
 
@@ -84,8 +78,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
 
         //Initialize musicButton
-
-        final Button musicButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOff)));
+        final Button musicButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOffB)));
         musicButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         musicButton.setSize(50, 50);
         musicButton.setOrigin(50, 50);
@@ -117,8 +110,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
 
         //Initialize soundEffectButton
-
-        final Button soundEffectButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOn)), new TextureRegionDrawable(new TextureRegion(soundOff)));
+        final Button soundEffectButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOffB)));
         soundEffectButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
         soundEffectButton.setSize(50, 50);
         soundEffectButton.setOrigin(50, 50);
@@ -150,9 +142,8 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
             });
 
 
-        //Initialize resumeButton TODO: Denne er ikke med i modellen vår i Achitecture dokumentet
-
-        final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeGame)), new TextureRegionDrawable(new TextureRegion(resumeGame)));
+        //Initialiserer resumeButton TODO: Denne er ikke med i modellen vår i Achitecture dokumentet, Only visible when ControllerLogic.loggedIn = true;
+        final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeGameB)), new TextureRegionDrawable(new TextureRegion(resumeGameB)));
         resumeButton.setSize(100, 50);
         resumeButton.setPosition(Gdx.graphics.getWidth() / 6f*5f - resumeButton.getWidth() / 2f, Gdx.graphics.getHeight() / 6f - resumeButton.getHeight() / 2f);
         //Add click effect
@@ -164,20 +155,41 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
                 }
         });
 
+        //Initialiserer quit button, going back to settings TODO: Only visible when ControllerLogic.loggedIn = true;
+        final Button quitButton = new Button(new TextureRegionDrawable(new TextureRegion(quitGameB)), new TextureRegionDrawable(new TextureRegion(quitGameB)));
+        quitButton.setSize(100, 50);
+        quitButton.setPosition(Gdx.graphics.getWidth() / 6f - quitButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - quitButton.getHeight() / 2f);
 
-        //Initialize backButton, going back to menu
-
-        final Button backButton = new Button(new TextureRegionDrawable(new TextureRegion(quitGame)), new TextureRegionDrawable(new TextureRegion(quitGame)));
-        backButton.setSize(100, 50);
-        backButton.setPosition(Gdx.graphics.getWidth() / 6f - backButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - backButton.getHeight() / 2f);
-        //Add click effect
-        backButton.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                    game.playSound(click);
-                    game.setScreen(new MenuScreen(game, engine));
-                }
+        quitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+                ControllerLogic.loggedIn = false; //Quits game
+                game.setScreen(new MenuScreen(game, engine));
+            }
         });
+
+        //Initialiserer quit button, going back to settings
+        final Button menuButton = new Button(new TextureRegionDrawable(new TextureRegion(menuGameB)), new TextureRegionDrawable(new TextureRegion(menuGameB)));
+        menuButton.setSize(100, 50);
+        menuButton.setPosition(Gdx.graphics.getWidth() / 6f - menuButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - menuButton.getHeight() / 2f);
+
+
+        menuButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+                game.setScreen(new MenuScreen(game, engine));
+            }
+        });
+
+        if (ControllerLogic.loggedIn) {
+            stage.addActor(quitButton);
+            stage.addActor(resumeButton);
+        }
+        else {
+            stage.addActor(menuButton);
+        }
 
         // Add all objects to the stage
         stage.addActor(logo);
@@ -185,8 +197,6 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         stage.addActor(soundsText);
         stage.addActor(musicButton);
         stage.addActor(soundEffectButton);
-        stage.addActor(resumeButton);
-        stage.addActor(backButton);
     }
 
     @Override
@@ -196,9 +206,11 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void draw() {
-        sb.begin(); // Draw elements to Sprite Batch
-        sb.draw( background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
-        sb.end();
+        game.getBatch().begin(); // Draw elements to Sprite Batch
+        game.getBatch().draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        //game.getBatch().draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
+        game.getBatch().end();
+
         stage.draw();
     }
 

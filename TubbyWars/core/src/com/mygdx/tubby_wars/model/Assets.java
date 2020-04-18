@@ -9,7 +9,11 @@ public class Assets {
     //Backgrounds
     public static String mainBackground = "textures/background.png"; //Background used outside gameplay
     public static String settingsBackground = "textures/settingsBackground.png"; //Background used outside gameplay
-    public static String gameBackground = "textures/background.png"; //Background used in gameplay TODO: Legg inn her og bruk
+    public static String gameBackground = "textures/background.png"; //Background used in gameplay
+    public static String characterBackground = "textures/characterBackground.png"; //Background used in UsernameScreen
+
+    //TextField
+    public static String textFieldBackground = "textures/textfield.png"; //Used to make TextField visible
 
     //Screen Buttons TODO: Make for all screens
     public static String playButton = "textures/play.png"; //Go to Game screen
@@ -33,6 +37,13 @@ public class Assets {
     public static String settingsTitle =  "textures/settings.png"; //Title for settings page
     public static String shopTitle =  "textures/shop.png"; //Title for shop page
     public static String highscoreTitle =  "textures/HighscoreLogo.png"; //Title for highscore page
+    public static String usernameTitle = "textures/shop.png"; //"Registrer brukernavn"
+
+    //Sprites
+    public static String gulTubby = "textures/gulTubby.png";
+    public static String gronnTubby = "textures/gronnTubby.png";
+    public static String rodTubby = "textures/rodTubby.png";
+    public static String lillaTubby = "textures/lillaTubby.png";
 
     //Obstacles
     public static String cloudObstacle = "textures/cloud.png";
@@ -66,6 +77,10 @@ public class Assets {
         assetManager.load(mainBackground, Texture.class);
         assetManager.load(settingsBackground, Texture.class);
         assetManager.load(gameBackground, Texture.class);
+        assetManager.load(characterBackground, Texture.class);
+
+        //TextField
+        assetManager.load(textFieldBackground, Texture.class);
 
         //Screen Buttons
         assetManager.load(playButton, Texture.class);
@@ -89,6 +104,13 @@ public class Assets {
         assetManager.load(shopTitle, Texture.class);
         assetManager.load(settingsTitle, Texture.class);
         assetManager.load(highscoreTitle, Texture.class);
+        assetManager.load(usernameTitle, Texture.class);
+
+        //Sprites
+        assetManager.load(gulTubby, Texture.class);
+        assetManager.load(gronnTubby, Texture.class);
+        assetManager.load(rodTubby, Texture.class);
+        assetManager.load(lillaTubby, Texture.class);
 
         //Obstacles
         assetManager.load(cloudObstacle, Texture.class);
