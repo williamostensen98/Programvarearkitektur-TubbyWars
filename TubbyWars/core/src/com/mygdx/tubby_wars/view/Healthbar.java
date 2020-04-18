@@ -1,5 +1,7 @@
 package com.mygdx.tubby_wars.view;
 
+import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
 public class Healthbar extends Sprite {
 
@@ -16,9 +19,17 @@ public class Healthbar extends Sprite {
     private Texture bar;
     private TextureRegion region1;
 
-    public Healthbar(int health, Player player){
-        this.health = health;
+    // ASHLEY
+    private Entity playerEntity;
+    private ComponentMapper<PlayerComponent> pm;
+
+    public Healthbar(Player player, Entity playerEntity){
+
         this.player = player;
+        this.playerEntity = playerEntity;
+        pm = ComponentMapper.getFor(PlayerComponent.class);
+
+        this.health = pm.get(playerEntity).health;
 
         // creates the healthbar through pixmap
         create();
@@ -31,6 +42,11 @@ public class Healthbar extends Sprite {
     public void update(float dt){
         // find updated health here
         setPosition(player.b2Body.getPosition().x - 0.75f, player.b2Body.getPosition().y + 1f);
+
+        // if the health changes, draw create a new healthbar with correct health
+        if(pm.get(playerEntity).health != health){
+            create();
+        }
 
         // må kjøre create() her for å få updated healthbaren, kan evt ha en if som sjekker om health er endret
     }

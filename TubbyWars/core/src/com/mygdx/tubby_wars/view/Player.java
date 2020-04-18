@@ -1,5 +1,7 @@
 package com.mygdx.tubby_wars.view;
 
+import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.utils.Array;
 
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.ControllerLogic;
+import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
 
 public class Player extends Sprite {
@@ -36,15 +39,25 @@ public class Player extends Sprite {
 
     public Healthbar healthbar;
 
+    // ASHLEY
+    private Entity playerEntity;
+    private ComponentMapper<PlayerComponent> pm;
+
     /**
      * Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn.
      */
-    public Player(World world, TubbyWars game, float posX, float posY, boolean whichplayer) {
+    public Player(World world, TubbyWars game, float posX, float posY, boolean whichplayer, Entity playerEntity) {
         this.world = world;
         this.game = game;
         this.posX = posX;
         this.posY = posY;
         this.whichplayer = whichplayer;
+
+        // ASHLEY
+        this.playerEntity = playerEntity;
+        // used to get variables from components
+        pm = ComponentMapper.getFor(PlayerComponent.class);
+
 
         bullets = new Array<>();
 
@@ -58,7 +71,7 @@ public class Player extends Sprite {
         setRegion(region);
         setFlip(whichplayer, false);
 
-        healthbar = new Healthbar(120,this);
+        healthbar = new Healthbar(this, playerEntity);
 
 
     }
