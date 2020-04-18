@@ -19,15 +19,16 @@ public class Bullet extends Sprite {
     private float x,y, stateTime;
     public Body b2Body;
     public World world;
-    public boolean destroyed, setToDestroy;
+    public boolean destroyed, setToDestroy, filter;
 
     private Player player;
 
     public TextureRegion bulletRegion;
 
-    public Bullet(float x, float y, World world, Player player) {
+    public Bullet(float x, float y, World world, boolean filter) {
         this.x = x;
         this.y = y;
+        this.filter = filter;
         this.world = world;
         this.player = player;
         destroyed = false;
@@ -92,7 +93,7 @@ public class Bullet extends Sprite {
      */
     public void defineBullet() {
         BodyDef bdef = new BodyDef();
-        bdef.position.set(x, y + 2);
+        bdef.position.set(x, y);
         bdef.type = BodyDef.BodyType.DynamicBody;
 
         b2Body = world.createBody(bdef);
@@ -103,10 +104,16 @@ public class Bullet extends Sprite {
         fdef.shape = shape;
         fdef.friction = 0.2f;
         fdef.restitution = 0.3f;
-        /*fdef.filter.categoryBits = ControllerLogic.PLAYER_1 |
-                ControllerLogic.BULLET_1 |
-                ControllerLogic.BULLET_2;
-        fdef.filter.maskBits = ControllerLogic.PLAYER_2 | ControllerLogic.GROUND_BIT;*/
+        if(filter){
+            fdef.filter.categoryBits = ControllerLogic.PLAYER_2 | ControllerLogic.BULLET_1 | ControllerLogic.BULLET_2;
+            fdef.filter.maskBits = ControllerLogic.PLAYER_1 | ControllerLogic.GROUND_BIT;  ;
+        }
+        else
+        {
+            fdef.filter.categoryBits = ControllerLogic.PLAYER_1 | ControllerLogic.BULLET_1 | ControllerLogic.BULLET_2;    ;
+            fdef.filter.maskBits = ControllerLogic.PLAYER_2 | ControllerLogic.GROUND_BIT;  ;
+        }
+        
         b2Body.createFixture(fdef).setUserData(this);
     }
 

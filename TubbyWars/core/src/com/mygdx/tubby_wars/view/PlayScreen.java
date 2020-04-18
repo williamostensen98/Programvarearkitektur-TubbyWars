@@ -26,6 +26,7 @@ import com.mygdx.tubby_wars.controller.Physics;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.B2WorldCreator;
 import com.mygdx.tubby_wars.model.ControllerLogic;
+import com.mygdx.tubby_wars.model.PlayerModel;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class PlayScreen implements Screen {
     public Viewport viewPort;
     public TubbyWars game;
     public World world;
-    public Player player1, player2;
+    public PlayerModel player1, player2;
 
     //MAP
     private TmxMapLoader mapLoader;
@@ -102,7 +103,7 @@ public class PlayScreen implements Screen {
 
         // LOADS THE MAP
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("map2.tmx");
+        map = mapLoader.load("map3.tmx");
         mapRenderer =  new OrthogonalTiledMapRenderer(map, 0.01f);
         b2dr = new Box2DDebugRenderer();
 
@@ -114,14 +115,12 @@ public class PlayScreen implements Screen {
 
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
         // ADDS THE PLAYERS
-        player1 = new Player(world, game,viewPort.getWorldWidth() / 2 , 0.64f, false, players.get(0));
-        player2 = new Player(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 - 2, 0.64f, true, players.get(1));
+        player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 0.64f, players.get(0));
+        player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 0.64f, players.get(1));
         physics.setPlayer(player1);
         // LOADS THE PACK FILE WITH INTO AN ATLAS WHERE ALL THE CHARACTER SPRITES ARE
 
         hud = new Hud(game.batch, players);
-
-
 
 
     }
@@ -186,6 +185,7 @@ public class PlayScreen implements Screen {
 
         position_player2 = player2.b2Body.getPosition().x;
         position_player1 = player1.b2Body.getPosition().x;
+        System.out.println(player2.b2Body.getPosition());
 
 
 
@@ -240,30 +240,28 @@ public class PlayScreen implements Screen {
         }
 
         //TODO FIX CORRECT BEHAVIOUR
-        if(player1.isPlayersTurn()) {
+        if(!player1.isPlayersTurn()) {
 
-            //gameCam.position.x = gameCam.viewportWidth / 2;
-            /*System.out.println(player1.b2Body.getPosition().x);
-            System.out.println("MAp Width" + mapPixelWidth / 100);*/
-            if ((player1.getBullet() != null && player1.getBullet().b2Body.getPosition().x < mapPixelWidth / 100f - gameCam.viewportWidth / 2) && player1.getBullet().b2Body.getPosition().x > gameCam.viewportWidth / 2) {
+            if ((player1.getBullet() != null && player1.getBullet().b2Body.getPosition().x <= mapPixelWidth / 100f - gameCam.viewportWidth / 2) && player1.getBullet().b2Body.getPosition().x >= gameCam.viewportWidth / 2) {
                 gameCam.position.x = player1.getBullet().b2Body.getPosition().x;
 
+            } else if (gameCam.position.x > 6f && gameCam.position.x < 42f && player1.getBullet() == null) {
+                gameCam.position.x = Math.max(player1.b2Body.getPosition().x, gameCam.viewportWidth / 2);
             }
 
         }
         else if(player2.isPlayersTurn()){
             //gameCam.position.x = mapPixelWidth / 100f - gameCam.viewportWidth / 2f;
 
-            if (( player2.getBullet().b2Body.getPosition().x > gameCam.viewportWidth / 2) && player2.getBullet().b2Body.getPosition().x < mapPixelWidth / 100f - gameCam.viewportWidth / 2) {
+            if ((player2.getBullet() != null && player2.getBullet().b2Body.getPosition().x <= mapPixelWidth / 100f - gameCam.viewportWidth / 2) &&player2.getBullet().b2Body.getPosition().x >= gameCam.viewportWidth / 2) {
                 gameCam.position.x = player2.getBullet().b2Body.getPosition().x ;
+            }
+            else if (gameCam.position.x > 6f && gameCam.position.x < 42f &&  player2.getBullet() == null ) {
+                gameCam.position.x = Math.min(player2.b2Body.getPosition().x, mapPixelWidth / 100f - gameCam.viewportWidth / 2);
+
             }
 
         }
-
-
-
-
-
     }
 
 

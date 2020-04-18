@@ -4,39 +4,27 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.ControllerLogic;
+import com.mygdx.tubby_wars.model.PlayerModel;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
 
-public class Player extends Sprite {
-/*
+public class PlayerTwo extends PlayerModel {
 
-    private World world;
-    public Body b2Body;
+
     public TextureRegion region;
 
     public Weapon weapon;
 
-    public TubbyWars game;
     private Array<Bullet> bullets;
 
-    public boolean showBullet = false;
-
-    private float posX, posY;
-
-    public boolean whichplayer;
 
     public Healthbar healthbar;
 
@@ -44,49 +32,31 @@ public class Player extends Sprite {
     private Entity playerEntity;
     private ComponentMapper<PlayerComponent> pm;
 
-    */
-/**
+    /**
      * Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn.
-     *//*
-
-    public Player(World world, TubbyWars game, float posX, float posY, boolean whichplayer, Entity playerEntity) {
-        this.world = world;
-        this.game = game;
-        this.posX = posX;
-        this.posY = posY;
-        this.whichplayer = whichplayer;
-
-        // ASHLEY
-        this.playerEntity = playerEntity;
-        // used to get variables from components
-        pm = ComponentMapper.getFor(PlayerComponent.class);
-
-
-        bullets = new Array<>();
-
+     */
+    public PlayerTwo(World world, TubbyWars game, float posX, float posY, Entity playerEntity) {
+        super(world, game, posX, posY, playerEntity);
         definePlayer();
-
-        weapon = new Weapon(b2Body,0.3f, 0.3f);
-        Texture texture = new Texture("lala.png");
-        //region = new TextureRegion(texture, 0,0,200,400);
+        bullets = new Array<>();
+        weapon = new Weapon(b2Body,0.6f, 0.3f);
+        weapon.flip(true, false);
+        /*Texture texture = new Texture("lala.png");
+        //region = new TextureRegion(texture, 0,0,200,400);*/
         region = new TextureRegion(PlayScreen.atlas.findRegion("little_mario"), 0, 0, 16, 16);
         setBounds(0, 0, 0.5f, 0.7f);
         setRegion(region);
-        setFlip(whichplayer, false);
-
+        setFlip(true, false);
         healthbar = new Healthbar(b2Body, playerEntity);
 
 
     }
 
-
-    */
-/***
+    /***
      * Draws the Player with the superclass draw method
      * as well as drawing the bullet(s).
      * @param batch
-     *//*
-
+     */
     @Override
     public void draw(Batch batch) {
         super.draw(batch);
@@ -100,80 +70,56 @@ public class Player extends Sprite {
         healthbar.draw(game.batch);
     }
 
-    public void update(float dt){
-
-        if(bullets.isEmpty() && isPlayersTurn()){
-
+    @Override
+    public void update(float dt) {
+        if(bullets.isEmpty() && super.isPlayersTurn()){
             addBullet();
         }
         for(Bullet b: bullets){
             b.update(dt);
             if(b.isDestroyed()){
                 bullets.removeValue(b, true);
-
-
             }
         }
         setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);
         weapon.update(dt);
         healthbar.update(dt);
-
+    }
+    @Override
+    public void redefinePlayer() {
+        world.destroyBody(b2Body);
+        definePlayer();
     }
 
-    */
-/**
-     * adds new bullet to the bullet list and initializes that bullet
-     * *//*
-
-    public void addBullet(){
-        Bullet bullet = new Bullet(b2Body.getPosition().x, b2Body.getPosition().y, world, true);
-        bullets.add(bullet);
-        hideBullet();
+    @Override
+    public void definePlayer() {
+        BodyDef bdef = new BodyDef();
+        bdef.position.set(this.posX, this.posY);
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        b2Body = this.world.createBody(bdef);
+        FixtureDef fdef = new FixtureDef();
+        CircleShape shape = new CircleShape();
+        shape.setRadius(0.25f);
+        fdef.shape = shape;
+        fdef.friction = 0.8f;
+        fdef.filter.categoryBits = ControllerLogic.BULLET_2 | ControllerLogic.PLAYER_2;
+        fdef.filter.maskBits = ControllerLogic.BULLET_1 | ControllerLogic.GROUND_BIT;
+        b2Body.createFixture(fdef).setUserData(this);
     }
 
 
-    public void showBullet(){
-        showBullet = true;
-    }
-    public void hideBullet(){
-        showBullet = false;
-    }
-
-    public boolean isPlayersTurn(){
-        return (this.whichplayer == ControllerLogic.isPlayersTurn);
-    }
-
-    public Bullet getBullet(){
+    @Override
+    public Bullet getBullet() {
         if(bullets.isEmpty()){
             return null;
         }
         return bullets.get(0);
     }
 
-    public Vector2 getStartPoint(){
-        return b2Body.getPosition();
+    @Override
+    public void addBullet() {
+        Bullet bullet = new Bullet(b2Body.getPosition().x, b2Body.getPosition().y, world, true);
+        bullets.add(bullet);
+        hideBullet();
     }
-
-    */
-/**
-     * Creates the body definition and body to the player and adds it to the world
-     * *//*
-
-    public void definePlayer(){
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(posX, posY);
-        bdef.type = BodyDef.BodyType.DynamicBody;
-
-        b2Body = world.createBody(bdef);
-
-        FixtureDef fdef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(0.25f);
-        fdef.shape = shape;
-        b2Body.createFixture(fdef).setUserData(this);
-
-    }
-
-*/
-
 }

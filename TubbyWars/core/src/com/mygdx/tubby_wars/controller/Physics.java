@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 
 import com.mygdx.tubby_wars.model.ControllerLogic;
+import com.mygdx.tubby_wars.model.PlayerModel;
 import com.mygdx.tubby_wars.view.Bullet;
 import com.mygdx.tubby_wars.view.PlayScreen;
 import com.mygdx.tubby_wars.view.Player;
@@ -19,7 +20,7 @@ public class Physics {
     public boolean wasPressed = false;
 
     public Vector2 startPoint;
-    public Player currentPlayer;
+    public PlayerModel currentPlayer;
     public Bullet bullet;
 
     public Vector2 pressedPosition = new Vector2();
@@ -27,7 +28,7 @@ public class Physics {
     public Vector2 velocityVector = new Vector2();
 
 
-    public void setPlayer(Player player){
+    public void setPlayer(PlayerModel player){
         currentPlayer = player;
         //startPoint = new Vector2(player.getBullet().b2Body.getPosition()).scl(100);
 
@@ -63,15 +64,11 @@ public class Physics {
       * The params is the points where the screen was touched.
       * */
      public void pressed(int screenX, int screenY){
-         /*Circle circle = new Circle(currentPlayer.b2Body.getPosition(), 1f);*/
-         /*if(circle.contains(screenX, Gdx.graphics.getHeight() - screenY)){*/
-         /*    wasPressed = true;*/
-         /*}*/
 
+        // TODO BUG: AFTER BULLET IS FIRED YPU CAN STILL PRESS SCREEN TO FIRE
          pressedPosition.set(new Vector2(screenX, Gdx.graphics.getHeight() - screenY));
          wasPressed = true;
-
-     }
+}
 
      /**
       * IF the player has been pressed and is currently beeing dragged its sets the currentposition
@@ -80,7 +77,8 @@ public class Physics {
       * The distance and angle is so calculated.
       * */
      public void dragged(int screenX, int screenY){
-        if(wasPressed){
+
+         if(wasPressed){
             ControllerLogic.charging = true;
             currentPosition.set(screenX, Gdx.graphics.getHeight() - screenY);
             velocityVector.set(currentPosition).sub(pressedPosition);
@@ -95,12 +93,16 @@ public class Physics {
       * set the players bullet to this so it shoots.
       * */
      public void unPressed(){
-        float velX = (2.25f * -MathUtils.cos(angle) * distance);
-        float velY = (2.25f * -MathUtils.sin(angle) * distance);
-        Vector2 velvec = new Vector2(velX, velY);
-        ControllerLogic.charging = false;
-        currentPlayer.showBullet();
-        bullet.b2Body.setLinearVelocity(velvec);
+         if(ControllerLogic.charging) {
+
+             float velX = (2.25f * -MathUtils.cos(angle) * distance);
+             float velY = (2.25f * -MathUtils.sin(angle) * distance);
+             Vector2 velvec = new Vector2(velX, velY);
+             ControllerLogic.charging = false;
+             wasPressed = false;
+             currentPlayer.showBullet();
+             bullet.b2Body.setLinearVelocity(velvec);
+         }
 
      }
 

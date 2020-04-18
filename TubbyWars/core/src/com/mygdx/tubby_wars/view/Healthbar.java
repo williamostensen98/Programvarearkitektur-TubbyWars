@@ -9,12 +9,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
 public class Healthbar extends Sprite {
 
     private int health;
-    private Player player;
+    private Body body;
 
     private Texture bar;
     private TextureRegion region1;
@@ -23,9 +24,9 @@ public class Healthbar extends Sprite {
     private Entity playerEntity;
     private ComponentMapper<PlayerComponent> pm;
 
-    public Healthbar(Player player, Entity playerEntity){
+    public Healthbar(Body body, Entity playerEntity){
 
-        this.player = player;
+        this.body = body;
         this.playerEntity = playerEntity;
         pm = ComponentMapper.getFor(PlayerComponent.class);
 
@@ -35,13 +36,13 @@ public class Healthbar extends Sprite {
         create();
 
         region1 = new TextureRegion(bar,0,0,150,20);
-        setBounds(player.b2Body.getPosition().x, player.b2Body.getPosition().y + 100,1.5f, 0.2f);
+        setBounds(body.getPosition().x, body.getPosition().y + 100,1.5f, 0.2f);
         setRegion(region1);
     }
 
     public void update(float dt){
         // find updated health here
-        setPosition(player.b2Body.getPosition().x - 0.75f, player.b2Body.getPosition().y + 1f);
+        setPosition(body.getPosition().x - 0.75f, body.getPosition().y + 1f);
 
         // if the health changes, draw create a new healthbar with correct health
         if(pm.get(playerEntity).health != health){
