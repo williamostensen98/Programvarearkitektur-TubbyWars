@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
@@ -35,9 +33,7 @@ public class Healthbar extends Sprite {
         // creates the healthbar through pixmap
         create();
 
-        region1 = new TextureRegion(bar,0,0,150,20);
-        setBounds(body.getPosition().x, body.getPosition().y + 100,1.5f, 0.2f);
-        setRegion(region1);
+
     }
 
     public void update(float dt){
@@ -46,21 +42,26 @@ public class Healthbar extends Sprite {
 
         // if the health changes, draw create a new healthbar with correct health
         if(pm.get(playerEntity).health != health){
+            health = pm.get(playerEntity).health;
             create();
         }
-
-        // må kjøre create() her for å få updated healthbaren, kan evt ha en if som sjekker om health er endret
     }
 
 
 
 
     private void create(){
+
         int width = 150;
         int height = 20;
         Pixmap pixmap1 = createPixmap(width, height, health);
 
         bar = new Texture(pixmap1);
+
+        // makes it so healthbar.draw(game.batch) in PlayerX will draw correctly
+        region1 = new TextureRegion(bar,0,0,150,20);
+        setBounds(body.getPosition().x, body.getPosition().y + 100,1.5f, 0.2f);
+        setRegion(region1);
 
         pixmap1.dispose();
     }
@@ -73,7 +74,6 @@ public class Healthbar extends Sprite {
 
         pixmap.setColor(Color.GREEN);
         pixmap.fillRectangle(0,0,health,height);
-
 
 
         return pixmap;

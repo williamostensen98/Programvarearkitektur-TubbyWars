@@ -25,6 +25,7 @@ import com.mygdx.tubby_wars.controller.InputProcessor;
 import com.mygdx.tubby_wars.controller.Physics;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.B2WorldCreator;
+import com.mygdx.tubby_wars.model.CollisionListener;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 import com.mygdx.tubby_wars.model.PlayerModel;
 
@@ -115,12 +116,18 @@ public class PlayScreen implements Screen {
 
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
         // ADDS THE PLAYERS
-        player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 0.64f, players.get(0));
-        player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 0.64f, players.get(1));
+        player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 0.64f, players.get(0), engine);
+        player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 0.64f, players.get(1), engine);
+        //player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 0.64f, players.get(1), engine);
+
         physics.setPlayer(player1);
         // LOADS THE PACK FILE WITH INTO AN ATLAS WHERE ALL THE CHARACTER SPRITES ARE
 
         hud = new Hud(game.batch, players);
+
+
+        // contact listener
+        world.setContactListener(new CollisionListener());
 
 
     }

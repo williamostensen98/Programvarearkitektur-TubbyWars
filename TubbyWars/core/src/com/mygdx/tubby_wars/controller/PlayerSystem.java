@@ -30,8 +30,12 @@ public class PlayerSystem extends IteratingSystem {
         pm.get(playerEntity).playerName = username;
     }
 
+    public String getUsername(Entity playerEntity){
+        return pm.get(playerEntity).playerName;
+    }
+
     public void setScore(Entity playerEntity, int score){
-        pm.get(playerEntity).score = score;
+        pm.get(playerEntity).score += score;
     }
 
 
@@ -57,5 +61,10 @@ public class PlayerSystem extends IteratingSystem {
     public void setWeapon(Entity playerEntity, Entity weaponEntity){
         pm.get(playerEntity).weapon = weaponEntity;
     }
+
+    public float getWeaponDamage(Entity playerEntity){
+        return pm.get(playerEntity).weaponDamage;
+    }
+
 
 }

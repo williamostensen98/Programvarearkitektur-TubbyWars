@@ -1,6 +1,7 @@
 package com.mygdx.tubby_wars.view;
 
 import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -38,8 +39,8 @@ public class PlayerOne extends PlayerModel {
     /**
      * Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn.
      */
-    public PlayerOne(World world, TubbyWars game, float posX, float posY, Entity playerEntity) {
-        super(world, game, posX, posY, playerEntity);
+    public PlayerOne(World world, TubbyWars game, float posX, float posY, Entity playerEntity, Engine engine) {
+        super(world, game, posX, posY, playerEntity, engine);
 
 
         bullets = new Array<>();

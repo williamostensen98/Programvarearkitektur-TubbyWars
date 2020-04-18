@@ -49,8 +49,8 @@ public class World {
         // connect player 1 to the game engine and set initial variables
         engine.addEntity(playerOneEntity);
         engine.getSystem(PlayerSystem.class).setHealth(playerOneEntity, 150);
-        engine.getSystem(PlayerSystem.class).setUsername(playerOneEntity,"Player One test ashley");
-        engine.getSystem(PlayerSystem.class).setScore(playerOneEntity,100);
+        engine.getSystem(PlayerSystem.class).setUsername(playerOneEntity,"FUCK");
+        engine.getSystem(PlayerSystem.class).setScore(playerOneEntity,0);
 
 
         // creation of player 2
@@ -61,8 +61,8 @@ public class World {
         // connect player 2 to the game engine, and set initial variables
         engine.addEntity(playerTwoEntity);
         engine.getSystem(PlayerSystem.class).setHealth(playerTwoEntity, 100);
-        engine.getSystem(PlayerSystem.class).setUsername(playerTwoEntity,"Player Two test ashley");
-        engine.getSystem(PlayerSystem.class).setScore(playerTwoEntity,200);
+        engine.getSystem(PlayerSystem.class).setUsername(playerTwoEntity,"CORONA");
+        engine.getSystem(PlayerSystem.class).setScore(playerTwoEntity,0);
 
         entities.add(playerOneEntity);
         entities.add(playerTwoEntity);

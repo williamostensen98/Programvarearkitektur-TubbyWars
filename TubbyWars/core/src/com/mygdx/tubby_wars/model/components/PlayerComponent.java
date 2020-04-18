@@ -13,6 +13,9 @@ public class PlayerComponent implements Component {
 
     public Entity weapon;
 
+    // hvis vi skal ha egen weapon component, setter vi selvsagt denne der.
+    public float weaponDamage = (float)1.4;
+
 
     // NBNB: FORSLAG TIL HVORDAN VI KAN FÅ INN LITT MER MVC FUNKSJONALITET
     public int posX;
