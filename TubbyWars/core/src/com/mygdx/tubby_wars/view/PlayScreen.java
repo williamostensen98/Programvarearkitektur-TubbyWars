@@ -239,21 +239,23 @@ public class PlayScreen implements Screen {
             physics.setPlayer(player1);
         }
 
-
+        //TODO FIX CORRECT BEHAVIOUR
         if(player1.isPlayersTurn()) {
-            //gameCam.position.x = position_player1;
 
-            if (player1.getBullet() != null && (player1.getBullet().b2Body.getPosition().x < mapPixelWidth / 100f - gameCam.viewportWidth / 2)) {
+            //gameCam.position.x = gameCam.viewportWidth / 2;
+            /*System.out.println(player1.b2Body.getPosition().x);
+            System.out.println("MAp Width" + mapPixelWidth / 100);*/
+            if ((player1.getBullet() != null && player1.getBullet().b2Body.getPosition().x < mapPixelWidth / 100f - gameCam.viewportWidth / 2) && player1.getBullet().b2Body.getPosition().x > gameCam.viewportWidth / 2) {
                 gameCam.position.x = player1.getBullet().b2Body.getPosition().x;
+
             }
+
         }
         else if(player2.isPlayersTurn()){
+            //gameCam.position.x = mapPixelWidth / 100f - gameCam.viewportWidth / 2f;
 
-            //gameCam.position.x = player2.b2Body.getPosition().x;
-            //gameCam.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0);
-
-            if ((player2.getBullet().b2Body.getPosition().x > gameCam.viewportWidth / 2)) {
-                gameCam.position.x = player2.getBullet().b2Body.getPosition().x;
+            if (( player2.getBullet().b2Body.getPosition().x > gameCam.viewportWidth / 2) && player2.getBullet().b2Body.getPosition().x < mapPixelWidth / 100f - gameCam.viewportWidth / 2) {
+                gameCam.position.x = player2.getBullet().b2Body.getPosition().x ;
             }
 
         }
