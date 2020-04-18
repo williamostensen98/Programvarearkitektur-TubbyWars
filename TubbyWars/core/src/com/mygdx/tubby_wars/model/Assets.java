@@ -15,18 +15,17 @@ public class Assets {
     //TextField
     public static String textFieldBackground = "textures/textfield.png"; //Used to make TextField visible
 
-    //Screen Buttons TODO: Make for all screens
-    public static String playButton = "textures/play.png"; //Go to Game screen
-    public static String newGameButton = "textures/resumeButton.png"; // Resume toGame screen
-    public static String highScoreButton = "textures/highscoreButton.png"; //Go to HighScore screen
-    public static String menuScreenButton = "textures/backButton.png"; //Go to Menu screen
-    public static String shopScreenButton = "textures/shopButton.png";
-    public static String settingsButton = "textures/settingsButton.png"; //Go to Settings screen
+    //Buttons in MenuScreen
+    public static String highScoreButton = "textures/highscoreButton.png"; //Go to HighScoreScreen
+    public static String settingScreenButton = "textures/settingsButton.png"; //Go to SettingScreen
+    public static String gameScreenButton = "textures/play.png"; //Go to Game screen
 
-    //Navigation buttons
-    public static String backButton = "textures/back.png"; //Go back to former screen
-    public static String resumeGameButton = "textures/playGameButton.png"; //Used in SettingsScreen for continuing to play game
-    public static String quitGameButton = "textures/backButton.png"; //Used in SettingsScreen for continuing to quit game (go to menu)
+    //Buttons for navigation
+    public static String menuScreenButton = "textures/backButton.png"; //Used in SettingsScreen and HighScoreScreen to go to MenuScreen
+    public static String newGameButton = "textures/playGameButton.png"; // Used in HighscoreScreen to go to ShopScreen
+    public static String pauseGameButton = "textures/pauseButton.png"; //Used in GameScreen to go to SettingScreen
+    public static String continueGameButton = "textures/continueGameButton.png"; //Used in SettingScreen to go to GameScreen
+    public static String quitGameButton = "textures/quitGameButton.png"; //Used in SettingScreen to go to MenuScreen
 
     //Sound buttons
     public static String soundOnButton = "textures/soundOn.png";
@@ -82,17 +81,16 @@ public class Assets {
         //TextField
         assetManager.load(textFieldBackground, Texture.class);
 
-        //Screen Buttons
-        assetManager.load(playButton, Texture.class);
-        assetManager.load(newGameButton, Texture.class);
+        //Buttons in MenuScreen
         assetManager.load(highScoreButton, Texture.class);
-        assetManager.load(menuScreenButton, Texture.class);
-        assetManager.load(shopScreenButton, Texture.class);
-        assetManager.load(settingsButton, Texture.class);
+        assetManager.load(settingScreenButton, Texture.class);
+        assetManager.load(gameScreenButton, Texture.class);
 
-        //Navigation buttons
-        assetManager.load(backButton, Texture.class);
-        assetManager.load(resumeGameButton, Texture.class);
+        //Buttons for navigation
+        assetManager.load(menuScreenButton, Texture.class);
+        assetManager.load(pauseGameButton, Texture.class);
+        assetManager.load(newGameButton, Texture.class);
+        assetManager.load(continueGameButton, Texture.class);
         assetManager.load(quitGameButton, Texture.class);
 
         //Sound buttons

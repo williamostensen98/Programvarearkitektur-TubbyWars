@@ -30,8 +30,6 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
     private Engine engine;
     private World world;
 
-    private Texture settingsB;
-
     private Stage gameStage;
 
     private List<Entity> players;
@@ -44,13 +42,16 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
     private int turnCounter = 0;
     private boolean loadedNewTurn = false;
 
+    private Texture highScoreB; //TODO: Aucomaticly get here when round is over
+    private Texture settingsB;
 
     public GameScreen(TubbyWars game, Engine engine){
         this.game = game;
         this.engine = engine;
         this.world = new World(engine);
 
-        settingsB = Assets.getTexture(Assets.settingsButton);
+        highScoreB = Assets.getTexture(Assets.highScoreButton);
+        settingsB = Assets.getTexture(Assets.pauseGameButton);
 
         // one-time operations that occur when creating a new game
         create();
@@ -77,19 +78,34 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
         
         playerSystem = engine.getSystem(PlayerSystem.class);
 
-        //Initialiserer button to get GameScreen
+        //Initialize button to get to HighScoreScreen
+        final Button highScoreButton = new Button(new TextureRegionDrawable(new TextureRegion(highScoreB)));
+        highScoreButton.setSize(100, 39);
+        highScoreButton.setPosition(Gdx.graphics.getWidth()/4f*3f - highScoreButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - highScoreButton.getHeight() / 2f);
+
+        highScoreButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                //game.playSound(click);
+                game.setScreen(new HighScoreScreen(game, engine));
+            }
+        });
+
+        //Initialize button to get to SettingsScreen
         final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
-        settingsButton.setSize(60, 60);
-        settingsButton.setPosition(Gdx.graphics.getWidth() - 100 - settingsButton.getWidth() / 2 , Gdx.graphics.getHeight()- 50 - settingsButton.getHeight() / 2);
+        settingsButton.setSize(50, 50);
+        settingsButton.setPosition(Gdx.graphics.getWidth()*85f/90f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight()* 75f/90f - settingsButton.getHeight() / 2f);
 
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                //game.playSound(click);
                 game.setScreen(new SettingScreen(game, engine));
             }
-
         });
+
         gameStage.addActor(settingsButton);
+        gameStage.addActor(highScoreButton);
     }
 
     @Override

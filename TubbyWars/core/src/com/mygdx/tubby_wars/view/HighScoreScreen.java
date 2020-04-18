@@ -31,14 +31,16 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     private Texture titleText;
 
     //Textures for buttons
-    private Texture backB;
+    private Texture menuScreenB;
     private Texture newGameB;
     private Texture quitGameB;
+    private Texture settingsB;
 
     //Buttons
     private Button quitGameButton;
     private Button newGameButton;
-    private Button menuButton;
+    private Button menuScreenButton;
+    private Button settingsButton;
 
     private Sound click;
     private Stage stage;
@@ -53,9 +55,10 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
         //background = Assets.getTexture(Assets.mainBackground);
         titleText = Assets.getTexture(Assets.highscoreTitle);
-        backB = Assets.getTexture(Assets.menuScreenButton);
-        newGameB = Assets.getTexture(Assets.newGameButton);
+        menuScreenB = Assets.getTexture(Assets.menuScreenButton);
         quitGameB = Assets.getTexture(Assets.quitGameButton);
+        newGameB = Assets.getTexture(Assets.newGameButton);
+        settingsB = Assets.getTexture(Assets.pauseGameButton);
 
         this.click = game.getClickSound();
 
@@ -79,12 +82,13 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         stage.addActor(title);
         stage.addActor(highscoreResults);
 
-        if (ControllerLogic.loggedIn = true) {
-           stage.addActor(newGameButton);
-           stage.addActor(quitGameButton);
+        if (ControllerLogic.loggedIn) {
+            stage.addActor(newGameButton);
+            stage.addActor(quitGameButton);
+            stage.addActor(settingsButton);
         }
         else {
-            stage.addActor(menuButton);
+            stage.addActor(menuScreenButton);
         }
     }
 
@@ -119,7 +123,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
     private void makeButtons() {
         //Initialiserer quit button, going back to MenuScreen
-        quitGameButton = new Button(new TextureRegionDrawable(new TextureRegion(quitGameB)), new TextureRegionDrawable(new TextureRegion(quitGameB)));
+        quitGameButton = new Button(new TextureRegionDrawable(new TextureRegion(quitGameB)));
         quitGameButton.setSize(100, 50);
         quitGameButton.setPosition(Gdx.graphics.getWidth() / 6f - quitGameButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - quitGameButton.getHeight() / 2f);
 
@@ -133,11 +137,11 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         });
 
         //Initialiserer button to get to menuScreen
-        menuButton = new Button(new TextureRegionDrawable(new TextureRegion(backB)));
-        menuButton.setSize(100, 50);
-        menuButton.setPosition(Gdx.graphics.getWidth() / 6f - menuButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - menuButton.getHeight() / 2f);
+        menuScreenButton = new Button(new TextureRegionDrawable(new TextureRegion(menuScreenB)));
+        menuScreenButton.setSize(100, 50);
+        menuScreenButton.setPosition(Gdx.graphics.getWidth() / 6f - menuScreenButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - menuScreenButton.getHeight() / 2f);
 
-        menuButton.addListener(new ClickListener() {
+        menuScreenButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
@@ -155,7 +159,20 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                game.setScreen(new MenuScreen(game, engine));
+                game.setScreen(new ShopScreen(game, engine));
+            }
+        });
+
+        //Initialize button to get to SettingsScreen
+        settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
+        settingsButton.setSize(50, 50);
+        settingsButton.setPosition(Gdx.graphics.getWidth()*85f/90f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight()* 75f/90f - settingsButton.getHeight() / 2f);
+
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                //game.playSound(click);
+                game.setScreen(new SettingScreen(game, engine));
             }
         });
     }
@@ -167,7 +184,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         style.fontColor = Color.BLACK;
 
         highscoreResults =  new Table(); // Table containing the buttons on the screen
-        highscoreResults.setPosition(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/100f*60f);
+        highscoreResults.setPosition(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/125f*60f);
 
         for (int i=1; i<11;i++){
             TextField tf = new TextField("Plass nr: "+i, style);

@@ -24,21 +24,20 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
 
     private TubbyWars game;
     private Engine engine;
-
     private Stage stage;
 
-    //Initializing the textures
-    //private Texture logo;
+    //Textures
     private Texture background;
     private Texture textField1;
     private Texture textField2;
-    private Texture playB;
+    private Texture startGameB;
 
     //Sprites
     private Texture gulTubby;
     private Texture gronnTubby;
     private Texture rodTubby;
     private Texture lillaTubby;
+    private Texture settingsB;
 
     //Initializing Clicking sound when pressing button
     private Sound click;
@@ -49,6 +48,7 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
     private Button purpleTubby;
     private Button redTubby;
     private Button gameButton;
+    private Button settingsButton;
 
     //Labels with text
     private Label user1Text;
@@ -63,7 +63,6 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
     private TextField user1Input;
     private TextField user2Input;
 
-
     public CharacterCreationScreen(TubbyWars game, Engine engine) {
         super();
         this.game = game;
@@ -74,7 +73,8 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
         background = Assets.getTexture(Assets.characterBackground);
         textField1 = Assets.getTexture(Assets.textFieldBackground);
         textField2 = Assets.getTexture(Assets.textFieldBackground);
-        playB = Assets.getTexture(Assets.playButton);
+        startGameB = Assets.getTexture(Assets.gameScreenButton);
+        settingsB = Assets.getTexture(Assets.pauseGameButton);
 
         //Sprites
         gulTubby = Assets.getTexture(Assets.gulTubby);
@@ -111,6 +111,7 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
         stage.addActor(rightText);
 
         stage.addActor(gameButton);
+        stage.addActor(settingsButton);
         stage.addActor(yellowTubby);
         stage.addActor(greenTubby);
         stage.addActor(redTubby);
@@ -210,7 +211,7 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
         });
 
         //Initialiserer button to get GameScreen
-        gameButton = new Button(new TextureRegionDrawable(new TextureRegion(playB)));
+        gameButton = new Button(new TextureRegionDrawable(new TextureRegion(startGameB)));
         gameButton.setSize(100, 50);
         gameButton.setPosition(Gdx.graphics.getWidth() / 2f - gameButton.getWidth() / 2f, Gdx.graphics.getHeight() / 10f - gameButton.getHeight() / 2f);
         gameButton.addListener(new ClickListener() {
@@ -223,6 +224,19 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
                 usernameCheck();
             }
 
+        });
+
+        //Initialize button to get to SettingsScreen
+        settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
+        settingsButton.setSize(50, 50);
+        settingsButton.setPosition(Gdx.graphics.getWidth()*85f/90f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight()* 75f/90f - settingsButton.getHeight() / 2f);
+
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                //game.playSound(click);
+                game.setScreen(new SettingScreen(game, engine));
+            }
         });
     }
 

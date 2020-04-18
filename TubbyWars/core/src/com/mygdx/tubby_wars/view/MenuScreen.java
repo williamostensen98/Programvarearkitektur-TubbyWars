@@ -28,7 +28,10 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     private Texture playB;
     private Texture highScoreB;
     private Texture settingsB;
-    private Texture shopB;
+
+    private Button settingsButton;
+    private Button highScoreButton;
+    private Button gameButton;
 
     //Initialize  background music and sound effects
     private Music music;
@@ -43,10 +46,9 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
         background = Assets.getTexture(Assets.mainBackground);
         logo = Assets.getTexture(Assets.logo);
-        playB = Assets.getTexture(Assets.playButton);
+        playB = Assets.getTexture(Assets.gameScreenButton);
         highScoreB = Assets.getTexture(Assets.highScoreButton);
-        settingsB = Assets.getTexture(Assets.settingsButton);
-        shopB = Assets.getTexture(Assets.shopScreenButton);
+        settingsB = Assets.getTexture(Assets.settingScreenButton);
 
         this.music = game.getBackgroundMusic();
         this.game.playMusic(music);
@@ -62,69 +64,11 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
         Gdx.input.setInputProcessor(stage);
 
-        //Initialize button to get GameScreen
-        final Button gameButton = new Button(new TextureRegionDrawable(new TextureRegion(playB)));
-        gameButton.setSize(100, 39);
-        gameButton.setPosition(Gdx.graphics.getWidth() / 2f - gameButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - gameButton.getHeight() / 2f);
-
-        gameButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                if (ControllerLogic.loggedIn) { //Checks that usernames are saved TODO: Check if can be removed
-                    game.setScreen(new GameScreen(game, engine));
-                }
-                else {
-                    game.setScreen(new CharacterCreationScreen(game, engine));
-                }
-            }
-
-        });
-
-        //Initialize button to get to SettingsScreen
-        final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
-        settingsButton.setSize(100, 39);
-        settingsButton.setPosition(Gdx.graphics.getWidth()/4f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - settingsButton.getHeight() / 2f);
-
-        settingsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                game.setScreen(new SettingScreen(game, engine));
-            }
-        });
-
-        //Initialize button to get to HighScoreScreen
-        final Button highScoreButton = new Button(new TextureRegionDrawable(new TextureRegion(highScoreB)));
-        highScoreButton.setSize(100, 39);
-        highScoreButton.setPosition(Gdx.graphics.getWidth()/4f*3f - highScoreButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - highScoreButton.getHeight() / 2f);
-
-        highScoreButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                game.setScreen(new HighScoreScreen(game, engine));
-            }
-        });
-
-        //Initialize button to get ShopScreen TODO:Remove later, for access befoure it is done
-        final Button shopButton = new Button(new TextureRegionDrawable(new TextureRegion(shopB)));
-        shopButton.setSize(100, 39);
-        shopButton.setPosition(Gdx.graphics.getWidth() /20f*19f - shopButton.getWidth()/2f , Gdx.graphics.getHeight() / 10f*3f - shopButton.getHeight() / 2f);
-
-        shopButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                game.setScreen(new ShopScreen(game, engine));
-            }
-
-        });
+        makeButtons();
 
         stage.addActor(gameButton);
         stage.addActor(settingsButton);
         stage.addActor(highScoreButton);
-        stage.addActor(shopButton); //TODO:Remove later
     }
 
     @Override
@@ -157,5 +101,47 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void dispose(){
         super.dispose();
+    }
+
+    private void makeButtons() {
+        //Initialize button to get GameScreen
+        gameButton = new Button(new TextureRegionDrawable(new TextureRegion(playB)));
+        gameButton.setSize(100, 39);
+        gameButton.setPosition(Gdx.graphics.getWidth() / 2f - gameButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - gameButton.getHeight() / 2f);
+
+        gameButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+                game.setScreen(new CharacterCreationScreen(game, engine));
+            }
+        });
+
+        //Initialize button to get to SettingsScreen
+        settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
+        settingsButton.setSize(100, 39);
+        settingsButton.setPosition(Gdx.graphics.getWidth()/4f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - settingsButton.getHeight() / 2f);
+
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+                game.setScreen(new SettingScreen(game, engine));
+            }
+        });
+
+        //Initialize button to get to HighScoreScreen
+        highScoreButton = new Button(new TextureRegionDrawable(new TextureRegion(highScoreB)));
+        highScoreButton.setSize(100, 39);
+        highScoreButton.setPosition(Gdx.graphics.getWidth()/4f*3f - highScoreButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - highScoreButton.getHeight() / 2f);
+
+        highScoreButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+                game.setScreen(new HighScoreScreen(game, engine));
+            }
+        });
+
     }
 }

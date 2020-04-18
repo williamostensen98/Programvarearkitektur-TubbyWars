@@ -20,7 +20,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.Assets;
 import com.badlogic.gdx.audio.Sound;
-import com.mygdx.tubby_wars.model.ControllerLogic;
 
 public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
@@ -30,15 +29,22 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
     private Texture titleText;
 
     // Navigation buttons
-    private Texture menuB;
     private Texture newGameB;
+    private Texture settingsB;
 
-    // Weapons
+    // Weapons buttons
     private Texture gun;
     private Texture rifle;
     private Texture revolver;
 
     private Sound click;
+
+    //Buttons
+    private Button newGameButton;
+    private Button settingsButton;
+    private Button newGun;
+    private Button newRifle;
+    private Button newRevolver;
 
     public ShopScreen(TubbyWars game, Engine engine){
         super();
@@ -46,11 +52,11 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         this.engine = engine;
 
         titleText = Assets.getTexture(Assets.shopTitle); //Title text for shop
-        menuB = Assets.getTexture(Assets.menuScreenButton); // Back to menu button
         newGameB = Assets.getTexture(Assets.newGameButton); // resume to game button
         gun = Assets.getTexture(Assets.gunWeapon); // choose gun button
         rifle = Assets.getTexture(Assets.rifleWeapon); // choose rifle button
         revolver = Assets.getTexture(Assets.revolverWeapon); //choose revolver button
+        settingsB = Assets.getTexture(Assets.pauseGameButton);
 
         click = game.getClickSound();
 
@@ -70,86 +76,22 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         title.setPosition(Gdx.graphics.getWidth()/2f - title.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - title.getHeight()/2f);
 
         //Initialize information text
-        final Label infoText = new Label("Choose weapon:", new Label.LabelStyle(new BitmapFont(), Color.BLACK)); // Blåfarge: new Color(56.0f/255.0f, 145.0f/255.0f, 206.0f/255.0f, 1.0f)
-        infoText.setFontScale(1f,1f);
+        final Label infoText = new Label("Choose weapon:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        //infoText.setFontScale(1f,1f);
         infoText.setPosition(Gdx.graphics.getWidth() / 5f - infoText.getWidth()/2f , Gdx.graphics.getHeight() / 12f*8f);
-
-        //Initialize button to get GameScreen
-        final Button newGameButton = new Button(new TextureRegionDrawable(new TextureRegion(newGameB)));
-        newGameButton.setSize(100, 50);
-        newGameButton.setPosition(Gdx.graphics.getWidth() / 6f*5f - newGameButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - newGameButton.getHeight() / 2f);
-        //Add click effect
-        newGameButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                game.setScreen(new GameScreen(game, engine));
-            }
-
-        });
-
-        //Initialize button to get back to menu
-        final Button menuButton = new Button(new TextureRegionDrawable(new TextureRegion(menuB)));
-        menuButton.setSize(100, 50);
-        menuButton.setPosition(Gdx.graphics.getWidth() / 6f - menuButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - menuButton.getHeight() / 2f);
-        //Add click effect
-        menuButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                ControllerLogic.loggedIn = false; //Quits game
-                game.setScreen(new MenuScreen(game, engine));
-            }
-        });
-
-        //Initialize button to change weapon to gun
-        final Button newGun = new Button(new TextureRegionDrawable(new TextureRegion(gun)));
-        newGun.setSize(150, 50);
-        newGun.setPosition(Gdx.graphics.getWidth()/3f - newGun.getWidth() , Gdx.graphics.getHeight() / 2f - newGun.getHeight() / 2f);
-        //Add click effect
-        newGun.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                //game.setScreen(new GameScreen(game, engine));
-            }
-        });
-
-        //Initialize button to change weapon to rifle
-        final Button newRifle = new Button(new TextureRegionDrawable(new TextureRegion(rifle)));
-        newRifle.setSize(150, 50);
-        newRifle.setPosition(Gdx.graphics.getWidth() / 2f - newRifle.getWidth()/2f , Gdx.graphics.getHeight() /2f - newRifle.getHeight() / 2f);
-        //Add click effect
-        newRifle.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                //game.setScreen(new GameScreen(game, engine));
-                //TODO: hva skal sje når vi trykker på knappen?
-            }
-        });
-
-        //Initialize button to change weapon to Revolver
-        final Button newRevolver = new Button(new TextureRegionDrawable(new TextureRegion(revolver)));
-        newRevolver.setSize(150, 50);
-        newRevolver.setPosition(Gdx.graphics.getWidth() / 3f*2f , Gdx.graphics.getHeight() / 2f - newRevolver.getHeight() / 2f);
-        //Add click effect
-        newRevolver.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                //game.setScreen(new GameScreen(game, engine));
-            }
-        });
 
         //Add objects to stage
         stage.addActor(title);
+        stage.addActor(infoText);
+
+        makeButtons();
+
+        //Add buttons to stage
         stage.addActor(newGameButton);
-        stage.addActor(menuButton);
+        stage.addActor(settingsButton);
         stage.addActor(newGun);
         stage.addActor(newRifle);
         stage.addActor(newRevolver);
-        stage.addActor(infoText);
     }
 
     @Override
@@ -181,4 +123,71 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
     public void dispose(){
         super.dispose();
     }
+
+    private void makeButtons() {
+        //Initialize button to get GameScreen
+        newGameButton = new Button(new TextureRegionDrawable(new TextureRegion(newGameB)));
+        newGameButton.setSize(100, 50);
+        newGameButton.setPosition(Gdx.graphics.getWidth() / 6f*5f - newGameButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - newGameButton.getHeight() / 2f);
+        newGameButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                //Add click effect
+                game.playSound(click);
+                game.setScreen(new GameScreen(game, engine));
+            }
+
+        });
+
+        //Initialize button to get to SettingsScreen
+        settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
+        settingsButton.setSize(50, 50);
+        settingsButton.setPosition(Gdx.graphics.getWidth()*85f/90f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight()* 75f/90f - settingsButton.getHeight() / 2f);
+
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                //game.playSound(click);
+                game.setScreen(new SettingScreen(game, engine));
+            }
+        });
+
+        //Initialize button to change weapon to gun
+        newGun = new Button(new TextureRegionDrawable(new TextureRegion(gun)));
+        newGun.setSize(150, 50);
+        newGun.setPosition(Gdx.graphics.getWidth()/3f - newGun.getWidth() , Gdx.graphics.getHeight() / 2f - newGun.getHeight() / 2f);
+        newGun.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                //Add click effect TODO: hva skal sje når vi trykker på knappen?
+                game.playSound(click);
+            }
+        });
+
+        //Initialize button to change weapon to rifle
+        newRifle = new Button(new TextureRegionDrawable(new TextureRegion(rifle)));
+        newRifle.setSize(150, 50);
+        newRifle.setPosition(Gdx.graphics.getWidth() / 2f - newRifle.getWidth()/2f , Gdx.graphics.getHeight() /2f - newRifle.getHeight() / 2f);
+        newRifle.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                //Add click effect
+                game.playSound(click);
+            }
+        });
+
+        //Initialize button to change weapon to Revolver
+        newRevolver = new Button(new TextureRegionDrawable(new TextureRegion(revolver)));
+        newRevolver.setSize(150, 50);
+        newRevolver.setPosition(Gdx.graphics.getWidth() / 3f*2f , Gdx.graphics.getHeight() / 2f - newRevolver.getHeight() / 2f);
+        newRevolver.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                //Add click effect
+                game.playSound(click);
+            }
+        });
+    }
+
 }
+
