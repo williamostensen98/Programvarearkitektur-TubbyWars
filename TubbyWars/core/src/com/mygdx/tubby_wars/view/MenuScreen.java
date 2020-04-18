@@ -75,7 +75,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
                     game.setScreen(new GameScreen(game, engine));
                 }
                 else {
-                    game.setScreen(new UsernameScreen(game, engine));
+                    game.setScreen(new CharacterCreationScreen(game, engine));
                 }
             }
 

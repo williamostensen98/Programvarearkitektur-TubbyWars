@@ -20,7 +20,7 @@ import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
-public class UsernameScreen extends ScreenAdapter implements ScreenInterface {
+public class CharacterCreationScreen extends ScreenAdapter implements ScreenInterface {
 
     private TubbyWars game;
     private Engine engine;
@@ -64,7 +64,7 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface {
     private TextField user2Input;
 
 
-    public UsernameScreen(TubbyWars game, Engine engine) {
+    public CharacterCreationScreen(TubbyWars game, Engine engine) {
         super();
         this.game = game;
         this.engine = engine;
