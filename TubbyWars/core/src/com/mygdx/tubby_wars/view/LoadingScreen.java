@@ -58,7 +58,7 @@ public class LoadingScreen extends ScreenAdapter implements ScreenInterface{
     @Override
     public void draw() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClearColor(187.0f/255.0f, 231.0f/255.0f, 255.0f/255.0f, 1.0f);
         stage.draw();
     }
 

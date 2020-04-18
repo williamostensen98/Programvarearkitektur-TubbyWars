@@ -142,7 +142,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
             });
 
 
-        //Initialiserer resumeButton TODO: Denne er ikke med i modellen vår i Achitecture dokumentet, Only visible when ControllerLogic.loggedIn = true;
+        //Initialiserer resumeButton
         final Button resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeGameB)), new TextureRegionDrawable(new TextureRegion(resumeGameB)));
         resumeButton.setSize(100, 50);
         resumeButton.setPosition(Gdx.graphics.getWidth() / 6f*5f - resumeButton.getWidth() / 2f, Gdx.graphics.getHeight() / 6f - resumeButton.getHeight() / 2f);
@@ -155,7 +155,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
                 }
         });
 
-        //Initialiserer quit button, going back to settings TODO: Only visible when ControllerLogic.loggedIn = true;
+        //Initialiserer quit button, going back to settings
         final Button quitButton = new Button(new TextureRegionDrawable(new TextureRegion(quitGameB)), new TextureRegionDrawable(new TextureRegion(quitGameB)));
         quitButton.setSize(100, 50);
         quitButton.setPosition(Gdx.graphics.getWidth() / 6f - quitButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - quitButton.getHeight() / 2f);

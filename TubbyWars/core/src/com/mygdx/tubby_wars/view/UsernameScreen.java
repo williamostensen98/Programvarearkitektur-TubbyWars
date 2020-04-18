@@ -242,6 +242,7 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface {
         user2Input.setSize(150, 20);
 
     }
+
     private void makeLabels() {
         //Placing text
         user1Text = new Label("Player 1:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
