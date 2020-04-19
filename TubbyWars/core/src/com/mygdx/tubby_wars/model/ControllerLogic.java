@@ -1,5 +1,7 @@
 package com.mygdx.tubby_wars.model;
 
+import java.util.ArrayList;
+
 public class ControllerLogic {
     public static boolean charging = false;
     public static boolean isPlayersTurn = false;
@@ -8,6 +10,8 @@ public class ControllerLogic {
 
     //Used to check if users need to register usernames
     public static Boolean loggedIn = false;
+    public static Boolean fromHighScoreScreen = false;
+    public static Boolean fromShopScreen = false;
 
     public static String username1 = "";
     public static String username2 = "";

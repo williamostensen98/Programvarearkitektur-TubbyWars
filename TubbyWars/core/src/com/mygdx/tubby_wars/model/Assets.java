@@ -10,7 +10,9 @@ public class Assets {
     public static String mainBackground = "textures/background.png"; //Background used outside gameplay
     public static String settingsBackground = "textures/settingsBackground.png"; //Background used outside gameplay
     public static String gameBackground = "textures/background.png"; //Background used in gameplay
-    public static String characterBackground = "textures/characterBackground.png"; //Background used in UsernameScreen
+    public static String characterBackground = "textures/characterBackground.png"; //Background used in CharacherCreationScreen
+    public static String shopBackground = "textures/shopBackground.png"; //Background used in shopScreen
+    public static String highscoreBackground = "textures/highscoreBackground.png"; //Background used in HighScoreScreen
 
     //TextField
     public static String textFieldBackground = "textures/textfield.png"; //Used to make TextField visible
@@ -24,6 +26,7 @@ public class Assets {
     public static String menuScreenButton = "textures/backButton.png"; //Used in SettingsScreen and HighScoreScreen to go to MenuScreen
     public static String newGameButton = "textures/playGameButton.png"; // Used in HighscoreScreen to go to ShopScreen
     public static String pauseGameButton = "textures/pauseButton.png"; //Used in GameScreen to go to SettingScreen
+    public static String settingSignButton = "textures/innstillingerButton.png"; //Used in GameScreen to go to SettingScreen
     public static String continueGameButton = "textures/continueGameButton.png"; //Used in SettingScreen to go to GameScreen
     public static String quitGameButton = "textures/quitGameButton.png"; //Used in SettingScreen to go to MenuScreen
 
@@ -37,6 +40,11 @@ public class Assets {
     public static String shopTitle =  "textures/shop.png"; //Title for shop page
     public static String highscoreTitle =  "textures/HighscoreLogo.png"; //Title for highscore page
     public static String usernameTitle = "textures/shop.png"; //"Registrer brukernavn"
+
+    //Map background
+    public static String mapEasy = "textures/easyMap.png";
+    public static String mapMedium = "textures/easyMap.png";
+    public static String mapHard = "textures/easyMap.png";
 
     //Sprites
     public static String gulTubby = "textures/gulTubby.png";
@@ -77,6 +85,13 @@ public class Assets {
         assetManager.load(settingsBackground, Texture.class);
         assetManager.load(gameBackground, Texture.class);
         assetManager.load(characterBackground, Texture.class);
+        assetManager.load(shopBackground, Texture.class);
+        assetManager.load(highscoreBackground, Texture.class);
+
+        //Map Backgrounds
+        assetManager.load(mapEasy, Texture.class);
+        assetManager.load(mapMedium, Texture.class);
+        assetManager.load(mapHard, Texture.class);
 
         //TextField
         assetManager.load(textFieldBackground, Texture.class);
@@ -89,6 +104,7 @@ public class Assets {
         //Buttons for navigation
         assetManager.load(menuScreenButton, Texture.class);
         assetManager.load(pauseGameButton, Texture.class);
+        assetManager.load(settingSignButton, Texture.class);
         assetManager.load(newGameButton, Texture.class);
         assetManager.load(continueGameButton, Texture.class);
         assetManager.load(quitGameButton, Texture.class);

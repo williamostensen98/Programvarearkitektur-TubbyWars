@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -22,6 +23,8 @@ import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
+import java.util.ArrayList;
+
 public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
     private TubbyWars game;
@@ -30,6 +33,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     //Textures for title of page
     private Texture titleText;
 
+    private Texture background;
     //Textures for buttons
     private Texture menuScreenB;
     private Texture newGameB;
@@ -58,7 +62,8 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         menuScreenB = Assets.getTexture(Assets.menuScreenButton);
         quitGameB = Assets.getTexture(Assets.quitGameButton);
         newGameB = Assets.getTexture(Assets.newGameButton);
-        settingsB = Assets.getTexture(Assets.pauseGameButton);
+        settingsB = Assets.getTexture(Assets.settingSignButton);
+        background = Assets.getTexture(Assets.highscoreBackground);
 
         this.click = game.getClickSound();
 
@@ -100,8 +105,9 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
     @Override
     public void draw(){
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(187.0f/255.0f, 231.0f/255.0f, 255.0f/255.0f, 1.0f);
+        game.getBatch().begin();
+        game.getBatch().draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        game.getBatch().end();
 
         stage.draw();
     }
@@ -171,7 +177,8 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                //game.playSound(click);
+                game.playSound(click);
+                ControllerLogic.fromHighScoreScreen = true;
                 game.setScreen(new SettingScreen(game, engine));
             }
         });
@@ -183,13 +190,59 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         style.font = new BitmapFont();
         style.fontColor = Color.BLACK;
 
-        highscoreResults =  new Table(); // Table containing the buttons on the screen
-        highscoreResults.setPosition(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/125f*60f);
+        //TODO: Use list from database insted, remember to split
+        ArrayList<String> listepoint = new ArrayList<String>();
+        listepoint.add("10000000");
+        listepoint.add("800120");
+        listepoint.add("800000");
+        listepoint.add("100234");
+        listepoint.add("102400");
+        listepoint.add("102400");
+        listepoint.add("102400");
+        listepoint.add("102400");
+        listepoint.add("102400");
+        listepoint.add("102400");
+        listepoint.add("102400");
 
-        for (int i=1; i<11;i++){
-            TextField tf = new TextField("Plass nr: "+i, style);
-            highscoreResults.add(tf);
-            highscoreResults.getCell(tf).height(20).width(100);
+        ArrayList<String> listename = new ArrayList<String>();
+        listename.add("lise");
+        listename.add("hanne");
+        listename.add("aasne");
+        listename.add("stargate1");
+        listename.add("winner2");
+        listename.add("person23");
+        listename.add("person23");
+        listename.add("hanne");
+        listename.add("username2");
+        listename.add("jennyalm");
+
+        highscoreResults =  new Table(); // Table containing the buttons on the screen
+        highscoreResults.setPosition(Gdx.graphics.getWidth()/2f + highscoreResults.getWidth(), Gdx.graphics.getHeight()/100f*45f);
+        highscoreResults.center();
+
+        for (int i = 0; i<listepoint.size(); i++) {
+            TextField rank;
+            TextField name;
+            TextField score;
+
+            if (i == 0) {
+                rank = new TextField("Rank", style);
+                name = new TextField("Name", style);
+                score = new TextField("Points", style);
+            }
+            else {
+                rank = new TextField(i + ". ", style);
+                name = new TextField(listename.get(i - 1), style);
+                score = new TextField(listepoint.get(i - 1), style);
+            }
+
+            highscoreResults.add(rank);
+            highscoreResults.add(name);
+            highscoreResults.add(score);
+            highscoreResults.getCell(rank).height(20).width(60);
+            highscoreResults.getCell(name).height(20).width(150);
+            highscoreResults.getCell(score).height(20).width(130);
+
             highscoreResults.row();
         }
     }

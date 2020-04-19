@@ -32,7 +32,7 @@ public class LoadingScreen extends ScreenAdapter implements ScreenInterface{
 
     @Override
     public void create(){
-        loadingText = new Label("Loading...", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        loadingText = new Label("Loading...", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
         loadingText.setPosition(Gdx.graphics.getWidth()/2f - loadingText.getWidth()/2f,
                 Gdx.graphics.getHeight()/2f);
 
