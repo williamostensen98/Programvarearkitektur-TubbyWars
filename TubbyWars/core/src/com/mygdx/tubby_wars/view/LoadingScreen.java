@@ -32,9 +32,9 @@ public class LoadingScreen extends ScreenAdapter implements ScreenInterface{
 
     @Override
     public void create(){
-        loadingText = new Label("Loading...", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        loadingText.setSize(Gdx.graphics.getWidth(), 100);
-        loadingText.setPosition(200,200);
+        loadingText = new Label("Loading...", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        loadingText.setPosition(Gdx.graphics.getWidth()/2f - loadingText.getWidth()/2f,
+                Gdx.graphics.getHeight()/2f);
 
         stage = new Stage(new ScreenViewport());
         stage.addActor(loadingText);
@@ -59,7 +59,7 @@ public class LoadingScreen extends ScreenAdapter implements ScreenInterface{
     @Override
     public void draw() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(187.0f/255.0f, 231.0f/255.0f, 255.0f/255.0f, 1.0f);
         stage.draw();
     }
 

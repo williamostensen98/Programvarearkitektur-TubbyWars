@@ -3,73 +3,98 @@ package com.mygdx.tubby_wars.view;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.Assets;
+import com.mygdx.tubby_wars.model.ControllerLogic;
+
+import java.util.ArrayList;
 
 public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
     private TubbyWars game;
     private Engine engine;
 
-    //Initializing the textures
-    private Texture backB;
+    //Textures for title of page
+    private Texture titleText;
+
     private Texture background;
+    //Textures for buttons
+    private Texture menuScreenB;
+    private Texture newGameB;
+    private Texture quitGameB;
+    private Texture settingsB;
 
-    //Initiializing the background music
-    private Music music;
+    //Buttons
+    private Button quitGameButton;
+    private Button newGameButton;
+    private Button menuScreenButton;
+    private Button settingsButton;
 
-    private Sprite sprite;
-    private SpriteBatch sb;
+    private Sound click;
     private Stage stage;
+
+    private Table highscoreResults;
+
 
     public HighScoreScreen(TubbyWars game, Engine engine){
         super();
         this.game = game;
         this.engine = engine;
 
-        background = Assets.getTexture(Assets.mainBackground);
-        backB = Assets.getTexture(Assets.backButton);
+        //background = Assets.getTexture(Assets.mainBackground);
+        titleText = Assets.getTexture(Assets.highscoreTitle);
+        menuScreenB = Assets.getTexture(Assets.menuScreenButton);
+        quitGameB = Assets.getTexture(Assets.quitGameButton);
+        newGameB = Assets.getTexture(Assets.newGameButton);
+        settingsB = Assets.getTexture(Assets.settingSignButton);
+        background = Assets.getTexture(Assets.highscoreBackground);
 
-        this.music = game.getMusic();
-        this.music.setVolume(0.3f);
-        this.music.play();
-        game.playMusic(music);
+        this.click = game.getClickSound();
 
         // one-time operations
         create();
     }
 
     public void create(){
-        stage = new Stage(new ScreenViewport());
-        sb = new SpriteBatch();
 
+        stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        //Initialiserer button to get GameScreen
-        final Button menuButton = new Button(new TextureRegionDrawable(new TextureRegion(backB)));
-        menuButton.setSize(60, 60);
-        menuButton.setPosition(Gdx.graphics.getWidth() / 2 - menuButton.getWidth() / 2 , Gdx.graphics.getHeight() / 6 - menuButton.getHeight() / 2);
+        //Initialize title text image
+        final Image title = new Image(titleText);
+        title.setSize(150,75);
+        title.setPosition(Gdx.graphics.getWidth()/2f - title.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - title.getHeight()/2f);
 
-        menuButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.setScreen(new MenuScreen(game, engine));
-            }
+        makeButtons();
+        makeTable();
 
-        });
+        stage.addActor(title);
+        stage.addActor(highscoreResults);
 
-        stage.addActor(menuButton);
+        if (ControllerLogic.loggedIn) {
+            stage.addActor(newGameButton);
+            stage.addActor(quitGameButton);
+            stage.addActor(settingsButton);
+        }
+        else {
+            stage.addActor(menuScreenButton);
+        }
     }
 
     @Override
@@ -80,9 +105,9 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
     @Override
     public void draw(){
-        sb.begin(); // Draw elements to Sprite Batch
-        sb.draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
-        sb.end();
+        game.getBatch().begin();
+        game.getBatch().draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        game.getBatch().end();
 
         stage.draw();
     }
@@ -101,4 +126,125 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     public void dispose(){
         super.dispose();
     }
+
+    private void makeButtons() {
+        //Initialiserer quit button, going back to MenuScreen
+        quitGameButton = new Button(new TextureRegionDrawable(new TextureRegion(quitGameB)));
+        quitGameButton.setSize(100, 50);
+        quitGameButton.setPosition(Gdx.graphics.getWidth() / 6f - quitGameButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - quitGameButton.getHeight() / 2f);
+
+        quitGameButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+                ControllerLogic.loggedIn = false; //Quits game
+                game.setScreen(new MenuScreen(game, engine));
+            }
+        });
+
+        //Initialiserer button to get to menuScreen
+        menuScreenButton = new Button(new TextureRegionDrawable(new TextureRegion(menuScreenB)));
+        menuScreenButton.setSize(100, 50);
+        menuScreenButton.setPosition(Gdx.graphics.getWidth() / 6f - menuScreenButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - menuScreenButton.getHeight() / 2f);
+
+        menuScreenButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+                game.setScreen(new MenuScreen(game, engine));
+            }
+
+        });
+
+        //Initialiserer button to get GameScreen
+        newGameButton = new Button(new TextureRegionDrawable(new TextureRegion(newGameB)));
+        newGameButton.setSize(100, 50);
+        newGameButton.setPosition(Gdx.graphics.getWidth() / 6f*5f - newGameButton.getWidth() / 2f, Gdx.graphics.getHeight() / 6f - newGameButton.getHeight() / 2f);
+
+        newGameButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+                game.setScreen(new ShopScreen(game, engine));
+            }
+        });
+
+        //Initialize button to get to SettingsScreen
+        settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
+        settingsButton.setSize(50, 50);
+        settingsButton.setPosition(Gdx.graphics.getWidth()*85f/90f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight()* 75f/90f - settingsButton.getHeight() / 2f);
+
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+                ControllerLogic.fromHighScoreScreen = true;
+                game.setScreen(new SettingScreen(game, engine));
+            }
+        });
+    }
+
+    private void makeTable() {
+        //Textfield style
+        TextField.TextFieldStyle style = new TextField.TextFieldStyle();
+        style.font = new BitmapFont();
+        style.fontColor = Color.BLACK;
+
+        //TODO: Use list from database insted, remember to split
+        ArrayList<String> listepoint = new ArrayList<String>();
+        listepoint.add("10000000");
+        listepoint.add("800120");
+        listepoint.add("800000");
+        listepoint.add("100234");
+        listepoint.add("102400");
+        listepoint.add("102400");
+        listepoint.add("102400");
+        listepoint.add("102400");
+        listepoint.add("102400");
+        listepoint.add("102400");
+        listepoint.add("102400");
+
+        ArrayList<String> listename = new ArrayList<String>();
+        listename.add("lise");
+        listename.add("hanne");
+        listename.add("aasne");
+        listename.add("stargate1");
+        listename.add("winner2");
+        listename.add("person23");
+        listename.add("person23");
+        listename.add("hanne");
+        listename.add("username2");
+        listename.add("jennyalm");
+
+        highscoreResults =  new Table(); // Table containing the buttons on the screen
+        highscoreResults.setPosition(Gdx.graphics.getWidth()/2f + highscoreResults.getWidth(), Gdx.graphics.getHeight()/100f*45f);
+        highscoreResults.center();
+
+        for (int i = 0; i<listepoint.size(); i++) {
+            TextField rank;
+            TextField name;
+            TextField score;
+
+            if (i == 0) {
+                rank = new TextField("Rank", style);
+                name = new TextField("Name", style);
+                score = new TextField("Points", style);
+            }
+            else {
+                rank = new TextField(i + ". ", style);
+                name = new TextField(listename.get(i - 1), style);
+                score = new TextField(listepoint.get(i - 1), style);
+            }
+
+            highscoreResults.add(rank);
+            highscoreResults.add(name);
+            highscoreResults.add(score);
+            highscoreResults.getCell(rank).height(20).width(60);
+            highscoreResults.getCell(name).height(20).width(150);
+            highscoreResults.getCell(score).height(20).width(130);
+
+            highscoreResults.row();
+        }
+    }
 }
+
