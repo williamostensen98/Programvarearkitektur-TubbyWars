@@ -124,7 +124,7 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
     public void draw() {
         // Draw elements to Sprite Batch, textFields and Background
         game.getBatch().begin();
-        game.getBatch().draw(background, 0, 0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        game.getBatch().draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
         game.getBatch().draw(textField1, Gdx.graphics.getWidth() / 14f * 2f, Gdx.graphics.getHeight() / 8f * 5f - textField1.getHeight() / 3f, 150, 20); //Draws logo
         game.getBatch().draw(textField2, Gdx.graphics.getWidth() / 20f * 13f, Gdx.graphics.getHeight() / 8f * 5f - textField2.getHeight() / 3f, 150, 20); //Draws logo
         game.getBatch().end();

@@ -80,7 +80,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void draw(){
         game.getBatch().begin(); // Draw elements to Sprite Batch
-        game.getBatch().draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
         game.getBatch().draw(logo, Gdx.graphics.getWidth()/2f - logo.getWidth()/2f,
                 Gdx.graphics.getHeight()/2f, 300,150); //Draws logo
         game.getBatch().end();
