@@ -20,7 +20,6 @@ import com.badlogic.gdx.audio.Sound;
 public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
     private TubbyWars game;
-    private Engine engine;
 
     //Initialize textures
     private Texture logo;
@@ -38,11 +37,12 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     private Sound click;
 
     private Stage stage;
+    private Engine engine;
 
     public MenuScreen(TubbyWars game, Engine engine){
         super();
         this.game = game;
-        this.engine = engine;
+
 
         background = Assets.getTexture(Assets.mainBackground);
         logo = Assets.getTexture(Assets.logo);
@@ -120,7 +120,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                game.setScreen(new CharacterCreationScreen(game, engine));
+                game.setScreen(new CharacterCreationScreen(game));
             }
         });
 

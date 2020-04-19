@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -57,6 +58,7 @@ public class PlayerOne extends PlayerModel {
         healthbar = new Healthbar(b2Body, playerEntity);
 
 
+
     }
 
     /***
@@ -75,6 +77,11 @@ public class PlayerOne extends PlayerModel {
         }
         weapon.draw(game.batch);
         healthbar.draw(game.batch);
+
+
+
+
+
     }
 
     @Override

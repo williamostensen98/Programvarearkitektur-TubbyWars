@@ -1,6 +1,7 @@
 package com.mygdx.tubby_wars.view;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -17,13 +19,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.controller.CourseSystem;
+import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
+import com.mygdx.tubby_wars.model.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CharacterCreationScreen extends ScreenAdapter implements ScreenInterface {
 
     private TubbyWars game;
-    private Engine engine;
     private Stage stage;
 
     //Textures
@@ -61,10 +68,21 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
     private TextField user1Input;
     private TextField user2Input;
 
-    public CharacterCreationScreen(TubbyWars game, Engine engine) {
+
+    // ASHLEY COMPONENTS
+
+    // the engine keeps track of the entities and manages the entity systems
+    private Engine engine;
+    // World is used to create players and course.
+    private World ashleyWorld;
+
+    private List<Entity> players;
+    private Entity courseEntity;
+    private PlayerSystem playerSystem;
+
+    public CharacterCreationScreen(TubbyWars game) {
         super();
         this.game = game;
-        this.engine = engine;
 
         //Getting the right assets
         //logo = Assets.getTexture(Assets.usernameTitle);
@@ -79,11 +97,32 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
         rodTubby = Assets.getTexture(Assets.rodTubby);
         lillaTubby = Assets.getTexture(Assets.lillaTubby);
 
-        //Getting rigth sound
+        //Getting right sound
         this.click = game.getClickSound();
 
         // one-time operations
+        setupAshley();
         create();
+    }
+
+    public void setupAshley(){
+        engine = new Engine();
+        ashleyWorld = new World(engine);
+
+        // ADDS SYSTEMS TO THE ENGINE
+        engine.addSystem(new PlayerSystem());
+        engine.addSystem(new CourseSystem());
+
+        // CREATE PLAYERS AND COURSE
+        players = ashleyWorld.createPlayers();
+        courseEntity = ashleyWorld.createCourse();
+
+        // CONNECT PLAYERS TO THE COURSE, (NOT CRUCIAL ATM)
+        engine.getSystem(CourseSystem.class).addPlayers(courseEntity, players);
+
+        // if we want to use functions from playerSystem, use the following
+        // playerSystem.thefunction(players.get(0)), 0 for player 1 and 1 for player 2
+        playerSystem = engine.getSystem(PlayerSystem.class);
     }
 
     public void create() {
@@ -148,63 +187,38 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
     }
 
     //Helpingfunctions
+    private ClickListener clickListener(final Entity playerEntity, final Texture tubby){
+        return new ClickListener(){
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos){
+                game.playSound(click);
+                playerSystem.setTexture(playerEntity, tubby);
+            }
+        };
+    }
+
     private void makeButtons() {
+
         //Initializing sprites as buttons
         redTubby = new Button(new TextureRegionDrawable(new TextureRegion(rodTubby)));
         redTubby.setSize(50, 70);
         redTubby.setPosition(Gdx.graphics.getWidth() / 8f * 2f - redTubby.getWidth(), Gdx.graphics.getHeight() / 24f * 7f - redTubby.getHeight() / 2f);
-        redTubby.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                //Adds click effect
-                game.playSound(click);
-
-                //Chooses red as character for player 1
-                ControllerLogic.character1 = "r";
-            }
-        });
+        redTubby.addListener(clickListener(players.get(0), rodTubby));
 
         purpleTubby = new Button(new TextureRegionDrawable(new TextureRegion(lillaTubby)));
         purpleTubby.setSize(50, 70);
         purpleTubby.setPosition(Gdx.graphics.getWidth() / 8f * 3f - purpleTubby.getWidth(), Gdx.graphics.getHeight() / 24f * 7f - purpleTubby.getHeight() / 2f);
-        purpleTubby.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                //Adds click effect
-                game.playSound(click);
-
-                //Chooses purple as character for player 1
-                ControllerLogic.character1 = "p";
-            }
-        });
+        purpleTubby.addListener(clickListener(players.get(0), lillaTubby));
 
         yellowTubby = new Button(new TextureRegionDrawable(new TextureRegion(gulTubby)));
         yellowTubby.setSize(50, 70);
         yellowTubby.setPosition(Gdx.graphics.getWidth() / 16f * 11f - yellowTubby.getWidth(), Gdx.graphics.getHeight() / 24f * 7f - yellowTubby.getHeight() / 2f);
-        yellowTubby.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                //Adds click effect
-                game.playSound(click);
-
-                //Chooses yellow as character for player 2
-                ControllerLogic.character2 = "y";
-            }
-        });
+        yellowTubby.addListener(clickListener(players.get(1), gulTubby));
 
         greenTubby = new Button(new TextureRegionDrawable(new TextureRegion(gronnTubby)));
         greenTubby.setSize(50, 70);
         greenTubby.setPosition(Gdx.graphics.getWidth() / 16f * 13f - greenTubby.getWidth(), Gdx.graphics.getHeight() / 24f * 7f - greenTubby.getHeight() / 2f);
-        greenTubby.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                //Adds click effect
-                game.playSound(click);
-
-                //Chooses green as character for player 2
-                ControllerLogic.character2 = "g";
-            }
-        });
+        greenTubby.addListener(clickListener(players.get(1), gronnTubby));
 
         //Initialiserer button to get GameScreen
         gameButton = new Button(new TextureRegionDrawable(new TextureRegion(startGameB)));
@@ -219,9 +233,10 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
                 //Cheks if players are ready to continue
                 usernameCheck();
             }
-
         });
     }
+
+
 
     private void makeTextFields() {
         //Making style for TextField
@@ -268,22 +283,28 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
         //Checks that usernames does not contain æøå or space
         if (!username1.isEmpty() && !username1.contains("æ") && !username1.contains("ø") && !username1.contains("å")
                 && !username1.contains(" ") && !username1.contains("æ") && !username2.contains("ø") && !username2.contains("å")
-                && !username2.contains(" ") && !username2.isEmpty() && !username1.equals(username2) && !ControllerLogic.character1.isEmpty()
-                && !ControllerLogic.character2.isEmpty()) {
+                && !username2.contains(" ") && !username2.isEmpty() && !username1.equals(username2)
+                && playerSystem.getTexture(players.get(0)) != null && playerSystem.getTexture(players.get(1)) != null) {
+
+
 
             //Saves usernames
             ControllerLogic.username1 = user1Input.getText().toLowerCase();
             ControllerLogic.username2 = user2Input.getText().toLowerCase();
 
+            // saves username in playerComponent
+            playerSystem.setUsername(players.get(0),username1);
+            playerSystem.setUsername(players.get(1),username2);
+
             //TODO: Remove when connected to database
-            System.out.println("Username 1: " + ControllerLogic.username1 + ", character: " + ControllerLogic.character1);
-            System.out.println("Username 2: " + ControllerLogic.username2 + ", character: " + ControllerLogic.character2);
+            System.out.println("Username 1: " + playerSystem.getUsername(players.get(0)) + ", character: " + playerSystem.getTexture(players.get(0)));
+            System.out.println("Username 2: " + playerSystem.getUsername(players.get(1)) + ", character: " + playerSystem.getTexture(players.get(1)));
 
             //Sets loggedIn to true, so that Setting Screen changes.
             ControllerLogic.loggedIn = true;
 
             //Goes to gameScreen
-            game.setScreen(new PlayScreen(game));
+            game.setScreen(new PlayScreen(game, engine, players));
         } else {
             stage.addActor(informationText);
         }

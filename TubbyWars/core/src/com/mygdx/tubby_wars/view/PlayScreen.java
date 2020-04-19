@@ -6,7 +6,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -14,7 +16,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -24,6 +30,7 @@ import com.mygdx.tubby_wars.controller.CourseSystem;
 import com.mygdx.tubby_wars.controller.InputProcessor;
 import com.mygdx.tubby_wars.controller.Physics;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
+import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.B2WorldCreator;
 import com.mygdx.tubby_wars.model.CollisionListener;
 import com.mygdx.tubby_wars.model.ControllerLogic;
@@ -65,24 +72,20 @@ public class PlayScreen implements Screen {
     public float position_player1, position_player2;
 
 
+    private Texture settingsB;
 
-    // ASHLEY, MIGHT WANT TO MOVE THE CREATION OF THIS TO THE USERNAME SCREEN
-
-    // the engine keeps track of the entities and manages the entity systems
+    // ASHLEY
     private Engine engine;
-    // World.java in model, used to create players and course.
-    private com.mygdx.tubby_wars.model.World ashleyWorld;
-
     private List<Entity> players;
-    private Entity courseEntity;
-    private PlayerSystem playerSystem;
 
 
-    public PlayScreen(TubbyWars game) {
+    public PlayScreen(TubbyWars game, Engine engine, List<Entity> players) {
         this.game = game;
 
-        // RUNS ALL THE ASHLEY STUFF, THIS COULD BE MOVED TO USERNAME SCREEN
-        setupAshley();
+        this.engine = engine;
+        this.players = players;
+        settingsB = Assets.getTexture(Assets.pauseGameButton);
+
 
 
         gameCam = new OrthographicCamera(TubbyWars.V_WIDTH, TubbyWars.V_HEIGHT);
@@ -130,27 +133,11 @@ public class PlayScreen implements Screen {
         world.setContactListener(new CollisionListener());
 
 
+        // TODO DENNE FIKSER SETTINGSKNAPPEN, HUK AV DENNE NÅR DEN ER KLAR
+        // createSettingsButton();
+
     }
 
-    public void setupAshley(){
-        engine = new Engine();
-        ashleyWorld = new com.mygdx.tubby_wars.model.World(engine);
-
-        // ADDS SYSTEMS TO THE ENGINE
-        engine.addSystem(new PlayerSystem());
-        engine.addSystem(new CourseSystem());
-
-        // CREATE PLAYERS AND COURSE
-        players = ashleyWorld.createPlayers();
-        courseEntity = ashleyWorld.createCourse();
-
-        // CONNECT PLAYERS TO THE COURSE, (NOT CRUCIAL ATM)
-        engine.getSystem(CourseSystem.class).addPlayers(courseEntity, players);
-
-        // if we want to use functions from playerSystem, use the following
-        // playerSystem.thefunction(players.get(0)), 0 for player 1 and 1 for player 2
-        playerSystem = engine.getSystem(PlayerSystem.class);
-    }
 
 
     public void setGameCamPosition(){
@@ -271,6 +258,25 @@ public class PlayScreen implements Screen {
 
 
         }
+    }
+
+    // TODO fix so that the settings button is clickable when playing, now the trajectory actor takes priority
+    public void createSettingsButton(){
+        //Initialize button to get to SettingsScreen
+        final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
+        settingsButton.setSize(50, 50);
+        settingsButton.setPosition(Gdx.graphics.getWidth()*85f/90f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight()* 75f/90f - settingsButton.getHeight() / 2f);
+
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                // TODO Vi bør ikke lage nye screens hele tiden tror jeg, men heller ha de lagret,
+                //  kan bli vanskelig å komme tilbake til playScreen hvis ikke.
+                game.setScreen(new SettingScreen(game, engine));
+            }
+        });
+
+        stage.addActor(settingsButton);
     }
 
 

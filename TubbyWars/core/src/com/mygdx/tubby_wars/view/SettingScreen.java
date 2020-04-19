@@ -215,7 +215,8 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
                     ControllerLogic.fromHighScoreScreen = false;
                 }
                 else {
-                    game.setScreen(new PlayScreen(game));
+                    // må finne på noe lurt her, da playScreen må ta inn players og engine
+                    //game.setScreen(new PlayScreen(game));
                 }
             }
         });
