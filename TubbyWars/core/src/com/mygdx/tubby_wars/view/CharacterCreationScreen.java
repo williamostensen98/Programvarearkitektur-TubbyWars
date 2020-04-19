@@ -20,19 +20,17 @@ import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
-public class UsernameScreen extends ScreenAdapter implements ScreenInterface {
+public class CharacterCreationScreen extends ScreenAdapter implements ScreenInterface {
 
     private TubbyWars game;
     private Engine engine;
-
     private Stage stage;
 
-    //Initializing the textures
-    //private Texture logo;
+    //Textures
     private Texture background;
     private Texture textField1;
     private Texture textField2;
-    private Texture playB;
+    private Texture startGameB;
 
     //Sprites
     private Texture gulTubby;
@@ -63,8 +61,7 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface {
     private TextField user1Input;
     private TextField user2Input;
 
-
-    public UsernameScreen(TubbyWars game, Engine engine) {
+    public CharacterCreationScreen(TubbyWars game, Engine engine) {
         super();
         this.game = game;
         this.engine = engine;
@@ -74,7 +71,7 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface {
         background = Assets.getTexture(Assets.characterBackground);
         textField1 = Assets.getTexture(Assets.textFieldBackground);
         textField2 = Assets.getTexture(Assets.textFieldBackground);
-        playB = Assets.getTexture(Assets.playButton);
+        startGameB = Assets.getTexture(Assets.gameScreenButton);
 
         //Sprites
         gulTubby = Assets.getTexture(Assets.gulTubby);
@@ -210,7 +207,7 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface {
         });
 
         //Initialiserer button to get GameScreen
-        gameButton = new Button(new TextureRegionDrawable(new TextureRegion(playB)));
+        gameButton = new Button(new TextureRegionDrawable(new TextureRegion(startGameB)));
         gameButton.setSize(100, 50);
         gameButton.setPosition(Gdx.graphics.getWidth() / 2f - gameButton.getWidth() / 2f, Gdx.graphics.getHeight() / 10f - gameButton.getHeight() / 2f);
         gameButton.addListener(new ClickListener() {
@@ -235,13 +232,13 @@ public class UsernameScreen extends ScreenAdapter implements ScreenInterface {
         //Placing textFields for username input
         user1Input = new TextField("", style);
         user1Input.setPosition(Gdx.graphics.getWidth() / 50f * 11f - user1Input.getWidth() / 5f * 2f, Gdx.graphics.getHeight() / 8f * 5f - user1Input.getHeight() / 2);
-        user1Input.setSize(150, 20);
+        user1Input.setSize(140, 20);
 
         user2Input = new TextField("", style);
         user2Input.setPosition(Gdx.graphics.getWidth() / 100f * 73f - user2Input.getWidth() / 5f * 2f, Gdx.graphics.getHeight() / 8f * 5f - user1Input.getHeight() / 2);
-        user2Input.setSize(150, 20);
-
+        user2Input.setSize(140, 20);
     }
+
     private void makeLabels() {
         //Placing text
         user1Text = new Label("Player 1:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
