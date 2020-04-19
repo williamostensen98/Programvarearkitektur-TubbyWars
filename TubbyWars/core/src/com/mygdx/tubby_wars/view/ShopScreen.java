@@ -159,7 +159,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 //Add click effect
                 game.playSound(click);
-                //game.setScreen(new PlayScreen(game));
+                game.setScreen(ControllerLogic.currentGame);
             }
 
         });

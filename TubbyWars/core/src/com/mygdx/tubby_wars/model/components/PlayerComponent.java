@@ -6,7 +6,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 
-public class PlayerComponent implements Component {
+public class PlayerComponent implements Component{
 
     public String playerName;
     public int health;

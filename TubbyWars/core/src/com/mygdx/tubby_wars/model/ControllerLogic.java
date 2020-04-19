@@ -1,6 +1,8 @@
 package com.mygdx.tubby_wars.model;
 
 
+import com.mygdx.tubby_wars.view.PlayScreen;
+
 import java.util.ArrayList;
 
 
@@ -40,5 +42,9 @@ public class ControllerLogic {
 
 
     // WEAPON AND BULLET LOGICS - DICTIONARY
+
+
+    // PLAYSCREEN
+    public static PlayScreen currentGame;
 
 }

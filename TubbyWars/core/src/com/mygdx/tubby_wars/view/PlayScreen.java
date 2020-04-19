@@ -3,6 +3,7 @@ package com.mygdx.tubby_wars.view;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -84,9 +85,6 @@ public class PlayScreen implements Screen {
 
         this.engine = engine;
         this.players = players;
-        settingsB = Assets.getTexture(Assets.pauseGameButton);
-
-
 
         gameCam = new OrthographicCamera(TubbyWars.V_WIDTH, TubbyWars.V_HEIGHT);
         viewPort = new StretchViewport(TubbyWars.V_WIDTH, TubbyWars.V_HEIGHT, gameCam);
@@ -120,8 +118,8 @@ public class PlayScreen implements Screen {
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
         // ADDS THE PLAYERS
         player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 0.64f, players.get(0), engine);
-        //player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 0.64f, players.get(1), engine);
-        player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 0.64f, players.get(1), engine);
+        player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 0.64f, players.get(1), engine);
+        // player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 0.64f, players.get(1), engine);
 
         physics.setPlayer(player1);
         // LOADS THE PACK FILE WITH INTO AN ATLAS WHERE ALL THE CHARACTER SPRITES ARE
@@ -136,6 +134,8 @@ public class PlayScreen implements Screen {
         // TODO DENNE FIKSER SETTINGSKNAPPEN, HUK AV DENNE NÅR DEN ER KLAR
         // createSettingsButton();
 
+
+        ControllerLogic.currentGame = this;
     }
 
 
@@ -255,13 +255,36 @@ public class PlayScreen implements Screen {
                 gameCam.position.x = Math.min(player2.b2Body.getPosition().x, mapPixelWidth / 100f - gameCam.viewportWidth / 2);
 
             }
-
-
         }
+
+        if(isRoundOver()){
+            prepareForNextRound();
+            game.setScreen(new ShopScreen(game, engine));
+        }
+    }
+
+    // TODO RESET THE NEXT ROUND CORRECTLY, THIS IS JUST A TEST
+    private void prepareForNextRound(){
+        player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 0.64f, players.get(0), engine);
+        player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 0.64f, players.get(1), engine);
+        // player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 0.64f, players.get(1), engine);
+
+        engine.getSystem(PlayerSystem.class).setHealth(players.get(0),150);
+        engine.getSystem(PlayerSystem.class).setHealth(players.get(1),150);
+    }
+
+    private boolean isRoundOver(){
+        if(engine.getSystem(PlayerSystem.class).getHealth(players.get(0)) < 0
+                || engine.getSystem(PlayerSystem.class).getHealth(players.get(1)) < 0){
+            return true;
+        }
+        return false;
     }
 
     // TODO fix so that the settings button is clickable when playing, now the trajectory actor takes priority
     public void createSettingsButton(){
+        settingsB = Assets.getTexture(Assets.pauseGameButton);
+
         //Initialize button to get to SettingsScreen
         final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
         settingsButton.setSize(50, 50);

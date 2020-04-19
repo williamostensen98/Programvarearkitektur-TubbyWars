@@ -41,7 +41,7 @@ public class TubbyWars extends Game {
 		LoadingScreen loadingScreen = new LoadingScreen(this, engine);
 		setScreen(loadingScreen);
 		this.musicStateManager = new MusicStateManager(this);
-   this.soundStateManager = new SoundStateManager(this);
+        this.soundStateManager = new SoundStateManager(this);
 	}
 
 	@Override
