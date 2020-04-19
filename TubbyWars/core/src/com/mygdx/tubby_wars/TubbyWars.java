@@ -22,17 +22,13 @@ public class TubbyWars extends Game {
 
     private Assets assets;
     private Engine engine;
-    private SpriteBatch batch;
+    public SpriteBatch batch;
 
-	public SpriteBatch batch;
 	public final static float V_WIDTH = 12.8f;
 	public final static float V_HEIGHT = 5.76f;
 
   public MusicStateManager musicStateManager;
   public SoundStateManager soundStateManager;
-
-  
-
 
 	@Override
 	public void create () {
@@ -58,14 +54,8 @@ public class TubbyWars extends Game {
 
 		batch.dispose();
 	}
-	// added comment to test closing issue
 
-       
-   public SpriteBatch getBatch() { return batch; }
-
-   
-    // added comment to test closing issue
-
+    public SpriteBatch getBatch() { return batch; }
 
     //Adding music sounds
     public Music getBackgroundMusic() {return Assets.getMusic(Assets.backgroundMusic); }

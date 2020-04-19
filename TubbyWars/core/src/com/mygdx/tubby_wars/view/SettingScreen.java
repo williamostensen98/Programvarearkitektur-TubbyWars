@@ -109,7 +109,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void draw() {
         game.getBatch().begin(); // Draw elements to Sprite Batch
-        game.getBatch().draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
         //game.getBatch().draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
         game.getBatch().end();
 
@@ -215,7 +215,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
                     ControllerLogic.fromHighScoreScreen = false;
                 }
                 else {
-                    game.setScreen(new GameScreen(game, engine));
+                    game.setScreen(new PlayScreen(game));
                 }
             }
         });
