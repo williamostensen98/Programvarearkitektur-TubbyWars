@@ -24,6 +24,11 @@ import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
 import java.util.List;
 
+
+/**
+ * NB: DENNE HAR INGEN HENSIKT Å HA LENGER, MEN VENTER MED Å FJERNE TIL VI HAR FÅTT ORDEN PÅ ELEMENTER SOM KAN BRUKES HERIFRA I PLAYSCREEN. FEKS SETTINGS KNAPP
+ * */
+
 public class GameScreen extends ScreenAdapter implements ScreenInterface{
 
     private TubbyWars game;
@@ -37,7 +42,7 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
     
     private Entity courseEntity;
 
-    private CourseView cv;
+
 
     private int turnCounter = 0;
     private boolean loadedNewTurn = false;
@@ -74,7 +79,7 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
         engine.getSystem(CourseSystem.class).addPlayers(courseEntity, players);
 
         // creates the CourseView
-        cv = new CourseView(game, courseEntity);
+
         
         playerSystem = engine.getSystem(PlayerSystem.class);
 
@@ -110,7 +115,6 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
 
     @Override
     public void update(float dt) {
-        checkEndTurn();
         handleinput();
         engine.update(dt);
         gameStage.act(Gdx.graphics.getDeltaTime());
@@ -122,7 +126,7 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
         Gdx.gl.glClearColor(1, 0, 0, 1);
 
         // draws CourseView, both players, course background, etc...
-        cv.draw();
+
 
         // Draws buttons, have yet to implement them
         // gameStage.draw();
@@ -132,61 +136,6 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
     @Override
     public void handleinput() {
 
-        if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            game.setScreen(new SettingScreen(game, engine));
-        }
-        // create a new MenuScreen and set the screen to that, Should perhaps not create a new one, but use the previous
-        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
-            game.setScreen(new MenuScreen(game, engine));
-        }
-
-        // quick test of going to the next player, gets removed later
-        if(Gdx.input.isKeyPressed(Input.Keys.N)){
-            endTurn(courseEntity);
-        }
-
-        // Send updates about how to draw the aim arrow
-        if(Gdx.input.isTouched()){
-            if(playerSystem.getIsYourTurn(players.get(0))){
-                playerSystem.setAimArrow(players.get(0), Gdx.input.getDeltaX() * -1, Gdx.input.getDeltaY());
-            }
-            if(playerSystem.getIsYourTurn(players.get(1))){
-                playerSystem.setAimArrow(players.get(1), Gdx.input.getDeltaX() * -1, Gdx.input.getDeltaY());
-            }
-        }
-
-        // shoot
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-
-            // if player one's turn and player one has not shot yet
-            if(playerSystem.getIsYourTurn(players.get(0)) && !playerSystem.getHasFired(players.get(0))){
-                playerSystem.setInitBulletPos(players.get(0), 100, 75);
-                playerSystem.setHasFired(players.get(0),true);
-                playerSystem.setBulletPos(players.get(0));
-
-            }
-
-            // if player two's turn and player two has not shot yet
-            if(playerSystem.getIsYourTurn(players.get(1)) && !playerSystem.getHasFired(players.get(1))){
-                playerSystem.setInitBulletPos(players.get(1), TubbyWars.WIDTH - 100, 75);
-                playerSystem.setHasFired(players.get(1),true);
-                playerSystem.setBulletPos(players.get(1));
-
-            }
-        }
-
-        // if player one's turn and player one has fired
-        if(playerSystem.getIsYourTurn(players.get(0)) && playerSystem.getHasFired(players.get(0))){
-            playerSystem.setBulletPos(players.get(0));
-
-
-        }
-
-        // if player two's turn and player one has fired
-        if(playerSystem.getIsYourTurn(players.get(1)) && playerSystem.getHasFired(players.get(1))){
-            playerSystem.setBulletPos(players.get(1));
-
-        }
     }
 
     @Override
@@ -200,26 +149,7 @@ public class GameScreen extends ScreenAdapter implements ScreenInterface{
         super.dispose();
     }
 
-    public void endTurn(Entity courseEntity){
-        if(playerSystem.getIsYourTurn(players.get(0))){
-            playerSystem.setIsYourTurn(players.get(0), false);
-            playerSystem.setIsYourTurn(players.get(1), true);
-        }
-        else{
-            playerSystem.setIsYourTurn(players.get(1), false);
-            playerSystem.setIsYourTurn(players.get(0), true);
-        }
-        turnCounter = 0;
-    }
 
-    public void checkEndTurn(){
-        if(playerSystem.getShotCounter(players.get(0)) == 3 && playerSystem.getIsYourTurn(players.get(0))){
-            playerSystem.setShotCounter(players.get(0));
-            endTurn(courseEntity);
-        }
-        else if(playerSystem.getShotCounter(players.get(1)) == 3 && playerSystem.getIsYourTurn(players.get(1))){
-            playerSystem.setShotCounter(players.get(1));
-            endTurn(courseEntity);
-        }
-    }
+
+
 }

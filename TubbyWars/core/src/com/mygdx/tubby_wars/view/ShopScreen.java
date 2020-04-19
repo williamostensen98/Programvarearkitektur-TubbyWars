@@ -125,7 +125,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
     @Override
     public void draw() {
         game.getBatch().begin();
-        game.getBatch().draw(background, 0,0, TubbyWars.WIDTH, TubbyWars.HEIGHT); //Draws background photo
+        game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
         game.getBatch().end();
 
         stage.draw();
@@ -159,7 +159,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 //Add click effect
                 game.playSound(click);
-                game.setScreen(new GameScreen(game, engine));
+                game.setScreen(new PlayScreen(game));
             }
 
         });

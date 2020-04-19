@@ -30,69 +30,40 @@ public class World {
      */
 
     public Entity createCourse(){
-
         Entity courseEntity = new Entity();
-
         CourseComponent cc = new CourseComponent();
-
         courseEntity.add(cc);
-
         engine.addEntity(courseEntity);
-
         return courseEntity;
     }
 
 
     public List<Entity> createPlayers(){
-
         List<Entity> entities = new ArrayList<Entity>();
 
-        // add systems to the the engine
-        engine.addSystem(new PlayerSystem());
-        engine.addSystem(new WeaponSystem());
-
-        // creation of player 1, both component and system
+        // creation of player 1
         Entity playerOneEntity = new Entity();
         PlayerComponent playerOneComponent = new PlayerComponent();
         playerOneEntity.add(playerOneComponent);
 
         // connect player 1 to the game engine and set initial variables
         engine.addEntity(playerOneEntity);
-        engine.getSystem(PlayerSystem.class).setUpPosition(this, playerOneEntity, 50, 50);
-        engine.getSystem(PlayerSystem.class).setIsYourTurn(playerOneEntity, true);
-        engine.getSystem(PlayerSystem.class).setInitialAimArrow(playerOneEntity, 200, 150);
-        engine.getSystem(PlayerSystem.class).setHealth(playerOneEntity, 100);
-
-        // create weapon component and system, then add them to player one.
-        Entity weaponOneEntity = new Entity();
-        WeaponComponent weaponOneComponent = new WeaponComponent();
-        weaponOneEntity.add(weaponOneComponent);
-        engine.getSystem(WeaponSystem.class).initiateNewWeapon(weaponOneEntity,"Starting weapon", 20);
-        engine.getSystem(PlayerSystem.class).setWeapon(playerOneEntity, weaponOneEntity);
+        engine.getSystem(PlayerSystem.class).setHealth(playerOneEntity, 150);
+        engine.getSystem(PlayerSystem.class).setUsername(playerOneEntity,"FUCK");
+        engine.getSystem(PlayerSystem.class).setScore(playerOneEntity,0);
 
 
-
-        // creation of player 2, both component and system
+        // creation of player 2
         Entity playerTwoEntity = new Entity();
         PlayerComponent playerTwoComponent = new PlayerComponent();
         playerTwoEntity.add(playerTwoComponent);
 
         // connect player 2 to the game engine, and set initial variables
         engine.addEntity(playerTwoEntity);
-        engine.getSystem(PlayerSystem.class).setUpPosition(this, playerTwoEntity, TubbyWars.WIDTH - 100, 50);
-        engine.getSystem(PlayerSystem.class).setInitialAimArrow(playerTwoEntity, TubbyWars.WIDTH - 200, 150);
         engine.getSystem(PlayerSystem.class).setHealth(playerTwoEntity, 100);
+        engine.getSystem(PlayerSystem.class).setUsername(playerTwoEntity,"CORONA");
+        engine.getSystem(PlayerSystem.class).setScore(playerTwoEntity,0);
 
-        // create weapon component and system, then add them to player two.
-        Entity weaponTwoEntity = new Entity();
-        WeaponComponent weaponTwoComponent = new WeaponComponent();
-        weaponTwoEntity.add(weaponTwoComponent);
-        engine.getSystem(WeaponSystem.class).initiateNewWeapon(weaponTwoEntity,"Starting weapon", 10);
-        engine.getSystem(PlayerSystem.class).setWeapon(playerTwoEntity, weaponTwoEntity);
-
-
-
-        // adds both entities into the same list and return it.
         entities.add(playerOneEntity);
         entities.add(playerTwoEntity);
 

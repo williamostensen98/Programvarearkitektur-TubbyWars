@@ -22,39 +22,40 @@ public class TubbyWars extends Game {
 
     private Assets assets;
     private Engine engine;
-    private SpriteBatch batch;
+    public SpriteBatch batch;
 
-    public MusicStateManager musicStateManager;
-    public SoundStateManager soundStateManager;
+	public final static float V_WIDTH = 12.8f;
+	public final static float V_HEIGHT = 5.76f;
 
-    @Override
-    public void create() {
-        Gdx.graphics.setWindowedMode(WIDTH, HEIGHT);
+  public MusicStateManager musicStateManager;
+  public SoundStateManager soundStateManager;
 
-        assets = new Assets();
-        engine = new Engine();
+	@Override
+	public void create () {
+		//Gdx.graphics.setWindowedMode(WIDTH, HEIGHT);
 
-        batch = new SpriteBatch();
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+		assets = new Assets();
+		engine = new Engine();
+		batch = new SpriteBatch();
 
-        this.setScreen(new LoadingScreen(this, engine));
-        this.musicStateManager = new MusicStateManager(this);
-        this.soundStateManager = new SoundStateManager(this);
-    }
+		LoadingScreen loadingScreen = new LoadingScreen(this, engine);
+		setScreen(loadingScreen);
+		this.musicStateManager = new MusicStateManager(this);
+   this.soundStateManager = new SoundStateManager(this);
+	}
 
-    @Override
-    public void render() {
-        GL20 gl = Gdx.gl;
-        super.render();
-    }
+	@Override
+	public void render () {
+		super.render();
+	}
+
+	@Override
+	public void dispose () {
+
+		batch.dispose();
+	}
 
     public SpriteBatch getBatch() { return batch; }
-
-    @Override
-    public void dispose() {
-        batch.dispose();
-    }
-    // added comment to test closing issue
 
     //Adding music sounds
     public Music getBackgroundMusic() {return Assets.getMusic(Assets.backgroundMusic); }

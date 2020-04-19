@@ -1,12 +1,15 @@
 package com.mygdx.tubby_wars.model;
 
+
 import java.util.ArrayList;
+
 
 public class ControllerLogic {
     public static boolean charging = false;
     public static boolean isPlayersTurn = false;
     public static boolean showBullet = false;
     public static boolean hasFired = false;
+
 
     //Used to check if users need to register usernames
     public static Boolean loggedIn = false;
@@ -22,6 +25,7 @@ public class ControllerLogic {
 
     //Chooses character. Either y (yellow) or g (green) depending on players choise.
     public static String character2 = "";
+
 
     //BITS
 

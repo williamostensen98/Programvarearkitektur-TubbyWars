@@ -283,7 +283,7 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
             ControllerLogic.loggedIn = true;
 
             //Goes to gameScreen
-            game.setScreen(new GameScreen(game, engine));
+            game.setScreen(new PlayScreen(game));
         } else {
             stage.addActor(informationText);
         }
