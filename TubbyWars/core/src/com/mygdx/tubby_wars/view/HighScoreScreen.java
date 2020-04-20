@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -36,13 +37,9 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     private Texture background;
     //Textures for buttons
     private Texture menuScreenB;
-    private Texture newGameB;
-    private Texture quitGameB;
     private Texture settingsB;
 
     //Buttons
-    private Button quitGameButton;
-    private Button newGameButton;
     private Button menuScreenButton;
     private Button settingsButton;
 
@@ -60,8 +57,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         //background = Assets.getTexture(Assets.mainBackground);
         titleText = Assets.getTexture(Assets.highscoreTitle);
         menuScreenB = Assets.getTexture(Assets.menuScreenButton);
-        quitGameB = Assets.getTexture(Assets.quitGameButton);
-        newGameB = Assets.getTexture(Assets.newGameButton);
         settingsB = Assets.getTexture(Assets.settingSignButton);
         background = Assets.getTexture(Assets.highscoreBackground);
 
@@ -86,14 +81,18 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
         stage.addActor(title);
         stage.addActor(highscoreResults);
+        stage.addActor(menuScreenButton);
 
+        //Add everything that should only be visible in when playing game
         if (ControllerLogic.loggedIn) {
-            stage.addActor(newGameButton);
-            stage.addActor(quitGameButton);
             stage.addActor(settingsButton);
-        }
-        else {
-            stage.addActor(menuScreenButton);
+
+            //TODO: Add who won the game!
+            Label informationText = new Label("The winner is " + "username" +  ". Congratulation!", new Label.LabelStyle(new BitmapFont(), Color.PINK));
+            informationText.setPosition(Gdx.graphics.getWidth() / 2f - informationText.getWidth() / 2, Gdx.graphics.getHeight() / 8f * 6f);
+            stage.addActor(informationText);
+
+            //TODO: Add score of player 1 and player 2
         }
     }
 
@@ -128,20 +127,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     }
 
     private void makeButtons() {
-        //Initialiserer quit button, going back to MenuScreen
-        quitGameButton = new Button(new TextureRegionDrawable(new TextureRegion(quitGameB)));
-        quitGameButton.setSize(100, 50);
-        quitGameButton.setPosition(Gdx.graphics.getWidth() / 6f - quitGameButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - quitGameButton.getHeight() / 2f);
-
-        quitGameButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                ControllerLogic.loggedIn = false; //Quits game
-                game.setScreen(new MenuScreen(game, engine));
-            }
-        });
-
         //Initialiserer button to get to menuScreen
         menuScreenButton = new Button(new TextureRegionDrawable(new TextureRegion(menuScreenB)));
         menuScreenButton.setSize(100, 50);
@@ -154,19 +139,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
                 game.setScreen(new MenuScreen(game, engine));
             }
 
-        });
-
-        //Initialiserer button to get GameScreen
-        newGameButton = new Button(new TextureRegionDrawable(new TextureRegion(newGameB)));
-        newGameButton.setSize(100, 50);
-        newGameButton.setPosition(Gdx.graphics.getWidth() / 6f*5f - newGameButton.getWidth() / 2f, Gdx.graphics.getHeight() / 6f - newGameButton.getHeight() / 2f);
-
-        newGameButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                game.setScreen(new ShopScreen(game, engine));
-            }
         });
 
         //Initialize button to get to SettingsScreen

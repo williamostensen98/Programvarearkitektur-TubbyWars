@@ -180,9 +180,6 @@ public class PlayScreen implements Screen {
         position_player2 = player2.b2Body.getPosition().x;
         position_player1 = player1.b2Body.getPosition().x;
         System.out.println(player2.b2Body.getPosition());
-
-
-
     }
 
     /**
@@ -206,7 +203,6 @@ public class PlayScreen implements Screen {
         player2.draw(game.batch);
         game.batch.end();
 
-
         // STAGE RENDERING
         game.batch.setProjectionMatrix(stage.getCamera().combined);
         stage.draw();
@@ -214,8 +210,6 @@ public class PlayScreen implements Screen {
         //Set our batch to now draw what the Hud camera sees.
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-
-
 
     }
 
@@ -258,12 +252,20 @@ public class PlayScreen implements Screen {
         }
 
         if(isRoundOver()){
-            prepareForNextRound();
-            game.setScreen(new ShopScreen(game, engine));
+            ControllerLogic.roundCount ++;
+
+            if (ControllerLogic.roundCount == 3) {
+                game.setScreen(new HighScoreScreen(game, engine));
+            }
+            else {
+                prepareForNextRound();
+                game.setScreen(new ShopScreen(game, engine, players));
+            }
         }
     }
 
-    // TODO RESET THE NEXT ROUND CORRECTLY, THIS IS JUST A TEST
+    //TODO RESET THE NEXT ROUND CORRECTLY, THIS IS JUST A TEST
+    //TODO: Use ControllerLogic.roundCount to choose the right map (Changes for each round)
     private void prepareForNextRound(){
         player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 0.64f, players.get(0), engine);
         player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 0.64f, players.get(1), engine);
@@ -271,6 +273,16 @@ public class PlayScreen implements Screen {
 
         engine.getSystem(PlayerSystem.class).setHealth(players.get(0),150);
         engine.getSystem(PlayerSystem.class).setHealth(players.get(1),150);
+
+        if (ControllerLogic.roundCount == 1) {
+            //TODO: Set first map
+        }
+        else if (ControllerLogic.roundCount == 2) {
+            //TODO: Set second map
+        }
+        else {
+            //TODO: Set third map
+        }
     }
 
     private boolean isRoundOver(){
@@ -336,7 +348,6 @@ public class PlayScreen implements Screen {
         world.dispose();
         b2dr.dispose();
         hud.dispose();
-
     }
 
 }

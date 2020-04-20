@@ -1,6 +1,7 @@
 package com.mygdx.tubby_wars.view;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -22,18 +23,22 @@ import com.mygdx.tubby_wars.model.Assets;
 import com.badlogic.gdx.audio.Sound;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
+import java.util.List;
+
 public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     private TubbyWars game;
     private Engine engine;
     private Stage stage;
     private Texture titleText;
+    private List<Entity> players;
 
     private Texture background;
 
     // Navigation buttons
     private Texture newGameB;
-    private Texture settingsB;
+    //private Texture settingsB;
+    private Texture quitB;
 
     // Weapons buttons
     private Texture gun;
@@ -47,7 +52,8 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     //Buttons
     private Button newGameButton;
-    private Button settingsButton;
+    //private Button settingsButton;
+    private Button quitButton;
     private Button newGun;
     private Button newRifle;
     private Button newRevolver;
@@ -55,18 +61,20 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
     private Button mapMedium;
     private Button mapHard;
 
-    public ShopScreen(TubbyWars game, Engine engine){
+    public ShopScreen(TubbyWars game, Engine engine, List<Entity> players){
         super();
         this.game = game;
         this.engine = engine;
+        this.players = players;
 
         background = Assets.getTexture(Assets.shopBackground);
         titleText = Assets.getTexture(Assets.shopTitle); //Title text for shop
         newGameB = Assets.getTexture(Assets.newGameButton); // resume to game button
+        quitB = Assets.getTexture(Assets.quitGameButton);
         gun = Assets.getTexture(Assets.gunWeapon); // choose gun button
         rifle = Assets.getTexture(Assets.rifleWeapon); // choose rifle button
         revolver = Assets.getTexture(Assets.revolverWeapon); //choose revolver button
-        settingsB = Assets.getTexture(Assets.settingSignButton);
+        //settingsB = Assets.getTexture(Assets.settingSignButton);
         mapE = Assets.getTexture(Assets.mapEasy);
         mapM= Assets.getTexture(Assets.mapMedium);
         mapH = Assets.getTexture(Assets.mapHard);
@@ -106,8 +114,17 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         makeButtons();
 
         //Add buttons to stage
+        if (ControllerLogic.roundCount != 0) {
+                stage.addActor(quitButton);
+
+            //TODO: Add who won the game! Add score for both players
+            Label informationText = new Label("This round the winner is " + "username" +  "! Upgrade your weapons, and good luck in the next round!", new Label.LabelStyle(new BitmapFont(), Color.PINK));
+            informationText.setPosition(Gdx.graphics.getWidth() / 2f - informationText.getWidth() / 2, Gdx.graphics.getHeight() / 8f * 6f);
+            stage.addActor(informationText);
+        }
+
         stage.addActor(newGameButton);
-        stage.addActor(settingsButton);
+        //stage.addActor(settingsButton);
         stage.addActor(newGun);
         stage.addActor(newRifle);
         stage.addActor(newRevolver);
@@ -159,22 +176,22 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 //Add click effect
                 game.playSound(click);
-                game.setScreen(ControllerLogic.currentGame);
+                game.setScreen(new PlayScreen(game, engine, players));
             }
 
         });
 
-        //Initialize button to get to SettingsScreen
-        settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
-        settingsButton.setSize(50, 50);
-        settingsButton.setPosition(Gdx.graphics.getWidth() * 85f / 90f - settingsButton.getWidth() / 2f, Gdx.graphics.getHeight() * 75f / 90f - settingsButton.getHeight() / 2f);
+        //Initialiserer quit button, going back to settings
+        quitButton = new Button(new TextureRegionDrawable(new TextureRegion(quitB)));
+        quitButton.setSize(100, 50);
+        quitButton.setPosition(Gdx.graphics.getWidth() / 6f - quitButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - quitButton.getHeight() / 2f);
 
-        settingsButton.addListener(new ClickListener() {
+        quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                ControllerLogic.fromShopScreen = true;
-                game.setScreen(new SettingScreen(game, engine));
+                ControllerLogic.loggedIn = false; //Quits game
+                game.setScreen(new MenuScreen(game, engine));
             }
         });
 

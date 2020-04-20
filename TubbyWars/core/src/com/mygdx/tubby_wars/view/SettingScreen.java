@@ -206,17 +206,12 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                if (ControllerLogic.fromShopScreen) {
-                    game.setScreen(new ShopScreen(game, engine));
-                    ControllerLogic.fromShopScreen = false;
-                }
-                else if (ControllerLogic.fromHighScoreScreen) {
+                if (ControllerLogic.fromHighScoreScreen) {
                     game.setScreen(new HighScoreScreen(game, engine));
                     ControllerLogic.fromHighScoreScreen = false;
                 }
                 else {
-                    // må finne på noe lurt her, da playScreen må ta inn players og engine
-                    //game.setScreen(new PlayScreen(game));
+                    game.setScreen(ControllerLogic.currentGame);
                 }
             }
         });

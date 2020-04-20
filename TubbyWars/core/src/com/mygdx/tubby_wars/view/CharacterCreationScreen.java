@@ -37,7 +37,7 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
     private Texture background;
     private Texture textField1;
     private Texture textField2;
-    private Texture startGameB;
+    private Texture shopB;
 
     //Sprites
     private Texture gulTubby;
@@ -53,7 +53,7 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
     private Button greenTubby;
     private Button purpleTubby;
     private Button redTubby;
-    private Button gameButton;
+    private Button shopButton;
 
     //Labels with text
     private Label user1Text;
@@ -89,7 +89,7 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
         background = Assets.getTexture(Assets.characterBackground);
         textField1 = Assets.getTexture(Assets.textFieldBackground);
         textField2 = Assets.getTexture(Assets.textFieldBackground);
-        startGameB = Assets.getTexture(Assets.gameScreenButton);
+        shopB = Assets.getTexture(Assets.gameScreenButton);
 
         //Sprites
         gulTubby = Assets.getTexture(Assets.gulTubby);
@@ -146,7 +146,7 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
         stage.addActor(leftText);
         stage.addActor(rightText);
 
-        stage.addActor(gameButton);
+        stage.addActor(shopButton);
         stage.addActor(yellowTubby);
         stage.addActor(greenTubby);
         stage.addActor(redTubby);
@@ -221,22 +221,19 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
         greenTubby.addListener(clickListener(players.get(1), gronnTubby));
 
         //Initialiserer button to get GameScreen
-        gameButton = new Button(new TextureRegionDrawable(new TextureRegion(startGameB)));
-        gameButton.setSize(100, 50);
-        gameButton.setPosition(Gdx.graphics.getWidth() / 2f - gameButton.getWidth() / 2f, Gdx.graphics.getHeight() / 10f - gameButton.getHeight() / 2f);
-        gameButton.addListener(new ClickListener() {
+        shopButton = new Button(new TextureRegionDrawable(new TextureRegion(shopB)));
+        shopButton.setSize(100, 50);
+        shopButton.setPosition(Gdx.graphics.getWidth() / 2f - shopButton.getWidth() / 2f, Gdx.graphics.getHeight() / 10f - shopButton.getHeight() / 2f);
+        shopButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 //Adds click effect
                 game.playSound(click);
-
                 //Cheks if players are ready to continue
                 usernameCheck();
             }
         });
     }
-
-
 
     private void makeTextFields() {
         //Making style for TextField
@@ -286,8 +283,6 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
                 && !username2.contains(" ") && !username2.isEmpty() && !username1.equals(username2)
                 && playerSystem.getTexture(players.get(0)) != null && playerSystem.getTexture(players.get(1)) != null) {
 
-
-
             //Saves usernames
             ControllerLogic.username1 = user1Input.getText().toLowerCase();
             ControllerLogic.username2 = user2Input.getText().toLowerCase();
@@ -304,7 +299,7 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
             ControllerLogic.loggedIn = true;
 
             //Goes to gameScreen
-            game.setScreen(new PlayScreen(game, engine, players));
+            game.setScreen(new ShopScreen(game, engine, players));
         } else {
             stage.addActor(informationText);
         }
