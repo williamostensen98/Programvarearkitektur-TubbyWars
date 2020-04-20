@@ -21,18 +21,21 @@ public class TubbyWars extends Game {
 
 	private Engine engine;
 	private Assets assets;
-	public IBackend IBack;
+	public IBackend backendConn;
 	public MusicStateManager musicStateManager;
 
 
-	public TubbyWars(IBackend IBack){
+	public TubbyWars(IBackend backendConn){
 			this.assets = new Assets();
-			this.engine = new Engine();
-			this.IBack=IBack;
 
-			//Hvis vi prøver å kjøre disse linjene, så kræsjer koden
-			this.IBack.Connect();
-			this.IBack.printPlayers();
+			this.engine = new Engine();
+			this.backendConn=backendConn;
+
+
+			this.backendConn.connect();
+			this.backendConn.getTopTen();
+			this.backendConn.addResult("Åsne", 10);
+			this.backendConn.getTopTen();
 
 
 	}
