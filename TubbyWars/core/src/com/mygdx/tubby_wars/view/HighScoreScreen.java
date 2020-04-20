@@ -39,7 +39,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     private Texture quitGameB;
     private Texture settingsB;
 
-    private List<String> highScore;
 
     //Buttons
     private Button quitGameButton;
@@ -51,6 +50,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     private Stage stage;
 
     private Table highscoreResults;
+    private List<String> highScore;
 
 
     public HighScoreScreen(TubbyWars game, Engine engine){
@@ -75,9 +75,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-
-        this.highScore= this.game.backendConn.getTopTen();
-
 
         //Initialize title text image
         final Image title = new Image(titleText);
@@ -195,12 +192,12 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
 
         this.highScore= this.game.backendConn.getTopTen();
-        ArrayList<String> listepoint = new ArrayList<>();
-        ArrayList<String> listename = new ArrayList<>();
+        ArrayList<String> listpoint = new ArrayList<>();
+        ArrayList<String> listname = new ArrayList<>();
         for (int i=0; i<highScore.size(); i++){
             String[] names=highScore.get(i).split(",");
-            listename.add(names[0]);
-            listepoint.add(names[1]);
+            listname.add(names[0]);
+            listpoint.add(names[1]);
         }
 
 
