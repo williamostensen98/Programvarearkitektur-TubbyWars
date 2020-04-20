@@ -1,6 +1,8 @@
 package com.mygdx.tubby_wars.view;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -18,9 +20,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.Assets;
 import com.badlogic.gdx.audio.Sound;
 import com.mygdx.tubby_wars.model.ControllerLogic;
+import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
 public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
@@ -251,6 +255,22 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
                 game.playSound(click);
             }
         });
+    }
+
+    // TODO LEGG INN DENNE I BUTTONSENE SOM VELGER VÅPEN
+    private ClickListener clickListener(final Entity playerEntity, final Texture weapon, final float weaponDamage){
+        return new ClickListener(){
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos){
+                game.playSound(click);
+
+                // TODO MÅ ENDRES TIL RIKTIG FORMAT NÅR SHOPPEN ER SATT OPP FERDIG
+                PlayerSystem ps = engine.getSystem(PlayerSystem.class);
+                ps.setWeaponDamage(playerEntity,weaponDamage);
+                ps.setWeaponTexture(playerEntity, weapon);
+                // må kanskje også sjekke om man har nok penger elns her, og trekke fra penger ved evt kjøp
+            }
+        };
     }
 }
 

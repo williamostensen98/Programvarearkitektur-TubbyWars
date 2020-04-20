@@ -17,6 +17,7 @@ public class PlayerComponent implements Component{
 
     // hvis vi skal ha egen weapon component, setter vi selvsagt denne der.
     public float weaponDamage = (float)1.4;
+    public Texture weaponTexture;
 
 
     // NBNB: FORSLAG TIL HVORDAN VI KAN FÅ INN LITT MER MVC FUNKSJONALITET

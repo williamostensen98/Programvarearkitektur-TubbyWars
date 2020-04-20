@@ -9,6 +9,7 @@ import com.mygdx.tubby_wars.controller.WeaponSystem;
 import com.mygdx.tubby_wars.model.components.CourseComponent;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
 import com.mygdx.tubby_wars.model.components.WeaponComponent;
+import com.mygdx.tubby_wars.view.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,7 @@ public class World {
         engine.getSystem(PlayerSystem.class).setHealth(playerOneEntity, 150);
         engine.getSystem(PlayerSystem.class).setUsername(playerOneEntity,"FUCK");
         engine.getSystem(PlayerSystem.class).setScore(playerOneEntity,0);
+        engine.getSystem(PlayerSystem.class).setWeaponTexture(playerOneEntity, Assets.getTexture(Assets.gunWeapon));
 
 
         // creation of player 2
@@ -63,6 +65,8 @@ public class World {
         engine.getSystem(PlayerSystem.class).setHealth(playerTwoEntity, 100);
         engine.getSystem(PlayerSystem.class).setUsername(playerTwoEntity,"CORONA");
         engine.getSystem(PlayerSystem.class).setScore(playerTwoEntity,0);
+        engine.getSystem(PlayerSystem.class).setWeaponTexture(playerTwoEntity, Assets.getTexture(Assets.rifleWeapon));
+
 
         entities.add(playerOneEntity);
         entities.add(playerTwoEntity);
