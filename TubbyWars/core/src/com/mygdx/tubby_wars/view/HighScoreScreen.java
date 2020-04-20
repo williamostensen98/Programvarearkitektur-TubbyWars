@@ -73,7 +73,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
         //Initialize title text image
         final Image title = new Image(titleText);
-        title.setSize(150,75);
+        title.setSize(Gdx.graphics.getWidth()/7f,  Gdx.graphics.getHeight()/5f);
         title.setPosition(Gdx.graphics.getWidth()/2f - title.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - title.getHeight()/2f);
 
         makeButtons();
@@ -129,7 +129,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     private void makeButtons() {
         //Initialiserer button to get to menuScreen
         menuScreenButton = new Button(new TextureRegionDrawable(new TextureRegion(menuScreenB)));
-        menuScreenButton.setSize(100, 50);
+        menuScreenButton.setSize(Gdx.graphics.getWidth()/12f,Gdx.graphics.getHeight()/10f);
         menuScreenButton.setPosition(Gdx.graphics.getWidth() / 6f - menuScreenButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - menuScreenButton.getHeight() / 2f);
 
         menuScreenButton.addListener(new ClickListener() {
@@ -143,7 +143,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
         //Initialize button to get to SettingsScreen
         settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
-        settingsButton.setSize(50, 50);
+        settingsButton.setSize(Gdx.graphics.getWidth()/24f   ,   Gdx.graphics.getHeight()/13f);
         settingsButton.setPosition(Gdx.graphics.getWidth()*85f/90f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight()* 75f/90f - settingsButton.getHeight() / 2f);
 
         settingsButton.addListener(new ClickListener() {

@@ -164,8 +164,8 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
         // Draw elements to Sprite Batch, textFields and Background
         game.getBatch().begin();
         game.getBatch().draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
-        game.getBatch().draw(textField1, Gdx.graphics.getWidth() / 14f * 2f, Gdx.graphics.getHeight() / 8f * 5f - textField1.getHeight() / 3f, 150, 20); //Draws logo
-        game.getBatch().draw(textField2, Gdx.graphics.getWidth() / 20f * 13f, Gdx.graphics.getHeight() / 8f * 5f - textField2.getHeight() / 3f, 150, 20); //Draws logo
+        game.getBatch().draw(textField1, Gdx.graphics.getWidth() / 14f * 2f, Gdx.graphics.getHeight() / 8f * 5f - textField1.getHeight() / 3f, Gdx.graphics.getWidth()/5f, Gdx.graphics.getHeight()/15f); //Draws logo
+        game.getBatch().draw(textField2, Gdx.graphics.getWidth() / 20f * 13f, Gdx.graphics.getHeight() / 8f * 5f - textField2.getHeight() / 3f, Gdx.graphics.getWidth()/5f, Gdx.graphics.getHeight()/15f); //Draws logo
         game.getBatch().end();
 
         stage.draw();
@@ -201,28 +201,28 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
 
         //Initializing sprites as buttons
         redTubby = new Button(new TextureRegionDrawable(new TextureRegion(rodTubby)));
-        redTubby.setSize(50, 70);
-        redTubby.setPosition(Gdx.graphics.getWidth() / 8f * 2f - redTubby.getWidth(), Gdx.graphics.getHeight() / 24f * 7f - redTubby.getHeight() / 2f);
+        redTubby.setSize(Gdx.graphics.getWidth()/12f, Gdx.graphics.getHeight()/5f);
+        redTubby.setPosition(Gdx.graphics.getWidth() / 100f * 25f - redTubby.getWidth(), Gdx.graphics.getHeight() / 100f * 32f - redTubby.getHeight() / 2f);
         redTubby.addListener(clickListener(players.get(0), rodTubby));
 
         purpleTubby = new Button(new TextureRegionDrawable(new TextureRegion(lillaTubby)));
-        purpleTubby.setSize(50, 70);
-        purpleTubby.setPosition(Gdx.graphics.getWidth() / 8f * 3f - purpleTubby.getWidth(), Gdx.graphics.getHeight() / 24f * 7f - purpleTubby.getHeight() / 2f);
+        purpleTubby.setSize(Gdx.graphics.getWidth()/12f, Gdx.graphics.getHeight()/5f);
+        purpleTubby.setPosition(Gdx.graphics.getWidth() / 100f * 39f - purpleTubby.getWidth(), Gdx.graphics.getHeight() / 100f * 32f - purpleTubby.getHeight() / 2f);
         purpleTubby.addListener(clickListener(players.get(0), lillaTubby));
 
         yellowTubby = new Button(new TextureRegionDrawable(new TextureRegion(gulTubby)));
-        yellowTubby.setSize(50, 70);
-        yellowTubby.setPosition(Gdx.graphics.getWidth() / 16f * 11f - yellowTubby.getWidth(), Gdx.graphics.getHeight() / 24f * 7f - yellowTubby.getHeight() / 2f);
+        yellowTubby.setSize(Gdx.graphics.getWidth()/12f, Gdx.graphics.getHeight()/5f);
+        yellowTubby.setPosition(Gdx.graphics.getWidth() / 100f * 75f - yellowTubby.getWidth(), Gdx.graphics.getHeight() / 100f * 32f - yellowTubby.getHeight() / 2f);
         yellowTubby.addListener(clickListener(players.get(1), gulTubby));
 
         greenTubby = new Button(new TextureRegionDrawable(new TextureRegion(gronnTubby)));
-        greenTubby.setSize(50, 70);
-        greenTubby.setPosition(Gdx.graphics.getWidth() / 16f * 13f - greenTubby.getWidth(), Gdx.graphics.getHeight() / 24f * 7f - greenTubby.getHeight() / 2f);
+        greenTubby.setSize(Gdx.graphics.getWidth()/12f, Gdx.graphics.getHeight()/5f);
+        greenTubby.setPosition(Gdx.graphics.getWidth() / 100f * 89f - greenTubby.getWidth(), Gdx.graphics.getHeight() / 100f * 32f - greenTubby.getHeight() / 2f);
         greenTubby.addListener(clickListener(players.get(1), gronnTubby));
 
         //Initialiserer button to get GameScreen
         shopButton = new Button(new TextureRegionDrawable(new TextureRegion(shopB)));
-        shopButton.setSize(100, 50);
+        shopButton.setSize( Gdx.graphics.getWidth()/10f  ,   Gdx.graphics.getHeight()/7f);
         shopButton.setPosition(Gdx.graphics.getWidth() / 2f - shopButton.getWidth() / 2f, Gdx.graphics.getHeight() / 10f - shopButton.getHeight() / 2f);
         shopButton.addListener(new ClickListener() {
             @Override
@@ -243,12 +243,14 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
 
         //Placing textFields for username input
         user1Input = new TextField("", style);
-        user1Input.setPosition(Gdx.graphics.getWidth() / 50f * 11f - user1Input.getWidth() / 5f * 2f, Gdx.graphics.getHeight() / 8f * 5f - user1Input.getHeight() / 2);
-        user1Input.setSize(140, 20);
+        user1Input.setSize(Gdx.graphics.getWidth()/6f, Gdx.graphics.getHeight()/15f);
+        user1Input.setPosition(Gdx.graphics.getWidth() / 50f * 11f - user1Input.getWidth()/2.7f, Gdx.graphics.getHeight() / 100f * 63f - user1Input.getHeight() / 2);
+
 
         user2Input = new TextField("", style);
-        user2Input.setPosition(Gdx.graphics.getWidth() / 100f * 73f - user2Input.getWidth() / 5f * 2f, Gdx.graphics.getHeight() / 8f * 5f - user1Input.getHeight() / 2);
-        user2Input.setSize(140, 20);
+        user2Input.setSize(Gdx.graphics.getWidth()/6f, Gdx.graphics.getHeight()/15f);
+        user2Input.setPosition(Gdx.graphics.getWidth() / 100f * 73f - user2Input.getWidth() / 5f * 2f, Gdx.graphics.getHeight() / 100f * 63f - user2Input.getHeight() / 2);
+
     }
 
     private void makeLabels() {
