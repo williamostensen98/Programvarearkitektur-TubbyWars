@@ -204,8 +204,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         }
 
 
-
-
         highscoreResults =  new Table(); // Table containing the buttons on the screen
         highscoreResults.setPosition(Gdx.graphics.getWidth()/2f + highscoreResults.getWidth(), Gdx.graphics.getHeight()/100f*45f);
         highscoreResults.center();
