@@ -236,5 +236,9 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
             highscoreResults.row();
         }
     }
+
+    private void addHighscore(String name, int score){
+                this.game.backendConn.addResult(name,score);
+    }
 }
 
