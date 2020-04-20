@@ -205,7 +205,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         highscoreResults.setPosition(Gdx.graphics.getWidth()/2f + highscoreResults.getWidth(), Gdx.graphics.getHeight()/100f*45f);
         highscoreResults.center();
 
-        for (int i = 0; i<listepoint.size(); i++) {
+        for (int i = 0; i<listpoint.size(); i++) {
             TextField rank;
             TextField name;
             TextField score;
@@ -217,8 +217,8 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
             }
             else {
                 rank = new TextField(i + ". ", style);
-                name = new TextField(listename.get(i - 1), style);
-                score = new TextField(listepoint.get(i - 1), style);
+                name = new TextField(listname.get(i - 1), style);
+                score = new TextField(listpoint.get(i - 1), style);
             }
 
             highscoreResults.add(rank);
