@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
 public class PlayerSystem extends IteratingSystem {
@@ -43,18 +44,13 @@ public class PlayerSystem extends IteratingSystem {
         pm.get(playerEntity).health = health;
     }
 
-
+    public int getHealth(Entity playerEntity){
+        return pm.get(playerEntity).health;
+    }
 
     public void dealDamage(Entity playerEntity, int damage){
-        if(pm.get(playerEntity).health - damage <= 0){
-            // Should go to the shop, current turn is ended.
+        pm.get(playerEntity).health -= damage;
 
-            // Atm I just reset the health when dead
-            pm.get(playerEntity).health = 100;
-        }
-        else{
-            pm.get(playerEntity).health -= damage;
-        }
     }
 
     // Set the given weaponEntity to a player
@@ -66,5 +62,12 @@ public class PlayerSystem extends IteratingSystem {
         return pm.get(playerEntity).weaponDamage;
     }
 
+    public void setTexture(Entity playerEntity, Texture texture){
+        pm.get(playerEntity).characterBody = texture;
+    }
+
+    public Texture getTexture(Entity playerEntity){
+        return pm.get(playerEntity).characterBody;
+    }
 
 }
