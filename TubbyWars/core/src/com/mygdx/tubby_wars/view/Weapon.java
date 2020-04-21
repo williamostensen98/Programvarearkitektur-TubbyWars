@@ -14,14 +14,23 @@ public class Weapon extends Sprite {
     public float posX, posY;
     private Body body;
 
-    public Weapon(Body body, float posX, float posY) {
+    public Weapon(Body body, float posX, float posY, Texture weaponTexture) {
         this.body = body;
         this.posX = posX;
         this.posY = posY;
 
-        texture = new Texture("GunsSpriteSheet.png");
-        region = new TextureRegion(texture, 0, 0, 128, 128);
-        setBounds(body.getPosition().x - posX, body.getPosition().y - posY,1f, 0.5f);
+        //texture = new Texture("GunsSpriteSheet.png");
+        // TODO KANSKJE BARE BRUKE GUNSSPRITEPNG FOR VÅPEN, FIKSE DET SENERE
+        Texture texture = weaponTexture;
+
+
+
+
+
+
+
+        region = new TextureRegion(weaponTexture, 0, 0, weaponTexture.getWidth(), weaponTexture.getHeight());
+        setBounds(body.getPosition().x - posX, body.getPosition().y - posY,0.7f, 0.35f);
         setRegion(region);
     }
 

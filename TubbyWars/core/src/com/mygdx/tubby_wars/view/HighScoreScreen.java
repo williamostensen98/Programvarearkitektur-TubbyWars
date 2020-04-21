@@ -165,7 +165,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                game.setScreen(new ShopScreen(game, engine));
+                // game.setScreen(new ShopScreen(game, engine, players));
             }
         });
 
