@@ -70,4 +70,8 @@ public class PlayerSystem extends IteratingSystem {
         return pm.get(playerEntity).characterBody;
     }
 
+    public int getScore(Entity playerEntity){
+        return pm.get(playerEntity).score;
+    }
+
 }
