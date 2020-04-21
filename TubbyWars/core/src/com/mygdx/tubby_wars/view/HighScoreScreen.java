@@ -1,6 +1,8 @@
 package com.mygdx.tubby_wars.view;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
@@ -18,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
@@ -52,6 +55,15 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     private Table highscoreResults;
     private List<String> highScore;
 
+    // USER DATA
+    private int scorePlayerOne;
+    private int scorePlayerTwo;
+    private String namePlayerOne;
+    private String namePlayerTwo;
+
+    // ASHLEY TOOLS TO GATHER USER DATA
+    private PlayerSystem ps;
+    private ImmutableArray players;
 
     public HighScoreScreen(TubbyWars game, Engine engine){
         super();
@@ -67,11 +79,36 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
 
         this.click = game.getClickSound();
 
+
         // one-time operations
         create();
     }
 
+    private void fetchUserData(){
+        // Tools to help fetch user data from playerComponent through the help of playerSystem
+        ps = engine.getSystem(PlayerSystem.class);
+        players = engine.getEntities();
+
+        // Sets the variables to equal the value in PlayerComponent
+        scorePlayerOne = ps.getScore((Entity)players.get(0));
+        scorePlayerTwo = ps.getScore((Entity)players.get(1));
+        namePlayerOne = ps.getUsername((Entity)players.get(0));
+        namePlayerTwo = ps.getUsername((Entity)players.get(1));
+
+        System.out.println("Username: "+namePlayerOne + " and score: " + scorePlayerOne);
+        System.out.println("Username: "+namePlayerTwo + " and score: " + scorePlayerTwo);
+
+        // TODO DETTE KAN DERE OGSÅ GJØRE ET ANNET STED, MEN GJORDE DET BARE HER NÅ. (ALTSÅ addHighscore())
+        // Adds user data to database
+        addHighscore(namePlayerOne, scorePlayerOne);
+        addHighscore(namePlayerTwo, scorePlayerTwo);
+    }
+
     public void create(){
+
+        if(ControllerLogic.loggedIn){
+            fetchUserData();
+        }
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -96,6 +133,8 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
             stage.addActor(menuScreenButton);
         }
     }
+
+
 
     @Override
     public void update(float dt){
