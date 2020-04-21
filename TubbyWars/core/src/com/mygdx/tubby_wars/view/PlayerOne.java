@@ -34,6 +34,8 @@ public class PlayerOne extends PlayerModel {
 
     public Healthbar healthbar;
 
+    public boolean timeToRedefine;
+
     // ASHLEY
     private Entity playerEntity;
     private ComponentMapper<PlayerComponent> pm;
@@ -49,6 +51,7 @@ public class PlayerOne extends PlayerModel {
 
         definePlayer();
 
+        timeToRedefine = false;
         Texture weaponTexture = engine.getSystem(PlayerSystem.class).getWeaponTexture(playerEntity);
         weapon = new Weapon(b2Body,-0.3f, 0.1f, weaponTexture);
         Texture texture = engine.getSystem(PlayerSystem.class).getTexture(playerEntity);
@@ -92,6 +95,9 @@ public class PlayerOne extends PlayerModel {
 
     @Override
     public void update(float dt) {
+        if(timeToRedefine){
+            redefinePlayer();
+        }
         if(bullets.isEmpty() && !super.isPlayersTurn()){
 
             addBullet();
@@ -115,6 +121,7 @@ public class PlayerOne extends PlayerModel {
     public void redefinePlayer() {
         world.destroyBody(b2Body);
         definePlayer();
+        timeToRedefine = false;
     }
 
     @Override
@@ -148,5 +155,11 @@ public class PlayerOne extends PlayerModel {
         Bullet bullet = new Bullet(b2Body.getPosition().x, b2Body.getPosition().y, world, false);
         bullets.add(bullet);
         hideBullet();
+    }
+
+    @Override
+    public void setRedefine() {
+        timeToRedefine = true;
+
     }
 }
