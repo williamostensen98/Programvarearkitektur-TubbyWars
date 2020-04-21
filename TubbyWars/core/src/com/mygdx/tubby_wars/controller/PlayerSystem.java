@@ -74,12 +74,17 @@ public class PlayerSystem extends IteratingSystem {
         return pm.get(playerEntity).characterBody;
     }
 
+
     public void setWeaponTexture(Entity playerEntity, Texture weaponTexture){
         pm.get(playerEntity).weaponTexture = weaponTexture;
     }
 
-    public Texture getWeaponTexture(Entity playerEntity){
+    public Texture getWeaponTexture(Entity playerEntity) {
         return pm.get(playerEntity).weaponTexture;
+    }
+
+    public int getScore(Entity playerEntity){
+        return pm.get(playerEntity).score;
     }
 
 }

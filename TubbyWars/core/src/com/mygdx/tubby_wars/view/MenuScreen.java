@@ -3,19 +3,18 @@ package com.mygdx.tubby_wars.view;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygdx.tubby_wars.TubbyWars;
-import com.badlogic.gdx.audio.Music;
-import com.mygdx.tubby_wars.model.Assets;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.mygdx.tubby_wars.model.ControllerLogic;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.model.Assets;
 import com.badlogic.gdx.audio.Sound;
 
 public class MenuScreen extends ScreenAdapter implements ScreenInterface {
@@ -40,7 +39,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     private Stage stage;
     private Engine engine;
 
-    public MenuScreen(TubbyWars game, Engine engine){
+    public MenuScreen(TubbyWars game, Engine engine) {
         super();
         this.game = game;
 
@@ -59,7 +58,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
         create();
     }
 
-    public void create(){
+    public void create() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -77,7 +76,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     }
 
     @Override
-    public void update(float dt){
+    public void update(float dt) {
         // check for user input
         handleinput();
     }
@@ -92,20 +91,18 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     }
 
     @Override
-    public void handleinput(){
+    public void handleinput() {
     }
 
     @Override
-    public void render(float dt){
+    public void render(float dt) {
         update(dt);
         draw();
     }
 
     @Override
-    public void dispose(){
-
+    public void dispose() {
         super.dispose();
-
     }
 
     private void makeButtons() {

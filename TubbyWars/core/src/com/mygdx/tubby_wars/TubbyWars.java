@@ -2,9 +2,11 @@ package com.mygdx.tubby_wars;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.tubby_wars.backend.IBackend;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.MusicStateManager;
 import com.mygdx.tubby_wars.model.SoundStateManager;
@@ -20,20 +22,29 @@ public class TubbyWars extends Game {
     public final static int HEIGHT = 375;
     public final static int WIDTH = 812;
 
-    private Assets assets;
-    private Engine engine;
-    public SpriteBatch batch;
+	public SpriteBatch batch;
+	Texture img;
 
-	public final static float V_WIDTH = 12.8f;
-	public final static float V_HEIGHT = 5.76f;
+    public final static float V_WIDTH = 12.8f;
+    public final static float V_HEIGHT = 5.76f;
 
-  public MusicStateManager musicStateManager;
-  public SoundStateManager soundStateManager;
+	private Engine engine;
+	private Assets assets;
+	public IBackend backendConn;
+	public MusicStateManager musicStateManager;
+    public SoundStateManager soundStateManager;
+
+	public TubbyWars(IBackend backendConn){
+			this.assets = new Assets();
+
+			this.engine = new Engine();
+			this.backendConn = backendConn;
+            this.backendConn.connect();
+	}
 
 	@Override
 	public void create () {
 		//Gdx.graphics.setWindowedMode(WIDTH, HEIGHT);
-
 		assets = new Assets();
 		engine = new Engine();
 		batch = new SpriteBatch();
