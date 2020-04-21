@@ -1,17 +1,16 @@
 package com.mygdx.tubby_wars.view;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -23,11 +22,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.Assets;
-import com.badlogic.gdx.audio.Sound;
 import com.mygdx.tubby_wars.model.ControllerLogic;
-import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShopScreen extends ScreenAdapter implements ScreenInterface {
@@ -35,9 +31,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
     private TubbyWars game;
     private Engine engine;
     private List<Entity> players;
-
     private Entity currentPlayer;
-
     private PlayerSystem ps;
 
     private Stage stage;
@@ -47,7 +41,8 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     // Navigation buttons
     private Texture newGameB;
-    private Texture settingsB;
+    //private Texture settingsB;
+    private Texture quitB;
     private Texture nextPlayer;
 
     // Weapons buttons
@@ -59,8 +54,9 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     //Buttons
     private Button newGameButton;
+    //private Button settingsButton;
+    private Button quitButton;
     private Button next;
-    private Button settingsButton;
 
     private Button gunButton;
     private Button revolverButton;
@@ -91,11 +87,12 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         background = Assets.getTexture(Assets.shopBackground);
         titleText = Assets.getTexture(Assets.shopTitle); //Title text for shop
         newGameB = Assets.getTexture(Assets.newGameButton); // resume to game button
+        quitB = Assets.getTexture(Assets.quitGameButton);
         nextPlayer = Assets.getTexture(Assets.continueGameButton);
         gun = Assets.getTexture(Assets.gunWeapon); // choose gun button
         rifle = Assets.getTexture(Assets.rifleWeapon); // choose rifle button
         revolver = Assets.getTexture(Assets.revolverWeapon); //choose revolver button
-        settingsB = Assets.getTexture(Assets.settingSignButton);
+        //settingsB = Assets.getTexture(Assets.settingSignButton);
 
         click = game.getClickSound();
 
@@ -109,7 +106,6 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         currentPlayer = players.get(0);
 
         stage = new Stage(new ScreenViewport());
-
 
         Gdx.input.setInputProcessor(stage);
 
@@ -131,8 +127,18 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         // player 1 stage
         stage.addActor(title);
         stage.addActor(infoText);
-        stage.addActor(settingsButton);
 
+        if (ControllerLogic.roundCount != 0) {
+                stage.addActor(quitButton);
+
+            //TODO: Add who won the game! Add score for both players
+            Label informationText = new Label("This round the winner is " + "username" +  "! Upgrade your weapons, and good luck in the next round!", new Label.LabelStyle(new BitmapFont(), Color.PINK));
+            informationText.setPosition(Gdx.graphics.getWidth() / 2f - informationText.getWidth() / 2, Gdx.graphics.getHeight() / 8f * 6f);
+            stage.addActor(informationText);
+        }
+
+        stage.addActor(newGameButton);
+        //stage.addActor(settingsButton);
 
         stage.addActor(next);
 
@@ -154,7 +160,6 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
        // game.getBatch().begin();
        // game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
        // game.getBatch().end();
-
 
         //////Må endres til bakgrunn, men har dette til vi fikser den store bakgrunnen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -190,7 +195,6 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 //Add click effect
-
                 game.playSound(click);
                 game.setScreen(new PlayScreen(game, engine, players));
             }
@@ -205,24 +209,27 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 //Add click effect
                 game.playSound(click);
+                game.setScreen(new PlayScreen(game, engine, players));
                 currentPlayer = players.get(1);
                 //player 2 chooses weapon text
                 infoText.setText(ps.getUsername(players.get(1)) + "  turn to choose weapon:");
                 stage.addActor(newGameButton);
                 next.remove();
             }
+
         });
 
-        //Initialize button to get to SettingsScreen
-        settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
-        settingsButton.setSize(Gdx.graphics.getWidth() / 24f, Gdx.graphics.getHeight() / 13f);
-        settingsButton.setPosition(Gdx.graphics.getWidth() * 90 / 100f - settingsButton.getWidth() / 2f, Gdx.graphics.getHeight() * 75f / 90f - settingsButton.getHeight() / 2f);
-        settingsButton.addListener(new ClickListener() {
+        //Initialiserer quit button, going back to settings
+        quitButton = new Button(new TextureRegionDrawable(new TextureRegion(quitB)));
+        quitButton.setSize(Gdx.graphics.getWidth() / 24f, Gdx.graphics.getHeight() / 13f);
+        quitButton.setPosition(Gdx.graphics.getWidth() / 6f - quitButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - quitButton.getHeight() / 2f);
+
+        quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                ControllerLogic.fromShopScreen = true;
-                game.setScreen(new SettingScreen(game, engine));
+                ControllerLogic.loggedIn = false; //Quits game
+                game.setScreen(new MenuScreen(game, engine));
             }
         });
 

@@ -16,10 +16,11 @@ public class ControllerLogic {
     //Used to check if users need to register usernames
     public static Boolean loggedIn = false;
     public static Boolean fromHighScoreScreen = false;
-    public static Boolean fromShopScreen = false;
 
     public static String username1 = "";
     public static String username2 = "";
+
+    public static int roundCount = 0; //Counts how many rounds have been played
 
     //TODO: Change to prefered formate
     //Chooses character. Either r (red) or p (purple) depending on players choise.
