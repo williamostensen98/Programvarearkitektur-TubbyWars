@@ -76,8 +76,8 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
         game.getBatch().begin(); // Draw elements to Sprite Batch
         game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
-        game.getBatch().draw(logo, Gdx.graphics.getWidth()/2f - logo.getWidth()/2f,
-                Gdx.graphics.getHeight()/2f, 300,150); //Draws logo
+        game.getBatch().draw(logo, Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/8f ,
+                Gdx.graphics.getHeight()/2f,   Gdx.graphics.getWidth()/4f,Gdx.graphics.getHeight()/3f); //Draws logo
         game.getBatch().end();
 
         stage.draw();
@@ -101,7 +101,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     private void makeButtons() {
         //Initialize button to get GameScreen
         gameButton = new Button(new TextureRegionDrawable(new TextureRegion(playB)));
-        gameButton.setSize(100, 39);
+        gameButton.setSize( Gdx.graphics.getWidth()/10f  ,   Gdx.graphics.getHeight()/7f);
         gameButton.setPosition(Gdx.graphics.getWidth() / 2f - gameButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - gameButton.getHeight() / 2f);
 
         gameButton.addListener(new ClickListener() {
@@ -114,7 +114,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
         //Initialize button to get to SettingsScreen
         settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
-        settingsButton.setSize(100, 39);
+        settingsButton.setSize(  Gdx.graphics.getWidth()/10f  ,   Gdx.graphics.getHeight()/7f);
         settingsButton.setPosition(Gdx.graphics.getWidth()/4f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - settingsButton.getHeight() / 2f);
 
         settingsButton.addListener(new ClickListener() {
@@ -127,7 +127,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
         //Initialize button to get to HighScoreScreen
         highScoreButton = new Button(new TextureRegionDrawable(new TextureRegion(highScoreB)));
-        highScoreButton.setSize(100, 39);
+        highScoreButton.setSize( Gdx.graphics.getWidth()/10f  ,   Gdx.graphics.getHeight()/7f);
         highScoreButton.setPosition(Gdx.graphics.getWidth()/4f*3f - highScoreButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - highScoreButton.getHeight() / 2f);
 
         highScoreButton.addListener(new ClickListener() {
