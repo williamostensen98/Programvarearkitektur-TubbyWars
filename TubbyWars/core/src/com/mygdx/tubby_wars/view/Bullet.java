@@ -21,7 +21,6 @@ public class Bullet extends Sprite {
     public World world;
     public boolean destroyed, setToDestroy, filter;
 
-    private Player player;
 
     public TextureRegion bulletRegion;
 
@@ -30,7 +29,6 @@ public class Bullet extends Sprite {
         this.y = y;
         this.filter = filter;
         this.world = world;
-        this.player = player;
         destroyed = false;
         setToDestroy = false;
 

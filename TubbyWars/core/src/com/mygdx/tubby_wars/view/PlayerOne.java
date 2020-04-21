@@ -36,6 +36,7 @@ public class PlayerOne extends PlayerModel {
 
     public boolean timeToRedefine;
 
+
     // ASHLEY
     private Entity playerEntity;
     private ComponentMapper<PlayerComponent> pm;
@@ -56,8 +57,6 @@ public class PlayerOne extends PlayerModel {
         weapon = new Weapon(b2Body,-0.3f, 0.1f, weaponTexture);
         Texture texture = engine.getSystem(PlayerSystem.class).getTexture(playerEntity);
         region = new TextureRegion(texture, 0,0,texture.getWidth(),texture.getHeight());
-
-        //region = new TextureRegion(PlayScreen.atlas.findRegion("little_mario"), 0, 0, 16, 16);
 
         // width og height var 0.5f og 0.7f før
         setBounds(0, 0, 1f, 1.4f);
@@ -84,12 +83,7 @@ public class PlayerOne extends PlayerModel {
             }
         }
         weapon.draw(game.batch);
-
         healthbar.draw(game.batch);
-
-
-
-
 
     }
 
@@ -97,17 +91,16 @@ public class PlayerOne extends PlayerModel {
     public void update(float dt) {
         if(timeToRedefine){
             redefinePlayer();
+
         }
         if(bullets.isEmpty() && !super.isPlayersTurn()){
-
             addBullet();
-
         }
         for(Bullet b: bullets){
+
             b.update(dt);
             if(b.isDestroyed()){
                 bullets.removeValue(b, true);
-
 
             }
         }
@@ -118,10 +111,16 @@ public class PlayerOne extends PlayerModel {
     }
 
     @Override
-    public void redefinePlayer() {
+    public void redefinePlayer(){
+        System.out.println("player redefined");
         world.destroyBody(b2Body);
         definePlayer();
         timeToRedefine = false;
+        addBullet();
+        getBullet().destroyBullet();
+
+
+
     }
 
     @Override

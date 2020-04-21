@@ -44,24 +44,19 @@ public class PlayerTwo extends PlayerModel {
         bullets = new Array<>();
 
         Texture weaponTexture = engine.getSystem(PlayerSystem.class).getWeaponTexture(playerEntity);
-
         weapon = new Weapon(b2Body,1f, 0.1f, weaponTexture);
         weapon.flip(true, false);
-
 
         Texture texture = engine.getSystem(PlayerSystem.class).getTexture(playerEntity);
         region = new TextureRegion(texture, 0,0,texture.getWidth(),texture.getHeight());
         //region = new TextureRegion(PlayScreen.atlas.findRegion("little_mario"), 0, 0, 16, 16);
         timeToRedefine = false;
 
-
         // width og height var 0.5f og 0.7f før
         setBounds(0, 0, 1f, 1.4f);
         setRegion(region);
         setFlip(true, false);
         healthbar = new Healthbar(b2Body, playerEntity);
-
-
     }
 
     /***
@@ -87,7 +82,6 @@ public class PlayerTwo extends PlayerModel {
         if(timeToRedefine){
             redefinePlayer();
         }
-
         if(bullets.isEmpty() && super.isPlayersTurn()){
             addBullet();
         }
@@ -95,6 +89,7 @@ public class PlayerTwo extends PlayerModel {
             b.update(dt);
             if(b.isDestroyed()){
                 bullets.removeValue(b, true);
+
             }
         }
         setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);
@@ -106,6 +101,9 @@ public class PlayerTwo extends PlayerModel {
         world.destroyBody(b2Body);
         definePlayer();
         timeToRedefine = false;
+        addBullet();
+        getBullet().destroyBullet();
+
     }
 
     @Override
@@ -121,7 +119,6 @@ public class PlayerTwo extends PlayerModel {
         b2Body = this.world.createBody(bdef);
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-
         // var 0.25
         shape.setRadius(0.7f);
         fdef.shape = shape;

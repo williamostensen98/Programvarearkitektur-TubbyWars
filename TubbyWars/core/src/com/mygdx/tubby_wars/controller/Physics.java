@@ -1,18 +1,12 @@
 package com.mygdx.tubby_wars.controller;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 
 import com.mygdx.tubby_wars.model.ControllerLogic;
 import com.mygdx.tubby_wars.model.PlayerModel;
 import com.mygdx.tubby_wars.view.Bullet;
-import com.mygdx.tubby_wars.view.PlayScreen;
-import com.mygdx.tubby_wars.view.Player;
-
-import java.util.Vector;
 
 public class Physics {
 
@@ -102,6 +96,7 @@ public class Physics {
              wasPressed = false;
              currentPlayer.showBullet();
              bullet.b2Body.setLinearVelocity(velvec);
+
          }
 
      }
