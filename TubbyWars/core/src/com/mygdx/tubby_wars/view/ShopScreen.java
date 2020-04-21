@@ -3,8 +3,7 @@ package com.mygdx.tubby_wars.view;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,7 +24,7 @@ import com.mygdx.tubby_wars.model.ControllerLogic;
 
 import java.util.List;
 
-public class ShopScreen extends ScreenAdapter implements ScreenInterface {
+public class ShopScreen implements Screen {
 
     private TubbyWars game;
     private Engine engine;
@@ -81,14 +80,11 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         revolver = Assets.getTexture(Assets.revolverWeapon); //choose revolver button
 
         click = Assets.getSound(Assets.clickSound);
-
-        // one-time operations
-        create();
     }
 
     @Override
-    public void create() {
-
+    //Make stage and everything to the stage
+    public void show() {
         currentPlayer = players.get(0);
 
         stage = new Stage(new ScreenViewport());
@@ -100,7 +96,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         title.setSize(Gdx.graphics.getWidth()/7f,Gdx.graphics.getHeight()/5f);
         title.setPosition(Gdx.graphics.getWidth()/2f - title.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - title.getHeight()/2f);
 
-        //Player 1 score text TODO: Add score
+        //Player 1 score text
         scoreText = new Label(ps.getUsername(players.get(0)) + " earned " + ps.getScore((Entity)players.get(0)) + " points this round!",new Label.LabelStyle(new BitmapFont(), Color.PINK));
         scoreText.setFontScale(1f,1f);
         scoreText.setPosition(Gdx.graphics.getWidth() / 2f - scoreText.getWidth()/2f, Gdx.graphics.getHeight() /100f*69f);
@@ -119,11 +115,10 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         stage.addActor(infoText);
 
         if (ControllerLogic.roundCount != 0) {
-                stage.addActor(quitButton);
-        stage.addActor(scoreText);
+            stage.addActor(quitButton);
+            stage.addActor(scoreText);
         }
 
-        stage.addActor(newGameButton);
         stage.addActor(next);
         stage.addActor(gunButton);
         stage.addActor(rifleButton);
@@ -131,35 +126,48 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
     }
 
     @Override
-    public void update(float dt) {
-        handleinput();
-    }
-
-    @Override
-    public void draw() {
-       game.getBatch().begin();
-       game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
-       game.getBatch().end();
-
-       stage.draw();
-    }
-
-    @Override
-    public void handleinput() {
-        if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
-            game.setScreen(new MenuScreen(game, engine));
-        }
-    }
-
-    @Override
+    //Draw everything
     public void render(float dt){
-        update(dt);
-        draw();
+        game.getBatch().begin();
+        game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
+        game.getBatch().end();
+
+        stage.draw();
     }
 
     @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    //Disposes the stage and all textures.
     public void dispose(){
-        super.dispose();
+        stage.dispose();
+        titleText.dispose();
+        background.dispose();
+        newGameB.dispose();
+        quitB.dispose();
+        nextPlayer.dispose();
+        gun.dispose();
+        rifle.dispose();
+        revolver.dispose();
+        click.dispose();
     }
 
     private void makeButtons() {
@@ -172,6 +180,8 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 //Add click effect
                 game.playSound(click);
+                //dispose();
+                ControllerLogic.roundCount ++;
                 game.setScreen(new PlayScreen(game, engine, players));
             }
         });
@@ -206,6 +216,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
                 ControllerLogic.loggedIn = false; //Quits game
+                //dispose();
                 game.setScreen(new MenuScreen(game, engine));
             }
         });
@@ -233,7 +244,6 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
     }
 
     private ClickListener clickListener(final Texture weapon, final float weaponDamage){
-
         return new ClickListener(){
 
             @Override
@@ -242,7 +252,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
                 ps.setWeaponDamage(currentPlayer,weaponDamage);
                 ps.setWeaponTexture(currentPlayer, weapon);
-                // må kanskje også sjekke om man har nok penger elns her, og trekke fra penger ved evt kjøp
+                // TODO: må kanskje også sjekke om man har nok penger elns her, og trekke fra penger ved evt kjøp
 
                 if (weapon==rifle){
                     rifleButton.setSize(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 3.3f);

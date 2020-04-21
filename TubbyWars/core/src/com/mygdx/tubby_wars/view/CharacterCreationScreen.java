@@ -68,8 +68,7 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
     private TextField user1Input;
     private TextField user2Input;
 
-    // ASHLEY COMPONENTS
-
+    // Ashley components
     // the engine keeps track of the entities and manages the entity systems
     private Engine engine;
     // World is used to create players and course.

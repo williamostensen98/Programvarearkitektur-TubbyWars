@@ -4,6 +4,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 
 public class Assets {
     //Backgrounds
@@ -56,6 +57,11 @@ public class Assets {
     public static String shootingSound = "music/Shotgun-sound.mp3"; //When shooting weapon
     public static String hitSound = "music/Cartoon-game-ending.mp3"; //When player is hit by opponent
     public static String clickSound = "music/Mouse-click-sound.mp3"; //When clicking on button
+
+    //Maps TODO: UPDATE TO THE ONCE HÅKON MADE
+   // public static String firstMap = "map2.tmx";
+   // public static String secontMap = "map3.tmx";
+   // public static String thirdMap = "map2.tmx";
 
     private static AssetManager assetManager;
 
@@ -118,6 +124,11 @@ public class Assets {
         assetManager.load(shootingSound, Sound.class);
         assetManager.load(hitSound, Sound.class);
         assetManager.load(clickSound, Sound.class);
+
+        //Maps
+        //assetManager.load(firstMap, Sound.class);
+        //assetManager.load(secontMap, Sound.class);
+        //assetManager.load(thirdMap, Sound.class);
     }
 
     public static boolean update(){
@@ -136,7 +147,10 @@ public class Assets {
     public static Music getMusic(String path) { return assetManager.get(path, Music.class); }
 
     //Getter for sound effects
-    public  static Sound getSound(String path) {
+    public static Sound getSound(String path) {
         return assetManager.get(path, Sound.class);
     }
+
+    //Getter for sound effects
+    public static TiledMap getMap(String path) {return assetManager.get(path, TiledMap.class);}
 }
