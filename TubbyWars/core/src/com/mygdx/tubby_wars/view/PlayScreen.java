@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -72,8 +73,11 @@ public class PlayScreen implements Screen {
 
     public float position_player1, position_player2;
 
-
     private Texture settingsB;
+
+    private Sound click;
+    private Sound hitSound;
+    private Sound shotSound;
 
     // ASHLEY
     private Engine engine;
@@ -106,7 +110,7 @@ public class PlayScreen implements Screen {
         // LOADS THE MAP
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("map3.tmx");
-        mapRenderer =  new OrthogonalTiledMapRenderer(map, 0.01f);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 0.01f);
         b2dr = new Box2DDebugRenderer();
 
         // MAP PROPERTIES
@@ -121,11 +125,9 @@ public class PlayScreen implements Screen {
         // player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 0.64f, players.get(1), engine);
         // player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 0.64f, players.get(1), engine);
 
-        player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 1.2f, players.get(0), engine);
-        player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 1.2f, players.get(1), engine);
+        player1 = new PlayerOne(world, game, viewPort.getWorldWidth() / 2, 1.2f, players.get(0), engine);
+        player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f, 1.2f, players.get(1), engine);
         // player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 1.2f, players.get(1), engine);
-
-
 
         player2.flip(true, false);
 
@@ -134,7 +136,6 @@ public class PlayScreen implements Screen {
 
         hud = new Hud(game.batch, players);
 
-
         // contact listener
         world.setContactListener(new CollisionListener());
 
@@ -142,9 +143,11 @@ public class PlayScreen implements Screen {
         // TODO DENNE FIKSER SETTINGSKNAPPEN, HUK AV DENNE NÅR DEN ER KLAR
         // createSettingsButton();
 
-
-        ControllerLogic.currentGame = this;
-    }
+        //TODO: Implement
+        //click = Assets.getSound(Assets.clickSound);
+        //hitSound = Assets.getSound(Assets.hitSound);
+        //shotSound = Assets.getSound(Assets.shootingSound);
+}
 
 
 
@@ -267,6 +270,7 @@ public class PlayScreen implements Screen {
             }
             else {
                 prepareForNextRound();
+                dispose();
                 game.setScreen(new ShopScreen(game, engine, players));
             }
         }
@@ -328,7 +332,6 @@ public class PlayScreen implements Screen {
         viewPort.update(width, height);
         gameCam.update();
     }
-
 
     @Override
     public void pause() {

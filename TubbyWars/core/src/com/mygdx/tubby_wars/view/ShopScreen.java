@@ -6,7 +6,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -23,9 +22,7 @@ import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.Assets;
 import com.badlogic.gdx.audio.Sound;
 import com.mygdx.tubby_wars.model.ControllerLogic;
-import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShopScreen extends ScreenAdapter implements ScreenInterface {
@@ -43,7 +40,6 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     // Navigation buttons
     private Texture newGameB;
-    //private Texture settingsB;
     private Texture quitB;
     private Texture nextPlayer;
 
@@ -56,7 +52,6 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     //Buttons
     private Button newGameButton;
-    //private Button settingsButton;
     private Button quitButton;
     private Button next;
 
@@ -66,17 +61,6 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     // LABELS
     private Label infoText;
-
-
-    // TODO TIL JENNY FRA HÅKON! ENDRET LITT AV LOGIKKEN HER, MEN SLITER LITT MED STYLINGEN, SE UNDER FOR BESKRIVELSE AV HVORDAN TING FUNGERER
-    // skal du referere til verdier i komponentene, som feks score eller senere cash
-    // int currentPlayerMoney = pm.getMoney(currentPlayer);
-    // har også laget en funksjon som er felles for alle våpenene så trenger ikke lage dobbelt opp. Var bra sånn det var, men siden vi må lage alt større
-    // tenkte vi at å heller bare gjøre ting to ganger som nå var bedre.
-
-    // har du spørsmål, ta gjerne kontakt per epost eller sms ;))))
-
-    // TODO kunne kanskje trengt litt mer feedback, hvilket våpen er i bruk nå, hvilket har blitt valgt i shoppen, osv.
 
     public ShopScreen(TubbyWars game, Engine engine, List<Entity> players){
         super();
@@ -94,9 +78,8 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         gun = Assets.getTexture(Assets.gunWeapon); // choose gun button
         rifle = Assets.getTexture(Assets.rifleWeapon); // choose rifle button
         revolver = Assets.getTexture(Assets.revolverWeapon); //choose revolver button
-        //settingsB = Assets.getTexture(Assets.settingSignButton);
 
-        click = game.getClickSound();
+        click = Assets.getSound(Assets.clickSound);
 
         // one-time operations
         create();
@@ -121,7 +104,6 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         scoreText.setFontScale(1f,1f);
         scoreText.setPosition(Gdx.graphics.getWidth() / 2f - scoreText.getWidth()/2f, Gdx.graphics.getHeight() /100f*69f);
 
-
         //player 1 choose weapon text
         infoText = new Label(ps.getUsername(players.get(0)) + " turn to choose weapon:",new Label.LabelStyle(new BitmapFont(), Color.BLACK));
         infoText.setFontScale(1f,1f);
@@ -138,18 +120,10 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         if (ControllerLogic.roundCount != 0) {
                 stage.addActor(quitButton);
         stage.addActor(scoreText);
-
-            //TODO: Add who won the game! Add score for both players
-            Label informationText = new Label("This round the winner is " + "username" +  "! Upgrade your weapons, and good luck in the next round!", new Label.LabelStyle(new BitmapFont(), Color.PINK));
-            informationText.setPosition(Gdx.graphics.getWidth() / 2f - informationText.getWidth() / 2, Gdx.graphics.getHeight() / 8f * 6f);
-            stage.addActor(informationText);
         }
 
         stage.addActor(newGameButton);
-        //stage.addActor(settingsButton);
-
         stage.addActor(next);
-
         stage.addActor(gunButton);
         stage.addActor(rifleButton);
         stage.addActor(revolverButton);
@@ -162,15 +136,11 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void draw() {
-       // game.getBatch().begin();
-       // game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
-       // game.getBatch().end();
+       game.getBatch().begin();
+       game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
+       game.getBatch().end();
 
-        //////Må endres til bakgrunn, men har dette til vi fikser den store bakgrunnen
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(187.0f/255.0f, 231.0f/255.0f, 255.0f/255.0f, 1.0f);
-        ////////////////////////
-        stage.draw();
+       stage.draw();
     }
 
     @Override
@@ -203,7 +173,6 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
                 game.playSound(click);
                 game.setScreen(new PlayScreen(game, engine, players));
             }
-
         });
 
         next = new Button(new TextureRegionDrawable(new TextureRegion(nextPlayer)));
@@ -212,16 +181,17 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         next.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                gunButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
+                revolverButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
+                rifleButton.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
                 //Add click effect
                 game.playSound(click);
-                game.setScreen(new PlayScreen(game, engine, players));
                 currentPlayer = players.get(1);
                 //player 2 chooses weapon text
                 infoText.setText(ps.getUsername(players.get(1)) + "  turn to choose weapon:");
                 stage.addActor(newGameButton);
                 next.remove();
             }
-
         });
 
         //Initialiserer quit button, going back to settings

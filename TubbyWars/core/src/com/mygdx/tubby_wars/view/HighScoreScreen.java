@@ -54,13 +54,12 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         this.game = game;
         this.engine = engine;
 
-        //background = Assets.getTexture(Assets.mainBackground);
         titleText = Assets.getTexture(Assets.highscoreTitle);
         menuScreenB = Assets.getTexture(Assets.menuScreenButton);
         settingsB = Assets.getTexture(Assets.settingSignButton);
         background = Assets.getTexture(Assets.highscoreBackground);
 
-        this.click = game.getClickSound();
+        click = Assets.getSound(Assets.clickSound);
 
         // one-time operations
         create();

@@ -51,33 +51,16 @@ public class TubbyWars extends Game {
 
 	@Override
 	public void dispose () {
-
 		batch.dispose();
 	}
 
     public SpriteBatch getBatch() { return batch; }
 
-    //Adding music sounds
-    public Music getBackgroundMusic() {return Assets.getMusic(Assets.backgroundMusic); }
-
-    public Sound getJumpSound() {return Assets.getSound(Assets.jumpingSound); }
-
-    public Sound getClickSound() {return Assets.getSound(Assets.clickSound); }
-
-    public Sound getShootSound() {return Assets.getSound(Assets.hitSound); }
-
-    public Sound getHitSound() {return Assets.getSound(Assets.shootingSound); }
-
+    //Adding music sounds TODO: Flytte alt med musikk?
     public void playMusic(Music music) {
         if (!musicStateManager.getMuteMusicState() && !music.isPlaying()) {
             music.setLooping(true);
             music.play();
-        }
-    }
-
-    public void stopMusic(Music music) {
-        if (music.isPlaying()) {
-            music.stop();
         }
     }
 
