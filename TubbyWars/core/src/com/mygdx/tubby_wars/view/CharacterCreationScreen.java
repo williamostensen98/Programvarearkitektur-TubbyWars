@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -38,6 +39,7 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
     private Texture shopB;
 
     //Sprites
+    private Texture logo;
     private Texture gulTubby;
     private Texture gronnTubby;
     private Texture rodTubby;
@@ -66,7 +68,6 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
     private TextField user1Input;
     private TextField user2Input;
 
-
     // ASHLEY COMPONENTS
 
     // the engine keeps track of the entities and manages the entity systems
@@ -83,7 +84,7 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
         this.game = game;
 
         //Getting the right assets
-        //logo = Assets.getTexture(Assets.usernameTitle);
+        logo = Assets.getTexture(Assets.characterTitle);
         background = Assets.getTexture(Assets.characterBackground);
         textField1 = Assets.getTexture(Assets.textFieldBackground);
         textField2 = Assets.getTexture(Assets.textFieldBackground);
@@ -96,7 +97,7 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
         lillaTubby = Assets.getTexture(Assets.lillaTubby);
 
         //Getting right sound
-        this.click = game.getClickSound();
+        click = Assets.getSound(Assets.clickSound);
 
         // one-time operations
         setupAshley();
@@ -127,20 +128,23 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        // Initialize title logo
-        // final Image usernameTile = new Image(logo);
-        // usernameTile.setSize(150,75);
-        //usernameTile.setPosition(Gdx.graphics.getWidth()/2f - usernameTile.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - usernameTile.getHeight()/2f);
+        //Initialize title logo
+        final Image title = new Image(logo);
+        title.setSize(Gdx.graphics.getWidth()/7f,  Gdx.graphics.getHeight()/5f);
+        title.setPosition(Gdx.graphics.getWidth()/2f - title.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - title.getHeight()/2f);
 
         makeButtons();
         makeLabels();
         makeTextFields();
 
         //Add actors
+        stage.addActor(title);
         stage.addActor(user1Input);
         stage.addActor(user2Input);
+
         stage.addActor(user1Text);
         stage.addActor(user2Text);
+
         stage.addActor(leftText);
         stage.addActor(rightText);
 
@@ -191,12 +195,29 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
             public void clicked(InputEvent inputEvent, float xpos, float ypos){
                 game.playSound(click);
                 playerSystem.setTexture(playerEntity, tubby);
+
+                if(tubby==rodTubby){
+                    redTubby.setSize(Gdx.graphics.getWidth()/8f, Gdx.graphics.getHeight()/3.3f);
+                    purpleTubby.setSize(Gdx.graphics.getWidth()/12f, Gdx.graphics.getHeight()/5f);
+                }
+                if(tubby==lillaTubby){
+                    purpleTubby.setSize(Gdx.graphics.getWidth()/8f, Gdx.graphics.getHeight()/3.3f);
+                    redTubby.setSize(Gdx.graphics.getWidth()/12f, Gdx.graphics.getHeight()/5f);
+                }
+                if(tubby==gulTubby){
+                    yellowTubby.setSize(Gdx.graphics.getWidth()/8f, Gdx.graphics.getHeight()/3.3f);
+                    greenTubby.setSize(Gdx.graphics.getWidth()/12f, Gdx.graphics.getHeight()/5f);
+
+                }
+                if(tubby==gronnTubby){
+                    greenTubby.setSize(Gdx.graphics.getWidth()/8f, Gdx.graphics.getHeight()/3.3f);
+                    yellowTubby.setSize(Gdx.graphics.getWidth()/12f, Gdx.graphics.getHeight()/5f);
+                }
             }
         };
     }
 
     private void makeButtons() {
-
         //Initializing sprites as buttons
         redTubby = new Button(new TextureRegionDrawable(new TextureRegion(rodTubby)));
         redTubby.setSize(Gdx.graphics.getWidth()/12f, Gdx.graphics.getHeight()/5f);
@@ -243,12 +264,24 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
         user1Input = new TextField("", style);
         user1Input.setSize(Gdx.graphics.getWidth()/6f, Gdx.graphics.getHeight()/15f);
         user1Input.setPosition(Gdx.graphics.getWidth() / 50f * 11f - user1Input.getWidth()/2.7f, Gdx.graphics.getHeight() / 100f * 63f - user1Input.getHeight() / 2);
-
+        user1Input.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                //Adds click effect
+                game.playSound(click);
+            }
+        });
 
         user2Input = new TextField("", style);
         user2Input.setSize(Gdx.graphics.getWidth()/6f, Gdx.graphics.getHeight()/15f);
         user2Input.setPosition(Gdx.graphics.getWidth() / 100f * 73f - user2Input.getWidth() / 5f * 2f, Gdx.graphics.getHeight() / 100f * 63f - user2Input.getHeight() / 2);
-
+        user2Input.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                //Adds click effect
+                game.playSound(click);
+            }
+        });
     }
 
     private void makeLabels() {
@@ -269,7 +302,6 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
 
         rightText = new Label("Choose character:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
         rightText.setPosition(Gdx.graphics.getWidth() / 5f * 3f - rightText.getWidth() / 4, Gdx.graphics.getHeight() / 8f * 4f - rightText.getHeight() / 2);
-
     }
 
     //Checks if username is correctly written
@@ -290,10 +322,6 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
             // saves username in playerComponent
             playerSystem.setUsername(players.get(0),username1);
             playerSystem.setUsername(players.get(1),username2);
-
-            //TODO: Remove when connected to database
-            System.out.println("Username 1: " + playerSystem.getUsername(players.get(0)) + ", character: " + playerSystem.getTexture(players.get(0)));
-            System.out.println("Username 2: " + playerSystem.getUsername(players.get(1)) + ", character: " + playerSystem.getTexture(players.get(1)));
 
             //Sets loggedIn to true, so that Setting Screen changes.
             ControllerLogic.loggedIn = true;

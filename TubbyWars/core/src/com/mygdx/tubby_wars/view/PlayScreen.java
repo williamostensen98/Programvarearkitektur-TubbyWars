@@ -3,9 +3,9 @@ package com.mygdx.tubby_wars.view;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,12 +22,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.tubby_wars.TubbyWars;
-import com.mygdx.tubby_wars.controller.CourseSystem;
 import com.mygdx.tubby_wars.controller.InputProcessor;
 import com.mygdx.tubby_wars.controller.Physics;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
@@ -36,13 +33,9 @@ import com.mygdx.tubby_wars.model.B2WorldCreator;
 import com.mygdx.tubby_wars.model.CollisionListener;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 import com.mygdx.tubby_wars.model.PlayerModel;
-
 import java.util.List;
 
-
 public class PlayScreen implements Screen {
-
-
     public OrthographicCamera gameCam;
     public Viewport viewPort;
     public TubbyWars game;
@@ -72,8 +65,11 @@ public class PlayScreen implements Screen {
 
     public float position_player1, position_player2;
 
-
     private Texture settingsB;
+
+    private Sound click;
+    private Sound hitSound;
+    private Sound shotSound;
 
     // ASHLEY
     private Engine engine;
@@ -106,7 +102,7 @@ public class PlayScreen implements Screen {
         // LOADS THE MAP
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("map3.tmx");
-        mapRenderer =  new OrthogonalTiledMapRenderer(map, 0.01f);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 0.01f);
         b2dr = new Box2DDebugRenderer();
 
         // MAP PROPERTIES
@@ -125,15 +121,12 @@ public class PlayScreen implements Screen {
         // player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 1.2f, players.get(1), engine);
         player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 1.2f, players.get(1), engine);
 
-
-
         player2.flip(true, false);
 
         physics.setPlayer(player1);
         // LOADS THE PACK FILE WITH INTO AN ATLAS WHERE ALL THE CHARACTER SPRITES ARE
 
         hud = new Hud(game.batch, players);
-
 
         // contact listener
         world.setContactListener(new CollisionListener());
@@ -142,11 +135,11 @@ public class PlayScreen implements Screen {
         // TODO DENNE FIKSER SETTINGSKNAPPEN, HUK AV DENNE NÅR DEN ER KLAR
         // createSettingsButton();
 
-
-        ControllerLogic.currentGame = this;
-    }
-
-
+        //TODO: Implement
+        //click = Assets.getSound(Assets.clickSound);
+        //hitSound = Assets.getSound(Assets.hitSound);
+        //shotSound = Assets.getSound(Assets.shootingSound);
+}
 
     public void setGameCamPosition(){
         if(ControllerLogic.isPlayersTurn){
@@ -279,6 +272,7 @@ public class PlayScreen implements Screen {
             }
             else {
                 prepareForNextRound();
+                dispose();
                 game.setScreen(new ShopScreen(game, engine, players));
             }
         }
@@ -340,7 +334,6 @@ public class PlayScreen implements Screen {
         viewPort.update(width, height);
         gameCam.update();
     }
-
 
     @Override
     public void pause() {

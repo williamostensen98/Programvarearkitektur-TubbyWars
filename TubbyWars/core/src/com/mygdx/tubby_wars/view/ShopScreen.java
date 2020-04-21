@@ -7,7 +7,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -41,7 +40,6 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     // Navigation buttons
     private Texture newGameB;
-    //private Texture settingsB;
     private Texture quitB;
     private Texture nextPlayer;
 
@@ -54,7 +52,6 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     //Buttons
     private Button newGameButton;
-    //private Button settingsButton;
     private Button quitButton;
     private Button next;
 
@@ -64,17 +61,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     // LABELS
     private Label infoText;
-
-
-    // TODO TIL JENNY FRA HÅKON! ENDRET LITT AV LOGIKKEN HER, MEN SLITER LITT MED STYLINGEN, SE UNDER FOR BESKRIVELSE AV HVORDAN TING FUNGERER
-    // skal du referere til verdier i komponentene, som feks score eller senere cash
-    // int currentPlayerMoney = pm.getMoney(currentPlayer);
-    // har også laget en funksjon som er felles for alle våpenene så trenger ikke lage dobbelt opp. Var bra sånn det var, men siden vi må lage alt større
-    // tenkte vi at å heller bare gjøre ting to ganger som nå var bedre.
-
-    // har du spørsmål, ta gjerne kontakt per epost eller sms ;))))
-
-    // TODO kunne kanskje trengt litt mer feedback, hvilket våpen er i bruk nå, hvilket har blitt valgt i shoppen, osv.
+    private Label scoreText;
 
     public ShopScreen(TubbyWars game, Engine engine, List<Entity> players){
         super();
@@ -92,9 +79,8 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         gun = Assets.getTexture(Assets.gunWeapon); // choose gun button
         rifle = Assets.getTexture(Assets.rifleWeapon); // choose rifle button
         revolver = Assets.getTexture(Assets.revolverWeapon); //choose revolver button
-        //settingsB = Assets.getTexture(Assets.settingSignButton);
 
-        click = game.getClickSound();
+        click = Assets.getSound(Assets.clickSound);
 
         // one-time operations
         create();
@@ -114,11 +100,15 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         title.setSize(Gdx.graphics.getWidth()/7f,Gdx.graphics.getHeight()/5f);
         title.setPosition(Gdx.graphics.getWidth()/2f - title.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - title.getHeight()/2f);
 
+        //Player 1 score text TODO: Add score
+        scoreText = new Label(ps.getUsername(players.get(0)) + " earned " + ps.getScore((Entity)players.get(0)) + " points this round!",new Label.LabelStyle(new BitmapFont(), Color.PINK));
+        scoreText.setFontScale(1f,1f);
+        scoreText.setPosition(Gdx.graphics.getWidth() / 2f - scoreText.getWidth()/2f, Gdx.graphics.getHeight() /100f*69f);
 
         //player 1 choose weapon text
-        infoText = new Label(ps.getUsername(players.get(0)) + "  turn to choose weapon:",new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        infoText = new Label(ps.getUsername(players.get(0)) + " turn to choose weapon:",new Label.LabelStyle(new BitmapFont(), Color.BLACK));
         infoText.setFontScale(1f,1f);
-        infoText.setPosition(Gdx.graphics.getWidth() / 6f - infoText.getWidth()/2f, Gdx.graphics.getHeight() /100f*69f);
+        infoText.setPosition(Gdx.graphics.getWidth() / 6f - infoText.getWidth()/2f, Gdx.graphics.getHeight() /100f*55f);
 
         makeButtons();
 
@@ -130,24 +120,14 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
         if (ControllerLogic.roundCount != 0) {
                 stage.addActor(quitButton);
-
-            //TODO: Add who won the game! Add score for both players
-            Label informationText = new Label("This round the winner is " + "username" +  "! Upgrade your weapons, and good luck in the next round!", new Label.LabelStyle(new BitmapFont(), Color.PINK));
-            informationText.setPosition(Gdx.graphics.getWidth() / 2f - informationText.getWidth() / 2, Gdx.graphics.getHeight() / 8f * 6f);
-            stage.addActor(informationText);
+        stage.addActor(scoreText);
         }
 
         stage.addActor(newGameButton);
-        //stage.addActor(settingsButton);
-
         stage.addActor(next);
-
         stage.addActor(gunButton);
         stage.addActor(rifleButton);
         stage.addActor(revolverButton);
-
-
-
     }
 
     @Override
@@ -157,15 +137,11 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void draw() {
-       // game.getBatch().begin();
-       // game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
-       // game.getBatch().end();
+       game.getBatch().begin();
+       game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
+       game.getBatch().end();
 
-        //////Må endres til bakgrunn, men har dette til vi fikser den store bakgrunnen
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(187.0f/255.0f, 231.0f/255.0f, 255.0f/255.0f, 1.0f);
-        ////////////////////////
-        stage.draw();
+       stage.draw();
     }
 
     @Override
@@ -198,7 +174,6 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
                 game.playSound(click);
                 game.setScreen(new PlayScreen(game, engine, players));
             }
-
         });
 
         next = new Button(new TextureRegionDrawable(new TextureRegion(nextPlayer)));
@@ -207,16 +182,18 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         next.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                gunButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
+                revolverButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
+                rifleButton.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
                 //Add click effect
                 game.playSound(click);
-                game.setScreen(new PlayScreen(game, engine, players));
                 currentPlayer = players.get(1);
                 //player 2 chooses weapon text
+                scoreText.setText(ps.getUsername(players.get(1)) + " earned " + ps.getScore((Entity)players.get(1)) + " points this round!");
                 infoText.setText(ps.getUsername(players.get(1)) + "  turn to choose weapon:");
                 stage.addActor(newGameButton);
                 next.remove();
             }
-
         });
 
         //Initialiserer quit button, going back to settings
@@ -238,41 +215,24 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         //Initialize button to change weapon to gun
         gunButton = new Button(new TextureRegionDrawable(new TextureRegion(gun)));
         gunButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-        gunButton.setPosition(Gdx.graphics.getWidth() / 3f - gunButton.getWidth(), Gdx.graphics.getHeight() / 2f - gunButton.getHeight() / 2f);
+        gunButton.setPosition(Gdx.graphics.getWidth() / 3f - gunButton.getWidth(), Gdx.graphics.getHeight() / 100f*40f - gunButton.getHeight() / 2f);
         gunButton.addListener(clickListener(gun, (float) 1.2));
 
         //Initialize button to change weapon to Revolver
         revolverButton = new Button(new TextureRegionDrawable(new TextureRegion(revolver)));
         revolverButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-        revolverButton.setPosition(Gdx.graphics.getWidth() / 2f - revolverButton.getWidth() / 2f, Gdx.graphics.getHeight() / 2f - revolverButton.getHeight() / 2f);
+        revolverButton.setPosition(Gdx.graphics.getWidth() / 2f - revolverButton.getWidth() / 2f, Gdx.graphics.getHeight() / 100f*40f - revolverButton.getHeight() / 2f);
         revolverButton.addListener(clickListener(revolver, (float) 1.4));
 
         //Initialize button to change weapon to rifle
         rifleButton = new Button(new TextureRegionDrawable(new TextureRegion(rifle)));
         rifleButton.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
-        rifleButton.setPosition(Gdx.graphics.getWidth() / 3f * 2f, Gdx.graphics.getHeight() / 2f - rifleButton.getHeight() / 2f);
+        rifleButton.setPosition(Gdx.graphics.getWidth() / 3f * 2f, Gdx.graphics.getHeight() / 100f*40f - rifleButton.getHeight() / 2f);
         rifleButton.addListener(clickListener(rifle, (float) 1.6));
 
     }
 
     private ClickListener clickListener(final Texture weapon, final float weaponDamage){
-
-        /// implementere
-       /* if (weapon==rifle){
-            rifleButton.setSize(Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 2.5f);
-            gunButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-            revolverButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-        }
-        if (weapon==gun){
-            gunButton.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
-            revolverButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-            rifleButton.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
-        }
-        if(weapon==revolver) {
-            revolverButton.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
-            gunButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-            rifleButton.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
-        }*/
 
         return new ClickListener(){
 
@@ -283,6 +243,22 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
                 ps.setWeaponDamage(currentPlayer,weaponDamage);
                 ps.setWeaponTexture(currentPlayer, weapon);
                 // må kanskje også sjekke om man har nok penger elns her, og trekke fra penger ved evt kjøp
+
+                if (weapon==rifle){
+                    rifleButton.setSize(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 3.3f);
+                    gunButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
+                    revolverButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
+                }
+                if (weapon==gun){
+                    gunButton.setSize(Gdx.graphics.getWidth() / 8f, Gdx.graphics.getHeight() / 6.6f);
+                    revolverButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
+                    rifleButton.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
+                }
+                if(weapon==revolver) {
+                    revolverButton.setSize(Gdx.graphics.getWidth() / 8f, Gdx.graphics.getHeight() / 6.6f);
+                    gunButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
+                    rifleButton.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
+                }
             }
         };
     }

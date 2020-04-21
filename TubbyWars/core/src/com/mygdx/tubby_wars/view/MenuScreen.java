@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -16,9 +17,7 @@ import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.Assets;
 import com.badlogic.gdx.audio.Sound;
 
-
 public class MenuScreen extends ScreenAdapter implements ScreenInterface {
-
 
     private TubbyWars game;
 
@@ -43,14 +42,17 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     public MenuScreen(TubbyWars game, Engine engine) {
         super();
         this.game = game;
+
         background = Assets.getTexture(Assets.mainBackground);
         logo = Assets.getTexture(Assets.logo);
         playB = Assets.getTexture(Assets.gameScreenButton);
         highScoreB = Assets.getTexture(Assets.highScoreButton);
         settingsB = Assets.getTexture(Assets.settingScreenButton);
-        this.music = game.getBackgroundMusic();
+
+        music = Assets.getMusic(Assets.backgroundMusic);
         this.game.playMusic(music);
-        this.click = game.getClickSound();
+
+        click = Assets.getSound(Assets.clickSound);
 
         // one-time operations
         create();
@@ -59,7 +61,15 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     public void create() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+
+        //Initialize title logo
+        final Image title = new Image(logo);
+        title.setSize(Gdx.graphics.getWidth()/4f,  Gdx.graphics.getHeight()/3f);
+        title.setPosition(Gdx.graphics.getWidth()/2f - title.getWidth()/2f, Gdx.graphics.getHeight()/2f);
+
         makeButtons();
+
+        stage.addActor(title);
         stage.addActor(gameButton);
         stage.addActor(settingsButton);
         stage.addActor(highScoreButton);
@@ -73,11 +83,8 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
     @Override
     public void draw(){
-
         game.getBatch().begin(); // Draw elements to Sprite Batch
         game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
-        game.getBatch().draw(logo, Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/8f ,
-                Gdx.graphics.getHeight()/2f,   Gdx.graphics.getWidth()/4f,Gdx.graphics.getHeight()/3f); //Draws logo
         game.getBatch().end();
 
         stage.draw();
@@ -140,5 +147,3 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
 
     }
 }
-
-

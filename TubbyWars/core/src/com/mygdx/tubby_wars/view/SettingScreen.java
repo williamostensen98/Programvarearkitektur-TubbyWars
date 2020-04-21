@@ -61,7 +61,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         soundOnB = Assets.getTexture(Assets.soundOnButton);
         soundOffB = Assets.getTexture(Assets.soundOffButton);
 
-        click = game.getClickSound();
+        click = Assets.getSound(Assets.clickSound);
 
         create();
     }
@@ -147,9 +147,9 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
                 if (!game.musicStateManager.getMuteMusicState()) {
-                    game.muteMusic(game.getBackgroundMusic());
+                    game.muteMusic(Assets.getMusic(Assets.mainBackground));
                 } else {
-                    game.unmuteMusic(game.getBackgroundMusic());
+                    game.unmuteMusic(Assets.getMusic(Assets.mainBackground));
                 }
             }
             //Runs when the button is pressed down
