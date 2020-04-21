@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 import com.mygdx.tubby_wars.model.PlayerModel;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
@@ -40,12 +41,21 @@ public class PlayerTwo extends PlayerModel {
         super(world, game, posX, posY, playerEntity, engine);
         definePlayer();
         bullets = new Array<>();
-        weapon = new Weapon(b2Body,0.6f, 0.3f);
+
+        Texture weaponTexture = engine.getSystem(PlayerSystem.class).getWeaponTexture(playerEntity);
+
+        weapon = new Weapon(b2Body,1f, 0.1f, weaponTexture);
         weapon.flip(true, false);
-        /*Texture texture = new Texture("lala.png");
-        //region = new TextureRegion(texture, 0,0,200,400);*/
-        region = new TextureRegion(PlayScreen.atlas.findRegion("little_mario"), 0, 0, 16, 16);
-        setBounds(0, 0, 0.5f, 0.7f);
+
+
+        Texture texture = engine.getSystem(PlayerSystem.class).getTexture(playerEntity);
+        region = new TextureRegion(texture, 0,0,texture.getWidth(),texture.getHeight());
+        //region = new TextureRegion(PlayScreen.atlas.findRegion("little_mario"), 0, 0, 16, 16);
+
+
+
+        // width og height var 0.5f og 0.7f før
+        setBounds(0, 0, 1f, 1.4f);
         setRegion(region);
         setFlip(true, false);
         healthbar = new Healthbar(b2Body, playerEntity);
@@ -100,7 +110,9 @@ public class PlayerTwo extends PlayerModel {
         b2Body = this.world.createBody(bdef);
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(0.25f);
+
+        // var 0.25
+        shape.setRadius(0.7f);
         fdef.shape = shape;
         fdef.friction = 0.8f;
         fdef.filter.categoryBits = ControllerLogic.BULLET_2 | ControllerLogic.PLAYER_2;
