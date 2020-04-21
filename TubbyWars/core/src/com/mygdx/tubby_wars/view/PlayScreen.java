@@ -267,7 +267,9 @@ public class PlayScreen implements Screen {
 
         if(isRoundOver()){
             prepareForNextRound();
-            game.setScreen(new ShopScreen(game, engine, players));
+            //game.setScreen(new ShopScreen(game, engine, players));
+            //game.setScreen(new ShopScreen(game, engine));
+            game.setScreen(new HighScoreScreen(game,engine));
         }
     }
 
