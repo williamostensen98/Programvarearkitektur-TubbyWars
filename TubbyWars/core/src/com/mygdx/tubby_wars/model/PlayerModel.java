@@ -71,6 +71,8 @@ public abstract class PlayerModel extends Sprite {
 
     public abstract void redefinePlayer();
 
+    public abstract void setRedefine();
+
     public abstract Bullet getBullet();
 
 
@@ -87,6 +89,10 @@ public abstract class PlayerModel extends Sprite {
 
     public Vector2 getStartPoint(){
         return b2Body.getPosition();
+    }
+
+    public float getPosX(){
+        return posX;
     }
 
 

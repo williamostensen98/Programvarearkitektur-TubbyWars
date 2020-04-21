@@ -103,6 +103,11 @@ public class PlayerTwo extends PlayerModel {
     }
 
     @Override
+    public void setRedefine() {
+
+    }
+
+    @Override
     public void definePlayer() {
         BodyDef bdef = new BodyDef();
         bdef.position.set(this.posX, this.posY);

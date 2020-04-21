@@ -55,9 +55,6 @@ public class Bullet extends Sprite {
             world.destroyBody(b2Body);
             destroyed = true;
             stateTime = 0;
-            if(ControllerLogic.isPlayersTurn){ControllerLogic.isPlayersTurn = false;}
-            else {ControllerLogic.isPlayersTurn = true;}
-
 
 
 
