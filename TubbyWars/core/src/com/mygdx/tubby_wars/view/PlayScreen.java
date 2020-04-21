@@ -122,8 +122,8 @@ public class PlayScreen implements Screen {
         // player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 0.64f, players.get(1), engine);
 
         player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 1.2f, players.get(0), engine);
-        player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 1.2f, players.get(1), engine);
-        // player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 1.2f, players.get(1), engine);
+        // player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 1.2f, players.get(1), engine);
+        player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 1.2f, players.get(1), engine);
 
 
 
@@ -240,10 +240,19 @@ public class PlayScreen implements Screen {
         else{
             physics.setPlayer(player1);
         }
+        if(ControllerLogic.isPlayersTurn && player2.getBullet() == null){
+            ControllerLogic.isPlayersTurn = false;
+        }
+        else if(!ControllerLogic.isPlayersTurn && player1.getBullet() == null){
+            ControllerLogic.isPlayersTurn = true;
+        }
 
         //TODO FIX CORRECT BEHAVIOUR
         if(!player1.isPlayersTurn()) {
 
+            if(player1.b2Body.getPosition().x != player1.getPosX()){
+                player1.setRedefine();
+            }
             if ((player1.getBullet() != null && player1.getBullet().b2Body.getPosition().x <= mapPixelWidth / 100f - gameCam.viewportWidth / 2) && player1.getBullet().b2Body.getPosition().x >= gameCam.viewportWidth / 2) {
                 gameCam.position.x = player1.getBullet().b2Body.getPosition().x;
 
@@ -255,6 +264,9 @@ public class PlayScreen implements Screen {
         }
         else if(player2.isPlayersTurn()){
             //gameCam.position.x = mapPixelWidth / 100f - gameCam.viewportWidth / 2f;
+            if(player2.b2Body.getPosition().x != player2.getPosX()){
+                player2.setRedefine();
+            }
 
             if ((player2.getBullet() != null && player2.getBullet().b2Body.getPosition().x <= mapPixelWidth / 100f - gameCam.viewportWidth / 2) && player2.getBullet().b2Body.getPosition().x >= gameCam.viewportWidth / 2) {
                 gameCam.position.x = player2.getBullet().b2Body.getPosition().x ;

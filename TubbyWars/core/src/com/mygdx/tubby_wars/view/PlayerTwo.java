@@ -29,6 +29,7 @@ public class PlayerTwo extends PlayerModel {
 
 
     public Healthbar healthbar;
+    public boolean timeToRedefine;
 
     // ASHLEY
     private Entity playerEntity;
@@ -51,7 +52,7 @@ public class PlayerTwo extends PlayerModel {
         Texture texture = engine.getSystem(PlayerSystem.class).getTexture(playerEntity);
         region = new TextureRegion(texture, 0,0,texture.getWidth(),texture.getHeight());
         //region = new TextureRegion(PlayScreen.atlas.findRegion("little_mario"), 0, 0, 16, 16);
-
+        timeToRedefine = false;
 
 
         // width og height var 0.5f og 0.7f før
@@ -83,6 +84,10 @@ public class PlayerTwo extends PlayerModel {
 
     @Override
     public void update(float dt) {
+        if(timeToRedefine){
+            redefinePlayer();
+        }
+
         if(bullets.isEmpty() && super.isPlayersTurn()){
             addBullet();
         }
@@ -100,6 +105,12 @@ public class PlayerTwo extends PlayerModel {
     public void redefinePlayer() {
         world.destroyBody(b2Body);
         definePlayer();
+        timeToRedefine = false;
+    }
+
+    @Override
+    public void setRedefine() {
+        timeToRedefine = true;
     }
 
     @Override
