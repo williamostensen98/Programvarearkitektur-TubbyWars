@@ -41,7 +41,7 @@ public class TubbyWars extends Game {
 			this.assets = new Assets();
 
 			this.engine = new Engine();
-			this.backendConn=backendConn;
+			this.backendConn = backendConn;
             this.backendConn.connect();
 	}
 

@@ -21,6 +21,7 @@ public class connection implements IBackend {
     RemoteMongoCollection <Document> coll;
     List<String> resultList;
 
+    //connecting to database
     @Override
     public void connect() {
         client = Stitch.initializeDefaultAppClient("tubbywars-scpta");
@@ -35,6 +36,7 @@ public class connection implements IBackend {
     }
 
 
+    //Returns the 10 players with the highest score from the database
     @Override
     public List<String> getTopTen() {
         resultList = new ArrayList<>();
@@ -60,11 +62,11 @@ public class connection implements IBackend {
         return null;
     }
 
+    //Posts new player to database
     @Override
     public void addResult(String name, int score) {
         Document newPlayer = new Document()
                 .append("name", name).append("score", score);
         final Task<RemoteInsertOneResult> insertTask = coll.insertOne(newPlayer);
-
     }
 }

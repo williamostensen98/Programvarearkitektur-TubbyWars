@@ -191,6 +191,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         style.fontColor = Color.BLACK;
 
 
+        //Adding data to highscore list from database
         this.highScore= this.game.backendConn.getTopTen();
         ArrayList<String> listpoint = new ArrayList<>();
         ArrayList<String> listname = new ArrayList<>();
@@ -232,6 +233,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         }
     }
 
+    //posts username and score to database
     private void addHighscore(String name, int score){
                 this.game.backendConn.addResult(name,score);
     }
