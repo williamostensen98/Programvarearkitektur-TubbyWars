@@ -61,6 +61,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
 
     // LABELS
     private Label infoText;
+    private Label scoreText;
 
     public ShopScreen(TubbyWars game, Engine engine, List<Entity> players){
         super();
@@ -99,8 +100,8 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
         title.setSize(Gdx.graphics.getWidth()/7f,Gdx.graphics.getHeight()/5f);
         title.setPosition(Gdx.graphics.getWidth()/2f - title.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - title.getHeight()/2f);
 
-        //Player 1 score text
-        final Label scoreText = new Label(ps.getUsername(players.get(0)) + " earned 345 points this round!",new Label.LabelStyle(new BitmapFont(), Color.PINK));
+        //Player 1 score text TODO: Add score
+        scoreText = new Label(ps.getUsername(players.get(0)) + " earned 345 points this round!",new Label.LabelStyle(new BitmapFont(), Color.PINK));
         scoreText.setFontScale(1f,1f);
         scoreText.setPosition(Gdx.graphics.getWidth() / 2f - scoreText.getWidth()/2f, Gdx.graphics.getHeight() /100f*69f);
 
@@ -188,6 +189,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
                 game.playSound(click);
                 currentPlayer = players.get(1);
                 //player 2 chooses weapon text
+                scoreText.setText(ps.getUsername(players.get(1)) + " earned 345 points this round!");
                 infoText.setText(ps.getUsername(players.get(1)) + "  turn to choose weapon:");
                 stage.addActor(newGameButton);
                 next.remove();
