@@ -105,7 +105,7 @@ public class PlayScreen implements Screen {
 
         // LOADS THE MAP
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("map2.tmx");
+        map = mapLoader.load("map3.tmx");
         mapRenderer =  new OrthogonalTiledMapRenderer(map, 0.01f);
         b2dr = new Box2DDebugRenderer();
 
@@ -264,6 +264,9 @@ public class PlayScreen implements Screen {
         }
         else if(player2.isPlayersTurn()){
             //gameCam.position.x = mapPixelWidth / 100f - gameCam.viewportWidth / 2f;
+            if(player2.b2Body.getPosition().x != player2.getPosX()){
+                player2.setRedefine();
+            }
 
             if ((player2.getBullet() != null && player2.getBullet().b2Body.getPosition().x <= mapPixelWidth / 100f - gameCam.viewportWidth / 2) && player2.getBullet().b2Body.getPosition().x >= gameCam.viewportWidth / 2) {
                 gameCam.position.x = player2.getBullet().b2Body.getPosition().x ;
