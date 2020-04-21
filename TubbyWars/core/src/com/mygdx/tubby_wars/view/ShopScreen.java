@@ -189,7 +189,7 @@ public class ShopScreen extends ScreenAdapter implements ScreenInterface {
                 game.playSound(click);
                 currentPlayer = players.get(1);
                 //player 2 chooses weapon text
-                scoreText.setText(ps.getUsername(players.get(1)) + " earned 345 points this round!");
+                scoreText.setText(ps.getUsername(players.get(1)) + " earned" + players + "points this round!");
                 infoText.setText(ps.getUsername(players.get(1)) + "  turn to choose weapon:");
                 stage.addActor(newGameButton);
                 next.remove();
