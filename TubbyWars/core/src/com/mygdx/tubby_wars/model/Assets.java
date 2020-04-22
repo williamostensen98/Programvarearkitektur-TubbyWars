@@ -4,12 +4,12 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 
 public class Assets {
     //Backgrounds
     public static String mainBackground = "textures/background.png"; //Background used outside gameplay
     public static String settingsBackground = "textures/settingsBackground.png"; //Background used outside gameplay
-    public static String gameBackground = "textures/background.png"; //Background used in gameplay
     public static String characterBackground = "textures/characterBackground.png"; //Background used in CharacherCreationScreen
     public static String shopBackground = "textures/shopBackground.png"; //Background used in shopScreen
     public static String highscoreBackground = "textures/highscoreBackground.png"; //Background used in HighScoreScreen
@@ -39,23 +39,13 @@ public class Assets {
     public static String settingsTitle =  "textures/settings.png"; //Title for settings page
     public static String shopTitle =  "textures/shop.png"; //Title for shop page
     public static String highscoreTitle =  "textures/HighscoreLogo.png"; //Title for highscore page
-    public static String usernameTitle = "textures/shop.png"; //"Registrer brukernavn"
-
-    //Map background
-    public static String mapEasy = "textures/easyMap.png";
-    public static String mapMedium = "textures/easyMap.png";
-    public static String mapHard = "textures/easyMap.png";
+    public static String characterTitle = "textures/characterLogo.png"; //"Registrer brukernavn"
 
     //Sprites
     public static String gulTubby = "textures/gulTubby.png";
     public static String gronnTubby = "textures/gronnTubby.png";
     public static String rodTubby = "textures/rodTubby.png";
     public static String lillaTubby = "textures/lillaTubby.png";
-
-    //Obstacles
-    public static String cloudObstacle = "textures/cloud.png";
-    public static String treeObstacle = "textures/tree.png";
-    public static String wallObstacle = "textures/wall.png";
 
     //Weapons
     public static String gunWeapon = "textures/gun.png";
@@ -64,10 +54,14 @@ public class Assets {
 
     //Music and sounds TODO: Implement in game
     public static String backgroundMusic = "music/music.mp3";
-    public static String jumpingSound = "music/Jumping-sound-effect.mp3";
     public static String shootingSound = "music/Shotgun-sound.mp3"; //When shooting weapon
     public static String hitSound = "music/Cartoon-game-ending.mp3"; //When player is hit by opponent
-    public static String clickSound = "music/Mouse-click-sound.mp3"; //When clicking on button TODO: Add in game screen
+    public static String clickSound = "music/Mouse-click-sound.mp3"; //When clicking on button
+
+    //Maps TODO: UPDATE TO THE ONCE HÅKON MADE
+   // public static String firstMap = "map2.tmx";
+   // public static String secontMap = "map3.tmx";
+   // public static String thirdMap = "map2.tmx";
 
     private static AssetManager assetManager;
 
@@ -83,15 +77,9 @@ public class Assets {
         //Backgrounds
         assetManager.load(mainBackground, Texture.class);
         assetManager.load(settingsBackground, Texture.class);
-        assetManager.load(gameBackground, Texture.class);
         assetManager.load(characterBackground, Texture.class);
         assetManager.load(shopBackground, Texture.class);
         assetManager.load(highscoreBackground, Texture.class);
-
-        //Map Backgrounds
-        assetManager.load(mapEasy, Texture.class);
-        assetManager.load(mapMedium, Texture.class);
-        assetManager.load(mapHard, Texture.class);
 
         //TextField
         assetManager.load(textFieldBackground, Texture.class);
@@ -118,18 +106,13 @@ public class Assets {
         assetManager.load(shopTitle, Texture.class);
         assetManager.load(settingsTitle, Texture.class);
         assetManager.load(highscoreTitle, Texture.class);
-        assetManager.load(usernameTitle, Texture.class);
+        assetManager.load(characterTitle, Texture.class);
 
         //Sprites
         assetManager.load(gulTubby, Texture.class);
         assetManager.load(gronnTubby, Texture.class);
         assetManager.load(rodTubby, Texture.class);
         assetManager.load(lillaTubby, Texture.class);
-
-        //Obstacles
-        assetManager.load(cloudObstacle, Texture.class);
-        assetManager.load(treeObstacle, Texture.class);
-        assetManager.load(wallObstacle, Texture.class);
 
         //Weapons
         assetManager.load(gunWeapon, Texture.class);
@@ -138,10 +121,14 @@ public class Assets {
 
         //Music and sounds
         assetManager.load(backgroundMusic, Music.class);
-        assetManager.load(jumpingSound, Sound.class);
         assetManager.load(shootingSound, Sound.class);
         assetManager.load(hitSound, Sound.class);
         assetManager.load(clickSound, Sound.class);
+
+        //Maps
+        //assetManager.load(firstMap, Sound.class);
+        //assetManager.load(secontMap, Sound.class);
+        //assetManager.load(thirdMap, Sound.class);
     }
 
     public static boolean update(){
@@ -160,7 +147,10 @@ public class Assets {
     public static Music getMusic(String path) { return assetManager.get(path, Music.class); }
 
     //Getter for sound effects
-    public  static Sound getSound(String path) {
+    public static Sound getSound(String path) {
         return assetManager.get(path, Sound.class);
     }
+
+    //Getter for sound effects
+    public static TiledMap getMap(String path) {return assetManager.get(path, TiledMap.class);}
 }

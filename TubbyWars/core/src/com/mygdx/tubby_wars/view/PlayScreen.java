@@ -3,9 +3,9 @@ package com.mygdx.tubby_wars.view;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,12 +22,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.tubby_wars.TubbyWars;
-import com.mygdx.tubby_wars.controller.CourseSystem;
 import com.mygdx.tubby_wars.controller.InputProcessor;
 import com.mygdx.tubby_wars.controller.Physics;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
@@ -36,13 +33,9 @@ import com.mygdx.tubby_wars.model.B2WorldCreator;
 import com.mygdx.tubby_wars.model.CollisionListener;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 import com.mygdx.tubby_wars.model.PlayerModel;
-
 import java.util.List;
 
-
 public class PlayScreen implements Screen {
-
-
     public OrthographicCamera gameCam;
     public Viewport viewPort;
     public TubbyWars game;
@@ -72,8 +65,11 @@ public class PlayScreen implements Screen {
 
     public float gameCamMaxPosition, gameCamMinPosition;
 
-
     private Texture settingsB;
+
+    private Sound click;
+    private Sound hitSound;
+    private Sound shotSound;
 
     // ASHLEY
     private Engine engine;
@@ -93,6 +89,9 @@ public class PlayScreen implements Screen {
 
         gameCam.update();
 
+        //Button
+        settingsB = Assets.getTexture(Assets.pauseGameButton);
+
         // INITIALIZES NEW WORLD AND STAGE
         world = new World(new Vector2(0, -9.81f), true);
         stage = new Stage();
@@ -104,8 +103,22 @@ public class PlayScreen implements Screen {
 
         // LOADS THE MAP
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("map2.tmx");
-        mapRenderer =  new OrthogonalTiledMapRenderer(map, 0.01f);
+
+        if (ControllerLogic.roundCount == 1) {
+            //TODO: Set first map, connect to Assets-file
+            //map = Assets.getMap(Assets.firstMap);
+            map = mapLoader.load("map2.tmx");
+        }
+        else if (ControllerLogic.roundCount == 2) {
+            //TODO: Set second map
+            map = mapLoader.load("map3.tmx");
+        }
+        else {
+            //TODO: Set third map
+            map = mapLoader.load("map2.tmx");
+        }
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 0.01f);
+
         b2dr = new Box2DDebugRenderer();
 
         // MAP PROPERTIES
@@ -117,7 +130,6 @@ public class PlayScreen implements Screen {
         gameCamMaxPosition = mapPixelWidth / 100f - gameCam.viewportWidth / 2;
         gameCamMinPosition = gameCam.viewportWidth / 2;
 
-
         // ADDS THE PLAYERS
         // player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 0.64f, players.get(0), engine);
         // player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 0.64f, players.get(1), engine);
@@ -127,15 +139,12 @@ public class PlayScreen implements Screen {
         // player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 1.2f, players.get(1), engine);
         player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 1.2f, players.get(1), engine);
 
-
-
         player2.flip(true, false);
 
         physics.setPlayer(player1);
         // LOADS THE PACK FILE WITH INTO AN ATLAS WHERE ALL THE CHARACTER SPRITES ARE
 
         hud = new Hud(game.batch, players);
-
 
         // contact listener
         world.setContactListener(new CollisionListener());
@@ -146,7 +155,13 @@ public class PlayScreen implements Screen {
 
 
         ControllerLogic.currentGame = this;
-    }
+
+        //TODO: Implement in game
+        click = Assets.getSound(Assets.clickSound);
+        hitSound = Assets.getSound(Assets.hitSound);
+        shotSound = Assets.getSound(Assets.shootingSound);
+}
+
 
     /**
      * Called when this screen becomes the current screen for a
@@ -159,8 +174,6 @@ public class PlayScreen implements Screen {
         // TODO ADD THE STAGES TO THE MULTIPLEXER
         new B2WorldCreator(world, map);
         Gdx.input.setInputProcessor(inputMultiplexer);
-
-
 
 
     }
@@ -186,7 +199,6 @@ public class PlayScreen implements Screen {
         player2.draw(game.batch);
         game.batch.end();
 
-
         // STAGE RENDERING
         game.batch.setProjectionMatrix(stage.getCamera().combined);
         stage.draw();
@@ -195,9 +207,8 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
-
-
     }
+
 
     public void update(float dt) {
         world.step(1 / 60f, 6, 2);
@@ -254,12 +265,19 @@ public class PlayScreen implements Screen {
 
 
         if(isRoundOver()){
-            prepareForNextRound();
-            game.setScreen(new ShopScreen(game, engine, players));
+            if (ControllerLogic.roundCount == 3) {
+                game.setScreen(new HighscoreScreen(game, engine));
+            }
+            else {
+                prepareForNextRound();
+                dispose();
+                game.setScreen(new ShopScreen(game, engine, players));
+            }
         }
     }
 
-    // TODO RESET THE NEXT ROUND CORRECTLY, THIS IS JUST A TEST
+    //TODO RESET THE NEXT ROUND CORRECTLY, THIS IS JUST A TEST
+    //TODO: Use ControllerLogic.roundCount to choose the right map (Changes for each round)
     private void prepareForNextRound(){
         player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 0.64f, players.get(0), engine);
         player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 0.64f, players.get(1), engine);
@@ -279,7 +297,6 @@ public class PlayScreen implements Screen {
 
     // TODO fix so that the settings button is clickable when playing, now the trajectory actor takes priority
     public void createSettingsButton(){
-        settingsB = Assets.getTexture(Assets.pauseGameButton);
 
         //Initialize button to get to SettingsScreen
         final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
@@ -291,12 +308,14 @@ public class PlayScreen implements Screen {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 // TODO Vi bør ikke lage nye screens hele tiden tror jeg, men heller ha de lagret,
                 //  kan bli vanskelig å komme tilbake til playScreen hvis ikke.
+                game.playSound(click);
                 game.setScreen(new SettingScreen(game, engine));
             }
         });
 
         stage.addActor(settingsButton);
     }
+
 
     private boolean checkBulletPosition(PlayerModel player){
         if((player.getBullet() != null &&
