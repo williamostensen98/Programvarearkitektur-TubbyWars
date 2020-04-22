@@ -98,6 +98,7 @@ public class PlayerTwo extends PlayerModel {
     }
     @Override
     public void redefinePlayer() {
+        System.out.println("player 2 redefined");
         world.destroyBody(b2Body);
         definePlayer();
         timeToRedefine = false;

@@ -28,6 +28,7 @@ public class B2WorldCreator {
         Body body;
 
 
+
         // ALL RECTANGLE SHAPES LIKE GROUND AND ETC
         for(MapObject obj: map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect = ((RectangleMapObject) obj).getRectangle();
@@ -53,6 +54,7 @@ public class B2WorldCreator {
 
         // BACK EDGES OF THE MAP
         for(MapObject obj: map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
+
             Rectangle rect = ((RectangleMapObject) obj).getRectangle();
             bdef.type = BodyDef.BodyType.StaticBody;
             bdef.position.set((rect.getX() + rect.getWidth() / 2) / PPM, (rect.getY() + rect.getHeight() / 2) / PPM);
