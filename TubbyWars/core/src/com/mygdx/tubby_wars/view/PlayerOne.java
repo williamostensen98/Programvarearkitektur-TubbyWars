@@ -33,6 +33,8 @@ public class PlayerOne extends PlayerModel {
     public boolean timeToRedefine;
 
 
+
+
     // ASHLEY
     private Entity playerEntity;
     private ComponentMapper<PlayerComponent> pm;
@@ -47,6 +49,7 @@ public class PlayerOne extends PlayerModel {
         bullets = new Array<>();
 
         definePlayer();
+
 
         timeToRedefine = false;
         Texture weaponTexture = engine.getSystem(PlayerSystem.class).getWeaponTexture(playerEntity);
@@ -157,4 +160,5 @@ public class PlayerOne extends PlayerModel {
         timeToRedefine = true;
 
     }
+
 }

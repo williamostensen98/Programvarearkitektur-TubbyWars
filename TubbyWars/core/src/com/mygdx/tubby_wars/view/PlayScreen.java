@@ -248,10 +248,13 @@ public class PlayScreen implements Screen {
         if(ControllerLogic.isPlayersTurn && player2.getBullet() == null){
             System.out.println("Turn changed to player 1");
             ControllerLogic.isPlayersTurn = false;
+
         }
         else if(!ControllerLogic.isPlayersTurn && player1.getBullet() == null){
             System.out.println("Turn changed to player 2");
             ControllerLogic.isPlayersTurn = true;
+
+
         }
 
         //TODO Needs cleaning
@@ -379,10 +382,7 @@ public class PlayScreen implements Screen {
 
             return true;
         }
-
-            return true;
-        }
-        return false;
+        else return bullet != null && bullet.b2Body.getPosition().y < 0;
     }
 
     @Override
