@@ -29,7 +29,7 @@ public class PlayerTwo extends PlayerModel {
 
 
     public Healthbar healthbar;
-    public boolean timeToRedefine, redefined;
+    public boolean timeToRedefine;
 
     // ASHLEY
     private Entity playerEntity;
@@ -51,7 +51,7 @@ public class PlayerTwo extends PlayerModel {
         region = new TextureRegion(texture, 0,0,texture.getWidth(),texture.getHeight());
         //region = new TextureRegion(PlayScreen.atlas.findRegion("little_mario"), 0, 0, 16, 16);
         timeToRedefine = false;
-        redefined = false;
+
 
         // width og height var 0.5f og 0.7f før
         setBounds(0, 0, 1f, 1.4f);
