@@ -237,7 +237,9 @@ public class SettingScreen implements Screen {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
                 ControllerLogic.loggedIn = false; //Quits game
+                ControllerLogic.roundCount = 0;
                 game.setScreen(new MenuScreen(game, engine));
+                // TODO HER MÅ VI NULLSTILLE ALLE VARIABLER I CONTROLLERLOGIC
             }
         });
 
