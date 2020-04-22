@@ -1,6 +1,7 @@
 package com.mygdx.tubby_wars.model;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -44,8 +45,13 @@ public class CollisionListener implements ContactListener {
         playerSystem.dealDamage(playerEntity, (int)(10 * damageMultiplier));
         System.out.println(playerSystem.getUsername(playerEntity) + " took " + (int)(10 * damageMultiplier) + " damage");
 
-        // setter score til feil person, men tenker at dette tallet kan være en fin score å gi, kanskje mer
-        playerSystem.setScore(playerEntity, (int)(100 * damageMultiplier));
+        ImmutableArray players = playerSystem.getEntities();
+
+        if(playerEntity == players.get(0)){
+            playerSystem.setScore((Entity) players.get(1),(int)(100 * damageMultiplier));
+        } else{
+            playerSystem.setScore((Entity) players.get(0),(int)(100 * damageMultiplier));
+        }
     }
 
 

@@ -330,7 +330,7 @@ public class CharacterCreationScreen implements Screen {
             ControllerLogic.loggedIn = true;
 
             //Goes to gameScreen
-            game.setScreen(new ShopScreen(game, engine, players));
+            game.setScreen(new ShopScreen(game, engine));
         } else {
             stage.addActor(informationText);
         }
