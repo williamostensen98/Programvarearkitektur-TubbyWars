@@ -2,6 +2,7 @@ package com.mygdx.tubby_wars.view;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -56,6 +57,7 @@ public class PlayScreen implements Screen {
     private TrajectoryActor trajectoryActor;
     public Physics physics;
     private Stage stage;
+    private Stage settingsStage;
 
     // HUD
     private Hud hud;
@@ -73,14 +75,16 @@ public class PlayScreen implements Screen {
 
     // ASHLEY
     private Engine engine;
-    private List<Entity> players;
+    private PlayerSystem ps;
+    private ImmutableArray players;
 
 
-    public PlayScreen(TubbyWars game, Engine engine, List<Entity> players) {
+    public PlayScreen(TubbyWars game, Engine engine) {
         this.game = game;
-
         this.engine = engine;
-        this.players = players;
+
+        ps = engine.getSystem(PlayerSystem.class);
+        players = engine.getEntities();
 
         gameCam = new OrthographicCamera(TubbyWars.V_WIDTH, TubbyWars.V_HEIGHT);
         viewPort = new StretchViewport(TubbyWars.V_WIDTH, TubbyWars.V_HEIGHT, gameCam);
@@ -95,6 +99,7 @@ public class PlayScreen implements Screen {
         // INITIALIZES NEW WORLD AND STAGE
         world = new World(new Vector2(0, -9.81f), true);
         stage = new Stage();
+        settingsStage = new Stage();
 
         // INITIALIZES PHYSICS AND THE TRAJECTORYACTOR IS ADDED TO THE STAGE.
         physics = new Physics();
@@ -140,9 +145,9 @@ public class PlayScreen implements Screen {
         // player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 0.64f, players.get(1), engine);
         // player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 0.64f, players.get(1), engine);
 
-        player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 1.2f, players.get(0), engine);
+        player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 1.2f, (Entity) players.get(0), engine);
         // player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 1.2f, players.get(1), engine);
-        player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 1.2f, players.get(1), engine);
+        player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 1.2f, (Entity) players.get(1), engine);
 
         player2.flip(true, false);
 
@@ -156,7 +161,7 @@ public class PlayScreen implements Screen {
 
 
         // TODO DENNE FIKSER SETTINGSKNAPPEN, HUK AV DENNE NÅR DEN ER KLAR
-        // createSettingsButton();
+        createSettingsButton();
 
 
         ControllerLogic.currentGame = this;
@@ -174,7 +179,9 @@ public class PlayScreen implements Screen {
     @Override
     public void show() {
         inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(settingsStage);
         inputMultiplexer.addProcessor(new InputProcessor(physics));
+
 
         // TODO ADD THE STAGES TO THE MULTIPLEXER
         new B2WorldCreator(world, map);
@@ -195,7 +202,7 @@ public class PlayScreen implements Screen {
         mapRenderer.render();
         mapRenderer.setView(gameCam);
 
-       b2dr.render(world, gameCam.combined);
+        b2dr.render(world, gameCam.combined);
 
         // PLAYER RENDERING
         game.batch.setProjectionMatrix(gameCam.combined);
@@ -207,6 +214,7 @@ public class PlayScreen implements Screen {
         // STAGE RENDERING
         game.batch.setProjectionMatrix(stage.getCamera().combined);
         stage.draw();
+        settingsStage.draw();
 
         //Set our batch to now draw what the Hud camera sees.
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
@@ -221,6 +229,21 @@ public class PlayScreen implements Screen {
         player1.update(dt);
         player2.update(dt);
         hud.update(dt);
+
+
+        // PROHIBITS PLAYERS FROM SHOOTING WHILE A BULLET IS ACTIVE
+        if(gameCam.position.x == player1.b2Body.getPosition().x || gameCam.position.x == player2.b2Body.getPosition().x){
+            if(inputMultiplexer.getProcessors().size == 1){
+                inputMultiplexer.addProcessor(new InputProcessor(physics));
+                Gdx.input.setInputProcessor(inputMultiplexer);
+            }
+        }
+        else{
+            inputMultiplexer.clear();
+            inputMultiplexer.addProcessor(settingsStage);
+            Gdx.input.setInputProcessor(inputMultiplexer);
+        }
+
 
         if(ControllerLogic.isPlayersTurn && player2.getBullet() == null){
             ControllerLogic.isPlayersTurn = false;
@@ -271,18 +294,23 @@ public class PlayScreen implements Screen {
 
         }
 
-
         if(isRoundOver()){
             if (ControllerLogic.roundCount == 5) {
                 game.setScreen(new HighscoreScreen(game, engine));
             }
             else {
-                prepareForNextRound();
-                game.setScreen(new ShopScreen(game, engine, players));
+
+               // prepareForNextRound();
+                //dispose();
+                ps.setHealth((Entity)players.get(0),150);
+                ps.setHealth((Entity)players.get(1),150);
+
+                game.setScreen(new ShopScreen(game, engine));
+
             }
         }
     }
-
+/*
     //TODO RESET THE NEXT ROUND CORRECTLY, THIS IS JUST A TEST
     //TODO: Use ControllerLogic.roundCount to choose the right map (Changes for each round)
     private void prepareForNextRound(){
@@ -294,9 +322,11 @@ public class PlayScreen implements Screen {
         engine.getSystem(PlayerSystem.class).setHealth(players.get(1),150);
     }
 
+ */
+
     private boolean isRoundOver(){
-        if(engine.getSystem(PlayerSystem.class).getHealth(players.get(0)) < 0
-                || engine.getSystem(PlayerSystem.class).getHealth(players.get(1)) < 0){
+        if(engine.getSystem(PlayerSystem.class).getHealth((Entity)players.get(0)) < 0
+                || engine.getSystem(PlayerSystem.class).getHealth((Entity)players.get(1)) < 0){
             return true;
         }
         return false;
@@ -307,7 +337,7 @@ public class PlayScreen implements Screen {
 
         //Initialize button to get to SettingsScreen
         final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
-        settingsButton.setSize(50, 50);
+        settingsButton.setSize(75, 75);
         settingsButton.setPosition(Gdx.graphics.getWidth()*85f/90f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight()* 75f/90f - settingsButton.getHeight() / 2f);
 
         settingsButton.addListener(new ClickListener() {
@@ -320,7 +350,7 @@ public class PlayScreen implements Screen {
             }
         });
 
-        stage.addActor(settingsButton);
+        settingsStage.addActor(settingsButton);
     }
 
 

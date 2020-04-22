@@ -3,6 +3,7 @@ package com.mygdx.tubby_wars.view;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -40,14 +41,14 @@ public class Hud implements Disposable {
 
     // ASHLEY
     private ComponentMapper<PlayerComponent> pm;
-    private List<Entity> players;
+    private ImmutableArray players;
 
     // SCORE
     private int playerOneScore, playerTwoScore;
 
 
     // if switching to use componentmapper and entity for finding player score, add courseEntity next to the spritebatch
-    public Hud(SpriteBatch sb, List<Entity> players){
+    public Hud(SpriteBatch sb, ImmutableArray players){
 
         this.players = players;
         pm = ComponentMapper.getFor(PlayerComponent.class);
@@ -62,15 +63,15 @@ public class Hud implements Disposable {
         //make the table fill the entire stage
         table.setFillParent(true);
 
-        playerOneScore = pm.get(players.get(0)).score;
-        playerTwoScore = pm.get(players.get(1)).score;
+        playerOneScore = pm.get((Entity) players.get(0)).score;
+        playerTwoScore = pm.get((Entity) players.get(1)).score;
 
 
 
         // if we want more or different labels, feel free to change.
 
-        playerOneName = new Label(pm.get(players.get(0)).playerName, new Label.LabelStyle(new BitmapFont(), Color.RED));
-        playerTwoName = new Label(pm.get(players.get(1)).playerName, new Label.LabelStyle(new BitmapFont(), Color.RED));
+        playerOneName = new Label(pm.get((Entity) players.get(0)).playerName, new Label.LabelStyle(new BitmapFont(), Color.RED));
+        playerTwoName = new Label(pm.get((Entity) players.get(1)).playerName, new Label.LabelStyle(new BitmapFont(), Color.RED));
         playerOneScoreLabel = new Label(String.valueOf(playerOneScore), new Label.LabelStyle(new BitmapFont(), Color.RED));
         playerTwoScoreLabel = new Label(String.valueOf(playerTwoScore), new Label.LabelStyle(new BitmapFont(), Color.RED));
 
@@ -88,9 +89,9 @@ public class Hud implements Disposable {
     public void update(float dt){
         // update score here, i would like to do that through componentmapper, but think we should wait until more of the project is complete.
         // - yours truly Håkon <3
-        if(pm.get(players.get(0)).score != playerOneScore || pm.get(players.get(1)).score != playerTwoScore){
-            playerOneScore = pm.get(players.get(0)).score;
-            playerTwoScore = pm.get(players.get(1)).score;
+        if(pm.get((Entity)players.get(0)).score != playerOneScore || pm.get((Entity)players.get(1)).score != playerTwoScore){
+            playerOneScore = pm.get((Entity)players.get(0)).score;
+            playerTwoScore = pm.get((Entity)players.get(1)).score;
 
             playerOneScoreLabel.setText(playerOneScore);
             playerTwoScoreLabel.setText(playerTwoScore);
