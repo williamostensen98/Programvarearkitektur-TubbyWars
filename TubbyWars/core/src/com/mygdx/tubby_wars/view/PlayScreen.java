@@ -107,15 +107,15 @@ public class PlayScreen implements Screen {
         if (ControllerLogic.roundCount == 1) {
             //TODO: Set first map, connect to Assets-file
             //map = Assets.getMap(Assets.firstMap);
-            map = mapLoader.load("map2.tmx");
+            map = mapLoader.load("tubbymap1.tmx");
         }
         else if (ControllerLogic.roundCount == 2) {
             //TODO: Set second map
-            map = mapLoader.load("map3.tmx");
+            map = mapLoader.load("tubbymap2.tmx");
         }
         else {
             //TODO: Set third map
-            map = mapLoader.load("map2.tmx");
+            map = mapLoader.load("tubbymap3.tmx");
         }
         mapRenderer = new OrthogonalTiledMapRenderer(map, 0.01f);
 
@@ -228,8 +228,11 @@ public class PlayScreen implements Screen {
         if(ControllerLogic.isPlayersTurn){
             physics.setPlayer(player2);
 
+            if(bulletOutOfBounds(player2.getBullet())){
+                player2.getBullet().destroyBullet();
+            }
 
-            if (checkBulletPosition(player2)) {
+            else if (checkBulletPosition(player2)) {
                 gameCam.position.x = player2.getBullet().b2Body.getPosition().x ;
             }
             else if (checkCameraPosition(player2) ) {
@@ -239,15 +242,17 @@ public class PlayScreen implements Screen {
             else if(player2.b2Body.getPosition().x != player2.getPosX()){
                 player2.setRedefine();
             }
-            else if(bulletOutOfBounds(player2.getBullet())){
-                player2.getBullet().destroyBullet();
-            }
+
 
         }
         else{
             physics.setPlayer(player1);
 
-            if (checkBulletPosition(player1)) {
+            if(bulletOutOfBounds(player1.getBullet())){
+                player1.getBullet().destroyBullet();
+            }
+
+            else if (checkBulletPosition(player1)) {
                 gameCam.position.x = player1.getBullet().b2Body.getPosition().x;
 
             } else if (checkCameraPosition(player1)) {
@@ -257,9 +262,7 @@ public class PlayScreen implements Screen {
             else if(player1.b2Body.getPosition().x != player1.getPosX()){
                 player1.setRedefine();
             }
-            else if(bulletOutOfBounds(player1.getBullet())){
-                player1.getBullet().destroyBullet();
-            }
+
 
         }
 
@@ -270,7 +273,6 @@ public class PlayScreen implements Screen {
             }
             else {
                 prepareForNextRound();
-                dispose();
                 game.setScreen(new ShopScreen(game, engine, players));
             }
         }
@@ -324,6 +326,7 @@ public class PlayScreen implements Screen {
             return true;
 
         }
+
         return false;
     }
 
@@ -335,7 +338,10 @@ public class PlayScreen implements Screen {
     }
 
     public boolean bulletOutOfBounds(Bullet bullet){
-        if(bullet.b2Body.getPosition().x < 0 || bullet.b2Body.getPosition().x > mapPixelWidth / 100f){
+        if(bullet != null && (bullet.b2Body.getPosition().x < 0 || bullet.b2Body.getPosition().x > mapPixelWidth / 100f)){
+            return true;
+        }
+        else if(bullet != null && bullet.b2Body.getPosition().y < 0){
             return true;
         }
         return false;
