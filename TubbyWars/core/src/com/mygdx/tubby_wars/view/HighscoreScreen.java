@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-//import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -29,7 +28,7 @@ import com.mygdx.tubby_wars.model.ControllerLogic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
+public class HighscoreScreen implements Screen {
 
     private TubbyWars game;
     private Engine engine;
@@ -63,7 +62,7 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     private PlayerSystem ps;
     private ImmutableArray players;
 
-    public HighScoreScreen(TubbyWars game, Engine engine){
+    public HighscoreScreen(TubbyWars game, Engine engine){
         super();
         this.game = game;
         this.engine = engine;
@@ -74,9 +73,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         background = Assets.getTexture(Assets.highscoreBackground);
 
         click = Assets.getSound(Assets.clickSound);
-
-        // one-time operations
-        create();
     }
 
     private void fetchUserData(){
@@ -90,17 +86,17 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         namePlayerOne = ps.getUsername((Entity)players.get(0));
         namePlayerTwo = ps.getUsername((Entity)players.get(1));
 
-        System.out.println("Username: "+namePlayerOne + " and score: " + scorePlayerOne);
-        System.out.println("Username: "+namePlayerTwo + " and score: " + scorePlayerTwo);
+        System.out.println("Username: " + namePlayerOne + " and score: " + scorePlayerOne);
+        System.out.println("Username: " + namePlayerTwo + " and score: " + scorePlayerTwo);
 
-        // TODO DETTE KAN DERE OGSÅ GJØRE ET ANNET STED, MEN GJORDE DET BARE HER NÅ. (ALTSÅ addHighscore())
+        // TODO: DETTE KAN DERE OGSÅ GJØRE ET ANNET STED, MEN GJORDE DET BARE HER NÅ. (ALTSÅ addHighscore())
         // Adds user data to database
         addHighscore(namePlayerOne, scorePlayerOne);
         addHighscore(namePlayerTwo, scorePlayerTwo);
     }
 
-    public void create(){
-
+    @Override
+    public void show() {
         if(ControllerLogic.loggedIn){
             fetchUserData();
         }
@@ -124,36 +120,17 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         if (ControllerLogic.loggedIn) {
             stage.addActor(settingsButton);
 
-            Label informationText = new Label("The winner is " + this.winner() +  ". Congratulations!", new Label.LabelStyle(new BitmapFont(), Color.PINK));
+            Label informationText = new Label(this.namePlayerOne + " got " + this.scorePlayerOne
+                    + " points, and " + this.namePlayerTwo + " got " + this.scorePlayerTwo +
+                    " points. The winner is " + winner() +  ". Congratulations! " +
+                    "Did any of you get on the highscore board?", new Label.LabelStyle(new BitmapFont(), Color.PINK));
             informationText.setPosition(Gdx.graphics.getWidth() / 2f - informationText.getWidth() / 2, Gdx.graphics.getHeight() / 8f * 6f);
             stage.addActor(informationText);
-
-            //TODO: Add score of player 1 and player 2
-        }
-    }
-
-
-
-    public String winner(){
-        if (this.scorePlayerOne< this.scorePlayerTwo){
-            return this.namePlayerTwo;
-        }
-        else if (this.scorePlayerOne> this.scorePlayerTwo){
-            return this.namePlayerOne;
-        }
-        else{
-            return "no one(tie!)";
         }
     }
 
     @Override
-    public void update(float dt){
-        // check for user input
-        handleinput();
-    }
-
-    @Override
-    public void draw(){
+    public void render(float dt){
         game.getBatch().begin();
         game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
         game.getBatch().end();
@@ -162,18 +139,33 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     }
 
     @Override
-    public void handleinput(){
+    public void resize(int width, int height) {
+
     }
 
     @Override
-    public void render(float dt){
-        update(dt);
-        draw();
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     @Override
     public void dispose(){
-        super.dispose();
+        titleText.dispose();
+        background.dispose();
+        menuScreenB.dispose();
+        settingsB.dispose();
+        click.dispose();
+        stage.dispose();
     }
 
     private void makeButtons() {
@@ -188,7 +180,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
                 game.playSound(click);
                 game.setScreen(new MenuScreen(game, engine));
             }
-
         });
 
         //Initialize button to get to SettingsScreen
@@ -212,7 +203,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
         style.font = new BitmapFont();
         style.fontColor = Color.BLACK;
 
-
         //Adding data to highscore list from database
         this.highScore= this.game.backendConn.getTopTen();
         ArrayList<String> listpoint = new ArrayList<>();
@@ -222,7 +212,6 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
             listname.add(names[0]);
             listpoint.add(names[1]);
         }
-
 
         highscoreResults =  new Table(); // Table containing the buttons on the screen
         highscoreResults.setPosition(Gdx.graphics.getWidth()/2f + highscoreResults.getWidth(), Gdx.graphics.getHeight()/100f*45f);
@@ -259,5 +248,17 @@ public class HighScoreScreen extends ScreenAdapter implements ScreenInterface{
     private void addHighscore(String name, int score){
                 this.game.backendConn.addResult(name,score);
     }
-}
 
+    private String winner() {
+        if (this.scorePlayerOne< this.scorePlayerTwo){
+            return this.namePlayerTwo;
+        }
+        else if (this.scorePlayerOne> this.scorePlayerTwo){
+            return this.namePlayerOne;
+        }
+        else{
+            return "no one (tie)";
+        }
+    }
+
+}

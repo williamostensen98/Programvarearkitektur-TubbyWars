@@ -90,6 +90,9 @@ public class PlayScreen implements Screen {
 
         gameCam.update();
 
+        //Button
+        settingsB = Assets.getTexture(Assets.pauseGameButton);
+
         // INITIALIZES NEW WORLD AND STAGE
         world = new World(new Vector2(0, -9.81f), true);
         stage = new Stage();
@@ -101,7 +104,19 @@ public class PlayScreen implements Screen {
 
         // LOADS THE MAP
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("map3.tmx");
+        if (ControllerLogic.roundCount == 1) {
+            //TODO: Set first map, connect to Assets-file
+            //map = Assets.getMap(Assets.firstMap);
+            map = mapLoader.load("map2.tmx");
+        }
+        else if (ControllerLogic.roundCount == 2) {
+            //TODO: Set second map
+            map = mapLoader.load("map3.tmx");
+        }
+        else {
+            //TODO: Set third map
+            map = mapLoader.load("map2.tmx");
+        }
         mapRenderer = new OrthogonalTiledMapRenderer(map, 0.01f);
         b2dr = new Box2DDebugRenderer();
 
@@ -111,7 +126,7 @@ public class PlayScreen implements Screen {
         tilePixelWidth = properties.get("tilewidth", Integer.class);
         mapPixelWidth = mapWidth * tilePixelWidth;
 
-        atlas = new TextureAtlas("Mario_and_Enemies.pack");
+        //atlas = new TextureAtlas("Mario_and_Enemies.pack");
         // ADDS THE PLAYERS
         // player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 0.64f, players.get(0), engine);
         // player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 0.64f, players.get(1), engine);
@@ -135,10 +150,10 @@ public class PlayScreen implements Screen {
         // TODO DENNE FIKSER SETTINGSKNAPPEN, HUK AV DENNE NÅR DEN ER KLAR
         // createSettingsButton();
 
-        //TODO: Implement
-        //click = Assets.getSound(Assets.clickSound);
-        //hitSound = Assets.getSound(Assets.hitSound);
-        //shotSound = Assets.getSound(Assets.shootingSound);
+        //TODO: Implement in game
+        click = Assets.getSound(Assets.clickSound);
+        hitSound = Assets.getSound(Assets.hitSound);
+        shotSound = Assets.getSound(Assets.shootingSound);
 }
 
     public void setGameCamPosition(){
@@ -214,6 +229,40 @@ public class PlayScreen implements Screen {
 
     }
 
+    @Override
+    public void resize(int width, int height) {
+        viewPort.update(width, height);
+        gameCam.update();
+    }
+
+    @Override //TODO: Kan denne brukes til å pause når man skal gå til settingScreen?
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+
+    @Override
+    public void hide() {
+
+    }
+
+    /**
+     * Called when this screen should release all resources.
+     */
+    @Override
+    public void dispose() {
+        map.dispose();
+        mapRenderer.dispose();
+        world.dispose();
+        b2dr.dispose();
+        hud.dispose();
+    }
+
     public void update(float dt) {
         world.step(1 / 60f, 6, 2);
         gameCam.update();
@@ -265,10 +314,8 @@ public class PlayScreen implements Screen {
         }
 
         if(isRoundOver()){
-            ControllerLogic.roundCount ++;
-
             if (ControllerLogic.roundCount == 3) {
-                game.setScreen(new HighScoreScreen(game, engine));
+                game.setScreen(new HighscoreScreen(game, engine));
             }
             else {
                 prepareForNextRound();
@@ -287,16 +334,6 @@ public class PlayScreen implements Screen {
 
         engine.getSystem(PlayerSystem.class).setHealth(players.get(0),150);
         engine.getSystem(PlayerSystem.class).setHealth(players.get(1),150);
-
-        if (ControllerLogic.roundCount == 1) {
-            //TODO: Set first map
-        }
-        else if (ControllerLogic.roundCount == 2) {
-            //TODO: Set second map
-        }
-        else {
-            //TODO: Set third map
-        }
     }
 
     private boolean isRoundOver(){
@@ -309,7 +346,6 @@ public class PlayScreen implements Screen {
 
     // TODO fix so that the settings button is clickable when playing, now the trajectory actor takes priority
     public void createSettingsButton(){
-        settingsB = Assets.getTexture(Assets.pauseGameButton);
 
         //Initialize button to get to SettingsScreen
         final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
@@ -321,46 +357,11 @@ public class PlayScreen implements Screen {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 // TODO Vi bør ikke lage nye screens hele tiden tror jeg, men heller ha de lagret,
                 //  kan bli vanskelig å komme tilbake til playScreen hvis ikke.
+                game.playSound(click);
                 game.setScreen(new SettingScreen(game, engine));
             }
         });
 
         stage.addActor(settingsButton);
     }
-
-
-    @Override
-    public void resize(int width, int height) {
-        viewPort.update(width, height);
-        gameCam.update();
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-
-    @Override
-    public void hide() {
-
-    }
-
-    /**
-     * Called when this screen should release all resources.
-     */
-    @Override
-    public void dispose() {
-        map.dispose();
-        mapRenderer.dispose();
-        world.dispose();
-        b2dr.dispose();
-        hud.dispose();
-    }
-
 }

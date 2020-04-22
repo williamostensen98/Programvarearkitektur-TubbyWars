@@ -2,7 +2,7 @@ package com.mygdx.tubby_wars.view;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -17,7 +17,7 @@ import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.Assets;
 import com.badlogic.gdx.audio.Sound;
 
-public class MenuScreen extends ScreenAdapter implements ScreenInterface {
+public class MenuScreen implements Screen {
 
     private TubbyWars game;
 
@@ -53,12 +53,10 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
         this.game.playMusic(music);
 
         click = Assets.getSound(Assets.clickSound);
-
-        // one-time operations
-        create();
     }
 
-    public void create() {
+    @Override
+    public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -76,13 +74,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     }
 
     @Override
-    public void update(float dt) {
-        // check for user input
-        handleinput();
-    }
-
-    @Override
-    public void draw(){
+    public void render(float dt) {
         game.getBatch().begin(); // Draw elements to Sprite Batch
         game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
         game.getBatch().end();
@@ -91,18 +83,28 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
     }
 
     @Override
-    public void handleinput() {
+    public void resize(int width, int height) {
+
     }
 
     @Override
-    public void render(float dt) {
-        update(dt);
-        draw();
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     @Override
     public void dispose() {
-        super.dispose();
+
     }
 
     private void makeButtons() {
@@ -141,7 +143,7 @@ public class MenuScreen extends ScreenAdapter implements ScreenInterface {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                game.setScreen(new HighScoreScreen(game, engine));
+                game.setScreen(new HighscoreScreen(game, engine));
             }
         });
 

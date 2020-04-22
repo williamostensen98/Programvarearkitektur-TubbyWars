@@ -1,7 +1,7 @@
 package com.mygdx.tubby_wars.view;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,7 +21,7 @@ import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
 
-public class SettingScreen extends ScreenAdapter implements ScreenInterface {
+public class SettingScreen implements Screen {
 
     private TubbyWars game;
     private Engine engine;
@@ -62,12 +62,10 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         soundOffB = Assets.getTexture(Assets.soundOffButton);
 
         click = Assets.getSound(Assets.clickSound);
-
-        create();
     }
 
     @Override
-    public void create() {
+    public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -102,12 +100,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     }
 
     @Override
-    public void update(float dt) {
-        handleinput();
-    }
-
-    @Override
-    public void draw() {
+    public void render(float dt){
         game.getBatch().begin(); // Draw elements to Sprite Batch
         game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
         //game.getBatch().draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
@@ -117,19 +110,36 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     }
 
     @Override
-    public void handleinput() {
+    public void resize(int width, int height) {
 
     }
 
     @Override
-    public void render(float dt){
-        update(dt);
-        draw();
+    public void pause() {
+
     }
 
     @Override
-    public void dispose(){
-        super.dispose();
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        title.dispose();
+        background.dispose();
+        resumeGameB.dispose();
+        quitGameB.dispose();
+        menuScreenB.dispose();
+        soundOnB.dispose();
+        soundOffB.dispose();
+        click.dispose();
     }
 
     private void makeButtons() {
@@ -147,9 +157,9 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
                 if (!game.musicStateManager.getMuteMusicState()) {
-                    game.muteMusic(Assets.getMusic(Assets.mainBackground));
+                    game.muteMusic(Assets.getMusic(Assets.backgroundMusic));
                 } else {
-                    game.unmuteMusic(Assets.getMusic(Assets.mainBackground));
+                    game.unmuteMusic(Assets.getMusic(Assets.backgroundMusic));
                 }
             }
             //Runs when the button is pressed down
@@ -206,8 +216,9 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
+                //dispose();
                 if (ControllerLogic.fromHighScoreScreen) {
-                    game.setScreen(new HighScoreScreen(game, engine));
+                    game.setScreen(new HighscoreScreen(game, engine));
                     ControllerLogic.fromHighScoreScreen = false;
                 }
                 else {
@@ -238,6 +249,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                //dispose();
                 game.playSound(click);
                 game.setScreen(new MenuScreen(game, engine));
             }

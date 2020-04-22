@@ -2,7 +2,7 @@ package com.mygdx.tubby_wars.view;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.Assets;
 
-public class LoadingScreen extends ScreenAdapter implements ScreenInterface{
+public class LoadingScreen implements Screen {
 
     private TubbyWars game;
     private Engine engine;
@@ -23,63 +23,62 @@ public class LoadingScreen extends ScreenAdapter implements ScreenInterface{
     private Label loadingText;
     private Stage stage;
 
-
     public LoadingScreen(TubbyWars game, Engine engine){
         this.game = game;
         this.engine = engine;
-        create();
-    }
 
-    @Override
-    public void create(){
-        loadingText = new Label("Loading...", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        loadingText.setPosition(Gdx.graphics.getWidth()/2f - loadingText.getWidth()/2f,
-                Gdx.graphics.getHeight()/2f);
-
-        stage = new Stage(new ScreenViewport());
-        stage.addActor(loadingText);
-    }
-
-    @Override
-    public void update(float dt) {
-        progress = MathUtils.lerp(progress, Assets.getProgress(), .1f);
-        if (Assets.update() && progress >= Assets.getProgress() - 0.001f) {
-            game.setScreen(new MenuScreen(game, engine));
-            dispose();
-        }
+        Assets.load();
     }
 
     @Override
     public void show(){
+        stage = new Stage(new ScreenViewport());
         this.progress = 0f;
-        Assets.load();
 
+        loadingText = new Label("Loading...", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        loadingText.setPosition(Gdx.graphics.getWidth()/2f - loadingText.getWidth()/2f,
+                Gdx.graphics.getHeight()/2f);
+
+        stage.addActor(loadingText);
     }
 
     @Override
-    public void draw() {
+    public void render(float dt){
+        progress = MathUtils.lerp(progress, Assets.getProgress(), .1f);
+        if (Assets.update() && progress >= Assets.getProgress() - 0.001f) {
+            dispose();
+            game.setScreen(new MenuScreen(game, engine));
+        }
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glClearColor(187.0f/255.0f, 231.0f/255.0f, 255.0f/255.0f, 1.0f);
+
         stage.draw();
     }
 
     @Override
-    public void handleinput() {
+    public void resize(int width, int height) {
 
     }
 
+    @Override
+    public void pause() {
+
+    }
 
     @Override
-    public void render(float dt){
-        update(dt);
-        draw();
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     @Override
     public void dispose(){
-        super.dispose();
-        
-
+        //stage.dispose();
     }
 
 }
