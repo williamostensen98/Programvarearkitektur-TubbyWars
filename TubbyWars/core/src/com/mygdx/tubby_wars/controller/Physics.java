@@ -1,18 +1,12 @@
 package com.mygdx.tubby_wars.controller;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 
 import com.mygdx.tubby_wars.model.ControllerLogic;
 import com.mygdx.tubby_wars.model.PlayerModel;
 import com.mygdx.tubby_wars.view.Bullet;
-import com.mygdx.tubby_wars.view.PlayScreen;
-import com.mygdx.tubby_wars.view.Player;
-
-import java.util.Vector;
 
 public class Physics {
 
@@ -47,15 +41,33 @@ public class Physics {
      */
      public Vector2 getTrajectoryPoint(float n, Vector2 startVelocity){
 
-        float t = 1 / 60f;
-        float tt = t * t;
-        float stepVelocityX = t * -startVelocity.x;
-        float stepVelocityY = t * -startVelocity.y;
-        float stepGravityX = tt * 0;
-        float stepGravityY = tt * (-9.81f);
-        float tpx = pressedPosition.x + n * stepVelocityX + 0.5f * (n * n + n) * stepGravityX;
-        float tpy = pressedPosition.y + n * stepVelocityY + 0.5f * (n * n + n) * stepGravityY;
-        return new Vector2(tpx , tpy);
+         float t = 1 / 60f;
+         float tt = t * t;
+         float stepVelocityX = t * -startVelocity.x;
+         float stepVelocityY = t * -startVelocity.y;
+         float stepGravityX = tt * 0;
+         float stepGravityY = tt * (-9.81f);
+
+         //disse bruker pressed pos
+//         float tpx = pressedPosition.x + n * stepVelocityX + 0.5f * (n * n + n) * stepGravityX;
+//         float tpy = pressedPosition.y + n * stepVelocityY + 0.5f * (n * n + n) * stepGravityY;
+
+
+         // disse bruker startpoint til player, men playerpos.x blir 5000 ish, og player står på 640
+         // så for å fikse dette må vi på en eller annen måte finne playerpos.x PÅ current skjerm
+//         float tpx = startPoint.x + n * stepVelocityX + 0.5f * (n * n + n) * stepGravityX;
+//         float tpy = startPoint.y + n * stepVelocityY + 0.5f * (n * n + n) * stepGravityY;
+
+         // hardkodet bare inn 640 her
+         // TODO HVIS VI SKAL HA AT SPILLEREN ALLTID RESETTER SEG, GÅR DETTE FINT.
+         //  MEN HVIS DET KUN SKAL RESETTE SEG VED AT DEN TREFFER EN VEG ELNS MÅ DENNE FIKSES.
+         float tpx = 640 + n * stepVelocityX + 0.5f * (n * n + n) * stepGravityX;
+         float tpy = startPoint.y + n * stepVelocityY + 0.5f * (n * n + n) * stepGravityY;
+
+         //System.out.println("playerpos x: " + startPoint.x + "   -   pressedpos x: " + pressedPosition.x);
+
+
+         return new Vector2(tpx , tpy);
 
      }
      /**
@@ -102,6 +114,7 @@ public class Physics {
              wasPressed = false;
              currentPlayer.showBullet();
              bullet.b2Body.setLinearVelocity(velvec);
+
          }
 
      }

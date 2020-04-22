@@ -5,17 +5,14 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 import com.mygdx.tubby_wars.model.PlayerModel;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
@@ -33,6 +30,11 @@ public class PlayerOne extends PlayerModel {
 
     public Healthbar healthbar;
 
+    public boolean timeToRedefine;
+
+
+
+
     // ASHLEY
     private Entity playerEntity;
     private ComponentMapper<PlayerComponent> pm;
@@ -48,11 +50,15 @@ public class PlayerOne extends PlayerModel {
 
         definePlayer();
 
-        weapon = new Weapon(b2Body,0.3f, 0.3f);
-        Texture texture = new Texture("lala.png");
-        //region = new TextureRegion(texture, 0,0,200,400);
-        region = new TextureRegion(PlayScreen.atlas.findRegion("little_mario"), 0, 0, 16, 16);
-        setBounds(0, 0, 0.5f, 0.7f);
+
+        timeToRedefine = false;
+        Texture weaponTexture = engine.getSystem(PlayerSystem.class).getWeaponTexture(playerEntity);
+        weapon = new Weapon(b2Body,-0.3f, 0.1f, weaponTexture);
+        Texture texture = engine.getSystem(PlayerSystem.class).getTexture(playerEntity);
+        region = new TextureRegion(texture, 0,0,texture.getWidth(),texture.getHeight());
+
+        // width og height var 0.5f og 0.7f før
+        setBounds(0, 0, 1f, 1.4f);
         setRegion(region);
 
         healthbar = new Healthbar(b2Body, playerEntity);
@@ -78,24 +84,22 @@ public class PlayerOne extends PlayerModel {
         weapon.draw(game.batch);
         healthbar.draw(game.batch);
 
-
-
-
-
     }
 
     @Override
     public void update(float dt) {
-        if(bullets.isEmpty() && !super.isPlayersTurn()){
-
-            addBullet();
+        if(timeToRedefine){
+            redefinePlayer();
 
         }
+        if(bullets.isEmpty() && !super.isPlayersTurn()){
+            addBullet();
+        }
         for(Bullet b: bullets){
+
             b.update(dt);
             if(b.isDestroyed()){
                 bullets.removeValue(b, true);
-
 
             }
         }
@@ -106,9 +110,16 @@ public class PlayerOne extends PlayerModel {
     }
 
     @Override
-    public void redefinePlayer() {
+    public void redefinePlayer(){
+        System.out.println("player 1 redefined");
         world.destroyBody(b2Body);
         definePlayer();
+        timeToRedefine = false;
+        addBullet();
+        getBullet().destroyBullet();
+
+
+
     }
 
     @Override
@@ -119,7 +130,9 @@ public class PlayerOne extends PlayerModel {
         b2Body = this.world.createBody(bdef);
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(0.25f);
+
+        // var 0.25
+        shape.setRadius(0.7f);
         fdef.shape = shape;
         fdef.friction = 0.8f;
         fdef.filter.categoryBits = ControllerLogic.BULLET_1 | ControllerLogic.PLAYER_1;
@@ -141,4 +154,11 @@ public class PlayerOne extends PlayerModel {
         bullets.add(bullet);
         hideBullet();
     }
+
+    @Override
+    public void setRedefine() {
+        timeToRedefine = true;
+
+    }
+
 }

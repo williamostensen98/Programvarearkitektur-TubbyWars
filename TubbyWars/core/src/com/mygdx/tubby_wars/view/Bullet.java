@@ -9,8 +9,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Timer;
-import com.mygdx.tubby_wars.controller.Physics;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
 
@@ -21,7 +19,6 @@ public class Bullet extends Sprite {
     public World world;
     public boolean destroyed, setToDestroy, filter;
 
-    private Player player;
 
     public TextureRegion bulletRegion;
 
@@ -30,7 +27,6 @@ public class Bullet extends Sprite {
         this.y = y;
         this.filter = filter;
         this.world = world;
-        this.player = player;
         destroyed = false;
         setToDestroy = false;
 
@@ -55,9 +51,6 @@ public class Bullet extends Sprite {
             world.destroyBody(b2Body);
             destroyed = true;
             stateTime = 0;
-            if(ControllerLogic.isPlayersTurn){ControllerLogic.isPlayersTurn = false;}
-            else {ControllerLogic.isPlayersTurn = true;}
-
 
 
 

@@ -3,24 +3,17 @@ package com.mygdx.tubby_wars.model;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.tubby_wars.TubbyWars;
-import com.mygdx.tubby_wars.controller.CourseSystem;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
 import com.mygdx.tubby_wars.view.Bullet;
 import com.mygdx.tubby_wars.view.Healthbar;
-import com.mygdx.tubby_wars.view.PlayScreen;
-import com.mygdx.tubby_wars.view.Player;
 import com.mygdx.tubby_wars.view.Weapon;
 
 public abstract class PlayerModel extends Sprite {
@@ -71,6 +64,8 @@ public abstract class PlayerModel extends Sprite {
 
     public abstract void redefinePlayer();
 
+    public abstract void setRedefine();
+
     public abstract Bullet getBullet();
 
 
@@ -87,6 +82,10 @@ public abstract class PlayerModel extends Sprite {
 
     public Vector2 getStartPoint(){
         return b2Body.getPosition();
+    }
+
+    public float getPosX(){
+        return posX;
     }
 
 

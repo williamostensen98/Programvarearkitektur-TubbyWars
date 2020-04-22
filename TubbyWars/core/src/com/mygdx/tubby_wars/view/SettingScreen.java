@@ -1,7 +1,7 @@
 package com.mygdx.tubby_wars.view;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,7 +21,7 @@ import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
 
-public class SettingScreen extends ScreenAdapter implements ScreenInterface {
+public class SettingScreen implements Screen {
 
     private TubbyWars game;
     private Engine engine;
@@ -61,19 +61,17 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         soundOnB = Assets.getTexture(Assets.soundOnButton);
         soundOffB = Assets.getTexture(Assets.soundOffButton);
 
-        click = game.getClickSound();
-
-        create();
+        click = Assets.getSound(Assets.clickSound);
     }
 
     @Override
-    public void create() {
+    public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
         //Initialize title image, logo
         final Image logo = new Image(title);
-        logo.setSize(150,75);
+        logo.setSize(Gdx.graphics.getWidth()/7f,  Gdx.graphics.getHeight()/5f);
         logo.setPosition(Gdx.graphics.getWidth()/2f - logo.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - logo.getHeight()/2f);
 
         //Initialize text labels, musicText and soundsText
@@ -102,12 +100,7 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     }
 
     @Override
-    public void update(float dt) {
-        handleinput();
-    }
-
-    @Override
-    public void draw() {
+    public void render(float dt){
         game.getBatch().begin(); // Draw elements to Sprite Batch
         game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
         //game.getBatch().draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
@@ -117,19 +110,36 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
     }
 
     @Override
-    public void handleinput() {
+    public void resize(int width, int height) {
 
     }
 
     @Override
-    public void render(float dt){
-        update(dt);
-        draw();
+    public void pause() {
+
     }
 
     @Override
-    public void dispose(){
-        super.dispose();
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        title.dispose();
+        background.dispose();
+        resumeGameB.dispose();
+        quitGameB.dispose();
+        menuScreenB.dispose();
+        soundOnB.dispose();
+        soundOffB.dispose();
+        click.dispose();
     }
 
     private void makeButtons() {
@@ -137,19 +147,19 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         //Initialize musicButton
         musicButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOffB)));
         musicButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
-        musicButton.setSize(50, 50);
-        musicButton.setOrigin(50, 50);
+        musicButton.setSize(Gdx.graphics.getWidth()/24f,Gdx.graphics.getHeight()/11f);
+        musicButton.setOrigin(Gdx.graphics.getWidth()/24f,Gdx.graphics.getHeight()/11f);
         musicButton.setChecked(game.musicStateManager.getMuteMusicState());
-        musicButton.setPosition(Gdx.graphics.getWidth() / 13f*4f, Gdx.graphics.getHeight() / 9f*5f- musicButton.getHeight() / 3f);
+        musicButton.setPosition(Gdx.graphics.getWidth() / 100f*30f, Gdx.graphics.getHeight() / 9f*5f- musicButton.getHeight() / 3f);
         //Add click effect
         musicButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
                 if (!game.musicStateManager.getMuteMusicState()) {
-                    game.muteMusic(game.getBackgroundMusic());
+                    game.muteMusic(Assets.getMusic(Assets.backgroundMusic));
                 } else {
-                    game.unmuteMusic(game.getBackgroundMusic());
+                    game.unmuteMusic(Assets.getMusic(Assets.backgroundMusic));
                 }
             }
             //Runs when the button is pressed down
@@ -168,10 +178,10 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
         //Initialize soundEffectButton
         soundEffectButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOffB)));
         soundEffectButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
-        soundEffectButton.setSize(50, 50);
-        soundEffectButton.setOrigin(50, 50);
+        soundEffectButton.setSize(Gdx.graphics.getWidth()/24f,Gdx.graphics.getHeight()/11f);
+        soundEffectButton.setOrigin(Gdx.graphics.getWidth()/24f,Gdx.graphics.getHeight()/11f);
         soundEffectButton.setChecked(game.soundStateManager.getMuteSoundState());
-        soundEffectButton.setPosition(Gdx.graphics.getWidth() / 8f*3f, Gdx.graphics.getHeight() / 9f*3f - soundEffectButton.getHeight() / 3f);
+        soundEffectButton.setPosition(Gdx.graphics.getWidth() / 100f*34f, Gdx.graphics.getHeight() / 9f*3f - soundEffectButton.getHeight() / 3f);
         //Add click effect
         soundEffectButton.addListener(new ClickListener() {
             @Override
@@ -206,17 +216,13 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                if (ControllerLogic.fromShopScreen) {
-                    game.setScreen(new ShopScreen(game, engine));
-                    ControllerLogic.fromShopScreen = false;
-                }
-                else if (ControllerLogic.fromHighScoreScreen) {
-                    game.setScreen(new HighScoreScreen(game, engine));
+                //dispose();
+                if (ControllerLogic.fromHighScoreScreen) {
+                    game.setScreen(new HighscoreScreen(game, engine));
                     ControllerLogic.fromHighScoreScreen = false;
                 }
                 else {
-                    // må finne på noe lurt her, da playScreen må ta inn players og engine
-                    //game.setScreen(new PlayScreen(game));
+                    game.setScreen(ControllerLogic.currentGame);
                 }
             }
         });
@@ -231,18 +237,21 @@ public class SettingScreen extends ScreenAdapter implements ScreenInterface {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
                 ControllerLogic.loggedIn = false; //Quits game
+                ControllerLogic.roundCount = 0;
                 game.setScreen(new MenuScreen(game, engine));
+                // TODO HER MÅ VI NULLSTILLE ALLE VARIABLER I CONTROLLERLOGIC
             }
         });
 
-        //Initialiserer quit button, going back to settings
+        //Initialiserer quit button, going back to menu
         menuButton = new Button(new TextureRegionDrawable(new TextureRegion(menuScreenB)));
-        menuButton.setSize(100, 50);
+        menuButton.setSize(Gdx.graphics.getWidth()/12f   ,     Gdx.graphics.getHeight()/10f);
         menuButton.setPosition(Gdx.graphics.getWidth() / 6f - menuButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - menuButton.getHeight() / 2f);
 
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                //dispose();
                 game.playSound(click);
                 game.setScreen(new MenuScreen(game, engine));
             }
