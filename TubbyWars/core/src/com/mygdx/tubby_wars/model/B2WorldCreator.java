@@ -20,19 +20,7 @@ public class B2WorldCreator {
         FixtureDef fdef = new FixtureDef();
         Body body;
 
-        //TODO: Update to match new maps (De håkon har laget)
-        int mapNumber;
-        if (ControllerLogic.roundCount == 1) {
-            mapNumber = 2;
-        }
-        else if (ControllerLogic.roundCount == 2) {
-            mapNumber = 1;
-        }
-        else {
-            mapNumber = 2;
-        }
-
-        for(MapObject obj: map.getLayers().get(mapNumber).getObjects().getByType(RectangleMapObject.class)){
+        for(MapObject obj: map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect = ((RectangleMapObject) obj).getRectangle();
             bdef.type = BodyDef.BodyType.StaticBody;
             bdef.position.set((rect.getX() + rect.getWidth() / 2) / PPM, (rect.getY() + rect.getHeight() / 2) / PPM);
