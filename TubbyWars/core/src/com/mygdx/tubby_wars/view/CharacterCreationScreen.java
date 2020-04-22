@@ -3,7 +3,6 @@ package com.mygdx.tubby_wars.view;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,10 +23,11 @@ import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 import com.mygdx.tubby_wars.model.World;
+import com.badlogic.gdx.Screen;
 
 import java.util.List;
 
-public class CharacterCreationScreen extends ScreenAdapter implements ScreenInterface {
+public class CharacterCreationScreen implements Screen {
 
     private TubbyWars game;
     private Stage stage;
@@ -100,30 +100,10 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
 
         // one-time operations
         setupAshley();
-        create();
     }
 
-    public void setupAshley(){
-        engine = new Engine();
-        ashleyWorld = new World(engine);
-
-        // ADDS SYSTEMS TO THE ENGINE
-        engine.addSystem(new PlayerSystem());
-        engine.addSystem(new CourseSystem());
-
-        // CREATE PLAYERS AND COURSE
-        players = ashleyWorld.createPlayers();
-        courseEntity = ashleyWorld.createCourse();
-
-        // CONNECT PLAYERS TO THE COURSE, (NOT CRUCIAL ATM)
-        engine.getSystem(CourseSystem.class).addPlayers(courseEntity, players);
-
-        // if we want to use functions from playerSystem, use the following
-        // playerSystem.thefunction(players.get(0)), 0 for player 1 and 1 for player 2
-        playerSystem = engine.getSystem(PlayerSystem.class);
-    }
-
-    public void create() {
+    @Override
+    public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -155,13 +135,7 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
     }
 
     @Override
-    public void update(float dt) {
-        // check for user input
-        handleinput();
-    }
-
-    @Override
-    public void draw() {
+    public void render(float dt) {
         // Draw elements to Sprite Batch, textFields and Background
         game.getBatch().begin();
         game.getBatch().draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
@@ -173,18 +147,28 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
     }
 
     @Override
-    public void handleinput() {
+    public void resize(int width, int height) {
+
     }
 
     @Override
-    public void render(float dt) {
-        update(dt);
-        draw();
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     @Override
     public void dispose() {
-        super.dispose();
+
     }
 
     //Helpingfunctions
@@ -301,6 +285,26 @@ public class CharacterCreationScreen extends ScreenAdapter implements ScreenInte
 
         rightText = new Label("Choose character:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
         rightText.setPosition(Gdx.graphics.getWidth() / 5f * 3f - rightText.getWidth() / 4, Gdx.graphics.getHeight() / 8f * 4f - rightText.getHeight() / 2);
+    }
+
+    public void setupAshley(){
+        engine = new Engine();
+        ashleyWorld = new World(engine);
+
+        // ADDS SYSTEMS TO THE ENGINE
+        engine.addSystem(new PlayerSystem());
+        engine.addSystem(new CourseSystem());
+
+        // CREATE PLAYERS AND COURSE
+        players = ashleyWorld.createPlayers();
+        courseEntity = ashleyWorld.createCourse();
+
+        // CONNECT PLAYERS TO THE COURSE, (NOT CRUCIAL ATM)
+        engine.getSystem(CourseSystem.class).addPlayers(courseEntity, players);
+
+        // if we want to use functions from playerSystem, use the following
+        // playerSystem.thefunction(players.get(0)), 0 for player 1 and 1 for player 2
+        playerSystem = engine.getSystem(PlayerSystem.class);
     }
 
     //Checks if username is correctly written
