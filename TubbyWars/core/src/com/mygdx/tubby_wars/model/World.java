@@ -3,13 +3,9 @@ package com.mygdx.tubby_wars.model;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
-import com.mygdx.tubby_wars.controller.WeaponSystem;
 import com.mygdx.tubby_wars.model.components.CourseComponent;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
-import com.mygdx.tubby_wars.model.components.WeaponComponent;
-import com.mygdx.tubby_wars.view.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +17,6 @@ public class World {
     public World(Engine engine){
         this.engine = engine;
     }
-
-    /*
-    public Entity createMap(){
-
-
-        return
-    }
-     */
 
     public Entity createCourse(){
         Entity courseEntity = new Entity();
