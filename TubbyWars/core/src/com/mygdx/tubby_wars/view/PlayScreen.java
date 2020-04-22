@@ -105,17 +105,22 @@ public class PlayScreen implements Screen {
         mapLoader = new TmxMapLoader();
 
         if (ControllerLogic.roundCount == 1) {
-            //TODO: Set first map, connect to Assets-file
-            //map = Assets.getMap(Assets.firstMap);
+
             map = mapLoader.load("tubbymap1.tmx");
         }
         else if (ControllerLogic.roundCount == 2) {
-            //TODO: Set second map
+
             map = mapLoader.load("tubbymap2.tmx");
         }
-        else {
-            //TODO: Set third map
+        else if (ControllerLogic.roundCount == 3) {
+
             map = mapLoader.load("tubbymap3.tmx");
+        }
+        else if (ControllerLogic.roundCount == 4) {
+            map = mapLoader.load("tubbymap4.tmx");
+        }
+        else {
+            map = mapLoader.load("tubbymap5.tmx");
         }
         mapRenderer = new OrthogonalTiledMapRenderer(map, 0.01f);
 
@@ -268,7 +273,7 @@ public class PlayScreen implements Screen {
 
 
         if(isRoundOver()){
-            if (ControllerLogic.roundCount == 3) {
+            if (ControllerLogic.roundCount == 5) {
                 game.setScreen(new HighscoreScreen(game, engine));
             }
             else {
