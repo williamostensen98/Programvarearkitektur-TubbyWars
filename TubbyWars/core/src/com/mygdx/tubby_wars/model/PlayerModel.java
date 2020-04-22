@@ -41,6 +41,8 @@ public abstract class PlayerModel extends Sprite {
     private ComponentMapper<PlayerComponent> pm;
     private Engine engine;
 
+
+
     public PlayerModel(World world, TubbyWars game, float posX, float posY, Entity playerEntity, Engine engine) {
         this.world = world;
         this.game = game;
@@ -100,6 +102,7 @@ public abstract class PlayerModel extends Sprite {
     public PlayerSystem getPlayerSystem(){
         return engine.getSystem(PlayerSystem.class);
     }
+
 
 
 }

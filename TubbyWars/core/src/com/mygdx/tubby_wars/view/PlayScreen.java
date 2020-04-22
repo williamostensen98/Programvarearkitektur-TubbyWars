@@ -111,7 +111,7 @@ public class PlayScreen implements Screen {
 
         if (ControllerLogic.roundCount == 1) {
 
-            map = mapLoader.load("tubbymap1.tmx");
+            map = mapLoader.load("tubbymap3.tmx");
         }
         else if (ControllerLogic.roundCount == 2) {
 
@@ -231,6 +231,7 @@ public class PlayScreen implements Screen {
         hud.update(dt);
 
 
+
         // PROHIBITS PLAYERS FROM SHOOTING WHILE A BULLET IS ACTIVE
         if(gameCam.position.x == player1.b2Body.getPosition().x || gameCam.position.x == player2.b2Body.getPosition().x){
             if(inputMultiplexer.getProcessors().size == 1){
@@ -248,9 +249,10 @@ public class PlayScreen implements Screen {
         if(ControllerLogic.isPlayersTurn && player2.getBullet() == null){
             ControllerLogic.isPlayersTurn = false;
         }
-        else if(!ControllerLogic.isPlayersTurn && player1.getBullet() == null){
+        else if(!ControllerLogic.isPlayersTurn && player1.getBullet() == null ){
             ControllerLogic.isPlayersTurn = true;
         }
+
 
         //TODO Needs cleaning
         if(ControllerLogic.isPlayersTurn){
@@ -261,6 +263,7 @@ public class PlayScreen implements Screen {
             }
 
             else if (checkBulletPosition(player2)) {
+
                 gameCam.position.x = player2.getBullet().b2Body.getPosition().x ;
             }
             else if (checkCameraPosition(player2) ) {
@@ -277,22 +280,28 @@ public class PlayScreen implements Screen {
             physics.setPlayer(player1);
 
             if(bulletOutOfBounds(player1.getBullet())){
+
                 player1.getBullet().destroyBullet();
             }
 
             else if (checkBulletPosition(player1)) {
                 gameCam.position.x = player1.getBullet().b2Body.getPosition().x;
 
-            } else if (checkCameraPosition(player1)) {
-                gameCam.position.x = Math.max(player1.b2Body.getPosition().x, gameCamMinPosition);
             }
 
+            else if (checkCameraPosition(player1)) {
+                gameCam.position.x = Math.max(player1.b2Body.getPosition().x, gameCamMinPosition);
+            }
             else if(player1.b2Body.getPosition().x != player1.getPosX()){
                 player1.setRedefine();
             }
 
 
+
         }
+
+
+
 
         if(isRoundOver()){
             if (ControllerLogic.roundCount == 5) {
