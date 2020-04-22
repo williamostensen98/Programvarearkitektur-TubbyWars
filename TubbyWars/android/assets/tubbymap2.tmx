@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="150" height="18" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="14">
+<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="150" height="18" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="15">
  <tileset firstgid="1" name="generic_platformer_tiles" tilewidth="32" tileheight="32" tilecount="768" columns="32">
   <image source="generic_platformer_tiles.png" width="1024" height="768"/>
  </tileset>
@@ -43,7 +43,7 @@
    <polygon points="0,0 -34,1 -56,6 -63,21 -62,36 -58,51 -49,53 -41,58 -35,66 -32,71 -32,81 -40,88 -45,93 14,93 -2,79 -1,63 13,55 26,49 29,38 29,23 16,3"/>
   </object>
  </objectgroup>
- <objectgroup id="4" name="Back edge">
+ <objectgroup id="4" name="Backedge">
   <object id="12" x="0" y="0" width="32" height="475"/>
   <object id="13" x="4767" y="1" width="34" height="479"/>
  </objectgroup>
