@@ -26,7 +26,7 @@ public abstract class PlayerModel extends Sprite {
     public Weapon weapon;
 
     public TubbyWars game;
-    protected Array<Bullet> bullets;
+
 
     public boolean showBullet = false;
 
@@ -40,6 +40,8 @@ public abstract class PlayerModel extends Sprite {
     private Entity playerEntity;
     private ComponentMapper<PlayerComponent> pm;
     private Engine engine;
+
+
 
     public PlayerModel(World world, TubbyWars game, float posX, float posY, Entity playerEntity, Engine engine) {
         this.world = world;
@@ -100,6 +102,7 @@ public abstract class PlayerModel extends Sprite {
     public PlayerSystem getPlayerSystem(){
         return engine.getSystem(PlayerSystem.class);
     }
+
 
 
 }

@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
+import com.mygdx.tubby_wars.controller.ScreenFactory;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
@@ -108,9 +109,9 @@ public class ShopScreen implements Screen {
         scoreText.setPosition(Gdx.graphics.getWidth() / 2f - scoreText.getWidth()/2f, Gdx.graphics.getHeight() /100f*69f);
 
         //player 1 choose weapon text
-        infoText = new Label(ps.getUsername((Entity)players.get(0)) + " turn to choose weapon:",new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        infoText = new Label(ps.getUsername((Entity)players.get(0)) + " you can upgrade your weapon for the next round",new Label.LabelStyle(new BitmapFont(), Color.BLACK));
         infoText.setFontScale(1f,1f);
-        infoText.setPosition(Gdx.graphics.getWidth() / 6f - infoText.getWidth()/2f, Gdx.graphics.getHeight() /100f*55f);
+        infoText.setPosition(Gdx.graphics.getWidth() / 2f - infoText.getWidth()/2f, Gdx.graphics.getHeight() /100f*55f);
 
         makeButtons();
 
@@ -134,6 +135,7 @@ public class ShopScreen implements Screen {
     @Override
     //Draw everything
     public void render(float dt){
+        game.getBatch().setProjectionMatrix(stage.getCamera().combined);
         game.getBatch().begin();
         game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
         game.getBatch().end();
@@ -175,7 +177,7 @@ public class ShopScreen implements Screen {
                 game.playSound(click);
                 //dispose();
                 ControllerLogic.roundCount ++;
-                game.setScreen(new PlayScreen(game, engine));
+                game.setScreen(ScreenFactory.getScreen("PLAY",game, engine));
             }
         });
 
@@ -193,7 +195,7 @@ public class ShopScreen implements Screen {
                 currentPlayer = (Entity) players.get(1);
                 //player 2 chooses weapon text
                 scoreText.setText(ps.getUsername((Entity) players.get(1)) + " earned " + ps.getScore((Entity)players.get(1)) + " points this round!");
-                infoText.setText(ps.getUsername((Entity) players.get(1)) + "  turn to choose weapon:");
+                infoText.setText(ps.getUsername((Entity) players.get(1)) + "  you can upgrade your weapon for the next round.");
                 stage.addActor(newGameButton);
                 next.remove();
             }
@@ -210,7 +212,7 @@ public class ShopScreen implements Screen {
                 game.playSound(click);
                 ControllerLogic.loggedIn = false; //Quits game
                 //dispose();
-                game.setScreen(new MenuScreen(game, engine));
+                game.setScreen(ScreenFactory.getScreen("MENU",game, engine));
             }
         });
 

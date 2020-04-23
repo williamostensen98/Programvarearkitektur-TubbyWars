@@ -28,6 +28,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.InputProcessor;
 import com.mygdx.tubby_wars.controller.Physics;
+import com.mygdx.tubby_wars.controller.PhysicsSystem;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.B2WorldCreator;
@@ -55,7 +56,7 @@ public class PlayScreen implements Screen {
     private int tilePixelWidth;
 
     private TrajectoryActor trajectoryActor;
-    public Physics physics;
+    //public Physics physics;
     private Stage stage;
     private Stage settingsStage;
 
@@ -77,6 +78,8 @@ public class PlayScreen implements Screen {
     private Engine engine;
     private PlayerSystem ps;
     private ImmutableArray players;
+    private PhysicsSystem physicsSystem;
+    private Entity physicsEntity;
 
 
     public PlayScreen(TubbyWars game, Engine engine) {
@@ -85,6 +88,8 @@ public class PlayScreen implements Screen {
 
         ps = engine.getSystem(PlayerSystem.class);
         players = engine.getEntities();
+        physicsSystem = engine.getSystem(PhysicsSystem.class);
+        physicsEntity = physicsSystem.getEntities().get(0);
 
         gameCam = new OrthographicCamera(TubbyWars.V_WIDTH, TubbyWars.V_HEIGHT);
         viewPort = new StretchViewport(TubbyWars.V_WIDTH, TubbyWars.V_HEIGHT, gameCam);
@@ -102,8 +107,8 @@ public class PlayScreen implements Screen {
         settingsStage = new Stage();
 
         // INITIALIZES PHYSICS AND THE TRAJECTORYACTOR IS ADDED TO THE STAGE.
-        physics = new Physics();
-        trajectoryActor = new TrajectoryActor(game, physics);
+        //physics = new Physics();
+        trajectoryActor = new TrajectoryActor(game, engine);
         stage.addActor(trajectoryActor);
 
         // LOADS THE MAP
@@ -119,7 +124,7 @@ public class PlayScreen implements Screen {
         }
         else if (ControllerLogic.roundCount == 3) {
 
-            map = mapLoader.load("tubbymap3.tmx");
+            map = mapLoader.load("tubbymap1.tmx");
         }
         else if (ControllerLogic.roundCount == 4) {
             map = mapLoader.load("tubbymap4.tmx");
@@ -151,7 +156,7 @@ public class PlayScreen implements Screen {
 
         player2.flip(true, false);
 
-        physics.setPlayer(player1);
+        physicsSystem.setPlayer(physicsEntity, player1);
         // LOADS THE PACK FILE WITH INTO AN ATLAS WHERE ALL THE CHARACTER SPRITES ARE
 
         hud = new Hud(game.batch, players);
@@ -180,7 +185,7 @@ public class PlayScreen implements Screen {
     public void show() {
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(settingsStage);
-        inputMultiplexer.addProcessor(new InputProcessor(physics));
+        inputMultiplexer.addProcessor(new InputProcessor(physicsSystem));
 
 
         // TODO ADD THE STAGES TO THE MULTIPLEXER
@@ -231,10 +236,11 @@ public class PlayScreen implements Screen {
         hud.update(dt);
 
 
+
         // PROHIBITS PLAYERS FROM SHOOTING WHILE A BULLET IS ACTIVE
         if(gameCam.position.x == player1.b2Body.getPosition().x || gameCam.position.x == player2.b2Body.getPosition().x){
             if(inputMultiplexer.getProcessors().size == 1){
-                inputMultiplexer.addProcessor(new InputProcessor(physics));
+                inputMultiplexer.addProcessor(new InputProcessor(physicsSystem));
                 Gdx.input.setInputProcessor(inputMultiplexer);
             }
         }
@@ -250,6 +256,7 @@ public class PlayScreen implements Screen {
             ControllerLogic.isPlayersTurn = false;
 
         }
+
         else if(!ControllerLogic.isPlayersTurn && player1.getBullet() == null){
             System.out.println("Turn changed to player 2");
             ControllerLogic.isPlayersTurn = true;
@@ -257,15 +264,17 @@ public class PlayScreen implements Screen {
 
         }
 
+
         //TODO Needs cleaning
         if(ControllerLogic.isPlayersTurn){
-            physics.setPlayer(player2);
+            physicsSystem.setPlayer(physicsEntity, player2);
 
             if(bulletOutOfBounds(player2.getBullet())){
                 player2.getBullet().destroyBullet();
             }
 
             else if (checkBulletPosition(player2)) {
+
                 gameCam.position.x = player2.getBullet().b2Body.getPosition().x ;
             }
             else if (checkCameraPosition(player2) ) {
@@ -278,9 +287,10 @@ public class PlayScreen implements Screen {
 
         }
         else{
-            physics.setPlayer(player1);
+            physicsSystem.setPlayer(physicsEntity, player1);
 
             if(bulletOutOfBounds(player1.getBullet())){
+
                 player1.getBullet().destroyBullet();
             }
 
@@ -291,6 +301,7 @@ public class PlayScreen implements Screen {
             else if (checkCameraPosition(player1)) {
                 gameCam.position.x = Math.max(player1.b2Body.getPosition().x, gameCamMinPosition);
             }
+
             else if(player1.b2Body.getPosition().x != player1.getPosX()){
                 player1.setRedefine();
             }
@@ -298,6 +309,9 @@ public class PlayScreen implements Screen {
 
 
         }
+
+
+
 
         if(isRoundOver()){
             if (ControllerLogic.roundCount == 5) {

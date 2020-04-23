@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.components.CourseComponent;
+import com.mygdx.tubby_wars.model.components.PhysicsComponent;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
 import java.util.ArrayList;
@@ -24,6 +25,13 @@ public class World {
         courseEntity.add(cc);
         engine.addEntity(courseEntity);
         return courseEntity;
+    }
+
+    public void createPhysics(){
+        Entity physicsEntity = new Entity();
+        PhysicsComponent pc = new PhysicsComponent();
+        physicsEntity.add(pc);
+        engine.addEntity(physicsEntity);
     }
 
 
@@ -50,7 +58,7 @@ public class World {
 
         // connect player 2 to the game engine, and set initial variables
         engine.addEntity(playerTwoEntity);
-        engine.getSystem(PlayerSystem.class).setHealth(playerTwoEntity, 100);
+        engine.getSystem(PlayerSystem.class).setHealth(playerTwoEntity, 150);
         engine.getSystem(PlayerSystem.class).setUsername(playerTwoEntity,"CORONA");
         engine.getSystem(PlayerSystem.class).setScore(playerTwoEntity,0);
         engine.getSystem(PlayerSystem.class).setWeaponTexture(playerTwoEntity, Assets.getTexture(Assets.rifleWeapon));

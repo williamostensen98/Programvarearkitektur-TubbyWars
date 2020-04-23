@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="150" height="18" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="21">
+<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="150" height="18" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="22">
  <tileset firstgid="1" name="generic_platformer_tiles" tilewidth="32" tileheight="32" tilecount="768" columns="32">
   <image source="generic_platformer_tiles.png" width="1024" height="768"/>
  </tileset>
@@ -43,6 +43,7 @@
   <object id="18" x="1887.58" y="243.098" width="238.698" height="25.2997"/>
   <object id="19" x="1877.68" y="225.498" width="45.0995" height="21.9998" rotation="22"/>
   <object id="20" x="2077.33" y="241.998" width="45.0995" height="17.5998" rotation="-27"/>
+  <object id="21" x="4051.41" y="481.489" width="540.955" height="90.1592"/>
  </objectgroup>
  <objectgroup id="3" name="Other" visible="0">
   <object id="15" x="1856" y="221.333">

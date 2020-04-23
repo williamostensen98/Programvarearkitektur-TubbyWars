@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.controller.ScreenFactory;
 import com.mygdx.tubby_wars.model.Assets;
 
 public class LoadingScreen implements Screen {
@@ -47,7 +48,8 @@ public class LoadingScreen implements Screen {
         progress = MathUtils.lerp(progress, Assets.getProgress(), .1f);
         if (Assets.update() && progress >= Assets.getProgress() - 0.001f) {
             dispose();
-            game.setScreen(new MenuScreen(game, engine));
+            Screen screen = ScreenFactory.getScreen("MENU", game,engine);
+            game.setScreen(screen);
         }
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

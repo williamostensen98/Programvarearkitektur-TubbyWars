@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.controller.ScreenFactory;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
@@ -101,12 +102,14 @@ public class SettingScreen implements Screen {
 
     @Override
     public void render(float dt){
+        game.getBatch().setProjectionMatrix(stage.getCamera().combined);
         game.getBatch().begin(); // Draw elements to Sprite Batch
         game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
         //game.getBatch().draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
         game.getBatch().end();
 
         stage.draw();
+
     }
 
     @Override
@@ -218,7 +221,7 @@ public class SettingScreen implements Screen {
                 game.playSound(click);
                 //dispose();
                 if (ControllerLogic.fromHighScoreScreen) {
-                    game.setScreen(new HighscoreScreen(game, engine));
+                    game.setScreen(ScreenFactory.getScreen("HIGHSCORE",game, engine));
                     ControllerLogic.fromHighScoreScreen = false;
                 }
                 else {
@@ -238,7 +241,7 @@ public class SettingScreen implements Screen {
                 game.playSound(click);
                 ControllerLogic.loggedIn = false; //Quits game
                 ControllerLogic.roundCount = 0;
-                game.setScreen(new MenuScreen(game, engine));
+                game.setScreen(ScreenFactory.getScreen("MENU",game, engine));
                 // TODO HER MÅ VI NULLSTILLE ALLE VARIABLER I CONTROLLERLOGIC
             }
         });
@@ -253,7 +256,7 @@ public class SettingScreen implements Screen {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 //dispose();
                 game.playSound(click);
-                game.setScreen(new MenuScreen(game, engine));
+                game.setScreen(ScreenFactory.getScreen("MENU",game, engine));
             }
         });
     }
