@@ -116,7 +116,7 @@ public class PlayScreen implements Screen {
 
         if (ControllerLogic.roundCount == 1) {
 
-            map = mapLoader.load("tubbymap3.tmx");
+            map = mapLoader.load("tubbymap1.tmx");
         }
         else if (ControllerLogic.roundCount == 2) {
 

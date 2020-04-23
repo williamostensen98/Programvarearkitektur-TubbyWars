@@ -26,7 +26,7 @@ public abstract class PlayerModel extends Sprite {
     public Weapon weapon;
 
     public TubbyWars game;
-    protected Array<Bullet> bullets;
+
 
     public boolean showBullet = false;
 
