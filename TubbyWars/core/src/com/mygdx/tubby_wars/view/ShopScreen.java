@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
+import com.mygdx.tubby_wars.controller.ScreenFactory;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
@@ -176,7 +177,7 @@ public class ShopScreen implements Screen {
                 game.playSound(click);
                 //dispose();
                 ControllerLogic.roundCount ++;
-                game.setScreen(new PlayScreen(game, engine));
+                game.setScreen(ScreenFactory.getScreen("PLAY",game, engine));
             }
         });
 
@@ -211,7 +212,7 @@ public class ShopScreen implements Screen {
                 game.playSound(click);
                 ControllerLogic.loggedIn = false; //Quits game
                 //dispose();
-                game.setScreen(new MenuScreen(game, engine));
+                game.setScreen(ScreenFactory.getScreen("MENU",game, engine));
             }
         });
 
