@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.components.CourseComponent;
+import com.mygdx.tubby_wars.model.components.PhysicsComponent;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
 import java.util.ArrayList;
@@ -24,6 +25,13 @@ public class World {
         courseEntity.add(cc);
         engine.addEntity(courseEntity);
         return courseEntity;
+    }
+
+    public void createPhysics(){
+        Entity physicsEntity = new Entity();
+        PhysicsComponent pc = new PhysicsComponent();
+        physicsEntity.add(pc);
+        engine.addEntity(physicsEntity);
     }
 
 
