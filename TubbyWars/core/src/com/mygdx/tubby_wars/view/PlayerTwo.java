@@ -54,6 +54,7 @@ public class PlayerTwo extends PlayerModel {
         //region = new TextureRegion(PlayScreen.atlas.findRegion("little_mario"), 0, 0, 16, 16);
         timeToRedefine = false;
 
+
         // width og height var 0.5f og 0.7f før
         setBounds(0, 0, 1f, 1.4f);
         setRegion(region);
@@ -102,10 +103,11 @@ public class PlayerTwo extends PlayerModel {
         weapon.update(dt);
         healthbar.update(dt);
     }
+
+
+
     @Override
     public void redefinePlayer() {
-
-        System.out.println("player2 redefined");
         world.destroyBody(b2Body);
         definePlayer();
         timeToRedefine = false;
@@ -152,4 +154,5 @@ public class PlayerTwo extends PlayerModel {
         bullets.add(bullet);
         hideBullet();
     }
+
 }

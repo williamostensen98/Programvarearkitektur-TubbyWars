@@ -247,10 +247,16 @@ public class PlayScreen implements Screen {
 
 
         if(ControllerLogic.isPlayersTurn && player2.getBullet() == null){
+            System.out.println("Turn changed to player 1");
             ControllerLogic.isPlayersTurn = false;
+
         }
-        else if(!ControllerLogic.isPlayersTurn && player1.getBullet() == null ){
+
+        else if(!ControllerLogic.isPlayersTurn && player1.getBullet() == null){
+            System.out.println("Turn changed to player 2");
             ControllerLogic.isPlayersTurn = true;
+
+
         }
 
 
@@ -274,7 +280,6 @@ public class PlayScreen implements Screen {
                 player2.setRedefine();
             }
 
-
         }
         else{
             physics.setPlayer(player1);
@@ -288,10 +293,10 @@ public class PlayScreen implements Screen {
                 gameCam.position.x = player1.getBullet().b2Body.getPosition().x;
 
             }
-
             else if (checkCameraPosition(player1)) {
                 gameCam.position.x = Math.max(player1.b2Body.getPosition().x, gameCamMinPosition);
             }
+
             else if(player1.b2Body.getPosition().x != player1.getPosX()){
                 player1.setRedefine();
             }
@@ -375,7 +380,7 @@ public class PlayScreen implements Screen {
     }
 
     private boolean checkCameraPosition(PlayerModel player){
-        if(gameCam.position.x > player1.b2Body.getPosition().x && gameCam.position.x < player2.b2Body.getPosition().x && player.getBullet() == null){
+        if(gameCam.position.x >= player1.b2Body.getPosition().x && gameCam.position.x <= player2.b2Body.getPosition().x && player.getBullet() == null){
             return true;
         }
         return false;
@@ -383,12 +388,10 @@ public class PlayScreen implements Screen {
 
     public boolean bulletOutOfBounds(Bullet bullet){
         if(bullet != null && (bullet.b2Body.getPosition().x < 0 || bullet.b2Body.getPosition().x > mapPixelWidth / 100f)){
+
             return true;
         }
-        else if(bullet != null && bullet.b2Body.getPosition().y < 0){
-            return true;
-        }
-        return false;
+        else return bullet != null && bullet.b2Body.getPosition().y < 0;
     }
 
     @Override
