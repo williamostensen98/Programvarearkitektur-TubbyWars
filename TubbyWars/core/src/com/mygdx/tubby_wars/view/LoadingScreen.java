@@ -24,9 +24,12 @@ public class LoadingScreen implements Screen {
     private Label loadingText;
     private Stage stage;
 
+    public String type;
+
     public LoadingScreen(TubbyWars game, Engine engine){
         this.game = game;
         this.engine = engine;
+        type = "LOADING";
 
         Assets.load();
     }
@@ -48,8 +51,7 @@ public class LoadingScreen implements Screen {
         progress = MathUtils.lerp(progress, Assets.getProgress(), .1f);
         if (Assets.update() && progress >= Assets.getProgress() - 0.001f) {
             dispose();
-            Screen screen = ScreenFactory.getScreen("MENU", game,engine);
-            game.setScreen(screen);
+            game.gsm.changeScreen("MENU");
         }
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

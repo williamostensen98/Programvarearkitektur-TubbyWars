@@ -221,7 +221,7 @@ public class SettingScreen implements Screen {
                 game.playSound(click);
                 //dispose();
                 if (ControllerLogic.fromHighScoreScreen) {
-                    game.setScreen(ScreenFactory.getScreen("HIGHSCORE",game, engine));
+                    game.gsm.changeScreen("HIGHSCORE");
                     ControllerLogic.fromHighScoreScreen = false;
                 }
                 else {
@@ -241,7 +241,7 @@ public class SettingScreen implements Screen {
                 game.playSound(click);
                 ControllerLogic.loggedIn = false; //Quits game
                 ControllerLogic.roundCount = 0;
-                game.setScreen(ScreenFactory.getScreen("MENU",game, engine));
+                game.gsm.changeScreen("MENU");
                 // TODO HER MÅ VI NULLSTILLE ALLE VARIABLER I CONTROLLERLOGIC
             }
         });
@@ -256,7 +256,7 @@ public class SettingScreen implements Screen {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 //dispose();
                 game.playSound(click);
-                game.setScreen(ScreenFactory.getScreen("MENU",game, engine));
+                game.gsm.changeScreen("MENU");
             }
         });
     }

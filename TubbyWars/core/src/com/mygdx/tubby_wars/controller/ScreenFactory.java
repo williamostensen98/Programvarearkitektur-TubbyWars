@@ -13,7 +13,19 @@ import com.mygdx.tubby_wars.view.ShopScreen;
 
 public class ScreenFactory {
 
-    public static Screen getScreen(String screenType, TubbyWars game, Engine engine){
+    public TubbyWars game;
+    public Engine engine;
+
+    public ScreenFactory(TubbyWars game, Engine engine) {
+        this.game = game;
+        this.engine = engine;
+    }
+
+    public void setEngine(Engine engine){
+        this.engine = engine;
+    }
+
+    public Screen getScreen(String screenType){
         switch (screenType){
             case "LOADING":
                 return new LoadingScreen(game, engine);

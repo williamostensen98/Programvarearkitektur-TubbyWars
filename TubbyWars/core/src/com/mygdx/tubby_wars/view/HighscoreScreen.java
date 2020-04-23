@@ -180,7 +180,7 @@ public class HighscoreScreen implements Screen {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                game.setScreen(ScreenFactory.getScreen("MENU", game, engine));
+                game.gsm.changeScreen("MENU");
             }
         });
 
@@ -194,7 +194,7 @@ public class HighscoreScreen implements Screen {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
                 ControllerLogic.fromHighScoreScreen = true;
-                game.setScreen(ScreenFactory.getScreen("SETTINGS", game, engine));
+                game.gsm.changeScreen("SETTINGS");
             }
         });
     }

@@ -309,6 +309,7 @@ public class CharacterCreationScreen implements Screen {
         // if we want to use functions from playerSystem, use the following
         // playerSystem.thefunction(players.get(0)), 0 for player 1 and 1 for player 2
         playerSystem = engine.getSystem(PlayerSystem.class);
+        game.screenFactory.setEngine(engine);
     }
 
     //Checks if username is correctly written
@@ -334,7 +335,7 @@ public class CharacterCreationScreen implements Screen {
             ControllerLogic.loggedIn = true;
 
             //Goes to gameScreen
-            game.setScreen(ScreenFactory.getScreen("SHOP", game, engine));
+            game.gsm.changeScreen("SHOP");
         } else {
             stage.addActor(informationText);
         }
