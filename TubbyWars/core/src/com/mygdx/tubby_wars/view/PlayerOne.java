@@ -19,26 +19,14 @@ import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
 
 public class PlayerOne extends PlayerModel {
-
-
-    public TextureRegion region;
-
     public Weapon weapon;
-
-    private Array<Bullet> bullets;
-
-
     public Healthbar healthbar;
-
     public boolean timeToRedefine;
-
-
-
 
     // ASHLEY
     private Entity playerEntity;
     private ComponentMapper<PlayerComponent> pm;
-
+    private PlayerSystem ps;
 
 
     /**
@@ -46,27 +34,20 @@ public class PlayerOne extends PlayerModel {
      */
     public PlayerOne(World world, TubbyWars game, float posX, float posY, Entity playerEntity, Engine engine) {
         super(world, game, posX, posY, playerEntity, engine);
-
-
-        bullets = new Array<>();
-
         definePlayer();
-
-
+        ps = engine.getSystem(PlayerSystem.class);
         timeToRedefine = false;
-        Texture weaponTexture = engine.getSystem(PlayerSystem.class).getWeaponTexture(playerEntity);
-        weapon = new Weapon(b2Body,-0.3f, 0.1f, weaponTexture);
-        Texture texture = engine.getSystem(PlayerSystem.class).getTexture(playerEntity);
-        region = new TextureRegion(texture, 0,0,texture.getWidth(),texture.getHeight());
+        this.playerEntity = playerEntity;
 
-        // width og height var 0.5f og 0.7f før
+
+        ps.initializeNewBullets(playerEntity);
+        weapon = new Weapon(b2Body,-0.3f, 0.1f, ps.getWeaponTexture(playerEntity));
+
+        ps.createTextureRegion(playerEntity);
         setBounds(0, 0, 1f, 1.4f);
-        setRegion(region);
+        setRegion(ps.getTextureRegion(playerEntity));
 
         healthbar = new Healthbar(b2Body, playerEntity);
-
-
-
     }
 
     /***
@@ -78,19 +59,19 @@ public class PlayerOne extends PlayerModel {
     public void draw(Batch batch) {
         super.draw(batch);
 
-        for(Bullet bullet: bullets){
+        for(Bullet bullet: ps.getBullets(playerEntity)){
             if(showBullet){
                 bullet.draw(game.batch);
             }
         }
         weapon.draw(game.batch);
         healthbar.draw(game.batch);
-
     }
 
     @Override
     public void update(float dt) {
-        if(bullets.size > 1){
+        System.out.println(ps.getBullets(playerEntity));
+        if(ps.getBullets(playerEntity).size > 1){
             getBullet().destroyBullet();
         }
 
@@ -98,14 +79,15 @@ public class PlayerOne extends PlayerModel {
             redefinePlayer();
 
         }
-        if(bullets.isEmpty() && !super.isPlayersTurn()){
+        if(ps.getBullets(playerEntity).isEmpty() && !super.isPlayersTurn()){
             addBullet();
         }
-        for(Bullet b: bullets){
+        for(Bullet b: ps.getBullets(playerEntity)){
 
             b.update(dt);
             if(b.isDestroyed()){
-                bullets.removeValue(b, true);
+                ps.getBullets(playerEntity).removeValue(b, true);
+                System.out.println(ps.getBullets(playerEntity));
 
             }
         }
@@ -123,11 +105,6 @@ public class PlayerOne extends PlayerModel {
         definePlayer();
         timeToRedefine = false;
         addBullet();
-        //getBullet().destroyBullet();
-
-
-
-
     }
 
     @Override
@@ -150,17 +127,16 @@ public class PlayerOne extends PlayerModel {
 
     @Override
     public Bullet getBullet() {
-        if(bullets.isEmpty()){
+        if(ps.getBullets(playerEntity).isEmpty()){
             return null;
         }
-
-        return bullets.get(0);
+        return ps.getBullets(playerEntity).get(0);
     }
 
     @Override
     public void addBullet() {
         Bullet bullet = new Bullet(b2Body.getPosition().x, b2Body.getPosition().y, world, false);
-        bullets.add(bullet);
+        ps.getBullets(playerEntity).add(bullet);
         hideBullet();
     }
 

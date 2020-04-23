@@ -58,7 +58,7 @@ public class World {
 
         // connect player 2 to the game engine, and set initial variables
         engine.addEntity(playerTwoEntity);
-        engine.getSystem(PlayerSystem.class).setHealth(playerTwoEntity, 100);
+        engine.getSystem(PlayerSystem.class).setHealth(playerTwoEntity, 150);
         engine.getSystem(PlayerSystem.class).setUsername(playerTwoEntity,"CORONA");
         engine.getSystem(PlayerSystem.class).setScore(playerTwoEntity,0);
         engine.getSystem(PlayerSystem.class).setWeaponTexture(playerTwoEntity, Assets.getTexture(Assets.rifleWeapon));

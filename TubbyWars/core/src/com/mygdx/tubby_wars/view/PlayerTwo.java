@@ -25,8 +25,6 @@ public class PlayerTwo extends PlayerModel {
 
     public Weapon weapon;
 
-    private Array<Bullet> bullets;
-
 
     public Healthbar healthbar;
     public boolean timeToRedefine;
@@ -34,7 +32,7 @@ public class PlayerTwo extends PlayerModel {
     // ASHLEY
     private Entity playerEntity;
     private ComponentMapper<PlayerComponent> pm;
-
+    private PlayerSystem ps;
 
 
     /**
@@ -43,22 +41,22 @@ public class PlayerTwo extends PlayerModel {
     public PlayerTwo(World world, TubbyWars game, float posX, float posY, Entity playerEntity, Engine engine) {
         super(world, game, posX, posY, playerEntity, engine);
         definePlayer();
-        bullets = new Array<>();
+        ps = engine.getSystem(PlayerSystem.class);
+        timeToRedefine = false;
+        this.playerEntity = playerEntity;
 
-        Texture weaponTexture = engine.getSystem(PlayerSystem.class).getWeaponTexture(playerEntity);
-        weapon = new Weapon(b2Body,1f, 0.1f, weaponTexture);
+
+        ps.initializeNewBullets(playerEntity);
+        weapon = new Weapon(b2Body,1f, 0.1f, ps.getWeaponTexture(playerEntity));
         weapon.flip(true, false);
 
-        Texture texture = engine.getSystem(PlayerSystem.class).getTexture(playerEntity);
-        region = new TextureRegion(texture, 0,0,texture.getWidth(),texture.getHeight());
-        //region = new TextureRegion(PlayScreen.atlas.findRegion("little_mario"), 0, 0, 16, 16);
-        timeToRedefine = false;
 
-
-        // width og height var 0.5f og 0.7f før
+        ps.createTextureRegion(playerEntity);
         setBounds(0, 0, 1f, 1.4f);
-        setRegion(region);
+        setRegion(ps.getTextureRegion(playerEntity));
         setFlip(true, false);
+
+
         healthbar = new Healthbar(b2Body, playerEntity);
     }
 
@@ -71,7 +69,7 @@ public class PlayerTwo extends PlayerModel {
     public void draw(Batch batch) {
         super.draw(batch);
 
-        for(Bullet bullet: bullets){
+        for(Bullet bullet: ps.getBullets(playerEntity)){
             if(showBullet){
                 bullet.draw(game.batch);
             }
@@ -82,20 +80,20 @@ public class PlayerTwo extends PlayerModel {
 
     @Override
     public void update(float dt) {
-        if(bullets.size > 1){
+        if(ps.getBullets(playerEntity).size > 1){
             getBullet().destroyBullet();
         }
 
         if(timeToRedefine){
             redefinePlayer();
         }
-        if(bullets.isEmpty() && super.isPlayersTurn()){
+        if(ps.getBullets(playerEntity).isEmpty() && super.isPlayersTurn()){
             addBullet();
         }
-        for(Bullet b: bullets){
+        for(Bullet b: ps.getBullets(playerEntity)){
             b.update(dt);
             if(b.isDestroyed()){
-                bullets.removeValue(b, true);
+                ps.getBullets(playerEntity).removeValue(b, true);
 
             }
         }
@@ -112,8 +110,6 @@ public class PlayerTwo extends PlayerModel {
         definePlayer();
         timeToRedefine = false;
         addBullet();
-        //getBullet().destroyBullet();
-
     }
 
     @Override
@@ -141,17 +137,16 @@ public class PlayerTwo extends PlayerModel {
 
     @Override
     public Bullet getBullet() {
-        if(bullets.isEmpty()){
+        if(ps.getBullets(playerEntity).isEmpty()){
             return null;
         }
-
-        return bullets.get(0);
+        return ps.getBullets(playerEntity).get(0);
     }
 
     @Override
     public void addBullet() {
         Bullet bullet = new Bullet(b2Body.getPosition().x, b2Body.getPosition().y, world, true);
-        bullets.add(bullet);
+        ps.getBullets(playerEntity).add(bullet);
         hideBullet();
     }
 
