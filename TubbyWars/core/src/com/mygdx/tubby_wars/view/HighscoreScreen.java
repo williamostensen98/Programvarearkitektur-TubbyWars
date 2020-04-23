@@ -131,6 +131,7 @@ public class HighscoreScreen implements Screen {
 
     @Override
     public void render(float dt){
+        game.getBatch().setProjectionMatrix(stage.getCamera().combined);
         game.getBatch().begin();
         game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
         game.getBatch().end();

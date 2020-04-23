@@ -39,6 +39,8 @@ public class PlayerOne extends PlayerModel {
     private Entity playerEntity;
     private ComponentMapper<PlayerComponent> pm;
 
+
+
     /**
      * Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn.
      */
@@ -88,6 +90,10 @@ public class PlayerOne extends PlayerModel {
 
     @Override
     public void update(float dt) {
+        if(bullets.size > 1){
+            getBullet().destroyBullet();
+        }
+
         if(timeToRedefine){
             redefinePlayer();
 
@@ -107,16 +113,18 @@ public class PlayerOne extends PlayerModel {
         weapon.update(dt);
         healthbar.update(dt);
 
+
+
     }
 
     @Override
     public void redefinePlayer(){
-        System.out.println("player 1 redefined");
         world.destroyBody(b2Body);
         definePlayer();
         timeToRedefine = false;
         addBullet();
-        getBullet().destroyBullet();
+        //getBullet().destroyBullet();
+
 
 
 
@@ -145,6 +153,7 @@ public class PlayerOne extends PlayerModel {
         if(bullets.isEmpty()){
             return null;
         }
+
         return bullets.get(0);
     }
 

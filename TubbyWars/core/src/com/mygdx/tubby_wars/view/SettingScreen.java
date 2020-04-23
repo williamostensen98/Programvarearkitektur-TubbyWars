@@ -101,12 +101,14 @@ public class SettingScreen implements Screen {
 
     @Override
     public void render(float dt){
+        game.getBatch().setProjectionMatrix(stage.getCamera().combined);
         game.getBatch().begin(); // Draw elements to Sprite Batch
         game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
         //game.getBatch().draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
         game.getBatch().end();
 
         stage.draw();
+
     }
 
     @Override

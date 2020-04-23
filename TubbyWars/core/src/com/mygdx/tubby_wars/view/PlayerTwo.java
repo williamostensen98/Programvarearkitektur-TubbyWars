@@ -35,6 +35,8 @@ public class PlayerTwo extends PlayerModel {
     private Entity playerEntity;
     private ComponentMapper<PlayerComponent> pm;
 
+
+
     /**
      * Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn.
      */
@@ -80,6 +82,10 @@ public class PlayerTwo extends PlayerModel {
 
     @Override
     public void update(float dt) {
+        if(bullets.size > 1){
+            getBullet().destroyBullet();
+        }
+
         if(timeToRedefine){
             redefinePlayer();
         }
@@ -102,12 +108,11 @@ public class PlayerTwo extends PlayerModel {
 
     @Override
     public void redefinePlayer() {
-        System.out.println("player 2 redefined");
         world.destroyBody(b2Body);
         definePlayer();
         timeToRedefine = false;
         addBullet();
-        getBullet().destroyBullet();
+        //getBullet().destroyBullet();
 
     }
 
@@ -139,6 +144,7 @@ public class PlayerTwo extends PlayerModel {
         if(bullets.isEmpty()){
             return null;
         }
+
         return bullets.get(0);
     }
 
