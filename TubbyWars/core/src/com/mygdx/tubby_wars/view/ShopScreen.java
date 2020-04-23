@@ -33,7 +33,6 @@ public class ShopScreen implements Screen {
 
 
 
-    //private List<Entity> players;
     private Entity currentPlayer;
     private PlayerSystem ps;
     private ImmutableArray players;
@@ -48,10 +47,9 @@ public class ShopScreen implements Screen {
     private Texture quitB;
     private Texture nextPlayer;
 
-    // Weapons buttons
-    private Texture gun;
-    private Texture rifle;
-    private Texture revolver;
+
+    // Weapon texture pack
+    private Texture gunSheet;
 
     private Sound click;
 
@@ -60,13 +58,22 @@ public class ShopScreen implements Screen {
     private Button quitButton;
     private Button next;
 
-    private Button gunButton;
-    private Button revolverButton;
-    private Button rifleButton;
+    // Weapons buttons
+    private Button gun1;
+    private Button gun2;
+    private Button gun3;
 
     // LABELS
     private Label infoText;
     private Label scoreText;
+
+    private Label gun1Label;
+    private Label gun2Label;
+    private Label gun3Label;
+
+
+    private int currentlyPaying = 0;
+
 
     public ShopScreen(TubbyWars game, Engine engine){
         super();
@@ -76,16 +83,12 @@ public class ShopScreen implements Screen {
         ps = engine.getSystem(PlayerSystem.class);
         this.players = ps.getEntities();
 
-
+        gunSheet = Assets.getTexture(Assets.gunSheet);
         background = Assets.getTexture(Assets.shopBackground);
         titleText = Assets.getTexture(Assets.shopTitle); //Title text for shop
         newGameB = Assets.getTexture(Assets.newGameButton); // resume to game button
         quitB = Assets.getTexture(Assets.quitGameButton);
         nextPlayer = Assets.getTexture(Assets.continueGameButton);
-        gun = Assets.getTexture(Assets.gunWeapon); // choose gun button
-        rifle = Assets.getTexture(Assets.rifleWeapon); // choose rifle button
-        revolver = Assets.getTexture(Assets.revolverWeapon); //choose revolver button
-
         click = Assets.getSound(Assets.clickSound);
     }
 
@@ -93,27 +96,41 @@ public class ShopScreen implements Screen {
     //Make stage and everything to the stage
     public void show() {
         currentPlayer = (Entity)players.get(0);
-
         stage = new Stage(new ScreenViewport());
-
         Gdx.input.setInputProcessor(stage);
 
-       //Initialize title text image
+        //Initialize title text image
         final Image title = new Image(titleText);
         title.setSize(Gdx.graphics.getWidth()/7f,Gdx.graphics.getHeight()/5f);
         title.setPosition(Gdx.graphics.getWidth()/2f - title.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - title.getHeight()/2f);
 
         //Player 1 score text
-        scoreText = new Label(ps.getUsername((Entity)players.get(0)) + " earned " + ps.getScore((Entity)players.get(0)) + " points this round!",new Label.LabelStyle(new BitmapFont(), Color.PINK));
-        scoreText.setFontScale(1f,1f);
+        scoreText = new Label(ps.getUsername((Entity)players.get(0)) + ": " + ps.getScore((Entity)players.get(0)) + " SCORE POINTS",new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        scoreText.setFontScale(1.3f,1.3f);
         scoreText.setPosition(Gdx.graphics.getWidth() / 2f - scoreText.getWidth()/2f, Gdx.graphics.getHeight() /100f*69f);
 
+
         //player 1 choose weapon text
-        infoText = new Label(ps.getUsername((Entity)players.get(0)) + " you can upgrade your weapon for the next round",new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        infoText = new Label(ps.getUsername((Entity)players.get(0)) + " you can now exchange score for a new weapon!",new Label.LabelStyle(new BitmapFont(),Color.BLACK));
         infoText.setFontScale(1f,1f);
         infoText.setPosition(Gdx.graphics.getWidth() / 2f - infoText.getWidth()/2f, Gdx.graphics.getHeight() /100f*55f);
 
+
         makeButtons();
+
+        gun1Label = new Label("1000 SCORE POINTS", new Label.LabelStyle(new BitmapFont(), ps.getScore(currentPlayer) >= 1000 ? Color.GREEN : Color.RED));
+        gun2Label = new Label("2500 SCORE POINTS", new Label.LabelStyle(new BitmapFont(), ps.getScore(currentPlayer) >= 2500 ? Color.GREEN : Color.RED));
+        gun3Label = new Label("5000 SCORE POINTS", new Label.LabelStyle(new BitmapFont(), ps.getScore(currentPlayer) >= 5000 ? Color.GREEN : Color.RED));
+        gun1Label.setFontScale(1f,1f);
+        gun2Label.setFontScale(1f,1f);
+        gun3Label.setFontScale(1f,1f);
+        gun1Label.setPosition(Gdx.graphics.getWidth() / 2.95f - gun1.getWidth(),Gdx.graphics.getHeight() / 100f*40f - 128 / 2f);
+        gun2Label.setPosition(Gdx.graphics.getWidth() / 1.95f - gun2.getWidth() / 2f, Gdx.graphics.getHeight() / 100f*40f - 128 / 2f);
+        gun3Label.setPosition(Gdx.graphics.getWidth() / 2.95f * 2f, Gdx.graphics.getHeight() / 100f*40f - 128 / 2f);
+
+
+
+        updateColors();
 
         //Add buttons to stage
 
@@ -127,9 +144,13 @@ public class ShopScreen implements Screen {
         }
 
         stage.addActor(next);
-        stage.addActor(gunButton);
-        stage.addActor(rifleButton);
-        stage.addActor(revolverButton);
+        stage.addActor(gun1);
+        stage.addActor(gun2);
+        stage.addActor(gun3);
+
+        stage.addActor(gun1Label);
+        stage.addActor(gun2Label);
+        stage.addActor(gun3Label);
     }
 
     @Override
@@ -176,6 +197,8 @@ public class ShopScreen implements Screen {
                 //Add click effect
                 game.playSound(click);
                 //dispose();
+                ps.setScore(currentPlayer,ps.getScore(currentPlayer) - currentlyPaying);
+                currentlyPaying = 0;
                 ControllerLogic.roundCount ++;
                 game.gsm.changeScreen("PLAY");
             }
@@ -187,17 +210,27 @@ public class ShopScreen implements Screen {
         next.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                gunButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-                revolverButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-                rifleButton.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
+                gun1.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
+                gun2.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
+                gun3.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
                 //Add click effect
                 game.playSound(click);
+
+                ps.setScore(currentPlayer,ps.getScore(currentPlayer) - currentlyPaying);
+                currentlyPaying = 0;
+
+
                 currentPlayer = (Entity) players.get(1);
                 //player 2 chooses weapon text
-                scoreText.setText(ps.getUsername((Entity) players.get(1)) + " earned " + ps.getScore((Entity)players.get(1)) + " points this round!");
-                infoText.setText(ps.getUsername((Entity) players.get(1)) + "  you can upgrade your weapon for the next round.");
+                scoreText.setText(ps.getUsername((Entity) players.get(1)) + ": " + ps.getScore((Entity)players.get(1)) + " SCORE POINTS!");
+                infoText.setText(ps.getUsername((Entity) players.get(1)) + " you can now exchange score for a new weapon!");
+                updateColors();
                 stage.addActor(newGameButton);
                 next.remove();
+
+
+
+
             }
         });
 
@@ -219,50 +252,68 @@ public class ShopScreen implements Screen {
         ///// Player 1 weapon choices /////
 
         //Initialize button to change weapon to gun
-        gunButton = new Button(new TextureRegionDrawable(new TextureRegion(gun)));
-        gunButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-        gunButton.setPosition(Gdx.graphics.getWidth() / 3f - gunButton.getWidth(), Gdx.graphics.getHeight() / 100f*40f - gunButton.getHeight() / 2f);
-        gunButton.addListener(clickListener(gun, (float) 1));
+        gun1 = new Button(new TextureRegionDrawable(new TextureRegion(gunSheet,0,0,128,128)));
+        gun1.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
+        gun1.setPosition(Gdx.graphics.getWidth() / 3f - gun1.getWidth(), Gdx.graphics.getHeight() / 100f*40f - gun1.getHeight() / 2f);
+        gun1.addListener(clickListener(1));
 
         //Initialize button to change weapon to Revolver
-        revolverButton = new Button(new TextureRegionDrawable(new TextureRegion(revolver)));
-        revolverButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-        revolverButton.setPosition(Gdx.graphics.getWidth() / 2f - revolverButton.getWidth() / 2f, Gdx.graphics.getHeight() / 100f*40f - revolverButton.getHeight() / 2f);
-        revolverButton.addListener(clickListener(revolver, (float) 1.5));
+        gun2 = new Button(new TextureRegionDrawable(new TextureRegion(gunSheet,0,128,128,128)));
+        gun2.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
+        gun2.setPosition(Gdx.graphics.getWidth() / 2f - gun2.getWidth() / 2f, Gdx.graphics.getHeight() / 100f*40f - gun2.getHeight() / 2f);
+        gun2.addListener(clickListener(2));
 
         //Initialize button to change weapon to rifle
-        rifleButton = new Button(new TextureRegionDrawable(new TextureRegion(rifle)));
-        rifleButton.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
-        rifleButton.setPosition(Gdx.graphics.getWidth() / 3f * 2f, Gdx.graphics.getHeight() / 100f*40f - rifleButton.getHeight() / 2f);
-        rifleButton.addListener(clickListener(rifle, (float) 2));
+        gun3 = new Button(new TextureRegionDrawable(new TextureRegion(gunSheet,0,256,128,128)));
+        gun3.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
+        gun3.setPosition(Gdx.graphics.getWidth() / 3f * 2f, Gdx.graphics.getHeight() / 100f*40f - gun3.getHeight() / 2f);
+        gun3.addListener(clickListener(3));
+
+
+
 
     }
 
-    private ClickListener clickListener(final Texture weapon, final float weaponDamage){
+    private void updateColors(){
+        gun1Label.setColor(ps.getScore(currentPlayer) >= 1000 ? Color.GREEN : Color.RED);
+        gun2Label.setColor(ps.getScore(currentPlayer) >= 2500 ? Color.GREEN : Color.RED);
+        gun3Label.setColor(ps.getScore(currentPlayer) >= 5000 ? Color.GREEN : Color.RED);
+    }
+
+    private ClickListener clickListener(final int weapon){
         return new ClickListener(){
+
+
+            // TODO            NOTE TO SELF!!! HÅKON!!
+            // TODO            FIKS VÅPEN OG SHOP
+
 
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos){
                 game.playSound(click);
-
-                ps.setWeaponDamage(currentPlayer,weaponDamage);
-                ps.setWeaponTexture(currentPlayer, weapon);
-                // TODO: må kanskje også sjekke om man har nok penger elns her, og trekke fra penger ved evt kjøp
-
-                if (weapon==rifle){
-                    rifleButton.setSize(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 3.3f);
-                    gunButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-                    revolverButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
+                if (weapon==1 && ps.getScore(currentPlayer) >= 1000){
+                    gun1.setSize(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 3.3f);
+                    gun2.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 6f);
+                    gun3.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
+                    //ps.setWeaponTexture(new TextureRegion(gunSheet,0,0,128,128));
+                    currentlyPaying = 1000;
+                    ps.setWeaponDamage(currentPlayer,(float)1.2);
                 }
-                if (weapon==gun){
-                    gunButton.setSize(Gdx.graphics.getWidth() / 8f, Gdx.graphics.getHeight() / 6.6f);
-                    revolverButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-                    rifleButton.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
+                else if(weapon==2 && ps.getScore(currentPlayer) >= 2500) {
+                    gun2.setSize(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 3.3f);
+                    gun1.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
+                    gun3.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
+                    //ps.setWeaponTexture(new TextureRegion(gunSheet,128,0,128,256));
+                    currentlyPaying = 2500;
+                    ps.setWeaponDamage(currentPlayer,(float)1.8);
                 }
-                if(weapon==revolver) {
-                    revolverButton.setSize(Gdx.graphics.getWidth() / 8f, Gdx.graphics.getHeight() / 6.6f);
-                    gunButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-                    rifleButton.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
+                else if (weapon==3 && ps.getScore(currentPlayer) >= 5000){
+                    gun3.setSize(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 3.3f);
+                    gun1.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
+                    gun2.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
+                    //ps.setWeaponTexture(new TextureRegion(gunSheet,256,0,128,384));
+                    currentlyPaying = 5000;
+                    ps.setWeaponDamage(currentPlayer,(float)2.4);
                 }
             }
         };
@@ -276,9 +327,6 @@ public class ShopScreen implements Screen {
         newGameB.dispose();
         quitB.dispose();
         nextPlayer.dispose();
-        gun.dispose();
-        rifle.dispose();
-        revolver.dispose();
         click.dispose();
     }
 }

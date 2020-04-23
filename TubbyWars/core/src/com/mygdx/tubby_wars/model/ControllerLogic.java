@@ -20,7 +20,7 @@ public class ControllerLogic {
     public static String username1 = "";
     public static String username2 = "";
 
-    public static int roundCount = 4; //Counts how many rounds have been played
+    public static int roundCount = 0; //Counts how many rounds have been played
 
     //TODO: Change to prefered formate
     //Chooses character. Either r (red) or p (purple) depending on players choise.

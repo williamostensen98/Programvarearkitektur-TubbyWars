@@ -51,6 +51,7 @@ public class Assets {
     public static String gunWeapon = "textures/gun.png";
     public static String rifleWeapon = "textures/Rifle.png";
     public static String revolverWeapon = "textures/revolver.png";
+    public static String gunSheet = "GunsSpriteSheet.png";
 
     //Music and sounds TODO: Implement in game
     public static String backgroundMusic = "music/music.mp3";
@@ -118,6 +119,7 @@ public class Assets {
         assetManager.load(gunWeapon, Texture.class);
         assetManager.load(rifleWeapon, Texture.class);
         assetManager.load(revolverWeapon, Texture.class);
+        assetManager.load(gunSheet, Texture.class);
 
         //Music and sounds
         assetManager.load(backgroundMusic, Music.class);
