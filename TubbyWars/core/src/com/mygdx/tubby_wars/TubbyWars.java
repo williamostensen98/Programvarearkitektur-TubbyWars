@@ -1,34 +1,100 @@
 package com.mygdx.tubby_wars;
-
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.tubby_wars.backend.IBackend;
+import com.mygdx.tubby_wars.model.Assets;
+import com.mygdx.tubby_wars.model.MusicStateManager;
+import com.mygdx.tubby_wars.model.SoundStateManager;
+import com.mygdx.tubby_wars.view.LoadingScreen;
+import com.badlogic.gdx.audio.Music;
+import com.mygdx.tubby_wars.view.MenuScreen;
+import com.mygdx.tubby_wars.view.SettingScreen;
+import com.mygdx.tubby_wars.view.ShopScreen;
+import com.badlogic.gdx.audio.Sound;
 
-public class TubbyWars extends ApplicationAdapter {
-	SpriteBatch batch;
+public class TubbyWars extends Game {
+
+    public final static int HEIGHT = 375;
+    public final static int WIDTH = 812;
+
+	public SpriteBatch batch;
 	Texture img;
-	
+
+    public final static float V_WIDTH = 12.8f;
+    public final static float V_HEIGHT = 5.76f;
+
+	private Engine engine;
+	private Assets assets;
+	public IBackend backendConn;
+	public MusicStateManager musicStateManager;
+    public SoundStateManager soundStateManager;
+
+	public TubbyWars(IBackend backendConn){
+			this.assets = new Assets();
+
+			this.engine = new Engine();
+			this.backendConn = backendConn;
+            this.backendConn.connect();
+	}
+
 	@Override
 	public void create () {
+		//Gdx.graphics.setWindowedMode(WIDTH, HEIGHT);
+		assets = new Assets();
+		engine = new Engine();
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+
+		LoadingScreen loadingScreen = new LoadingScreen(this, engine);
+		setScreen(loadingScreen);
+		this.musicStateManager = new MusicStateManager(this);
+        this.soundStateManager = new SoundStateManager(this);
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+		super.render();
 	}
-	
+
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
 	}
-	// added comment to test closing issue
+
+    public SpriteBatch getBatch() { return batch; }
+
+    //Adding music sounds TODO: Flytte alt med musikk?
+    public void playMusic(Music music) {
+        if (!musicStateManager.getMuteMusicState() && !music.isPlaying()) {
+            music.setLooping(true);
+            music.play();
+        }
+    }
+
+    public void muteMusic(Music music) {
+        if (music.isPlaying()) {
+            music.pause();
+            musicStateManager.muteMusic();
+        }
+    }
+
+    public void unmuteMusic(Music music) {
+        musicStateManager.unmuteMusic();
+        if (!music.isPlaying()) {
+            music.play();
+            music.setVolume(0.3f);
+            music.isLooping();
+        }
+    }
+
+    public void playSound(Sound sound) {
+        if (!soundStateManager.getMuteSoundState()) {
+            sound.play();
+            sound.setVolume(1,0.3f);
+        }
+    }
 }
