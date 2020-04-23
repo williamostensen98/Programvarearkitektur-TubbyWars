@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
+import com.mygdx.tubby_wars.controller.ScreenFactory;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
@@ -179,7 +180,7 @@ public class HighscoreScreen implements Screen {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                game.setScreen(new MenuScreen(game, engine));
+                game.setScreen(ScreenFactory.getScreen("MENU", game, engine));
             }
         });
 
@@ -193,7 +194,7 @@ public class HighscoreScreen implements Screen {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
                 ControllerLogic.fromHighScoreScreen = true;
-                game.setScreen(new SettingScreen(game, engine));
+                game.setScreen(ScreenFactory.getScreen("SETTINGS", game, engine));
             }
         });
     }

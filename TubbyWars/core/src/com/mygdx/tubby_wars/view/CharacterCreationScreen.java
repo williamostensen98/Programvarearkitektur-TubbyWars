@@ -21,6 +21,7 @@ import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.CourseSystem;
 import com.mygdx.tubby_wars.controller.PhysicsSystem;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
+import com.mygdx.tubby_wars.controller.ScreenFactory;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 import com.mygdx.tubby_wars.model.World;
@@ -333,7 +334,7 @@ public class CharacterCreationScreen implements Screen {
             ControllerLogic.loggedIn = true;
 
             //Goes to gameScreen
-            game.setScreen(new ShopScreen(game, engine));
+            game.setScreen(ScreenFactory.getScreen("SHOP", game, engine));
         } else {
             stage.addActor(informationText);
         }

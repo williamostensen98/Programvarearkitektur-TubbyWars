@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.controller.ScreenFactory;
 import com.mygdx.tubby_wars.model.Assets;
 import com.badlogic.gdx.audio.Sound;
 
@@ -117,7 +118,7 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                game.setScreen(new CharacterCreationScreen(game));
+                game.setScreen(ScreenFactory.getScreen("CREATE", game, engine));
             }
         });
 
@@ -130,7 +131,8 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                game.setScreen(new SettingScreen(game, engine));
+
+                game.setScreen(ScreenFactory.getScreen("SETTINGS", game, engine));
             }
         });
 
@@ -143,7 +145,7 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                game.setScreen(new HighscoreScreen(game, engine));
+                game.setScreen(ScreenFactory.getScreen("HIGHSCORE", game, engine));
             }
         });
 
