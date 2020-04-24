@@ -110,14 +110,14 @@ public class ShopScreen implements Screen {
 
         //Player 1 score text
         scoreText = new Label(ps.getUsername((Entity)players.get(0)) + ": " + ps.getScore((Entity)players.get(0)) + " SCORE POINTS",new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
-        scoreText.setFontScale(1.2f,1.2f);
-        scoreText.setPosition(Gdx.graphics.getWidth() / 2f - scoreText.getWidth()/2f, Gdx.graphics.getHeight() /100f*69f);
+        scoreText.setFontScale(1.5f,1.2f);
+        scoreText.setPosition(Gdx.graphics.getWidth() / 2f - scoreText.getWidth() / 2, Gdx.graphics.getHeight() /100f*69f);
 
 
         //player 1 choose weapon text
         infoText = new Label(ps.getUsername((Entity)players.get(0)) + " you can now exchange score for a new weapon!",new Label.LabelStyle(new BitmapFont(),Color.BLACK));
         infoText.setFontScale(1f,1f);
-        infoText.setPosition(Gdx.graphics.getWidth() / 2f - infoText.getWidth()/2f, Gdx.graphics.getHeight() /100f*55f);
+        infoText.setPosition(Gdx.graphics.getWidth() / 2f - infoText.getWidth() / 2, Gdx.graphics.getHeight() /100f*55f);
 
 
         makeButtons();
@@ -128,9 +128,9 @@ public class ShopScreen implements Screen {
         gun1Label.setFontScale(1f,1f);
         gun2Label.setFontScale(1f,1f);
         gun3Label.setFontScale(1f,1f);
-        gun1Label.setPosition(Gdx.graphics.getWidth() / 2.95f - Gdx.graphics.getWidth() / 6f,Gdx.graphics.getHeight() / 100f*40f - 128 / 2f);
-        gun2Label.setPosition(Gdx.graphics.getWidth() / 1.95f - (Gdx.graphics.getWidth() / 6f) / 2f , Gdx.graphics.getHeight() / 100f*40f - 128 / 2f);
-        gun3Label.setPosition(Gdx.graphics.getWidth() / 2.95f * 2f, Gdx.graphics.getHeight() / 100f*40f - 128 / 2f);
+        gun1Label.setPosition(Gdx.graphics.getWidth() / 2.86f - Gdx.graphics.getWidth() / 6f,Gdx.graphics.getHeight() / 100f*40f - 128 / 2f);
+        gun2Label.setPosition(Gdx.graphics.getWidth() / 1.93f - (Gdx.graphics.getWidth() / 6f) / 2f , Gdx.graphics.getHeight() / 100f*40f - 128 / 2f);
+        gun3Label.setPosition(Gdx.graphics.getWidth() / 2.9f * 2f, Gdx.graphics.getHeight() / 100f*40f - 128 / 2f);
 
 
 
@@ -318,7 +318,7 @@ public class ShopScreen implements Screen {
                     currentWeaponDamage = (float)2.4;
 
                 }
-                else if(weapon==2 && ps.getScore(currentPlayer) >= 2500 && ps.getWeaponDamage(currentPlayer) >= 2.4) {
+                else if(weapon==2 && ps.getScore(currentPlayer) >= 2500 && ps.getWeaponDamage(currentPlayer) > 1.9) {
                     gun2.setSize(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 3.3f);
                     gun1.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
                     gun3.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
@@ -326,7 +326,7 @@ public class ShopScreen implements Screen {
                     currentlyPaying = 2500;
                     currentWeaponDamage = (float)1.8;
                 }
-                else if (weapon==3 && ps.getScore(currentPlayer) >= 5000 && ps.getWeaponDamage(currentPlayer) >= 1.8){
+                else if (weapon==3 && ps.getScore(currentPlayer) >= 5000 && ps.getWeaponDamage(currentPlayer) > 0.9){
                     gun3.setSize(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 3.3f);
                     gun1.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
                     gun2.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
