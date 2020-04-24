@@ -19,6 +19,8 @@ public class Weapon extends Sprite {
         this.posX = posX;
         this.posY = posY;
 
+        region = weaponTexture;
+
         //texture = new Texture("GunsSpriteSheet.png");
         // TODO KANSKJE BARE BRUKE GUNSSPRITEPNG FOR VÅPEN, FIKSE DET SENERE
         // Texture texture = weaponTexture;
@@ -30,7 +32,10 @@ public class Weapon extends Sprite {
 
 
         //region = new TextureRegion(weaponTexture, 0, 0, weaponTexture.getWidth(), weaponTexture.getHeight());
-        setBounds(body.getPosition().x - posX, body.getPosition().y - posY,0.7f, 0.35f);
+        if(weaponTexture.getTexture().getWidth() == 512){
+            setScale(1.5f,1.5f);
+        }
+        setBounds(body.getPosition().x - posX, body.getPosition().y - posY,0.7f, 0.4f);
         setRegion(weaponTexture);
     }
 

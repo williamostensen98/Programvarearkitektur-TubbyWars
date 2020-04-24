@@ -48,7 +48,7 @@ public class World {
         engine.addEntity(playerOneEntity);
         engine.getSystem(PlayerSystem.class).setHealth(playerOneEntity, 150);
         engine.getSystem(PlayerSystem.class).setUsername(playerOneEntity,"FUCK");
-        engine.getSystem(PlayerSystem.class).setScore(playerOneEntity,100000);
+        engine.getSystem(PlayerSystem.class).setScore(playerOneEntity,4000);
         engine.getSystem(PlayerSystem.class).setWeaponTexture(playerOneEntity, new TextureRegion(Assets.getTexture(Assets.revolverWeapon)));
 
 
