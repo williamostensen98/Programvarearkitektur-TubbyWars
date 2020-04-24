@@ -3,6 +3,7 @@ package com.mygdx.tubby_wars.model;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.components.CourseComponent;
 import com.mygdx.tubby_wars.model.components.PhysicsComponent;
@@ -47,8 +48,8 @@ public class World {
         engine.addEntity(playerOneEntity);
         engine.getSystem(PlayerSystem.class).setHealth(playerOneEntity, 150);
         engine.getSystem(PlayerSystem.class).setUsername(playerOneEntity,"FUCK");
-        engine.getSystem(PlayerSystem.class).setScore(playerOneEntity,0);
-        engine.getSystem(PlayerSystem.class).setWeaponTexture(playerOneEntity, Assets.getTexture(Assets.gunWeapon));
+        engine.getSystem(PlayerSystem.class).setScore(playerOneEntity,4000);
+        engine.getSystem(PlayerSystem.class).setWeaponTexture(playerOneEntity, new TextureRegion(Assets.getTexture(Assets.revolverWeapon)));
 
 
         // creation of player 2
@@ -60,8 +61,8 @@ public class World {
         engine.addEntity(playerTwoEntity);
         engine.getSystem(PlayerSystem.class).setHealth(playerTwoEntity, 150);
         engine.getSystem(PlayerSystem.class).setUsername(playerTwoEntity,"CORONA");
-        engine.getSystem(PlayerSystem.class).setScore(playerTwoEntity,0);
-        engine.getSystem(PlayerSystem.class).setWeaponTexture(playerTwoEntity, Assets.getTexture(Assets.rifleWeapon));
+        engine.getSystem(PlayerSystem.class).setScore(playerTwoEntity,1500);
+        engine.getSystem(PlayerSystem.class).setWeaponTexture(playerTwoEntity, new TextureRegion(Assets.getTexture(Assets.revolverWeapon)));
 
 
         entities.add(playerOneEntity);

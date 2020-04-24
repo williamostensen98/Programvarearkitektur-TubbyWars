@@ -116,7 +116,7 @@ public class PlayScreen implements Screen {
 
         if (ControllerLogic.roundCount == 1) {
 
-            map = mapLoader.load("tubbymap1.tmx");
+            map = mapLoader.load("tubbymap3.tmx");
         }
         else if (ControllerLogic.roundCount == 2) {
 
@@ -127,10 +127,10 @@ public class PlayScreen implements Screen {
             map = mapLoader.load("tubbymap1.tmx");
         }
         else if (ControllerLogic.roundCount == 4) {
-            map = mapLoader.load("tubbymap4.tmx");
+            map = mapLoader.load("tubbymap5.tmx");
         }
         else {
-            map = mapLoader.load("tubbymap5.tmx");
+            map = mapLoader.load("tubbymap4.tmx");
         }
         mapRenderer = new OrthogonalTiledMapRenderer(map, 0.01f);
 

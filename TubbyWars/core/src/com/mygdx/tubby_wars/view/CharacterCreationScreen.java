@@ -245,6 +245,7 @@ public class CharacterCreationScreen implements Screen {
         style.font = new BitmapFont();
         style.fontColor = Color.BLACK;
 
+
         //Placing textFields for username input
         user1Input = new TextField("", style);
         user1Input.setSize(Gdx.graphics.getWidth()/6f, Gdx.graphics.getHeight()/15f);
@@ -277,7 +278,7 @@ public class CharacterCreationScreen implements Screen {
         user2Text = new Label("Player 2:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
         user2Text.setPosition(Gdx.graphics.getWidth() / 5f * 3f - user2Text.getWidth() / 2, Gdx.graphics.getHeight() / 8f * 5f - user2Text.getHeight() / 2);
 
-        informationText = new Label("Error: Write usernames without æ, ø, å or ' ', and they can not be identical. Also remember to choose a character",
+        informationText = new Label("Error: Write usernames without æ, ø, å or ' ', not identical nor contain more than 15 characters. Also remember to choose a character",
                 new Label.LabelStyle(new BitmapFont(), Color.PINK));
         informationText.setPosition(Gdx.graphics.getWidth() / 2f - informationText.getWidth() / 2, Gdx.graphics.getHeight() / 8f * 6f);
 
@@ -319,9 +320,10 @@ public class CharacterCreationScreen implements Screen {
 
         //Checks that usernames does not contain æøå or space
         if (!username1.isEmpty() && !username1.contains("æ") && !username1.contains("ø") && !username1.contains("å")
-                && !username1.contains(" ") && !username1.contains("æ") && !username2.contains("ø") && !username2.contains("å")
+                && !username1.contains(" ") && !username2.contains("æ") && !username2.contains("ø") && !username2.contains("å")
                 && !username2.contains(" ") && !username2.isEmpty() && !username1.equals(username2)
-                && playerSystem.getTexture(players.get(0)) != null && playerSystem.getTexture(players.get(1)) != null) {
+                && playerSystem.getTexture(players.get(0)) != null && playerSystem.getTexture(players.get(1)) != null
+                && username1.length() < 15 && username2.length() < 15) {
 
             //Saves usernames
             ControllerLogic.username1 = user1Input.getText().toLowerCase();

@@ -79,11 +79,11 @@ public class PlayerSystem extends IteratingSystem {
     }
 
 
-    public void setWeaponTexture(Entity playerEntity, Texture weaponTexture){
+    public void setWeaponTexture(Entity playerEntity, TextureRegion weaponTexture){
         pm.get(playerEntity).weaponTexture = weaponTexture;
     }
 
-    public Texture getWeaponTexture(Entity playerEntity) {
+    public TextureRegion getWeaponTexture(Entity playerEntity) {
         return pm.get(playerEntity).weaponTexture;
     }
 

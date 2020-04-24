@@ -41,7 +41,7 @@ public class PlayerOne extends PlayerModel {
 
 
         ps.initializeNewBullets(playerEntity);
-        weapon = new Weapon(b2Body,-0.3f, 0.1f, ps.getWeaponTexture(playerEntity));
+        weapon = new Weapon(b2Body,-0.2f, 0.15f, ps.getWeaponTexture(playerEntity));
 
         ps.createTextureRegion(playerEntity);
         setBounds(0, 0, 1f, 1.4f);
@@ -70,7 +70,6 @@ public class PlayerOne extends PlayerModel {
 
     @Override
     public void update(float dt) {
-        System.out.println(ps.getBullets(playerEntity));
         if(ps.getBullets(playerEntity).size > 1){
             getBullet().destroyBullet();
         }
@@ -87,8 +86,6 @@ public class PlayerOne extends PlayerModel {
             b.update(dt);
             if(b.isDestroyed()){
                 ps.getBullets(playerEntity).removeValue(b, true);
-                System.out.println(ps.getBullets(playerEntity));
-
             }
         }
         setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);

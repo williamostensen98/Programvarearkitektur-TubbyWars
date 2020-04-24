@@ -47,7 +47,7 @@ public class PlayerTwo extends PlayerModel {
 
 
         ps.initializeNewBullets(playerEntity);
-        weapon = new Weapon(b2Body,1f, 0.1f, ps.getWeaponTexture(playerEntity));
+        weapon = new Weapon(b2Body,1.1f, 0.15f, ps.getWeaponTexture(playerEntity));
         weapon.flip(true, false);
 
 

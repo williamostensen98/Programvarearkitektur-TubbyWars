@@ -18,8 +18,8 @@ public class PlayerComponent implements Component{
 
     public Entity weapon;
 
-    public float weaponDamage = (float)1.4;
-    public Texture weaponTexture;
+    public float weaponDamage = (float)2.6;
+    public TextureRegion weaponTexture;
 
     public TextureRegion region;
 
