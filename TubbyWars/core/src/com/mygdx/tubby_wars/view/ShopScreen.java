@@ -177,7 +177,7 @@ public class ShopScreen implements Screen {
                 game.playSound(click);
                 //dispose();
                 ControllerLogic.roundCount ++;
-                game.setScreen(ScreenFactory.getScreen("PLAY",game, engine));
+                game.gsm.changeScreen("PLAY");
             }
         });
 
@@ -212,7 +212,7 @@ public class ShopScreen implements Screen {
                 game.playSound(click);
                 ControllerLogic.loggedIn = false; //Quits game
                 //dispose();
-                game.setScreen(ScreenFactory.getScreen("MENU",game, engine));
+                game.gsm.changeScreen("MENU");
             }
         });
 

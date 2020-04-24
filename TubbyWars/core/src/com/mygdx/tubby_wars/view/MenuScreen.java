@@ -36,6 +36,7 @@ public class MenuScreen implements Screen {
     //Initialize  background music and sound effects
     private Music music;
     private Sound click;
+    public String type;
 
     private Stage stage;
     private Engine engine;
@@ -54,6 +55,8 @@ public class MenuScreen implements Screen {
         this.game.playMusic(music);
 
         click = Assets.getSound(Assets.clickSound);
+
+        type = "MENU";
     }
 
     @Override
@@ -118,7 +121,7 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                game.setScreen(ScreenFactory.getScreen("CREATE", game, engine));
+                game.gsm.changeScreen("CREATE");
             }
         });
 
@@ -132,7 +135,7 @@ public class MenuScreen implements Screen {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
 
-                game.setScreen(ScreenFactory.getScreen("SETTINGS", game, engine));
+                game.gsm.changeScreen("SETTINGS");
             }
         });
 
@@ -145,7 +148,7 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                game.setScreen(ScreenFactory.getScreen("HIGHSCORE", game, engine));
+                game.gsm.changeScreen("HIGHSCORE");
             }
         });
 

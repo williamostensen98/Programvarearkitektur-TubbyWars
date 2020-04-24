@@ -315,7 +315,7 @@ public class PlayScreen implements Screen {
 
         if(isRoundOver()){
             if (ControllerLogic.roundCount == 5) {
-                game.setScreen(new HighscoreScreen(game, engine));
+                game.gsm.changeScreen("HIGHSCORE");
             }
             else {
 
@@ -324,7 +324,7 @@ public class PlayScreen implements Screen {
                 ps.setHealth((Entity)players.get(0),150);
                 ps.setHealth((Entity)players.get(1),150);
 
-                game.setScreen(new ShopScreen(game, engine));
+                game.gsm.changeScreen("SHOP");
 
             }
         }
@@ -365,7 +365,7 @@ public class PlayScreen implements Screen {
                 // TODO Vi bør ikke lage nye screens hele tiden tror jeg, men heller ha de lagret,
                 //  kan bli vanskelig å komme tilbake til playScreen hvis ikke.
                 game.playSound(click);
-                game.setScreen(new SettingScreen(game, engine));
+                game.gsm.changeScreen("SETTINGS");
             }
         });
 
