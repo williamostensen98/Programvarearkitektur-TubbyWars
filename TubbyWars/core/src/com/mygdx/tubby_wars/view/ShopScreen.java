@@ -206,6 +206,7 @@ public class ShopScreen implements Screen {
                 ps.setWeaponDamage(currentPlayer, currentWeaponDamage != 0 ? currentWeaponDamage : ps.getWeaponDamage(currentPlayer));
 
                 ControllerLogic.roundCount ++;
+
                 game.gsm.changeScreen("PLAY");
             }
         });
@@ -311,7 +312,7 @@ public class ShopScreen implements Screen {
                 game.playSound(click);
                 if (weapon==1 && ps.getScore(currentPlayer) >= 1000 && ps.getWeaponDamage(currentPlayer) > 2.5){
                     gun1.setSize(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 3.3f);
-                    gun2.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 6f);
+                    gun2.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
                     gun3.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
                     ps.setWeaponTexture(currentPlayer,new TextureRegion(gunSheet,14,14,100,100));
                     currentlyPaying = 1000;

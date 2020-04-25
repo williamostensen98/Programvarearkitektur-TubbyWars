@@ -29,17 +29,11 @@ public class MenuScreen implements Screen {
     private Texture highScoreB;
     private Texture settingsB;
 
-    private Button settingsButton;
-    private Button highScoreButton;
-    private Button gameButton;
-
     //Initialize  background music and sound effects
-    private Music music;
     private Sound click;
     public String type;
 
     private Stage stage;
-    private Engine engine;
 
     public MenuScreen(TubbyWars game, Engine engine) {
         super();
@@ -51,7 +45,7 @@ public class MenuScreen implements Screen {
         highScoreB = Assets.getTexture(Assets.highScoreButton);
         settingsB = Assets.getTexture(Assets.settingScreenButton);
 
-        music = Assets.getMusic(Assets.backgroundMusic);
+        Music music = Assets.getMusic(Assets.backgroundMusic);
         this.game.playMusic(music);
 
         click = Assets.getSound(Assets.clickSound);
@@ -69,7 +63,10 @@ public class MenuScreen implements Screen {
         title.setSize(Gdx.graphics.getWidth()/4f,  Gdx.graphics.getHeight()/3f);
         title.setPosition(Gdx.graphics.getWidth()/2f - title.getWidth()/2f, Gdx.graphics.getHeight()/2f);
 
-        makeButtons();
+
+        Button settingsButton = makeButton(settingsB,4f,"SETTINGS");
+        Button gameButton = makeButton(playB,2f,"CREATE");
+        Button highScoreButton = makeButton(highScoreB,1.33f,"HIGHSCORE");
 
         stage.addActor(title);
         stage.addActor(gameButton);
@@ -84,6 +81,20 @@ public class MenuScreen implements Screen {
         game.getBatch().end();
 
         stage.draw();
+    }
+
+    private Button makeButton(Texture texture, float xPos, final String nextScreen){
+        Button b = new Button(new TextureRegionDrawable(new TextureRegion(texture)));
+        b.setSize(Gdx.graphics.getWidth()/10f  ,   Gdx.graphics.getHeight()/7f);
+        b.setPosition(Gdx.graphics.getWidth() / xPos - b.getWidth()/2f,Gdx.graphics.getHeight() / 10f*3f - b.getHeight() / 2f);
+        b.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+                game.gsm.changeScreen(nextScreen);
+            }
+        });
+        return b;
     }
 
     @Override
@@ -111,46 +122,5 @@ public class MenuScreen implements Screen {
 
     }
 
-    private void makeButtons() {
-        //Initialize button to get GameScreen
-        gameButton = new Button(new TextureRegionDrawable(new TextureRegion(playB)));
-        gameButton.setSize( Gdx.graphics.getWidth()/10f  ,   Gdx.graphics.getHeight()/7f);
-        gameButton.setPosition(Gdx.graphics.getWidth() / 2f - gameButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - gameButton.getHeight() / 2f);
 
-        gameButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                game.gsm.changeScreen("CREATE");
-            }
-        });
-
-        //Initialize button to get to SettingsScreen
-        settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
-        settingsButton.setSize(  Gdx.graphics.getWidth()/10f  ,   Gdx.graphics.getHeight()/7f);
-        settingsButton.setPosition(Gdx.graphics.getWidth()/4f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - settingsButton.getHeight() / 2f);
-
-        settingsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-
-                game.gsm.changeScreen("SETTINGS");
-            }
-        });
-
-        //Initialize button to get to HighScoreScreen
-        highScoreButton = new Button(new TextureRegionDrawable(new TextureRegion(highScoreB)));
-        highScoreButton.setSize( Gdx.graphics.getWidth()/10f  ,   Gdx.graphics.getHeight()/7f);
-        highScoreButton.setPosition(Gdx.graphics.getWidth()/4f*3f - highScoreButton.getWidth() / 2f , Gdx.graphics.getHeight() / 10f*3f - highScoreButton.getHeight() / 2f);
-
-        highScoreButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                game.gsm.changeScreen("HIGHSCORE");
-            }
-        });
-
-    }
 }
