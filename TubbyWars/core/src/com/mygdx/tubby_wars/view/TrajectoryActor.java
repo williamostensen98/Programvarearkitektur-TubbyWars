@@ -1,47 +1,44 @@
 package com.mygdx.tubby_wars.view;
 
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.Physics;
+import com.mygdx.tubby_wars.controller.PhysicsSystem;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
 public class TrajectoryActor extends Actor {
 
     private TubbyWars game;
-    private Physics physics;
-
     private Texture trajectoryTexture;
-    private float timeSeparation = 1f;
+    private PhysicsSystem physicsSystem;
+    private Entity physicsEntity;
 
-    public TrajectoryActor(TubbyWars game, Physics physics) {
+    TrajectoryActor(TubbyWars game, Engine engine) {
         this.game = game;
-        this.physics = physics;
-        // INITIALIZES SPRITES AND TEXTURES
+        physicsSystem = engine.getSystem(PhysicsSystem.class);
+        physicsEntity = physicsSystem.getEntities().get(0);
         trajectoryTexture = new Texture("white-circle.png");
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
 
-        /***
-         * Checks if the weapon is actually charging(i.e. being dragged).
-         */
         if(!ControllerLogic.charging){
             return;
         }
-
         float t = 0f;
-        float timeSeparation = this.timeSeparation;
+        float timeSeparation = 1f;
         game.batch.begin();
         for (int i = 0; i < 800; i+=20) {
-            Vector2 vec = physics.getVelocityVector();
-            Vector2 trajectoryPoint = physics.getTrajectoryPoint(i, vec);
+            Vector2 vec = physicsSystem.getVelocityVector(physicsEntity);
+            Vector2 trajectoryPoint = physicsSystem.getTrajectoryPoint(physicsEntity, i, vec);
             float x = trajectoryPoint.x;
             float y = trajectoryPoint.y;
-
             t += timeSeparation;
             game.batch.draw(trajectoryTexture, x, y, trajectoryTexture.getWidth(), trajectoryTexture.getHeight());
         }

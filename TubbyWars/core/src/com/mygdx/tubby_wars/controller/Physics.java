@@ -10,16 +10,16 @@ import com.mygdx.tubby_wars.view.Bullet;
 
 public class Physics {
 
-    public float distance, angle;
-    public boolean wasPressed = false;
+    private float distance, angle;
+    private boolean wasPressed = false;
 
-    public Vector2 startPoint;
-    public PlayerModel currentPlayer;
+    private Vector2 startPoint;
+    private PlayerModel currentPlayer;
     public Bullet bullet;
 
-    public Vector2 pressedPosition = new Vector2();
-    public Vector2 currentPosition = new Vector2();
-    public Vector2 velocityVector = new Vector2();
+    private Vector2 pressedPosition = new Vector2();
+    private Vector2 currentPosition = new Vector2();
+    private Vector2 velocityVector = new Vector2();
 
 
     public void setPlayer(PlayerModel player){
@@ -35,9 +35,6 @@ public class Physics {
     /***
      * Given the startVelocity and the startpoint of the player this methos calculates the points to the trajectory of the players weapon.
      * It returns a vector with the nth point in the trajectory
-     * @param n
-     * @param startVelocity
-     * @return
      */
      public Vector2 getTrajectoryPoint(float n, Vector2 startVelocity){
 

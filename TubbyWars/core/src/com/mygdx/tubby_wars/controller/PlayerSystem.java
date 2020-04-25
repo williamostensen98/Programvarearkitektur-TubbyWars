@@ -6,12 +6,16 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
+import com.mygdx.tubby_wars.view.Bullet;
 
 public class PlayerSystem extends IteratingSystem {
 
     private static final Family family = Family.all(PlayerComponent.class).get();
     private ComponentMapper<PlayerComponent> pm;
+
 
 
 
@@ -75,16 +79,37 @@ public class PlayerSystem extends IteratingSystem {
     }
 
 
-    public void setWeaponTexture(Entity playerEntity, Texture weaponTexture){
+    public void setWeaponTexture(Entity playerEntity, TextureRegion weaponTexture){
         pm.get(playerEntity).weaponTexture = weaponTexture;
     }
 
-    public Texture getWeaponTexture(Entity playerEntity) {
+    public TextureRegion getWeaponTexture(Entity playerEntity) {
         return pm.get(playerEntity).weaponTexture;
     }
 
     public int getScore(Entity playerEntity){
         return pm.get(playerEntity).score;
+    }
+
+
+    public void createTextureRegion(Entity playerEntity){
+        Texture texture = pm.get(playerEntity).characterBody;
+        pm.get(playerEntity).region = new TextureRegion(texture, 0,0,texture.getWidth(), texture.getHeight());
+    }
+
+    public TextureRegion getTextureRegion(Entity playerEntity){
+        return pm.get(playerEntity).region;
+    }
+
+    public void addBullets(Entity playerEntity, Bullet bullet){
+        pm.get(playerEntity).bullets.add(bullet);
+    }
+
+    public Array<Bullet> getBullets(Entity playerEntity){
+        return pm.get(playerEntity).bullets;
+    }
+    public void initializeNewBullets(Entity playerEntity){
+        pm.get(playerEntity).bullets = new Array<>();
     }
 
 }

@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
+import com.mygdx.tubby_wars.controller.ScreenFactory;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
@@ -33,22 +34,19 @@ public class HighscoreScreen implements Screen {
     private TubbyWars game;
     private Engine engine;
 
-    //Textures for title of page
+    //TEXTURES
     private Texture titleText;
-
     private Texture background;
-
-    //Textures for buttons
     private Texture menuScreenB;
-    private Texture settingsB;
 
-    //Buttons
+    //BUTTONS
     private Button menuScreenButton;
-    private Button settingsButton;
 
+    // SOUND
     private Sound click;
-    private Stage stage;
 
+    // DISPLAY DATA
+    private Stage stage;
     private Table highscoreResults;
     private List<String> highScore;
 
@@ -69,7 +67,6 @@ public class HighscoreScreen implements Screen {
 
         titleText = Assets.getTexture(Assets.highscoreTitle);
         menuScreenB = Assets.getTexture(Assets.menuScreenButton);
-        settingsB = Assets.getTexture(Assets.settingSignButton);
         background = Assets.getTexture(Assets.highscoreBackground);
 
         click = Assets.getSound(Assets.clickSound);
@@ -86,10 +83,6 @@ public class HighscoreScreen implements Screen {
         namePlayerOne = ps.getUsername((Entity)players.get(0));
         namePlayerTwo = ps.getUsername((Entity)players.get(1));
 
-        System.out.println("Username: " + namePlayerOne + " and score: " + scorePlayerOne);
-        System.out.println("Username: " + namePlayerTwo + " and score: " + scorePlayerTwo);
-
-        // TODO: DETTE KAN DERE OGSÅ GJØRE ET ANNET STED, MEN GJORDE DET BARE HER NÅ. (ALTSÅ addHighscore())
         // Adds user data to database
         addHighscore(namePlayerOne, scorePlayerOne);
         addHighscore(namePlayerTwo, scorePlayerTwo);
@@ -118,8 +111,6 @@ public class HighscoreScreen implements Screen {
 
         //Add everything that should only be visible in when playing game
         if (ControllerLogic.loggedIn) {
-            stage.addActor(settingsButton);
-
             Label informationText = new Label(this.namePlayerOne + " got " + this.scorePlayerOne
                     + " points, and " + this.namePlayerTwo + " got " + this.scorePlayerTwo +
                     " points. The winner is " + winner() +  ". Congratulations! " +
@@ -164,7 +155,6 @@ public class HighscoreScreen implements Screen {
         titleText.dispose();
         background.dispose();
         menuScreenB.dispose();
-        settingsB.dispose();
         click.dispose();
         stage.dispose();
     }
@@ -179,21 +169,7 @@ public class HighscoreScreen implements Screen {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-                game.setScreen(new MenuScreen(game, engine));
-            }
-        });
-
-        //Initialize button to get to SettingsScreen
-        settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
-        settingsButton.setSize(Gdx.graphics.getWidth()/24f   ,   Gdx.graphics.getHeight()/13f);
-        settingsButton.setPosition(Gdx.graphics.getWidth()*85f/90f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight()* 75f/90f - settingsButton.getHeight() / 2f);
-
-        settingsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                ControllerLogic.fromHighScoreScreen = true;
-                game.setScreen(new SettingScreen(game, engine));
+                game.gsm.changeScreen("MENU");
             }
         });
     }
