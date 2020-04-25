@@ -43,7 +43,7 @@ Built with:
 
 ### 3.1 Getting Started
 To run the application you will need [Android Studio](https://developer.android.com/studio/?gclid=CjwKCAjwv4_1BRAhEiwAtMDLsozFvTbQdD1gDDKtKmX58Udj2DvLeoF2hyhyzdcBArlbnsQCdAUq6RoCfMYQAvD_BwE&gclsrc=aw.ds)(or a similar IDE).
-To run the application you will need an Android device or emulator with API level 21 or higher. If you're not in possesion of a Android device, Android studio comes with the possibility to run on an emulator(see [3.2](#compile_and_run))
+To run the application you will need an Android device or emulator with API level 21 or higher. If you're not in possesion of a Android device, Android studio comes with the possibility to run on an emulator(see [3.3.2](#compile_and_run))
 
 ### 3.2 Cloning the repository
 When Android Studio is dowloaded you are now ready to download the project itself. 
@@ -69,6 +69,7 @@ To run the application you will need to connect your android device or install a
 * On the computer you can now select your device in `Connected Devices`.
 * Press OK and run the app with the play button in the to right corner (or bottom left)
 
+<a name="compile_and_run"></a>
 #### 3.3.2 Running with Android Emulator
 * Open the AVD manager in the top drop down menu.
 * Choose `+Create Virtual Device`
