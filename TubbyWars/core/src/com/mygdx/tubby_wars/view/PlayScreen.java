@@ -9,7 +9,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -27,7 +26,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.InputProcessor;
-import com.mygdx.tubby_wars.controller.Physics;
+import com.mygdx.tubby_wars.controller.MapLoader;
 import com.mygdx.tubby_wars.controller.PhysicsSystem;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.Assets;
@@ -35,14 +34,15 @@ import com.mygdx.tubby_wars.model.B2WorldCreator;
 import com.mygdx.tubby_wars.model.CollisionListener;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 import com.mygdx.tubby_wars.model.PlayerModel;
-import java.util.List;
 
 public class PlayScreen implements Screen {
-    public OrthographicCamera gameCam;
-    public Viewport viewPort;
+
+
+    private OrthographicCamera gameCam;
+    private Viewport viewPort;
     public TubbyWars game;
-    public World world;
-    public PlayerModel player1, player2;
+    private World world;
+    private PlayerModel player1, player2;
 
     //MAP
     private TmxMapLoader mapLoader;
@@ -64,9 +64,8 @@ public class PlayScreen implements Screen {
     private Hud hud;
 
     private InputMultiplexer inputMultiplexer;
-    public static TextureAtlas atlas;
 
-    public float gameCamMaxPosition, gameCamMinPosition;
+    private float gameCamMaxPosition, gameCamMinPosition;
 
     private Texture settingsB;
 
@@ -81,7 +80,6 @@ public class PlayScreen implements Screen {
     private PhysicsSystem physicsSystem;
     private Entity physicsEntity;
 
-
     public PlayScreen(TubbyWars game, Engine engine) {
         this.game = game;
         this.engine = engine;
@@ -95,7 +93,6 @@ public class PlayScreen implements Screen {
         viewPort = new StretchViewport(TubbyWars.V_WIDTH, TubbyWars.V_HEIGHT, gameCam);
         viewPort.apply();
         gameCam.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0);
-
         gameCam.update();
 
         //Button
@@ -107,76 +104,41 @@ public class PlayScreen implements Screen {
         settingsStage = new Stage();
 
         // INITIALIZES PHYSICS AND THE TRAJECTORYACTOR IS ADDED TO THE STAGE.
-        //physics = new Physics();
         trajectoryActor = new TrajectoryActor(game, engine);
         stage.addActor(trajectoryActor);
 
         // LOADS THE MAP
         mapLoader = new TmxMapLoader();
-
-        if (ControllerLogic.roundCount == 1) {
-
-            map = mapLoader.load("tubbymap1.tmx");
-        }
-        else if (ControllerLogic.roundCount == 2) {
-
-            map = mapLoader.load("tubbymap2.tmx");
-        }
-        else if (ControllerLogic.roundCount == 3) {
-
-            map = mapLoader.load("tubbymap1.tmx");
-        }
-        else if (ControllerLogic.roundCount == 4) {
-            map = mapLoader.load("tubbymap4.tmx");
-        }
-        else {
-            map = mapLoader.load("tubbymap5.tmx");
-        }
+        MapLoader loader  = new MapLoader(mapLoader);
+        map = loader.getMap(ControllerLogic.roundCount);
         mapRenderer = new OrthogonalTiledMapRenderer(map, 0.01f);
 
-        b2dr = new Box2DDebugRenderer();
-
-        // MAP PROPERTIES
+        // MAP AND CAM/VIEW PROPERTIES
         MapProperties properties = map.getProperties();
         mapWidth = properties.get("width", Integer.class);
         tilePixelWidth = properties.get("tilewidth", Integer.class);
         mapPixelWidth = mapWidth * tilePixelWidth;
-
         gameCamMaxPosition = mapPixelWidth / 100f - gameCam.viewportWidth / 2;
         gameCamMinPosition = gameCam.viewportWidth / 2;
 
-        // ADDS THE PLAYERS
-        // player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 0.64f, players.get(0), engine);
-        // player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 0.64f, players.get(1), engine);
-        // player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 0.64f, players.get(1), engine);
-
         player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 1.2f, (Entity) players.get(0), engine);
-        // player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 1.2f, players.get(1), engine);
         player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 1.2f, (Entity) players.get(1), engine);
-
-        player2.flip(true, false);
-
+        player2.flip(true,false);
         physicsSystem.setPlayer(physicsEntity, player1);
-        // LOADS THE PACK FILE WITH INTO AN ATLAS WHERE ALL THE CHARACTER SPRITES ARE
 
-        hud = new Hud(game.batch, players);
-
-        // contact listener
+        // Contact listener
         world.setContactListener(new CollisionListener());
-
+        hud = new Hud(game.batch, players);
 
         // TODO DENNE FIKSER SETTINGSKNAPPEN, HUK AV DENNE NÅR DEN ER KLAR
         createSettingsButton();
-
-
         ControllerLogic.currentGame = this;
 
         //TODO: Implement in game
         click = Assets.getSound(Assets.clickSound);
         hitSound = Assets.getSound(Assets.hitSound);
         shotSound = Assets.getSound(Assets.shootingSound);
-}
-
+    }
 
     /**
      * Called when this screen becomes the current screen for a
@@ -186,13 +148,8 @@ public class PlayScreen implements Screen {
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(settingsStage);
         inputMultiplexer.addProcessor(new InputProcessor(physicsSystem));
-
-
-        // TODO ADD THE STAGES TO THE MULTIPLEXER
         new B2WorldCreator(world, map);
         Gdx.input.setInputProcessor(inputMultiplexer);
-
-
     }
 
     /**
@@ -206,8 +163,6 @@ public class PlayScreen implements Screen {
         //MAP RENDERING
         mapRenderer.render();
         mapRenderer.setView(gameCam);
-
-        b2dr.render(world, gameCam.combined);
 
         // PLAYER RENDERING
         game.batch.setProjectionMatrix(gameCam.combined);
@@ -224,9 +179,7 @@ public class PlayScreen implements Screen {
         //Set our batch to now draw what the Hud camera sees.
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-
     }
-
 
     public void update(float dt) {
         world.step(1 / 60f, 6, 2);
@@ -235,8 +188,7 @@ public class PlayScreen implements Screen {
         player2.update(dt);
         hud.update(dt);
 
-
-
+        // TODO CLEAN
         // PROHIBITS PLAYERS FROM SHOOTING WHILE A BULLET IS ACTIVE
         if(gameCam.position.x == player1.b2Body.getPosition().x || gameCam.position.x == player2.b2Body.getPosition().x){
             if(inputMultiplexer.getProcessors().size == 1){
@@ -250,20 +202,16 @@ public class PlayScreen implements Screen {
             Gdx.input.setInputProcessor(inputMultiplexer);
         }
 
-
+        // CHANGES TURNS
         if(ControllerLogic.isPlayersTurn && player2.getBullet() == null){
             System.out.println("Turn changed to player 1");
             ControllerLogic.isPlayersTurn = false;
 
         }
-
         else if(!ControllerLogic.isPlayersTurn && player1.getBullet() == null){
             System.out.println("Turn changed to player 2");
             ControllerLogic.isPlayersTurn = true;
-
-
         }
-
 
         //TODO Needs cleaning
         if(ControllerLogic.isPlayersTurn){
@@ -272,31 +220,24 @@ public class PlayScreen implements Screen {
             if(bulletOutOfBounds(player2.getBullet())){
                 player2.getBullet().destroyBullet();
             }
-
             else if (checkBulletPosition(player2)) {
-
                 gameCam.position.x = player2.getBullet().b2Body.getPosition().x ;
             }
             else if (checkCameraPosition(player2) ) {
                 gameCam.position.x = Math.min(player2.b2Body.getPosition().x, gameCamMaxPosition);
-
             }
             else if(player2.b2Body.getPosition().x != player2.getPosX()){
                 player2.setRedefine();
             }
-
         }
         else{
             physicsSystem.setPlayer(physicsEntity, player1);
 
             if(bulletOutOfBounds(player1.getBullet())){
-
                 player1.getBullet().destroyBullet();
             }
-
             else if (checkBulletPosition(player1)) {
                 gameCam.position.x = player1.getBullet().b2Body.getPosition().x;
-
             }
             else if (checkCameraPosition(player1)) {
                 gameCam.position.x = Math.max(player1.b2Body.getPosition().x, gameCamMinPosition);
@@ -305,33 +246,25 @@ public class PlayScreen implements Screen {
             else if(player1.b2Body.getPosition().x != player1.getPosX()){
                 player1.setRedefine();
             }
-
-
-
         }
 
-
-
-
+        // TODO set players turn to the player with lowest score
         if(isRoundOver()){
             if (ControllerLogic.roundCount == 5) {
                 game.gsm.changeScreen("HIGHSCORE");
+                ControllerLogic.isPlayersTurn = false;
             }
             else {
-
-               // prepareForNextRound();
-                //dispose();
                 ps.setHealth((Entity)players.get(0),150);
                 ps.setHealth((Entity)players.get(1),150);
-
                 game.gsm.changeScreen("SHOP");
-
             }
         }
     }
 /*
-    //TODO RESET THE NEXT ROUND CORRECTLY, THIS IS JUST A TEST
+    //TODO RESET THE NEXT ROUND CORRECTLY, THIS IS JUST A TEST - La STÅ
     //TODO: Use ControllerLogic.roundCount to choose the right map (Changes for each round)
+    // Quit game - reset players
     private void prepareForNextRound(){
         player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 0.64f, players.get(0), engine);
         player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 0.64f, players.get(1), engine);
@@ -342,58 +275,46 @@ public class PlayScreen implements Screen {
     }
 
  */
-
     private boolean isRoundOver(){
-        if(engine.getSystem(PlayerSystem.class).getHealth((Entity)players.get(0)) < 0
-                || engine.getSystem(PlayerSystem.class).getHealth((Entity)players.get(1)) < 0){
-            return true;
-        }
-        return false;
+        return engine.getSystem(PlayerSystem.class).getHealth((Entity) players.get(0)) < 0
+                || engine.getSystem(PlayerSystem.class).getHealth((Entity) players.get(1)) < 0;
     }
 
     // TODO fix so that the settings button is clickable when playing, now the trajectory actor takes priority
-    public void createSettingsButton(){
-
+    private void createSettingsButton(){
         //Initialize button to get to SettingsScreen
         final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
-        settingsButton.setSize(75, 75);
-        settingsButton.setPosition(Gdx.graphics.getWidth()*85f/90f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight()* 75f/90f - settingsButton.getHeight() / 2f);
+
+        settingsButton.setSize(50, 50);
+        settingsButton.setPosition(Gdx.graphics.getWidth() - (settingsButton.getWidth()*2f) , Gdx.graphics.getHeight() - (settingsButton.getWidth()*2f));
 
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                // TODO Vi bør ikke lage nye screens hele tiden tror jeg, men heller ha de lagret,
-                //  kan bli vanskelig å komme tilbake til playScreen hvis ikke.
-                game.playSound(click);
-                game.gsm.changeScreen("SETTINGS");
+        // TODO Vi bør ikke lage nye screens hele tiden tror jeg, men heller ha de lagret,
+        //  kan bli vanskelig å komme tilbake til playScreen hvis ikke.
+        game.playSound(click);
+        game.gsm.changeScreen("SETTINGS");
             }
         });
-
         settingsStage.addActor(settingsButton);
     }
 
 
     private boolean checkBulletPosition(PlayerModel player){
-        if((player.getBullet() != null &&
+        return (player.getBullet() != null &&
                 player.getBullet().b2Body.getPosition().x <= gameCamMaxPosition) &&
-                player.getBullet().b2Body.getPosition().x >= gameCamMinPosition){
-            return true;
-
-        }
-
-        return false;
+                player.getBullet().b2Body.getPosition().x >= gameCamMinPosition;
     }
 
     private boolean checkCameraPosition(PlayerModel player){
-        if(gameCam.position.x >= player1.b2Body.getPosition().x && gameCam.position.x <= player2.b2Body.getPosition().x && player.getBullet() == null){
-            return true;
-        }
-        return false;
+        return gameCam.position.x >= player1.b2Body.getPosition().x &&
+                gameCam.position.x <= player2.b2Body.getPosition().x &&
+                player.getBullet() == null;
     }
 
-    public boolean bulletOutOfBounds(Bullet bullet){
+    private boolean bulletOutOfBounds(Bullet bullet){
         if(bullet != null && (bullet.b2Body.getPosition().x < 0 || bullet.b2Body.getPosition().x > mapPixelWidth / 100f)){
-
             return true;
         }
         else return bullet != null && bullet.b2Body.getPosition().y < 0;
@@ -404,7 +325,6 @@ public class PlayScreen implements Screen {
         viewPort.update(width, height);
         gameCam.update();
     }
-
 
     @Override
     public void pause() {
@@ -432,7 +352,5 @@ public class PlayScreen implements Screen {
         world.dispose();
         b2dr.dispose();
         hud.dispose();
-
     }
-
 }

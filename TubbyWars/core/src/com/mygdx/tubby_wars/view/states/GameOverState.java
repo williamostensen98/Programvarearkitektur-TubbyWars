@@ -9,7 +9,7 @@ public class GameOverState implements State {
     private Screen currentScreen;
 
 
-    public GameOverState(GameStateManager gsm) {
+    GameOverState(GameStateManager gsm) {
 
         this.gsm = gsm;
         currentScreen = gsm.game.screenFactory.getScreen("HIGHSCORE");

@@ -4,20 +4,17 @@ import com.badlogic.gdx.Screen;
 
 public class PlayState implements State {
 
+
     private GameStateManager gsm;
     private Screen currentScreen;
 
-
-
-    public PlayState(GameStateManager gsm) {
+    PlayState(GameStateManager gsm) {
         this.gsm = gsm;
         currentScreen = gsm.game.screenFactory.getScreen("PLAY");
-
     }
 
     @Override
     public boolean shouldChangeState(String type) {
-
         return type.equalsIgnoreCase("HIGHSCORE") ||
                 type.equalsIgnoreCase("MENU") ;
     }
@@ -31,8 +28,6 @@ public class PlayState implements State {
         currentScreen = gsm.game.screenFactory.getScreen(type);
         gsm.game.setScreen(currentScreen);
     }
-
-
 
     @Override
     public void changeState(State state) {

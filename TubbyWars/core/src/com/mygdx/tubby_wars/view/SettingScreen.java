@@ -61,7 +61,6 @@ public class SettingScreen implements Screen {
         quitGameB = Assets.getTexture(Assets.quitGameButton);
         soundOnB = Assets.getTexture(Assets.soundOnButton);
         soundOffB = Assets.getTexture(Assets.soundOffButton);
-
         click = Assets.getSound(Assets.clickSound);
     }
 
@@ -69,6 +68,7 @@ public class SettingScreen implements Screen {
     public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+        makeButtons();
 
         //Initialize title image, logo
         final Image logo = new Image(title);
@@ -76,13 +76,15 @@ public class SettingScreen implements Screen {
         logo.setPosition(Gdx.graphics.getWidth()/2f - logo.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - logo.getHeight()/2f);
 
         //Initialize text labels, musicText and soundsText
-        final Label musicText = new Label("Music:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        musicText.setPosition(Gdx.graphics.getWidth() / 8f*2f, Gdx.graphics.getHeight() / 9f*5f);
+        final Label musicText = new Label("Music", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        musicText.setPosition((Gdx.graphics.getWidth() / 3f) + (musicButton.getWidth() - musicText.getWidth())/2f, Gdx.graphics.getHeight() / 1.85f);
+        musicText.scaleBy(1.2f);
 
-        final Label soundsText = new Label("Sound effects:", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        soundsText.setPosition(Gdx.graphics.getWidth() / 8f*2f, Gdx.graphics.getHeight() / 9f*3f);
+        final Label soundsText = new Label("Sound effects", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        soundsText.setPosition((Gdx.graphics.getWidth() / 3f)*1.75f + (soundEffectButton.getWidth() - soundsText.getWidth())/2f, Gdx.graphics.getHeight() / 1.85f);
+        soundsText.scaleBy(1.2f);
 
-        makeButtons();
+
 
         if (ControllerLogic.loggedIn) {
             stage.addActor(quitButton);
@@ -146,14 +148,13 @@ public class SettingScreen implements Screen {
     }
 
     private void makeButtons() {
-
         //Initialize musicButton
         musicButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOffB)));
         musicButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
-        musicButton.setSize(Gdx.graphics.getWidth()/24f,Gdx.graphics.getHeight()/11f);
-        musicButton.setOrigin(Gdx.graphics.getWidth()/24f,Gdx.graphics.getHeight()/11f);
+        musicButton.setSize(Gdx.graphics.getWidth()/15f,Gdx.graphics.getHeight()/5f);
+        musicButton.setOrigin(Gdx.graphics.getWidth()/15f,Gdx.graphics.getHeight()/5f);
         musicButton.setChecked(game.musicStateManager.getMuteMusicState());
-        musicButton.setPosition(Gdx.graphics.getWidth() / 100f*30f, Gdx.graphics.getHeight() / 9f*5f- musicButton.getHeight() / 3f);
+        musicButton.setPosition(Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 3f);
         //Add click effect
         musicButton.addListener(new ClickListener() {
             @Override
@@ -181,10 +182,10 @@ public class SettingScreen implements Screen {
         //Initialize soundEffectButton
         soundEffectButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOffB)));
         soundEffectButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
-        soundEffectButton.setSize(Gdx.graphics.getWidth()/24f,Gdx.graphics.getHeight()/11f);
-        soundEffectButton.setOrigin(Gdx.graphics.getWidth()/24f,Gdx.graphics.getHeight()/11f);
+        soundEffectButton.setSize(Gdx.graphics.getWidth()/15f,Gdx.graphics.getHeight()/5f);
+        soundEffectButton.setOrigin(Gdx.graphics.getWidth()/15f,Gdx.graphics.getHeight()/5f);
         soundEffectButton.setChecked(game.soundStateManager.getMuteSoundState());
-        soundEffectButton.setPosition(Gdx.graphics.getWidth() / 100f*34f, Gdx.graphics.getHeight() / 9f*3f - soundEffectButton.getHeight() / 3f);
+        soundEffectButton.setPosition((Gdx.graphics.getWidth() / 3f)*1.75f, Gdx.graphics.getHeight() / 3f);
         //Add click effect
         soundEffectButton.addListener(new ClickListener() {
             @Override

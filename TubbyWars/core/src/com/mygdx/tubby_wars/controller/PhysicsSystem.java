@@ -13,8 +13,10 @@ import com.mygdx.tubby_wars.model.components.PhysicsComponent;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
 public class PhysicsSystem extends IteratingSystem {
+
     private static final Family family = Family.all(PhysicsComponent.class).get();
     private ComponentMapper<PhysicsComponent> pm;
+
 
     public PhysicsSystem() {
         super(family);
@@ -64,7 +66,7 @@ public class PhysicsSystem extends IteratingSystem {
      * @param screenX
      * @param screenY
      */
-    public void setPressed(Entity physicsEntity, int screenX, int screenY){
+    void setPressed(Entity physicsEntity, int screenX, int screenY){
         pm.get(physicsEntity).pressedPosition.set(new Vector2(screenX, Gdx.graphics.getHeight() - screenY));
         pm.get(physicsEntity).wasPressed = true;
     }
@@ -78,7 +80,7 @@ public class PhysicsSystem extends IteratingSystem {
      * @param screenX
      * @param screenY
      */
-    public void dragged(Entity physicsEntity, int screenX, int screenY){
+    void dragged(Entity physicsEntity, int screenX, int screenY){
         if(pm.get(physicsEntity).wasPressed){
             ControllerLogic.charging = true;
             pm.get(physicsEntity).currentPosition.set(screenX, Gdx.graphics.getHeight() - screenY);
@@ -94,7 +96,7 @@ public class PhysicsSystem extends IteratingSystem {
      * set the players bullet to this so it shoots.
      * @param physicsEntity
      */
-    public void unPressed(Entity physicsEntity){
+    void unPressed(Entity physicsEntity){
         if(ControllerLogic.charging) {
             float velX = (2.25f * -MathUtils.cos(pm.get(physicsEntity).angle) * pm.get(physicsEntity).distance);
             float velY = (2.25f * -MathUtils.sin(pm.get(physicsEntity).angle) * pm.get(physicsEntity).distance);

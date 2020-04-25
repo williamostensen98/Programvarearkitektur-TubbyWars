@@ -14,45 +14,31 @@ import com.mygdx.tubby_wars.model.ControllerLogic;
 public class TrajectoryActor extends Actor {
 
     private TubbyWars game;
-    // private Physics physics;
-
     private Texture trajectoryTexture;
-    private float timeSeparation = 1f;
-
     private PhysicsSystem physicsSystem;
     private Entity physicsEntity;
 
-    public TrajectoryActor(TubbyWars game, Engine engine) {
+    TrajectoryActor(TubbyWars game, Engine engine) {
         this.game = game;
-        // this.physics = physics;
-
         physicsSystem = engine.getSystem(PhysicsSystem.class);
         physicsEntity = physicsSystem.getEntities().get(0);
-
-
-        // INITIALIZES SPRITES AND TEXTURES
         trajectoryTexture = new Texture("white-circle.png");
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
 
-        /***
-         * Checks if the weapon is actually charging(i.e. being dragged).
-         */
         if(!ControllerLogic.charging){
             return;
         }
-
         float t = 0f;
-        float timeSeparation = this.timeSeparation;
+        float timeSeparation = 1f;
         game.batch.begin();
         for (int i = 0; i < 800; i+=20) {
             Vector2 vec = physicsSystem.getVelocityVector(physicsEntity);
             Vector2 trajectoryPoint = physicsSystem.getTrajectoryPoint(physicsEntity, i, vec);
             float x = trajectoryPoint.x;
             float y = trajectoryPoint.y;
-
             t += timeSeparation;
             game.batch.draw(trajectoryTexture, x, y, trajectoryTexture.getWidth(), trajectoryTexture.getHeight());
         }
