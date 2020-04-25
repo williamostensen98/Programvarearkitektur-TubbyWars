@@ -61,7 +61,6 @@ public class SettingScreen implements Screen {
         quitGameB = Assets.getTexture(Assets.quitGameButton);
         soundOnB = Assets.getTexture(Assets.soundOnButton);
         soundOffB = Assets.getTexture(Assets.soundOffButton);
-
         click = Assets.getSound(Assets.clickSound);
     }
 
@@ -146,7 +145,6 @@ public class SettingScreen implements Screen {
     }
 
     private void makeButtons() {
-
         //Initialize musicButton
         musicButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOffB)));
         musicButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk

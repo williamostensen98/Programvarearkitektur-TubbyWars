@@ -30,7 +30,7 @@ import java.util.List;
 public class Hud implements Disposable {
 
     // Scene2D.ui Stage and its own Viewport for HUD
-    public Stage stage;
+    Stage stage;
     private Viewport viewport;
 
     // Scene2D widgets
@@ -53,6 +53,7 @@ public class Hud implements Disposable {
         this.players = players;
         pm = ComponentMapper.getFor(PlayerComponent.class);
 
+        // TODO vidt and height'
         viewport = new FitViewport(TubbyWars.WIDTH, TubbyWars.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
@@ -66,10 +67,6 @@ public class Hud implements Disposable {
         playerOneScore = pm.get((Entity) players.get(0)).score;
         playerTwoScore = pm.get((Entity) players.get(1)).score;
 
-
-
-        // if we want more or different labels, feel free to change.
-
         playerOneName = new Label(pm.get((Entity) players.get(0)).playerName, new Label.LabelStyle(new BitmapFont(), Color.RED));
         playerTwoName = new Label(pm.get((Entity) players.get(1)).playerName, new Label.LabelStyle(new BitmapFont(), Color.RED));
         playerOneScoreLabel = new Label(String.valueOf(playerOneScore), new Label.LabelStyle(new BitmapFont(), Color.RED));
@@ -82,25 +79,19 @@ public class Hud implements Disposable {
         table.add(playerTwoScoreLabel).expandX();
 
         stage.addActor(table);
-
     }
 
-
     public void update(float dt){
+        //TODO
         // update score here, i would like to do that through componentmapper, but think we should wait until more of the project is complete.
         // - yours truly Håkon <3
         if(pm.get((Entity)players.get(0)).score != playerOneScore || pm.get((Entity)players.get(1)).score != playerTwoScore){
             playerOneScore = pm.get((Entity)players.get(0)).score;
             playerTwoScore = pm.get((Entity)players.get(1)).score;
-
             playerOneScoreLabel.setText(playerOneScore);
             playerTwoScoreLabel.setText(playerTwoScore);
         }
     }
-
-
-
-
 
     @Override
     public void dispose(){

@@ -44,19 +44,15 @@ public class MenuScreen implements Screen {
     public MenuScreen(TubbyWars game, Engine engine) {
         super();
         this.game = game;
-
         background = Assets.getTexture(Assets.mainBackground);
         logo = Assets.getTexture(Assets.logo);
         playB = Assets.getTexture(Assets.gameScreenButton);
         highScoreB = Assets.getTexture(Assets.highScoreButton);
         settingsB = Assets.getTexture(Assets.settingScreenButton);
-
         music = Assets.getMusic(Assets.backgroundMusic);
-        this.game.playMusic(music);
-
         click = Assets.getSound(Assets.clickSound);
 
-        type = "MENU";
+        this.game.playMusic(music);
     }
 
     @Override
@@ -82,7 +78,6 @@ public class MenuScreen implements Screen {
         game.getBatch().begin(); // Draw elements to Sprite Batch
         game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
         game.getBatch().end();
-
         stage.draw();
     }
 
@@ -134,7 +129,6 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
-
                 game.gsm.changeScreen("SETTINGS");
             }
         });

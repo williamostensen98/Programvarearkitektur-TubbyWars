@@ -16,11 +16,9 @@ public class Bullet extends Sprite {
 
     private float x,y, stateTime;
     public Body b2Body;
-    public World world;
-    public boolean destroyed, setToDestroy, filter;
-
-
-    public TextureRegion bulletRegion;
+    private World world;
+    private boolean destroyed, setToDestroy, filter;
+    private TextureRegion bulletRegion;
 
     public Bullet(float x, float y, World world, boolean filter) {
         this.x = x;
@@ -29,15 +27,14 @@ public class Bullet extends Sprite {
         this.world = world;
         destroyed = false;
         setToDestroy = false;
+        stateTime = 0;
 
         defineBullet();
+
         Texture texture = new Texture("explosions.png");
         bulletRegion = new TextureRegion(texture, 0, 0, 32, 32);
         setBounds(0, 0, 0.5f, 0.5f);
         setRegion(bulletRegion);
-
-        stateTime = 0;
-
     }
 
     /***
@@ -51,9 +48,6 @@ public class Bullet extends Sprite {
             world.destroyBody(b2Body);
             destroyed = true;
             stateTime = 0;
-
-
-
         }
         else if(!destroyed){
             setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);
@@ -61,30 +55,26 @@ public class Bullet extends Sprite {
 
         if(hasStopped()){
             destroyBullet();
-
-
-
-
         }
     }
 
-    public void destroyBullet(){
+    void destroyBullet(){
         setToDestroy = true;
     }
-    public boolean isDestroyed(){ return destroyed;}
+    boolean isDestroyed(){ return destroyed;}
 
     /***
      * If ball is standing still after being shot it.
      * @return
      */
-    public boolean hasStopped(){
+    private boolean hasStopped(){
         return (b2Body.getLinearVelocity().x == 0 && b2Body.getLinearVelocity().y == 0) && b2Body.getPosition().x != x; // also need to add to check that it is not in start state
 }
 
     /***
      * Defines the bullets body and fixture and adds it to the world
      */
-    public void defineBullet() {
+    private void defineBullet() {
         BodyDef bdef = new BodyDef();
         bdef.position.set(x, y);
         bdef.type = BodyDef.BodyType.DynamicBody;
@@ -106,7 +96,6 @@ public class Bullet extends Sprite {
             fdef.filter.categoryBits = ControllerLogic.PLAYER_1 | ControllerLogic.BULLET_1 | ControllerLogic.BULLET_2;    ;
             fdef.filter.maskBits = ControllerLogic.PLAYER_2 | ControllerLogic.GROUND_BIT;  ;
         }
-        
         b2Body.createFixture(fdef).setUserData(this);
     }
 

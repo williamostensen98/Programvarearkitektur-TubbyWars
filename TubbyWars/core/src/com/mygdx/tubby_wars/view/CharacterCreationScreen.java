@@ -290,7 +290,7 @@ public class CharacterCreationScreen implements Screen {
         rightText.setPosition(Gdx.graphics.getWidth() / 5f * 3f - rightText.getWidth() / 4, Gdx.graphics.getHeight() / 8f * 4f - rightText.getHeight() / 2);
     }
 
-    public void setupAshley(){
+    private void setupAshley(){
         engine = new Engine();
         ashleyWorld = new World(engine);
 

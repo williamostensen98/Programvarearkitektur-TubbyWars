@@ -1,9 +1,7 @@
 package com.mygdx.tubby_wars;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.tubby_wars.backend.IBackend;
@@ -11,11 +9,6 @@ import com.mygdx.tubby_wars.controller.ScreenFactory;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.MusicStateManager;
 import com.mygdx.tubby_wars.model.SoundStateManager;
-import com.mygdx.tubby_wars.view.LoadingScreen;
-import com.badlogic.gdx.audio.Music;
-import com.mygdx.tubby_wars.view.MenuScreen;
-import com.mygdx.tubby_wars.view.SettingScreen;
-import com.mygdx.tubby_wars.view.ShopScreen;
 import com.badlogic.gdx.audio.Sound;
 import com.mygdx.tubby_wars.view.states.GameStateManager;
 import com.mygdx.tubby_wars.view.states.LoadingState;
@@ -27,7 +20,6 @@ public class TubbyWars extends Game {
 
 	public SpriteBatch batch;
 	public GameStateManager gsm;
-	Texture img;
 
     public final static float V_WIDTH = 12.8f;
     public final static float V_HEIGHT = 5.76f;
@@ -41,7 +33,6 @@ public class TubbyWars extends Game {
 
     public TubbyWars(IBackend backendConn){
 			this.assets = new Assets();
-
 			this.engine = new Engine();
 			this.backendConn = backendConn;
             this.backendConn.connect();
@@ -49,16 +40,13 @@ public class TubbyWars extends Game {
 
 	@Override
 	public void create () {
-		//Gdx.graphics.setWindowedMode(WIDTH, HEIGHT);
 		assets = new Assets();
 		engine = new Engine();
 		batch = new SpriteBatch();
         screenFactory = new ScreenFactory(this, engine);
         gsm = new GameStateManager(this);
         gsm.push(new LoadingState(gsm));
-/*
-		LoadingScreen loadingScreen = new LoadingScreen(this, engine);
-		setScreen(loadingScreen);*/
+
 		this.musicStateManager = new MusicStateManager(this);
         this.soundStateManager = new SoundStateManager(this);
 	}

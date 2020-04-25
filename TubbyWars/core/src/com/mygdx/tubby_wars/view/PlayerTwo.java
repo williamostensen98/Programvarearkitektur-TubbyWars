@@ -21,19 +21,14 @@ import com.mygdx.tubby_wars.model.components.PlayerComponent;
 public class PlayerTwo extends PlayerModel {
 
 
-    public TextureRegion region;
-
     public Weapon weapon;
-
-
-    public Healthbar healthbar;
-    public boolean timeToRedefine;
+    private Healthbar healthbar;
+    private boolean timeToRedefine;
 
     // ASHLEY
     private Entity playerEntity;
     private ComponentMapper<PlayerComponent> pm;
     private PlayerSystem ps;
-
 
     /**
      * Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn.
@@ -45,17 +40,14 @@ public class PlayerTwo extends PlayerModel {
         timeToRedefine = false;
         this.playerEntity = playerEntity;
 
-
         ps.initializeNewBullets(playerEntity);
         weapon = new Weapon(b2Body,1.1f, 0.15f, ps.getWeaponTexture(playerEntity));
         weapon.flip(true, false);
-
 
         ps.createTextureRegion(playerEntity);
         setBounds(0, 0, 1f, 1.4f);
         setRegion(ps.getTextureRegion(playerEntity));
         setFlip(true, false);
-
 
         healthbar = new Healthbar(b2Body, playerEntity);
     }
@@ -87,16 +79,18 @@ public class PlayerTwo extends PlayerModel {
         if(timeToRedefine){
             redefinePlayer();
         }
+
         if(ps.getBullets(playerEntity).isEmpty() && super.isPlayersTurn()){
             addBullet();
         }
+
         for(Bullet b: ps.getBullets(playerEntity)){
             b.update(dt);
             if(b.isDestroyed()){
                 ps.getBullets(playerEntity).removeValue(b, true);
-
             }
         }
+
         setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);
         weapon.update(dt);
         healthbar.update(dt);
@@ -125,7 +119,6 @@ public class PlayerTwo extends PlayerModel {
         b2Body = this.world.createBody(bdef);
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        // var 0.25
         shape.setRadius(0.7f);
         fdef.shape = shape;
         fdef.friction = 0.8f;
@@ -133,7 +126,6 @@ public class PlayerTwo extends PlayerModel {
         fdef.filter.maskBits = ControllerLogic.BULLET_1 | ControllerLogic.GROUND_BIT;
         b2Body.createFixture(fdef).setUserData(this);
     }
-
 
     @Override
     public Bullet getBullet() {

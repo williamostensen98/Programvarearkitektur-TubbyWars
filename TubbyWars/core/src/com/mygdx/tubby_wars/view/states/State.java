@@ -5,10 +5,10 @@ import com.badlogic.gdx.Screen;
 public interface State {
 
 
-    public void changeState(State state);
+    void changeState(State state);
 
     boolean shouldChangeState(String type);
 
-    public void changeScreen(String type);
+    void changeScreen(String type);
 
 }

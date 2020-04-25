@@ -21,27 +21,15 @@ public abstract class PlayerModel extends Sprite {
 
     protected World world;
     public Body b2Body;
-    public TextureRegion region;
-
     public Weapon weapon;
-
     public TubbyWars game;
-
-
-    public boolean showBullet = false;
-
+    protected boolean showBullet = false;
     protected float posX, posY;
-
-    public boolean whichplayer;
-
-    public Healthbar healthbar;
 
     // ASHLEY
     private Entity playerEntity;
     private ComponentMapper<PlayerComponent> pm;
     private Engine engine;
-
-
 
     public PlayerModel(World world, TubbyWars game, float posX, float posY, Entity playerEntity, Engine engine) {
         this.world = world;
@@ -49,13 +37,11 @@ public abstract class PlayerModel extends Sprite {
         this.posX = posX;
         this.posY = posY;
 
-
         // ASHLEY
         this.playerEntity = playerEntity;
         // used to get variables from components
         pm = ComponentMapper.getFor(PlayerComponent.class);
         this.engine = engine;
-
     }
 
     public abstract void update(float dt);
@@ -74,11 +60,11 @@ public abstract class PlayerModel extends Sprite {
     public void showBullet(){
         showBullet = true;
     }
-    public void hideBullet(){
+    protected void hideBullet(){
         showBullet = false;
     }
 
-    public boolean isPlayersTurn(){
+    protected boolean isPlayersTurn(){
         return (ControllerLogic.isPlayersTurn);
     }
 
@@ -95,11 +81,11 @@ public abstract class PlayerModel extends Sprite {
         return pm.get(playerEntity);
     }
 
-    public Entity getPlayerEntity(){
+    Entity getPlayerEntity(){
         return playerEntity;
     }
 
-    public PlayerSystem getPlayerSystem(){
+    PlayerSystem getPlayerSystem(){
         return engine.getSystem(PlayerSystem.class);
     }
 

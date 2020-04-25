@@ -23,17 +23,13 @@ public class Healthbar extends Sprite {
     private ComponentMapper<PlayerComponent> pm;
 
     public Healthbar(Body body, Entity playerEntity){
-
         this.body = body;
         this.playerEntity = playerEntity;
         pm = ComponentMapper.getFor(PlayerComponent.class);
-
         this.health = pm.get(playerEntity).health;
 
         // creates the healthbar through pixmap
         create();
-
-
     }
 
     public void update(float dt){
