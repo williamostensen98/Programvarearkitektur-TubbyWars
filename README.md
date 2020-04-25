@@ -1,7 +1,8 @@
 # Programvarearkitektur-TubbyWars
 Project in TDT4240 Software Architecture
 
-## Tubby Wars Game Application
+![logo](https://user-images.githubusercontent.com/43372552/80280173-bedc1480-8702-11ea-8a34-98ec1f73a6f2.png)
+# Tubby Wars Game Application
 
 TubbyWars is a fun and easy to play game that will get you stuck to your phone for hours! 
 Use touch to drag and shoot your teletubby opponent with fireball bullets and receive score for each hit. 
@@ -10,16 +11,25 @@ Buy new and better weapons in the shop after each round with earned points. The 
 ## 1 Demo/User Manual
 
 The game is turned based and requires two player on the same device, so gather a friend and you're good to go!
+<img width="1275" alt="Skjermbilde 2020-04-25 kl  14 43 13" src="https://user-images.githubusercontent.com/43372552/80280433-48401680-8704-11ea-8ef6-9d86b41fa6b9.png">
 
 * Press PLAY and the players will now be able to choose usernames and which teletubbby you want to play with.
-* The shop will them appear and this is where you can buy weapons. First time playing both players will start with a standard revolver. 
-* Start Playing! 
-* Upon your turn, press your tubby and drag to aim and choose power of the shot. Let go to shoot. 
-* You earn points for every time you hit the opponent and points can buy you new and improved weapons. 
-* A round ends when a player looses all of its health. 
-* After each round the players will take turn in buying new weapons in the shop if enough points have been earned. 
-* Each new round is presented with a new and more difficult map and will increase the diffuculty of hitting the opponent.
-* After a total of 5 rounds the game is over and the scores of the players will be presented as well as a highscore board. Did you end up on the board?
+<img width="1272" alt="Skjermbilde 2020-04-25 kl  14 43 49" src="https://user-images.githubusercontent.com/43372552/80280439-542bd880-8704-11ea-988d-247eb3341171.png">
+
+* The shop will them appear and this is where you can buy weapons. First time playing both players will start with a standard revolver.   
+* Start Playing!   
+* Upon your turn, press your tubby and drag to aim and choose power of the shot. Let go to shoot.  
+
+<img width="1266" alt="Skjermbilde 2020-04-25 kl  14 46 20" src="https://user-images.githubusercontent.com/43372552/80280457-6279f480-8704-11ea-9141-863781b8d0bc.png"> 
+
+* You earn points for every time you hit the opponent and points can buy you new and improved weapons.   
+* A round ends when a player looses all of its health.   
+* After each round the players will take turn in buying new weapons in the shop if enough points have been earned.  
+
+<img width="1262" alt="Skjermbilde 2020-04-25 kl  14 45 44" src="https://user-images.githubusercontent.com/43372552/80280447-5c841380-8704-11ea-8662-707c403b0203.png">
+  
+* Each new round is presented with a new and more difficult map and will increase the diffuculty of hitting the opponent.  
+* After a total of 5 rounds the game is over and the scores of the players will be presented as well as a highscore board. Did you end up on the board?  
 
 
 ## 2 Technology and Frameworks
@@ -62,9 +72,12 @@ To run the application you will need to connect your android device or install a
 #### 3.3.2 Running with Android Emulator
 * Open the AVD manager in the top drop down menu.
 * Choose `+Create Virtual Device`
+<img width="1196" alt="Skjermbilde 2020-04-25 kl  14 48 35" src="https://user-images.githubusercontent.com/43372552/80280398-19c23b80-8704-11ea-8365-a5308d61b78b.png">
 * Choose a device (for example the Galaxy Nexus) and press `Next`.
+<img width="988" alt="Skjermbilde 2020-04-25 kl  14 48 48" src="https://user-images.githubusercontent.com/43372552/80280383-08792f00-8704-11ea-9fc4-57875b01395d.png">
 * Next when selecting a system image, go to `x86 images` in the menu
 * Choose the Image you would like to download, but make sure the ABI i set to `x86_64`.
+<img width="994" alt="Skjermbilde 2020-04-25 kl  14 48 57" src="https://user-images.githubusercontent.com/43372552/80280376-01eab780-8704-11ea-83a1-55be85103589.png">
 * When dowloaded, press `Next` and the `Finish`.
 * Exit the AVD Manager and make sure the dowloaded device is set in the top menu of the IDE. 
 * Press the play button beside it, wait for the build to complete and enjoy playing!
