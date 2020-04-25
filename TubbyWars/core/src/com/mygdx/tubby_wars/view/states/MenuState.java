@@ -6,7 +6,7 @@ import com.badlogic.gdx.Screen;
 public class MenuState implements State {
 
     private GameStateManager gsm;
-    Screen currentScreen;
+    private Screen currentScreen;
 
     MenuState(GameStateManager gsm) {
         this.gsm = gsm;

@@ -35,7 +35,6 @@ public class World {
         engine.addEntity(physicsEntity);
     }
 
-
     public List<Entity> createPlayers(){
         List<Entity> entities = new ArrayList<Entity>();
 
@@ -51,7 +50,6 @@ public class World {
         engine.getSystem(PlayerSystem.class).setScore(playerOneEntity,4000);
         engine.getSystem(PlayerSystem.class).setWeaponTexture(playerOneEntity, new TextureRegion(Assets.getTexture(Assets.revolverWeapon)));
 
-
         // creation of player 2
         Entity playerTwoEntity = new Entity();
         PlayerComponent playerTwoComponent = new PlayerComponent();
@@ -63,7 +61,6 @@ public class World {
         engine.getSystem(PlayerSystem.class).setUsername(playerTwoEntity,"CORONA");
         engine.getSystem(PlayerSystem.class).setScore(playerTwoEntity,1500);
         engine.getSystem(PlayerSystem.class).setWeaponTexture(playerTwoEntity, new TextureRegion(Assets.getTexture(Assets.revolverWeapon)));
-
 
         entities.add(playerOneEntity);
         entities.add(playerTwoEntity);

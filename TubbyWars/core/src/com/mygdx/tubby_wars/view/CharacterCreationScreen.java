@@ -219,9 +219,11 @@ public class CharacterCreationScreen implements Screen {
         };
     }
 
+
     private void setupAshley(){
         Engine engine = new Engine();
         World ashleyWorld = new World(engine);
+
 
         // ADDS SYSTEMS TO THE ENGINE
         engine.addSystem(new PlayerSystem());

@@ -17,20 +17,15 @@ import com.mygdx.tubby_wars.model.Assets;
 public class LoadingScreen implements Screen {
 
     private TubbyWars game;
-    private Engine engine;
 
     private float progress;
 
-    private Label loadingText;
     private Stage stage;
 
     public String type;
 
     public LoadingScreen(TubbyWars game, Engine engine){
         this.game = game;
-        this.engine = engine;
-        type = "LOADING";
-
         Assets.load();
     }
 
@@ -39,7 +34,7 @@ public class LoadingScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         this.progress = 0f;
 
-        loadingText = new Label("Loading...", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        Label loadingText = new Label("Loading...", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
         loadingText.setPosition(Gdx.graphics.getWidth()/2f - loadingText.getWidth()/2f,
                 Gdx.graphics.getHeight()/2f);
 
@@ -53,10 +48,8 @@ public class LoadingScreen implements Screen {
             dispose();
             game.gsm.changeScreen("MENU");
         }
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glClearColor(187.0f/255.0f, 231.0f/255.0f, 255.0f/255.0f, 1.0f);
-
         stage.draw();
     }
 
@@ -82,7 +75,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void dispose(){
-        //stage.dispose();
+
     }
 
 }

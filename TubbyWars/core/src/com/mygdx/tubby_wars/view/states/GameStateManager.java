@@ -6,7 +6,7 @@ import com.mygdx.tubby_wars.TubbyWars;
 import java.util.Stack;
 
 public class GameStateManager {
-    Stack<State> states;
+    private Stack<State> states;
     public TubbyWars game;
 
     public GameStateManager(TubbyWars game) {
@@ -18,11 +18,11 @@ public class GameStateManager {
         states.push(state);
     }
 
-    public void pop(){
+    private void pop(){
         states.pop();
     }
 
-    public void changeState(State state){
+    void changeState(State state){
         pop();
         states.push(state);
         System.out.println(state.toString());

@@ -37,7 +37,6 @@ public class CollisionListener implements ContactListener {
         float x = ((Bullet) bullet.getUserData()).b2Body.getLinearVelocity().x;
         float weaponDamage = playerSystem.getWeaponDamage(playerEntity);
         float damageMultiplier = ((abs(x) + 1)/10) * weaponDamage;
-
         bulletDamage(playerSystem, playerEntity, damageMultiplier);
     }
 
@@ -54,34 +53,19 @@ public class CollisionListener implements ContactListener {
         }
     }
 
-
-
     // check if either one is instance of player and bullet
     private boolean isSwitchContact(Fixture a, Fixture b) {
         if(a.getUserData() instanceof Bullet || b.getUserData() instanceof Bullet) {
-            if(b.getUserData() instanceof PlayerModel || a.getUserData() instanceof PlayerModel) {
-                return true;
-            }
+            return b.getUserData() instanceof PlayerModel || a.getUserData() instanceof PlayerModel;
         }
         return false;
     }
 
-
-
     @Override
     public void endContact(Contact contact) {
-
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
-
     }
-
-
-
-
-
-
-
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {

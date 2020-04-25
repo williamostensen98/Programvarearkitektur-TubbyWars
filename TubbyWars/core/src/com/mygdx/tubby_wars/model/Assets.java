@@ -7,6 +7,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 public class Assets {
+
+
     //Backgrounds
     public static String mainBackground = "textures/background.png"; //Background used outside gameplay
     public static String settingsBackground = "textures/settingsBackground.png"; //Background used outside gameplay
@@ -48,9 +50,9 @@ public class Assets {
     public static String lillaTubby = "textures/lillaTubby.png";
 
     //Weapons
-    public static String gunWeapon = "textures/gun.png";
-    public static String rifleWeapon = "textures/Rifle.png";
-    public static String revolverWeapon = "textures/revolver.png";
+    private static String gunWeapon = "textures/gun.png";
+    private static String rifleWeapon = "textures/Rifle.png";
+    static String revolverWeapon = "textures/revolver.png";
     public static String gunSheet = "GunsSpriteSheet.png";
 
     //Music and sounds TODO: Implement in game

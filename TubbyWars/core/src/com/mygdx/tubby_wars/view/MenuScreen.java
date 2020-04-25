@@ -38,19 +38,14 @@ public class MenuScreen implements Screen {
     public MenuScreen(TubbyWars game, Engine engine) {
         super();
         this.game = game;
-
         background = Assets.getTexture(Assets.mainBackground);
         logo = Assets.getTexture(Assets.logo);
         playB = Assets.getTexture(Assets.gameScreenButton);
         highScoreB = Assets.getTexture(Assets.highScoreButton);
         settingsB = Assets.getTexture(Assets.settingScreenButton);
-
+        click = Assets.getSound(Assets.clickSound); 
         Music music = Assets.getMusic(Assets.backgroundMusic);
         this.game.playMusic(music);
-
-        click = Assets.getSound(Assets.clickSound);
-
-        type = "MENU";
     }
 
     @Override
@@ -62,7 +57,6 @@ public class MenuScreen implements Screen {
         final Image title = new Image(logo);
         title.setSize(Gdx.graphics.getWidth()/4f,  Gdx.graphics.getHeight()/3f);
         title.setPosition(Gdx.graphics.getWidth()/2f - title.getWidth()/2f, Gdx.graphics.getHeight()/2f);
-
 
         Button settingsButton = makeButton(settingsB,4f,"SETTINGS");
         Button gameButton = makeButton(playB,2f,"CREATE");
@@ -79,7 +73,6 @@ public class MenuScreen implements Screen {
         game.getBatch().begin(); // Draw elements to Sprite Batch
         game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
         game.getBatch().end();
-
         stage.draw();
     }
 
@@ -121,6 +114,5 @@ public class MenuScreen implements Screen {
     public void dispose() {
 
     }
-
 
 }

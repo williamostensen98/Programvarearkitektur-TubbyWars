@@ -20,8 +20,8 @@ import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
 public class PlayerOne extends PlayerModel {
     public Weapon weapon;
-    public Healthbar healthbar;
-    public boolean timeToRedefine;
+    private Healthbar healthbar;
+    private boolean timeToRedefine;
 
     // ASHLEY
     private Entity playerEntity;
@@ -38,7 +38,6 @@ public class PlayerOne extends PlayerModel {
         ps = engine.getSystem(PlayerSystem.class);
         timeToRedefine = false;
         this.playerEntity = playerEntity;
-
 
         ps.initializeNewBullets(playerEntity);
         weapon = new Weapon(b2Body,-0.2f, 0.15f, ps.getWeaponTexture(playerEntity));
@@ -76,24 +75,22 @@ public class PlayerOne extends PlayerModel {
 
         if(timeToRedefine){
             redefinePlayer();
-
         }
+
         if(ps.getBullets(playerEntity).isEmpty() && !super.isPlayersTurn()){
             addBullet();
         }
-        for(Bullet b: ps.getBullets(playerEntity)){
 
+        for(Bullet b: ps.getBullets(playerEntity)){
             b.update(dt);
             if(b.isDestroyed()){
                 ps.getBullets(playerEntity).removeValue(b, true);
             }
         }
+
         setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);
         weapon.update(dt);
         healthbar.update(dt);
-
-
-
     }
 
     @Override
@@ -112,8 +109,6 @@ public class PlayerOne extends PlayerModel {
         b2Body = this.world.createBody(bdef);
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-
-        // var 0.25
         shape.setRadius(0.7f);
         fdef.shape = shape;
         fdef.friction = 0.8f;
@@ -140,7 +135,6 @@ public class PlayerOne extends PlayerModel {
     @Override
     public void setRedefine() {
         timeToRedefine = true;
-
     }
 
 }
