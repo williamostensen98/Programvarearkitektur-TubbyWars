@@ -156,8 +156,8 @@ public class HighscoreScreen implements Screen {
     private void makeButtons() {
         //Initialiserer button to get to menuScreen
         menuScreenButton = new Button(new TextureRegionDrawable(new TextureRegion(menuScreenB)));
-        menuScreenButton.setSize(Gdx.graphics.getWidth()/12f,Gdx.graphics.getHeight()/10f);
-        menuScreenButton.setPosition(Gdx.graphics.getWidth() / 6f - menuScreenButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - menuScreenButton.getHeight() / 2f);
+        menuScreenButton.setSize( Gdx.graphics.getWidth()/10f,Gdx.graphics.getHeight()/7f);
+        menuScreenButton.setPosition(Gdx.graphics.getWidth() /6f - menuScreenButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - menuScreenButton.getHeight() / 2f);
 
         menuScreenButton.addListener(new ClickListener() {
             @Override

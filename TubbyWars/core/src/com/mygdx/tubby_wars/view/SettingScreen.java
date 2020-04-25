@@ -69,19 +69,10 @@ public class SettingScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         makeMusicButtons();
 
-        //Initialize title image, logo
+        //MAKE LOGO IMAGE
         final Image logo = new Image(title);
         logo.setSize(Gdx.graphics.getWidth()/7f,  Gdx.graphics.getHeight()/5f);
         logo.setPosition(Gdx.graphics.getWidth()/2f - logo.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - logo.getHeight()/2f);
-
-       /* //Initialize text labels, musicText and soundsText
-        final Label musicText = new Label("Music", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        musicText.setPosition((Gdx.graphics.getWidth() / 3f) + (musicButton.getWidth() - musicText.getWidth())/2f, Gdx.graphics.getHeight() / 1.85f);
-        musicText.scaleBy(1.2f);
-
-        final Label soundsText = new Label("Sound effects", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        soundsText.setPosition((Gdx.graphics.getWidth() / 3f)*1.75f + (soundEffectButton.getWidth() - soundsText.getWidth())/2f, Gdx.graphics.getHeight() / 1.85f);
-        soundsText.scaleBy(1.2f);*/
 
         //MAKE BUTTONS
         Button resumeButton = makeButton(resumeGameB,84f,6f,"PLAY");
@@ -91,8 +82,6 @@ public class SettingScreen implements Screen {
         //MAKE LABELS
         Label musicText = makeLabel("Music: ", 1);
         Label soundsText = makeLabel("Sound effects: ", 1.75f);
-
-
 
         if (ControllerLogic.loggedIn) {
             stage.addActor(quitButton);
@@ -158,7 +147,7 @@ public class SettingScreen implements Screen {
 
     private Button makeButton(Texture texture, float xPos, float yPos, final String nextScreen){
         Button b = new Button(new TextureRegionDrawable(new TextureRegion(texture)));
-        b.setSize(Gdx.graphics.getWidth()/10f  ,   Gdx.graphics.getHeight()/7f);
+        b.setSize( Gdx.graphics.getWidth()/10f,Gdx.graphics.getHeight()/7f);
         b.setPosition(Gdx.graphics.getWidth() /100f* xPos - b.getWidth()/2f,Gdx.graphics.getHeight() / yPos - b.getHeight() / 2f);
         b.addListener(new ClickListener() {
             @Override
