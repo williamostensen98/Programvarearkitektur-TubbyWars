@@ -15,27 +15,14 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.tubby_wars.TubbyWars;
-import com.mygdx.tubby_wars.model.components.CourseComponent;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
-
-import java.util.List;
-
-
-/**
- * NB!! HAR LAGT INN ET FORSLAG PÅ HVORDAN VI KAN ACCESSE COMPONENTS FOR Å SE HEALTH, SCORE ETC.
- * se utkommentert kode
- * */
-
 
 public class Hud implements Disposable {
 
     // Scene2D.ui Stage and its own Viewport for HUD
     Stage stage;
-    private Viewport viewport;
 
     // Scene2D widgets
-    private Label playerOneName;
-    private Label playerTwoName;
     private Label playerOneScoreLabel;
     private Label playerTwoScoreLabel;
 
@@ -53,8 +40,7 @@ public class Hud implements Disposable {
         this.players = players;
         pm = ComponentMapper.getFor(PlayerComponent.class);
 
-        // TODO vidt and height'
-        viewport = new FitViewport(TubbyWars.WIDTH, TubbyWars.HEIGHT, new OrthographicCamera());
+        Viewport viewport = new FitViewport(TubbyWars.WIDTH, TubbyWars.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
         //define a table used to organize our hud's labels
@@ -67,8 +53,8 @@ public class Hud implements Disposable {
         playerOneScore = pm.get((Entity) players.get(0)).score;
         playerTwoScore = pm.get((Entity) players.get(1)).score;
 
-        playerOneName = new Label(pm.get((Entity) players.get(0)).playerName, new Label.LabelStyle(new BitmapFont(), Color.RED));
-        playerTwoName = new Label(pm.get((Entity) players.get(1)).playerName, new Label.LabelStyle(new BitmapFont(), Color.RED));
+        Label playerOneName = new Label(pm.get((Entity) players.get(0)).playerName, new Label.LabelStyle(new BitmapFont(), Color.RED));
+        Label playerTwoName = new Label(pm.get((Entity) players.get(1)).playerName, new Label.LabelStyle(new BitmapFont(), Color.RED));
         playerOneScoreLabel = new Label(String.valueOf(playerOneScore), new Label.LabelStyle(new BitmapFont(), Color.RED));
         playerTwoScoreLabel = new Label(String.valueOf(playerTwoScore), new Label.LabelStyle(new BitmapFont(), Color.RED));
 
@@ -82,9 +68,6 @@ public class Hud implements Disposable {
     }
 
     public void update(float dt){
-        //TODO
-        // update score here, i would like to do that through componentmapper, but think we should wait until more of the project is complete.
-        // - yours truly Håkon <3
         if(pm.get((Entity)players.get(0)).score != playerOneScore || pm.get((Entity)players.get(1)).score != playerTwoScore){
             playerOneScore = pm.get((Entity)players.get(0)).score;
             playerTwoScore = pm.get((Entity)players.get(1)).score;

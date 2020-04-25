@@ -32,9 +32,7 @@ public class PlayerOne extends PlayerModel {
 
     private Sound hitSound;
 
-    /**
-     * Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn.
-     */
+    //Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn.
     public PlayerOne(World world, TubbyWars game, float posX, float posY, Entity playerEntity, Engine engine) {
         super(world, game, posX, posY, playerEntity, engine);
         definePlayer();
@@ -54,11 +52,7 @@ public class PlayerOne extends PlayerModel {
         healthbar = new Healthbar(b2Body, playerEntity);
     }
 
-    /***
-     * Draws the Player with the superclass draw method
-     * as well as drawing the bullet(s).
-     * @param batch
-     */
+   //Draws the Player with the superclass draw method as well as drawing the bullet(s)
     @Override
     public void draw(Batch batch) {
         super.draw(batch);

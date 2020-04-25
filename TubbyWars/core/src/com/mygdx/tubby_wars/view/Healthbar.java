@@ -15,9 +15,6 @@ public class Healthbar extends Sprite {
     private int health;
     private Body body;
 
-    private Texture bar;
-    private TextureRegion region1;
-
     private Boolean healthDecrease;
 
     // ASHLEY
@@ -40,6 +37,7 @@ public class Healthbar extends Sprite {
 
         // if the health changes, draw create a new healthbar with correct health
         if(pm.get(playerEntity).health != health){
+            //Checks if player is hit
             healthDecrease = true;
             health = pm.get(playerEntity).health;
             create();
@@ -52,10 +50,10 @@ public class Healthbar extends Sprite {
         int height = 20;
         Pixmap pixmap1 = createPixmap(width, height, health);
 
-        bar = new Texture(pixmap1);
+        Texture bar = new Texture(pixmap1);
 
         // makes it so healthbar.draw(game.batch) in PlayerX will draw correctly
-        region1 = new TextureRegion(bar,0,0,150,20);
+        TextureRegion region1 = new TextureRegion(bar,0,0,150,20);
         setBounds(body.getPosition().x, body.getPosition().y + 100,1.5f, 0.2f);
         setRegion(region1);
 
@@ -73,6 +71,7 @@ public class Healthbar extends Sprite {
         return pixmap;
     }
 
+    //Used to play sound when hit. Used in PlayerOne and PlayerTwo classes
     public Boolean getHealthDecrease() {
         return healthDecrease;
     }

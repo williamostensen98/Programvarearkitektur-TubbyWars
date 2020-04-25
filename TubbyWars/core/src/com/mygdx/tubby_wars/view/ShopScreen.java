@@ -56,8 +56,6 @@ public class ShopScreen implements Screen {
     private Button gun3;
 
     // LABELS
-    private Label round;
-    private Label infoText;
     private Label usernameText;
     private Label scoreText;
     private Label gun1Label;
@@ -109,19 +107,19 @@ public class ShopScreen implements Screen {
         scoreText.setPosition(Gdx.graphics.getWidth() / 2f - scoreText.getWidth()/2f, Gdx.graphics.getHeight() /100f*66f);
 
         int num = ControllerLogic.roundCount+1;
-        round = new Label(("ROUND " + num +" OUT OF 5"),new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        Label round = new Label(("ROUND " + num +" OUT OF 5"),new Label.LabelStyle(new BitmapFont(), Color.BLACK));
         round.setFontScale(1f,1f);
         round.setPosition(Gdx.graphics.getWidth() / 2f - round.getWidth()/2f, Gdx.graphics.getHeight() /100f*63f);
 
         //player 1 choose weapon text
-        infoText = new Label("When you get a high enough score you can exchange it for a new weapon that does more damage! " +
+        Label infoText = new Label("When you get a high enough score you can exchange it for a new weapon that does more damage! " +
                 "If you do not want to buy just continue",new Label.LabelStyle(new BitmapFont(),Color.BLACK));
         infoText.setFontScale(1f,1f);
         infoText.setPosition(Gdx.graphics.getWidth() / 2f - infoText.getWidth() / 2, Gdx.graphics.getHeight() /100f*55f);
 
         makeButtons();
 
-        gun1Label = new Label("FREE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        gun1Label = new Label("500 SCORE POINTS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         gun2Label = new Label("2500 SCORE POINTS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         gun3Label = new Label("5000 SCORE POINTS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         gun1Label.setFontScale(1f,1f);
@@ -275,7 +273,7 @@ public class ShopScreen implements Screen {
             gun3Label.setColor(ps.getScore(player) >= 5000 ? Color.GREEN : Color.RED);
         }
         else{
-            gun1Label.setColor(ps.getScore(player) >= 0 ? Color.GREEN : Color.RED);
+            gun1Label.setColor(ps.getScore(player) >= 500 ? Color.GREEN : Color.RED);
             gun2Label.setColor(ps.getScore(player) >= 2500 ? Color.GREEN : Color.RED);
             gun3Label.setColor(ps.getScore(player) >= 5000 ? Color.GREEN : Color.RED);
         }
@@ -287,12 +285,12 @@ public class ShopScreen implements Screen {
             public void clicked(InputEvent inputEvent, float xpos, float ypos){
                 System.out.println(weapon + currentlyPaying);
                 game.playSound(click);
-                if (weapon==1 && ps.getScore(currentPlayer) >= 0 && ps.getWeaponDamage(currentPlayer) > 2.5){
+                if (weapon==1 && ps.getScore(currentPlayer) >= 500 && ps.getWeaponDamage(currentPlayer) > 2.5){
                     gun1.setSize(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 3.3f);
                     gun2.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
                     gun3.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
                     ps.setWeaponTexture(currentPlayer,new TextureRegion(gunSheet,14,14,100,100));
-                    currentlyPaying = 0;
+                    currentlyPaying = 500;
                     currentWeaponDamage = (float)2.4;
                 }
                 else if(weapon==2 && ps.getScore(currentPlayer) >= 2500 && ps.getWeaponDamage(currentPlayer) > 1.9) {

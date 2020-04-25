@@ -11,17 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
-import com.mygdx.tubby_wars.controller.ScreenFactory;
 import com.mygdx.tubby_wars.model.Assets;
 
 public class LoadingScreen implements Screen {
 
     private TubbyWars game;
-
     private float progress;
-
     private Stage stage;
-
     public String type;
 
     public LoadingScreen(TubbyWars game, Engine engine){
