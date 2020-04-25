@@ -15,8 +15,7 @@ public class Healthbar extends Sprite {
     private int health;
     private Body body;
 
-    private Texture bar;
-    private TextureRegion region1;
+    private Boolean healthDecrease;
 
     // ASHLEY
     private Entity playerEntity;
@@ -27,7 +26,7 @@ public class Healthbar extends Sprite {
         this.playerEntity = playerEntity;
         pm = ComponentMapper.getFor(PlayerComponent.class);
         this.health = pm.get(playerEntity).health;
-
+        healthDecrease = false;
         // creates the healthbar through pixmap
         create();
     }
@@ -38,13 +37,12 @@ public class Healthbar extends Sprite {
 
         // if the health changes, draw create a new healthbar with correct health
         if(pm.get(playerEntity).health != health){
+            //Checks if player is hit
+            healthDecrease = true;
             health = pm.get(playerEntity).health;
             create();
         }
     }
-
-
-
 
     private void create(){
 
@@ -52,16 +50,15 @@ public class Healthbar extends Sprite {
         int height = 20;
         Pixmap pixmap1 = createPixmap(width, height, health);
 
-        bar = new Texture(pixmap1);
+        Texture bar = new Texture(pixmap1);
 
         // makes it so healthbar.draw(game.batch) in PlayerX will draw correctly
-        region1 = new TextureRegion(bar,0,0,150,20);
+        TextureRegion region1 = new TextureRegion(bar,0,0,150,20);
         setBounds(body.getPosition().x, body.getPosition().y + 100,1.5f, 0.2f);
         setRegion(region1);
 
         pixmap1.dispose();
     }
-
 
     private Pixmap createPixmap(int width, int height, int health){
         Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
@@ -71,8 +68,15 @@ public class Healthbar extends Sprite {
         pixmap.setColor(Color.GREEN);
         pixmap.fillRectangle(0,0,health,height);
 
-
         return pixmap;
     }
 
+    //Used to play sound when hit. Used in PlayerOne and PlayerTwo classes
+    public Boolean getHealthDecrease() {
+        return healthDecrease;
+    }
+
+    public void setHealthDecrease() {
+        healthDecrease = false;
+    }
 }

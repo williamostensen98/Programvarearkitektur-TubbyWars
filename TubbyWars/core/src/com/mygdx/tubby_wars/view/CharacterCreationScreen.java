@@ -8,14 +8,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -25,7 +23,6 @@ import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.CourseSystem;
 import com.mygdx.tubby_wars.controller.PhysicsSystem;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
-import com.mygdx.tubby_wars.controller.ScreenFactory;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 import com.mygdx.tubby_wars.model.World;
@@ -117,7 +114,6 @@ public class CharacterCreationScreen implements Screen {
         Label leftText = makeLabel("Choose character:",Color.BLACK, 14f,1.9f);
         Label rightText = makeLabel("Choose character:",Color.BLACK, 1.85f,1.9f);
 
-        // TODO HVIS DET GÅR FIKS DISSE PÅ EN BEDRE MÅTE
         //Add actors
         stage.addActor(title);
         stage.addActor(user1Input);
@@ -148,6 +144,7 @@ public class CharacterCreationScreen implements Screen {
     private Button makeNextButton() {
         Button n = new Button(new TextureRegionDrawable(new TextureRegion(nextButtonTexture)));
         n.setSize( Gdx.graphics.getWidth()/10f,Gdx.graphics.getHeight()/7f);
+        n.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
         n.setPosition(Gdx.graphics.getWidth() / 2f - n.getWidth() / 2f, Gdx.graphics.getHeight() / 10f - n.getHeight() / 2f);
         n.addListener(new ClickListener() {
             @Override
@@ -175,7 +172,7 @@ public class CharacterCreationScreen implements Screen {
 
         TextField tf = new TextField("", style);
         tf.setSize(Gdx.graphics.getWidth()/6f, Gdx.graphics.getHeight()/15f);
-        tf.setPosition((Gdx.graphics.getWidth() / 8f) * xPos,(Gdx.graphics.getHeight() / 1.6f) - (tf.getHeight()/4f));
+        tf.setPosition((Gdx.graphics.getWidth() / 8f) * xPos,(Gdx.graphics.getHeight() / 1.6f) - (tf.getHeight()/100f*55f));
         tf.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
@@ -218,7 +215,6 @@ public class CharacterCreationScreen implements Screen {
             }
         };
     }
-
 
     private void setupAshley(){
         Engine engine = new Engine();

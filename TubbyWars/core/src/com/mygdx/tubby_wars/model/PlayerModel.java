@@ -3,6 +3,7 @@ package com.mygdx.tubby_wars.model;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -13,18 +14,18 @@ import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
 import com.mygdx.tubby_wars.view.Bullet;
-import com.mygdx.tubby_wars.view.Healthbar;
 import com.mygdx.tubby_wars.view.Weapon;
 
 public abstract class PlayerModel extends Sprite {
 
-
     protected World world;
     public Body b2Body;
-    public Weapon weapon;
     public TubbyWars game;
     protected boolean showBullet = false;
     protected float posX, posY;
+
+    //Sound
+    private Sound shotSound;
 
     // ASHLEY
     private Entity playerEntity;
@@ -42,6 +43,9 @@ public abstract class PlayerModel extends Sprite {
         // used to get variables from components
         pm = ComponentMapper.getFor(PlayerComponent.class);
         this.engine = engine;
+
+        //Shoot sound
+        shotSound = Assets.getSound(Assets.shootingSound);
     }
 
     public abstract void update(float dt);
@@ -56,8 +60,8 @@ public abstract class PlayerModel extends Sprite {
 
     public abstract Bullet getBullet();
 
-
     public void showBullet(){
+        game.playSound(shotSound); //Show bullet
         showBullet = true;
     }
     protected void hideBullet(){
@@ -76,7 +80,6 @@ public abstract class PlayerModel extends Sprite {
         return posX;
     }
 
-
     public PlayerComponent getPlayerComponent(){
         return pm.get(playerEntity);
     }
@@ -88,7 +91,4 @@ public abstract class PlayerModel extends Sprite {
     PlayerSystem getPlayerSystem(){
         return engine.getSystem(PlayerSystem.class);
     }
-
-
-
 }
