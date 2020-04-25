@@ -262,7 +262,7 @@ public class PlayScreen implements Screen {
         }
     }
 /*
-    //TODO RESET THE NEXT ROUND CORRECTLY, THIS IS JUST A TEST
+    //TODO RESET THE NEXT ROUND CORRECTLY, THIS IS JUST A TEST - La STÅ
     //TODO: Use ControllerLogic.roundCount to choose the right map (Changes for each round)
     // Quit game - reset players
     private void prepareForNextRound(){
@@ -284,8 +284,10 @@ public class PlayScreen implements Screen {
     private void createSettingsButton(){
         //Initialize button to get to SettingsScreen
         final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
-        settingsButton.setSize(75, 75);
-        settingsButton.setPosition(Gdx.graphics.getWidth()*85f/90f - settingsButton.getWidth() / 2f , Gdx.graphics.getHeight()* 75f/90f - settingsButton.getHeight() / 2f);
+
+        settingsButton.setSize(50, 50);
+        settingsButton.setPosition(Gdx.graphics.getWidth() - (settingsButton.getWidth()*2f) , Gdx.graphics.getHeight() - (settingsButton.getWidth()*2f));
+
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
