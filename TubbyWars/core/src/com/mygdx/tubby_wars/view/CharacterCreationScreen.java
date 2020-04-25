@@ -100,8 +100,7 @@ public class CharacterCreationScreen implements Screen {
         purpleTubby = makeTubbyButton(purpleT, players.get(0),2.5f);
         yellowTubby = makeTubbyButton(yellowT, players.get(1),5);
         greenTubby = makeTubbyButton(greenT, players.get(1),6.5f);
-        Button nextButton = makeNextButton(); //TODO: Change placement and size
-        //TODO: Add back button
+        Button nextButton = makeNextButton();
 
         // INPUT FIELD
         user1Input = makeInputField(1.15f);

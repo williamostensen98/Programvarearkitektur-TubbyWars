@@ -195,9 +195,10 @@ public class ShopScreen implements Screen {
                 game.gsm.changeScreen("PLAY");
             }
         });
+        
         next = new Button(new TextureRegionDrawable(new TextureRegion(nextPlayer)));
         next.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-        next.setPosition(Gdx.graphics.getWidth() / 6f * 5f - newGameButton.getWidth() / 2f, Gdx.graphics.getHeight() / 6f - newGameButton.getHeight() / 2f);
+        next.setPosition(Gdx.graphics.getWidth() / 6f * 5f - next.getWidth() / 2f, Gdx.graphics.getHeight() / 6f - next.getHeight() / 2f);
         next.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
