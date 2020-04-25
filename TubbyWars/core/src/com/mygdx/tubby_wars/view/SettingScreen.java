@@ -213,7 +213,7 @@ public class SettingScreen implements Screen {
 
         //Initialiserer resumeButton
         resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeGameB)));
-        resumeButton.setSize(100, 50);
+        resumeButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
         resumeButton.setPosition(Gdx.graphics.getWidth() / 6f*5f - resumeButton.getWidth() / 2f, Gdx.graphics.getHeight() / 6f - resumeButton.getHeight() / 2f);
         //Add click effect
         resumeButton.addListener(new ClickListener() {

@@ -70,8 +70,6 @@ public class PlayScreen implements Screen {
     private Texture settingsB;
 
     private Sound click;
-    private Sound hitSound;
-    private Sound shotSound;
 
     // ASHLEY
     private Engine engine;
@@ -136,8 +134,6 @@ public class PlayScreen implements Screen {
 
         //TODO: Implement in game
         click = Assets.getSound(Assets.clickSound);
-        hitSound = Assets.getSound(Assets.hitSound);
-        shotSound = Assets.getSound(Assets.shootingSound);
     }
 
     /**

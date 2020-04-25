@@ -18,6 +18,8 @@ public class Healthbar extends Sprite {
     private Texture bar;
     private TextureRegion region1;
 
+    private Boolean healthDecrease;
+
     // ASHLEY
     private Entity playerEntity;
     private ComponentMapper<PlayerComponent> pm;
@@ -27,7 +29,7 @@ public class Healthbar extends Sprite {
         this.playerEntity = playerEntity;
         pm = ComponentMapper.getFor(PlayerComponent.class);
         this.health = pm.get(playerEntity).health;
-
+        healthDecrease = false;
         // creates the healthbar through pixmap
         create();
     }
@@ -38,13 +40,11 @@ public class Healthbar extends Sprite {
 
         // if the health changes, draw create a new healthbar with correct health
         if(pm.get(playerEntity).health != health){
+            healthDecrease = true;
             health = pm.get(playerEntity).health;
             create();
         }
     }
-
-
-
 
     private void create(){
 
@@ -62,7 +62,6 @@ public class Healthbar extends Sprite {
         pixmap1.dispose();
     }
 
-
     private Pixmap createPixmap(int width, int height, int health){
         Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.RED);
@@ -71,8 +70,14 @@ public class Healthbar extends Sprite {
         pixmap.setColor(Color.GREEN);
         pixmap.fillRectangle(0,0,health,height);
 
-
         return pixmap;
     }
 
+    public Boolean getHealthDecrease() {
+        return healthDecrease;
+    }
+
+    public void setHealthDecrease() {
+        healthDecrease = false;
+    }
 }

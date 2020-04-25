@@ -103,7 +103,8 @@ public class CharacterCreationScreen implements Screen {
         purpleTubby = makeTubbyButton(purpleT, players.get(0),2.5f);
         yellowTubby = makeTubbyButton(yellowT, players.get(1),5);
         greenTubby = makeTubbyButton(greenT, players.get(1),6.5f);
-        Button nextButton = makeNextButton();
+        Button nextButton = makeNextButton(); //TODO: Change placement and size
+        //TODO: Add back button
 
         // INPUT FIELD
         user1Input = makeInputField(1.15f);
@@ -117,7 +118,6 @@ public class CharacterCreationScreen implements Screen {
         Label leftText = makeLabel("Choose character:",Color.BLACK, 14f,1.9f);
         Label rightText = makeLabel("Choose character:",Color.BLACK, 1.85f,1.9f);
 
-        // TODO HVIS DET GÅR FIKS DISSE PÅ EN BEDRE MÅTE
         //Add actors
         stage.addActor(title);
         stage.addActor(user1Input);
@@ -148,6 +148,7 @@ public class CharacterCreationScreen implements Screen {
     private Button makeNextButton() {
         Button n = new Button(new TextureRegionDrawable(new TextureRegion(nextButtonTexture)));
         n.setSize( Gdx.graphics.getWidth()/10f,Gdx.graphics.getHeight()/7f);
+        n.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
         n.setPosition(Gdx.graphics.getWidth() / 2f - n.getWidth() / 2f, Gdx.graphics.getHeight() / 10f - n.getHeight() / 2f);
         n.addListener(new ClickListener() {
             @Override
@@ -175,7 +176,7 @@ public class CharacterCreationScreen implements Screen {
 
         TextField tf = new TextField("", style);
         tf.setSize(Gdx.graphics.getWidth()/6f, Gdx.graphics.getHeight()/15f);
-        tf.setPosition((Gdx.graphics.getWidth() / 8f) * xPos,(Gdx.graphics.getHeight() / 1.6f) - (tf.getHeight()/4f));
+        tf.setPosition((Gdx.graphics.getWidth() / 8f) * xPos,(Gdx.graphics.getHeight() / 1.6f) - (tf.getHeight()/100f*55f));
         tf.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
@@ -218,7 +219,6 @@ public class CharacterCreationScreen implements Screen {
             }
         };
     }
-
 
     private void setupAshley(){
         Engine engine = new Engine();
