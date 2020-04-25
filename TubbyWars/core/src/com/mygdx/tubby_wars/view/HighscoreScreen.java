@@ -22,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
-import com.mygdx.tubby_wars.controller.ScreenFactory;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
@@ -48,17 +47,12 @@ public class HighscoreScreen implements Screen {
     // DISPLAY DATA
     private Stage stage;
     private Table highscoreResults;
-    private List<String> highScore;
 
     // USER DATA
     private int scorePlayerOne;
     private int scorePlayerTwo;
     private String namePlayerOne;
     private String namePlayerTwo;
-
-    // ASHLEY TOOLS TO GATHER USER DATA
-    private PlayerSystem ps;
-    private ImmutableArray players;
 
     public HighscoreScreen(TubbyWars game, Engine engine){
         super();
@@ -74,8 +68,8 @@ public class HighscoreScreen implements Screen {
 
     private void fetchUserData(){
         // Tools to help fetch user data from playerComponent through the help of playerSystem
-        ps = engine.getSystem(PlayerSystem.class);
-        players = engine.getEntities();
+        PlayerSystem ps = engine.getSystem(PlayerSystem.class);
+        ImmutableArray players = engine.getEntities();
 
         // Sets the variables to equal the value in PlayerComponent
         scorePlayerOne = ps.getScore((Entity)players.get(0));
@@ -181,7 +175,7 @@ public class HighscoreScreen implements Screen {
         style.fontColor = Color.BLACK;
 
         //Adding data to highscore list from database
-        this.highScore= this.game.backendConn.getTopTen();
+        List<String> highScore= this.game.backendConn.getTopTen();
         ArrayList<String> listpoint = new ArrayList<>();
         ArrayList<String> listname = new ArrayList<>();
         for (int i=0; i<highScore.size(); i++){

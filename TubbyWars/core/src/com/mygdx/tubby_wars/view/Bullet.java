@@ -11,14 +11,12 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
-
 public class Bullet extends Sprite {
 
     private float x,y, stateTime;
     public Body b2Body;
     private World world;
     private boolean destroyed, setToDestroy, filter;
-    private TextureRegion bulletRegion;
 
     public Bullet(float x, float y, World world, boolean filter) {
         this.x = x;
@@ -32,16 +30,12 @@ public class Bullet extends Sprite {
         defineBullet();
 
         Texture texture = new Texture("explosions.png");
-        bulletRegion = new TextureRegion(texture, 0, 0, 32, 32);
+        TextureRegion bulletRegion = new TextureRegion(texture, 0, 0, 32, 32);
         setBounds(0, 0, 0.5f, 0.5f);
         setRegion(bulletRegion);
     }
 
-    /***
-     * Checks if the bullet should be destroyed and removed from the world.
-     * If not it updates its position to follow its body.
-     * @param dt
-     */
+    //Checks if the bullet should be destroyed and removed from the world. If not it updates its position to follow its body.
     public void update(float dt){
         stateTime += dt;
         if(setToDestroy && !destroyed){
@@ -63,17 +57,12 @@ public class Bullet extends Sprite {
     }
     boolean isDestroyed(){ return destroyed;}
 
-    /***
-     * If ball is standing still after being shot it.
-     * @return
-     */
+    //If ball is standing still after being shot it.
     private boolean hasStopped(){
         return (b2Body.getLinearVelocity().x == 0 && b2Body.getLinearVelocity().y == 0) && b2Body.getPosition().x != x; // also need to add to check that it is not in start state
 }
 
-    /***
-     * Defines the bullets body and fixture and adds it to the world
-     */
+    //Defines the bullets body and fixture and adds it to the world
     private void defineBullet() {
         BodyDef bdef = new BodyDef();
         bdef.position.set(x, y);
@@ -99,10 +88,7 @@ public class Bullet extends Sprite {
         b2Body.createFixture(fdef).setUserData(this);
     }
 
-    /**
-     * Draws the bullet to the batch only if it has not been destroyed and the statetim is below 1.
-     * @param batch
-     */
+    //Draws the bullet to the batch only if it has not been destroyed and the statetim is below 1.
     public void draw(Batch batch){
         if((!destroyed || stateTime < 1)){
             super.draw(batch);

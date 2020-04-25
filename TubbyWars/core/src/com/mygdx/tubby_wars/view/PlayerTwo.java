@@ -3,6 +3,7 @@ package com.mygdx.tubby_wars.view;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -13,13 +14,13 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
+import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 import com.mygdx.tubby_wars.model.PlayerModel;
 import com.mygdx.tubby_wars.model.components.PlayerComponent;
 
 
 public class PlayerTwo extends PlayerModel {
-
 
     public Weapon weapon;
     private Healthbar healthbar;
@@ -30,9 +31,9 @@ public class PlayerTwo extends PlayerModel {
     private ComponentMapper<PlayerComponent> pm;
     private PlayerSystem ps;
 
-    /**
-     * Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn.
-     */
+    private Sound hitSound;
+
+    //Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn.
     public PlayerTwo(World world, TubbyWars game, float posX, float posY, Entity playerEntity, Engine engine) {
         super(world, game, posX, posY, playerEntity, engine);
         definePlayer();
@@ -49,14 +50,11 @@ public class PlayerTwo extends PlayerModel {
         setRegion(ps.getTextureRegion(playerEntity));
         setFlip(true, false);
 
+        hitSound = Assets.getSound(Assets.hitSound);
         healthbar = new Healthbar(b2Body, playerEntity);
     }
 
-    /***
-     * Draws the Player with the superclass draw method
-     * as well as drawing the bullet(s).
-     * @param batch
-     */
+    //Draws the Player with the superclass draw method as well as drawing the bullet(s).
     @Override
     public void draw(Batch batch) {
         super.draw(batch);
@@ -94,9 +92,11 @@ public class PlayerTwo extends PlayerModel {
         setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);
         weapon.update(dt);
         healthbar.update(dt);
+        if (healthbar.getHealthDecrease()) {
+            game.playSound(hitSound);
+            healthbar.setHealthDecrease();
+        }
     }
-
-
 
     @Override
     public void redefinePlayer() {

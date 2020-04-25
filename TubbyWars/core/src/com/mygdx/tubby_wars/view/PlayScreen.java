@@ -36,8 +36,6 @@ import com.mygdx.tubby_wars.model.ControllerLogic;
 import com.mygdx.tubby_wars.model.PlayerModel;
 
 public class PlayScreen implements Screen {
-
-
     private OrthographicCamera gameCam;
     private Viewport viewPort;
     public TubbyWars game;
@@ -45,33 +43,22 @@ public class PlayScreen implements Screen {
     private PlayerModel player1, player2;
 
     //MAP
-    private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private Box2DDebugRenderer b2dr;
 
     // MAP PROPERTIES
     private int mapPixelWidth;
-    private int mapWidth;
-    private int tilePixelWidth;
 
-    private TrajectoryActor trajectoryActor;
-    //public Physics physics;
     private Stage stage;
     private Stage settingsStage;
 
     // HUD
     private Hud hud;
-
     private InputMultiplexer inputMultiplexer;
-
     private float gameCamMaxPosition, gameCamMinPosition;
-
     private Texture settingsB;
-
     private Sound click;
-    private Sound hitSound;
-    private Sound shotSound;
 
     // ASHLEY
     private Engine engine;
@@ -104,19 +91,19 @@ public class PlayScreen implements Screen {
         settingsStage = new Stage();
 
         // INITIALIZES PHYSICS AND THE TRAJECTORYACTOR IS ADDED TO THE STAGE.
-        trajectoryActor = new TrajectoryActor(game, engine);
+        TrajectoryActor trajectoryActor = new TrajectoryActor(game, engine);
         stage.addActor(trajectoryActor);
 
         // LOADS THE MAP
-        mapLoader = new TmxMapLoader();
+        TmxMapLoader mapLoader = new TmxMapLoader();
         MapLoader loader  = new MapLoader(mapLoader);
         map = loader.getMap(ControllerLogic.roundCount);
         mapRenderer = new OrthogonalTiledMapRenderer(map, 0.01f);
 
         // MAP AND CAM/VIEW PROPERTIES
         MapProperties properties = map.getProperties();
-        mapWidth = properties.get("width", Integer.class);
-        tilePixelWidth = properties.get("tilewidth", Integer.class);
+        int mapWidth = properties.get("width", Integer.class);
+        int tilePixelWidth = properties.get("tilewidth", Integer.class);
         mapPixelWidth = mapWidth * tilePixelWidth;
         gameCamMaxPosition = mapPixelWidth / 100f - gameCam.viewportWidth / 2;
         gameCamMinPosition = gameCam.viewportWidth / 2;
@@ -130,19 +117,13 @@ public class PlayScreen implements Screen {
         world.setContactListener(new CollisionListener());
         hud = new Hud(game.batch, players);
 
-        // TODO DENNE FIKSER SETTINGSKNAPPEN, HUK AV DENNE NÅR DEN ER KLAR
         createSettingsButton();
         ControllerLogic.currentGame = this;
 
-        //TODO: Implement in game
         click = Assets.getSound(Assets.clickSound);
-        hitSound = Assets.getSound(Assets.hitSound);
-        shotSound = Assets.getSound(Assets.shootingSound);
     }
 
-    /**
-     * Called when this screen becomes the current screen for a
-     */
+    //Called when this screen becomes the current screen
     @Override
     public void show() {
         inputMultiplexer = new InputMultiplexer();
@@ -152,11 +133,7 @@ public class PlayScreen implements Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
-    /**
-     * Called when the screen should render itself.
-     *
-     * @param delta The time in seconds since the last render.
-     */
+    //Called when the screen should render itself.
     @Override
     public void render(float delta) {
         update(delta);
@@ -280,7 +257,6 @@ public class PlayScreen implements Screen {
                 || engine.getSystem(PlayerSystem.class).getHealth((Entity) players.get(1)) < 0;
     }
 
-    // TODO fix so that the settings button is clickable when playing, now the trajectory actor takes priority
     private void createSettingsButton(){
         //Initialize button to get to SettingsScreen
         final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
@@ -291,15 +267,13 @@ public class PlayScreen implements Screen {
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-        // TODO Vi bør ikke lage nye screens hele tiden tror jeg, men heller ha de lagret,
-        //  kan bli vanskelig å komme tilbake til playScreen hvis ikke.
+
         game.playSound(click);
         game.gsm.changeScreen("SETTINGS");
             }
         });
         settingsStage.addActor(settingsButton);
     }
-
 
     private boolean checkBulletPosition(PlayerModel player){
         return (player.getBullet() != null &&
@@ -342,9 +316,7 @@ public class PlayScreen implements Screen {
 
     }
 
-    /**
-     * Called when this screen should release all resources.
-     */
+    //Called when this screen should release all resources.
     @Override
     public void dispose() {
         map.dispose();

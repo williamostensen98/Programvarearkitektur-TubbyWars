@@ -20,11 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.PlayerSystem;
-import com.mygdx.tubby_wars.controller.ScreenFactory;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
-
-import java.util.List;
 
 public class ShopScreen implements Screen {
 
@@ -59,7 +56,7 @@ public class ShopScreen implements Screen {
     private Button gun3;
 
     // LABELS
-    private Label infoText;
+    private Label usernameText;
     private Label scoreText;
     private Label gun1Label;
     private Label gun2Label;
@@ -99,20 +96,30 @@ public class ShopScreen implements Screen {
         title.setSize(Gdx.graphics.getWidth()/7f,Gdx.graphics.getHeight()/5f);
         title.setPosition(Gdx.graphics.getWidth()/2f - title.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - title.getHeight()/2f);
 
+        //Player 1 username text
+        usernameText = new Label("USER: " + ps.getUsername((Entity)players.get(0)),new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        usernameText.setFontScale(1f,1f);
+        usernameText.setPosition(Gdx.graphics.getWidth() / 2f - usernameText.getWidth()/2f, Gdx.graphics.getHeight() /100f*69f);
+
         //Player 1 score text
-        scoreText = new Label(ps.getUsername((Entity)players.get(0)) + ": " + ps.getScore((Entity)players.get(0)) + " SCORE POINTS",new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
-        scoreText.setFontScale(1.5f,1.2f);
-        scoreText.setPosition(Gdx.graphics.getWidth() / 2f - scoreText.getWidth() / 2, Gdx.graphics.getHeight() /100f*69f);
+        scoreText = new Label("SCORE POINTS: " + ps.getScore((Entity)players.get(0)),new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
+        scoreText.setFontScale(1f,1f);
+        scoreText.setPosition(Gdx.graphics.getWidth() / 2f - scoreText.getWidth()/2f, Gdx.graphics.getHeight() /100f*66f);
+
+        int num = ControllerLogic.roundCount+1;
+        Label round = new Label(("ROUND " + num +" OUT OF 5"),new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        round.setFontScale(1f,1f);
+        round.setPosition(Gdx.graphics.getWidth() / 2f - round.getWidth()/2f, Gdx.graphics.getHeight() /100f*63f);
 
         //player 1 choose weapon text
-        infoText = new Label(ps.getUsername((Entity)players.get(0)) + " you can now exchange score for a new weapon!",new Label.LabelStyle(new BitmapFont(),Color.BLACK));
+        Label infoText = new Label("When you get a high enough score you can exchange it for a new weapon that does more damage! " +
+                "If you do not want to buy just continue",new Label.LabelStyle(new BitmapFont(),Color.BLACK));
         infoText.setFontScale(1f,1f);
         infoText.setPosition(Gdx.graphics.getWidth() / 2f - infoText.getWidth() / 2, Gdx.graphics.getHeight() /100f*55f);
 
-
         makeButtons();
 
-        gun1Label = new Label("1000 SCORE POINTS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        gun1Label = new Label("500 SCORE POINTS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         gun2Label = new Label("2500 SCORE POINTS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         gun3Label = new Label("5000 SCORE POINTS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         gun1Label.setFontScale(1f,1f);
@@ -125,11 +132,11 @@ public class ShopScreen implements Screen {
 
         // player 1 stage
         stage.addActor(title);
+        stage.addActor(round);
+        stage.addActor(scoreText);
+        stage.addActor(usernameText);
         stage.addActor(infoText);
 
-        if (ControllerLogic.roundCount != 0) {
-            stage.addActor(quitButton);
-        }
         stage.addActor(quitButton);
         stage.addActor(scoreText);
         stage.addActor(next);
@@ -188,9 +195,10 @@ public class ShopScreen implements Screen {
                 game.gsm.changeScreen("PLAY");
             }
         });
+        
         next = new Button(new TextureRegionDrawable(new TextureRegion(nextPlayer)));
         next.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-        next.setPosition(Gdx.graphics.getWidth() / 6f * 5f - newGameButton.getWidth() / 2f, Gdx.graphics.getHeight() / 6f - newGameButton.getHeight() / 2f);
+        next.setPosition(Gdx.graphics.getWidth() / 6f * 5f - next.getWidth() / 2f, Gdx.graphics.getHeight() / 6f - next.getHeight() / 2f);
         next.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
@@ -206,9 +214,8 @@ public class ShopScreen implements Screen {
                 currentWeaponDamage = 0;
                 currentPlayer = (Entity) players.get(1);
 
-                //player 2 chooses weapon text
-                scoreText.setText(ps.getUsername((Entity) players.get(1)) + ": " + ps.getScore((Entity)players.get(1)) + " SCORE POINTS!");
-                infoText.setText(ps.getUsername((Entity) players.get(1)) + " you can now exchange score for a new weapon!");
+                usernameText.setText("USER: " + ps.getUsername((Entity)players.get(1)));
+                scoreText.setText("SCORE POINTS: " + ps.getScore((Entity)players.get(1)));
                 stage.addActor(newGameButton);
                 updateColors((Entity) players.get(1));
                 next.remove();
@@ -248,7 +255,6 @@ public class ShopScreen implements Screen {
         gun3.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
         gun3.setPosition(Gdx.graphics.getWidth() / 3f * 2f, Gdx.graphics.getHeight() / 100f*40f - gun3.getHeight() / 2f);
         gun3.addListener(clickListener(3));
-
     }
 
     private void updateColors(Entity player){
@@ -268,7 +274,7 @@ public class ShopScreen implements Screen {
             gun3Label.setColor(ps.getScore(player) >= 5000 ? Color.GREEN : Color.RED);
         }
         else{
-            gun1Label.setColor(ps.getScore(player) >= 1000 ? Color.GREEN : Color.RED);
+            gun1Label.setColor(ps.getScore(player) >= 500 ? Color.GREEN : Color.RED);
             gun2Label.setColor(ps.getScore(player) >= 2500 ? Color.GREEN : Color.RED);
             gun3Label.setColor(ps.getScore(player) >= 5000 ? Color.GREEN : Color.RED);
         }
@@ -278,15 +284,15 @@ public class ShopScreen implements Screen {
         return new ClickListener(){
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos){
+                System.out.println(weapon + currentlyPaying);
                 game.playSound(click);
-                if (weapon==1 && ps.getScore(currentPlayer) >= 1000 && ps.getWeaponDamage(currentPlayer) > 2.5){
+                if (weapon==1 && ps.getScore(currentPlayer) >= 500 && ps.getWeaponDamage(currentPlayer) > 2.5){
                     gun1.setSize(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 3.3f);
                     gun2.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
                     gun3.setSize(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 5f);
                     ps.setWeaponTexture(currentPlayer,new TextureRegion(gunSheet,14,14,100,100));
-                    currentlyPaying = 1000;
+                    currentlyPaying = 500;
                     currentWeaponDamage = (float)2.4;
-
                 }
                 else if(weapon==2 && ps.getScore(currentPlayer) >= 2500 && ps.getWeaponDamage(currentPlayer) > 1.9) {
                     gun2.setSize(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 3.3f);
@@ -307,6 +313,7 @@ public class ShopScreen implements Screen {
             }
         };
     }
+
     @Override
     //Disposes the stage and all textures.
     public void dispose(){

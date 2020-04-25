@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.tubby_wars.TubbyWars;
-import com.mygdx.tubby_wars.controller.ScreenFactory;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
@@ -213,7 +212,7 @@ public class SettingScreen implements Screen {
 
         //Initialiserer resumeButton
         resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeGameB)));
-        resumeButton.setSize(100, 50);
+        resumeButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
         resumeButton.setPosition(Gdx.graphics.getWidth() / 6f*5f - resumeButton.getWidth() / 2f, Gdx.graphics.getHeight() / 6f - resumeButton.getHeight() / 2f);
         //Add click effect
         resumeButton.addListener(new ClickListener() {
