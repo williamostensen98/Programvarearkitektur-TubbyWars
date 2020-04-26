@@ -45,7 +45,6 @@ public class PlayScreen implements Screen {
     //MAP
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
-    private Box2DDebugRenderer b2dr;
 
     // MAP PROPERTIES
     private int mapPixelWidth;
@@ -108,9 +107,8 @@ public class PlayScreen implements Screen {
         gameCamMaxPosition = mapPixelWidth / 100f - gameCam.viewportWidth / 2;
         gameCamMinPosition = gameCam.viewportWidth / 2;
 
-        player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 1.2f, (Entity) players.get(0), engine);
-        player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 1.2f, (Entity) players.get(1), engine);
-        player2.flip(true,false);
+        player1 = new PlayerOne(world,viewPort.getWorldWidth() / 2  , 1.2f, (Entity) players.get(0), engine);
+        player2 = new PlayerTwo(world, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 1.2f, (Entity) players.get(1), engine);
         physicsSystem.setPlayer(physicsEntity, player1);
 
         // Contact listener
@@ -192,7 +190,6 @@ public class PlayScreen implements Screen {
 
         }
 
-        //TODO Needs cleaning
         if(ControllerLogic.isPlayersTurn){
             physicsSystem.setPlayer(physicsEntity, player2);
 
@@ -227,7 +224,6 @@ public class PlayScreen implements Screen {
             }
         }
 
-        // TODO set players turn to the player with lowest score
         if(isRoundOver()){
             if (ControllerLogic.roundCount == 5) {
                 game.gsm.changeScreen("HIGHSCORE");
@@ -317,7 +313,6 @@ public class PlayScreen implements Screen {
         map.dispose();
         mapRenderer.dispose();
         world.dispose();
-        b2dr.dispose();
         hud.dispose();
     }
 }

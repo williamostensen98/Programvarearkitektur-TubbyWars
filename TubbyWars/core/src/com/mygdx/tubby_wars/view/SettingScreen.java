@@ -20,6 +20,8 @@ import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
+import javax.naming.ldap.Control;
+
 
 public class SettingScreen implements Screen {
 
@@ -75,9 +77,9 @@ public class SettingScreen implements Screen {
         logo.setPosition(Gdx.graphics.getWidth()/2f - logo.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - logo.getHeight()/2f);
 
         //MAKE BUTTONS
-        Button resumeButton = makeButton(resumeGameB,84f,6f,"PLAY");
-        Button quitButton = makeButton(quitGameB,17f,6f,"MENU");
-        Button menuButton = makeButton(menuScreenB,17f,6f,"MENU");
+        Button resumeButton = makeButton(resumeGameB,84f,6f,"PLAY", "resume");
+        Button quitButton = makeButton(quitGameB,17f,6f,"MENU", "quit");
+        Button menuButton = makeButton(menuScreenB,17f,6f,"MENU","menu");
 
         //MAKE LABELS
         Label musicText = makeLabel("Music: ", 1);
@@ -145,7 +147,7 @@ public class SettingScreen implements Screen {
         return l;
     }
 
-    private Button makeButton(Texture texture, float xPos, float yPos, final String nextScreen){
+    private Button makeButton(Texture texture, float xPos, float yPos, final String nextScreen, final String type){
         Button b = new Button(new TextureRegionDrawable(new TextureRegion(texture)));
         b.setSize( Gdx.graphics.getWidth()/10f,Gdx.graphics.getHeight()/7f);
         b.setPosition(Gdx.graphics.getWidth() /100f* xPos - b.getWidth()/2f,Gdx.graphics.getHeight() / yPos - b.getHeight() / 2f);
@@ -153,6 +155,11 @@ public class SettingScreen implements Screen {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
+                if(type.equalsIgnoreCase("quit")){
+                    ControllerLogic.loggedIn=false;
+                    ControllerLogic.isPlayersTurn = false;
+                    ControllerLogic.roundCount = 0;
+                }
                 game.gsm.changeScreen(nextScreen);
             }
         });

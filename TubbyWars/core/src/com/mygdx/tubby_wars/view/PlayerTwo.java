@@ -34,8 +34,8 @@ public class PlayerTwo extends PlayerModel {
     private Sound hitSound;
 
     //Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn.
-    public PlayerTwo(World world, TubbyWars game, float posX, float posY, Entity playerEntity, Engine engine) {
-        super(world, game, posX, posY, playerEntity, engine);
+    public PlayerTwo(World world, float posX, float posY, Entity playerEntity, Engine engine) {
+        super(world, posX, posY, playerEntity, engine);
         definePlayer();
         ps = engine.getSystem(PlayerSystem.class);
         timeToRedefine = false;
@@ -49,6 +49,7 @@ public class PlayerTwo extends PlayerModel {
         setBounds(0, 0, 1f, 1.4f);
         setRegion(ps.getTextureRegion(playerEntity));
         setFlip(true, false);
+        flip(true,false);
 
         hitSound = Assets.getSound(Assets.hitSound);
         healthbar = new Healthbar(b2Body, playerEntity);

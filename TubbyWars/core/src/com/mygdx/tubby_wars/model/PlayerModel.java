@@ -20,7 +20,6 @@ public abstract class PlayerModel extends Sprite {
 
     protected World world;
     public Body b2Body;
-    public TubbyWars game;
     protected boolean showBullet = false;
     protected float posX, posY;
 
@@ -31,10 +30,10 @@ public abstract class PlayerModel extends Sprite {
     private Entity playerEntity;
     private ComponentMapper<PlayerComponent> pm;
     private Engine engine;
+    public TubbyWars game = TubbyWars.getInstance();
 
-    public PlayerModel(World world, TubbyWars game, float posX, float posY, Entity playerEntity, Engine engine) {
+    public PlayerModel(World world, float posX, float posY, Entity playerEntity, Engine engine) {
         this.world = world;
-        this.game = game;
         this.posX = posX;
         this.posY = posY;
 
