@@ -16,7 +16,12 @@ public class ScreenFactory {
     public TubbyWars game = TubbyWars.getInstance();
     public Engine engine;
 
-
+    /***
+     * THis is a Factory method pattern. All creation of screen objects is handled in this method.
+     * The screens are created and return based on the screen type given.
+     * @param screenType: String with the type of screen to return.
+     * @return: new instance of a screen product.
+     */
     public Screen getScreen(String screenType){
         switch (screenType){
             case "LOADING":

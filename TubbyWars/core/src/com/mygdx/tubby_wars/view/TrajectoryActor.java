@@ -18,6 +18,12 @@ public class TrajectoryActor extends Actor {
     private PhysicsSystem physicsSystem;
     private Entity physicsEntity;
 
+    /**
+     * This class takes care of drawing the actual trajectory path when shooting
+     * based on the calculated path in the physics system
+     * @param game: Game application
+     * @param engine: Ashley engine
+     */
     TrajectoryActor(TubbyWars game, Engine engine) {
         this.game = game;
         physicsSystem = engine.getSystem(PhysicsSystem.class);

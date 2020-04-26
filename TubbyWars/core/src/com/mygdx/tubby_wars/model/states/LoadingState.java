@@ -1,10 +1,7 @@
 package com.mygdx.tubby_wars.model.states;
 
 import com.badlogic.gdx.Screen;
-
 import com.mygdx.tubby_wars.TubbyWars;
-import com.mygdx.tubby_wars.controller.ScreenFactory;
-
 
 public class LoadingState implements State{
 
@@ -13,6 +10,11 @@ public class LoadingState implements State{
     private Screen currentScreen;
     private TubbyWars game = TubbyWars.getInstance();
 
+    /***
+     * All methods in this class is descirbed in the State interface
+     * This state renderes the loading screen and changes when all assets has been fully loaded.
+     * @param gsm: Game state manager
+     */
     public LoadingState(GameStateManager gsm) {
         this.gsm = gsm;
         currentScreen = game.screenFactory.getScreen("LOADING");

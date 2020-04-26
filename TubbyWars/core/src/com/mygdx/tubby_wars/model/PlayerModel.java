@@ -32,6 +32,17 @@ public abstract class PlayerModel extends Sprite {
     private Engine engine;
     public TubbyWars game = TubbyWars.getInstance();
 
+    /***
+     * This class is a super class for the different players which inherits the methods and parameters
+     * from this.
+     * Contains the different player logic.
+     * Abstract methods are implemented in the two Player classes.
+     * @param world: Game world (Box2D)
+     * @param posX: x coordinate of the position of the player
+     * @param posY: y coordinate of the position of the player
+     * @param playerEntity: Entity of the player
+     * @param engine: Ashley engine
+     */
     public PlayerModel(World world, float posX, float posY, Entity playerEntity, Engine engine) {
         this.world = world;
         this.posX = posX;

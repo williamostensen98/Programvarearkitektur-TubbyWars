@@ -10,6 +10,13 @@ public class Weapon extends Sprite {
     private float posX, posY;
     private Body body;
 
+    /**
+     * Contains and draws the weapon of the players
+     * @param body: Body of related player
+     * @param posX: x position to place the weapon in relation with players position
+     * @param posY: y position to place the weapon in relation with players position
+     * @param weaponTexture: Texture of the weapon used.
+     */
     Weapon(Body body, float posX, float posY, TextureRegion weaponTexture) {
         this.body = body;
         this.posX = posX;

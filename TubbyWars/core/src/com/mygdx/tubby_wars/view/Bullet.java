@@ -19,6 +19,13 @@ public class Bullet extends Sprite {
     private World world;
     private boolean destroyed, setToDestroy, filter;
 
+    /***
+     * Defines the body of the bullets as well as the logic
+     * @param x : x position of the bullet
+     * @param y: y positions of the bullet
+     * @param world: game world
+     * @param filter: whether to filter collision on player 1 or two.
+     */
     public Bullet(float x, float y, World world, boolean filter) {
         this.x = x;
         this.y = y;
