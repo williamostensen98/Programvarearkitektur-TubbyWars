@@ -261,7 +261,7 @@ public class PlayScreen implements Screen {
         //Initialize button to get to SettingsScreen
         final Button settingsButton = new Button(new TextureRegionDrawable(new TextureRegion(settingsB)));
 
-        settingsButton.setSize(50, 50);
+        settingsButton.setSize(Gdx.graphics.getWidth()/25f, Gdx.graphics.getWidth()/25f);
         settingsButton.setPosition(Gdx.graphics.getWidth() - (settingsButton.getWidth()*2f) , Gdx.graphics.getHeight() - (settingsButton.getWidth()*2f));
 
         settingsButton.addListener(new ClickListener() {
