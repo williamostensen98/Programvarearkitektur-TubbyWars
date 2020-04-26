@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
 public class Bullet extends Sprite {
@@ -29,7 +30,7 @@ public class Bullet extends Sprite {
 
         defineBullet();
 
-        Texture texture = new Texture("explosions.png");
+        Texture texture = Assets.getTexture(Assets.bullet);
         TextureRegion bulletRegion = new TextureRegion(texture, 0, 0, 32, 32);
         setBounds(0, 0, 0.5f, 0.5f);
         setRegion(bulletRegion);

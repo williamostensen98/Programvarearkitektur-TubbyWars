@@ -10,61 +10,64 @@ public class Assets {
 
 
     //Backgrounds
-    public static String mainBackground = "textures/background.png"; //Background used outside gameplay
-    public static String settingsBackground = "textures/settingsBackground.png"; //Background used outside gameplay
-    public static String characterBackground = "textures/characterBackground.png"; //Background used in CharacherCreationScreen
-    public static String shopBackground = "textures/shopBackground.png"; //Background used in shopScreen
-    public static String highscoreBackground = "textures/highscoreBackground.png"; //Background used in HighScoreScreen
+    public static String mainBackground = "textures/backgrounds/background.png"; //Background used outside gameplay
+    public static String settingsBackground = "textures/backgrounds/settingsBackground.png"; //Background used outside gameplay
+    public static String characterBackground = "textures/backgrounds/characterBackground.png"; //Background used in CharacherCreationScreen
+    public static String shopBackground = "textures/backgrounds/shopBackground.png"; //Background used in shopScreen
+    public static String highscoreBackground = "textures/backgrounds/highscoreBackground.png"; //Background used in HighScoreScreen
 
     //TextField
-    public static String textFieldBackground = "textures/textfield.png"; //Used to make TextField visible
+    public static String textFieldBackground = "textures/backgrounds/textfield.png"; //Used to make TextField visible
 
     //Buttons in MenuScreen
-    public static String highScoreButton = "textures/highscoreButton.png"; //Go to HighScoreScreen
-    public static String settingScreenButton = "textures/settingsButton.png"; //Go to SettingScreen
-    public static String gameScreenButton = "textures/play.png"; //Go to Game screen
+    public static String highScoreButton = "textures/buttons/highscoreButton.png"; //Go to HighScoreScreen
+    public static String settingScreenButton = "textures/buttons/settingsButton.png"; //Go to SettingScreen
+    public static String gameScreenButton = "textures/buttons/play.png"; //Go to Game screen
 
     //Buttons for navigation
-    public static String menuScreenButton = "textures/backButton.png"; //Used in SettingsScreen and HighScoreScreen to go to MenuScreen
-    public static String newGameButton = "textures/playGameButton.png"; // Used in HighscoreScreen to go to ShopScreen
-    public static String pauseGameButton = "textures/pauseButton.png"; //Used in GameScreen to go to SettingScreen
-    public static String settingSignButton = "textures/innstillingerButton.png"; //Used in GameScreen to go to SettingScreen
-    public static String continueGameButton = "textures/continueGameButton.png"; //Used in SettingScreen to go to GameScreen
-    public static String quitGameButton = "textures/quitGameButton.png"; //Used in SettingScreen to go to MenuScreen
+    public static String menuScreenButton = "textures/buttons/backButton.png"; //Used in SettingsScreen and HighScoreScreen to go to MenuScreen
+    public static String newGameButton = "textures/buttons/playGameButton.png"; // Used in HighscoreScreen to go to ShopScreen
+    public static String pauseGameButton = "textures/buttons/pauseButton.png"; //Used in GameScreen to go to SettingScreen
+    public static String settingSignButton = "textures/buttons/innstillingerButton.png"; //Used in GameScreen to go to SettingScreen
+    public static String continueGameButton = "textures/buttons/continueGameButton.png"; //Used in SettingScreen to go to GameScreen
+    public static String quitGameButton = "textures/buttons/quitGameButton.png"; //Used in SettingScreen to go to MenuScreen
 
     //Sound buttons
-    public static String soundOnButton = "textures/soundOn.png";
-    public static String soundOffButton = "textures/soundOff.png";
+    public static String soundOnButton = "textures/buttons/soundOn.png";
+    public static String soundOffButton = "textures/buttons/soundOff.png";
 
     //Text titles for pages
-    public static String logo = "textures/logo.png"; //Logo for game
-    public static String settingsTitle =  "textures/settings.png"; //Title for settings page
-    public static String shopTitle =  "textures/shop.png"; //Title for shop page
-    public static String highscoreTitle =  "textures/HighscoreLogo.png"; //Title for highscore page
-    public static String characterTitle = "textures/characterLogo.png"; //"Registrer brukernavn"
+    public static String logo = "textures/logos/logo.png"; //Logo for game
+    public static String settingsTitle =  "textures/logos/settings.png"; //Title for settings page
+    public static String shopTitle =  "textures/logos/shop.png"; //Title for shop page
+    public static String highscoreTitle =  "textures/logos/HighscoreLogo.png"; //Title for highscore page
+    public static String characterTitle = "textures/logos/characterLogo.png"; //"Registrer brukernavn"
 
     //Sprites
-    public static String gulTubby = "textures/gulTubby.png";
-    public static String gronnTubby = "textures/gronnTubby.png";
-    public static String rodTubby = "textures/rodTubby.png";
-    public static String lillaTubby = "textures/lillaTubby.png";
+    public static String gulTubby = "textures/tubbies/gulTubby.png";
+    public static String gronnTubby = "textures/tubbies/gronnTubby.png";
+    public static String rodTubby = "textures/tubbies/rodTubby.png";
+    public static String lillaTubby = "textures/tubbies/lillaTubby.png";
 
     //Weapons
-    private static String gunWeapon = "textures/gun.png";
-    private static String rifleWeapon = "textures/Rifle.png";
-    static String revolverWeapon = "textures/revolver.png";
-    public static String gunSheet = "GunsSpriteSheet.png";
+    public static String revolverWeapon = "textures/weapons/revolver.png";
+    public static String gunSheet = "textures/weapons/GunsSpriteSheet.png";
+    public static String bullet = "textures/weapons/explosions.png";
 
-    //Music and sounds TODO: Implement in game
+    //Music and sounds
     public static String backgroundMusic = "music/music.mp3";
     public static String shootingSound = "music/Shotgun-sound.mp3"; //When shooting weapon
     public static String hitSound = "music/Cartoon-game-ending.mp3"; //When player is hit by opponent
     public static String clickSound = "music/Mouse-click-sound.mp3"; //When clicking on button
 
-    //Maps TODO: UPDATE TO THE ONCE HÅKON MADE
-   // public static String firstMap = "map2.tmx";
-   // public static String secontMap = "map3.tmx";
-   // public static String thirdMap = "map2.tmx";
+    //Maps
+    public static String map1 = "maps/tubbymap3.tmx";
+    public static String map2 = "maps/tubbymap2.tmx";
+    public static String map3 = "maps/tubbymap1.tmx";
+    public static String map4 = "maps/tubbymap5.tmx";
+    public static String map5 = "maps/tubbymap4.tmx";
+
+    public static String trajectory = "textures/weapons/white-circle.png";
 
     private static AssetManager assetManager;
 
@@ -118,10 +121,9 @@ public class Assets {
         assetManager.load(lillaTubby, Texture.class);
 
         //Weapons
-        assetManager.load(gunWeapon, Texture.class);
-        assetManager.load(rifleWeapon, Texture.class);
         assetManager.load(revolverWeapon, Texture.class);
         assetManager.load(gunSheet, Texture.class);
+        assetManager.load(bullet, Texture.class);
 
         //Music and sounds
         assetManager.load(backgroundMusic, Music.class);
@@ -129,10 +131,17 @@ public class Assets {
         assetManager.load(hitSound, Sound.class);
         assetManager.load(clickSound, Sound.class);
 
+        assetManager.load(trajectory, Texture.class);
+
         //Maps
-        //assetManager.load(firstMap, Sound.class);
-        //assetManager.load(secontMap, Sound.class);
-        //assetManager.load(thirdMap, Sound.class);
+        /*
+        assetManager.load(map1, TiledMap.class);
+        assetManager.load(map2, TiledMap.class);
+        assetManager.load(map3, TiledMap.class);
+        assetManager.load(map4, TiledMap.class);
+        assetManager.load(map5, TiledMap.class);
+
+         */
     }
 
     public static boolean update(){

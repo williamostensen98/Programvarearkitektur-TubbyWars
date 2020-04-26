@@ -1,6 +1,4 @@
-package com.mygdx.tubby_wars.view.states;
-
-import com.badlogic.gdx.Screen;
+package com.mygdx.tubby_wars.model.states;
 
 public interface State {
 

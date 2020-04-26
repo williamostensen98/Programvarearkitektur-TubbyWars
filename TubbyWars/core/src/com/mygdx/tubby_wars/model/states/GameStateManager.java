@@ -1,6 +1,5 @@
-package com.mygdx.tubby_wars.view.states;
+package com.mygdx.tubby_wars.model.states;
 
-import com.badlogic.gdx.Screen;
 import com.mygdx.tubby_wars.TubbyWars;
 
 import java.util.Stack;
