@@ -7,11 +7,9 @@ import java.util.Stack;
 
 public class GameStateManager {
     private Stack<State> states;
-    public TubbyWars game;
 
-    public GameStateManager(TubbyWars game) {
+    public GameStateManager() {
         states  = new Stack<>();
-        this.game = game;
     }
 
     public void push(State state){

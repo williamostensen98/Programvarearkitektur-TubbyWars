@@ -13,17 +13,9 @@ import com.mygdx.tubby_wars.view.ShopScreen;
 
 public class ScreenFactory {
 
-    public TubbyWars game;
+    public TubbyWars game = TubbyWars.getInstance();
     public Engine engine;
 
-    public ScreenFactory(TubbyWars game, Engine engine) {
-        this.game = game;
-        this.engine = engine;
-    }
-
-    public void setEngine(Engine engine){
-        this.engine = engine;
-    }
 
     public Screen getScreen(String screenType){
         switch (screenType){
@@ -55,5 +47,9 @@ public class ScreenFactory {
             default:
                 return null;
         }
+    }
+
+    public void setEngine(Engine engine){
+        this.engine = engine;
     }
 }

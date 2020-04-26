@@ -45,7 +45,6 @@ public class PlayScreen implements Screen {
     //MAP
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
-    private Box2DDebugRenderer b2dr;
 
     // MAP PROPERTIES
     private int mapPixelWidth;
@@ -108,9 +107,8 @@ public class PlayScreen implements Screen {
         gameCamMaxPosition = mapPixelWidth / 100f - gameCam.viewportWidth / 2;
         gameCamMinPosition = gameCam.viewportWidth / 2;
 
-        player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 1.2f, (Entity) players.get(0), engine);
-        player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 1.2f, (Entity) players.get(1), engine);
-        player2.flip(true,false);
+        player1 = new PlayerOne(world,viewPort.getWorldWidth() / 2  , 1.2f, (Entity) players.get(0), engine);
+        player2 = new PlayerTwo(world, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 1.2f, (Entity) players.get(1), engine);
         physicsSystem.setPlayer(physicsEntity, player1);
 
         // Contact listener
@@ -184,13 +182,14 @@ public class PlayScreen implements Screen {
             System.out.println("Turn changed to player 1");
             ControllerLogic.isPlayersTurn = false;
 
+
         }
         else if(!ControllerLogic.isPlayersTurn && player1.getBullet() == null){
             System.out.println("Turn changed to player 2");
             ControllerLogic.isPlayersTurn = true;
+
         }
 
-        //TODO Needs cleaning
         if(ControllerLogic.isPlayersTurn){
             physicsSystem.setPlayer(physicsEntity, player2);
 
@@ -225,7 +224,6 @@ public class PlayScreen implements Screen {
             }
         }
 
-        // TODO set players turn to the player with lowest score
         if(isRoundOver()){
             if (ControllerLogic.roundCount == 5) {
                 game.gsm.changeScreen("HIGHSCORE");
@@ -234,24 +232,17 @@ public class PlayScreen implements Screen {
             else {
                 ps.setHealth((Entity)players.get(0),150);
                 ps.setHealth((Entity)players.get(1),150);
+                setTurn();
                 game.gsm.changeScreen("SHOP");
             }
         }
     }
-/*
-    //TODO RESET THE NEXT ROUND CORRECTLY, THIS IS JUST A TEST - La STÅ
-    //TODO: Use ControllerLogic.roundCount to choose the right map (Changes for each round)
-    // Quit game - reset players
-    private void prepareForNextRound(){
-        player1 = new PlayerOne(world, game,viewPort.getWorldWidth() / 2  , 0.64f, players.get(0), engine);
-        player2 = new PlayerTwo(world, game, viewPort.getWorldWidth() / 2 + 3f , 0.64f, players.get(1), engine);
-        // player2 = new PlayerTwo(world, game, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 0.64f, players.get(1), engine);
 
-        engine.getSystem(PlayerSystem.class).setHealth(players.get(0),150);
-        engine.getSystem(PlayerSystem.class).setHealth(players.get(1),150);
+    private void setTurn(){
+        float score1 = ps.getScore((Entity)players.get(0));
+        float score2 = ps.getScore((Entity)players.get(1));
+        ControllerLogic.isPlayersTurn = score1 > score2;
     }
-
- */
     private boolean isRoundOver(){
         return engine.getSystem(PlayerSystem.class).getHealth((Entity) players.get(0)) < 0
                 || engine.getSystem(PlayerSystem.class).getHealth((Entity) players.get(1)) < 0;
@@ -322,7 +313,6 @@ public class PlayScreen implements Screen {
         map.dispose();
         mapRenderer.dispose();
         world.dispose();
-        b2dr.dispose();
         hud.dispose();
     }
 }

@@ -8,6 +8,6 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.height =576;
         config.width = 1280;
-		new LwjglApplication(new TubbyWars(new connection()), config);
+		new LwjglApplication(TubbyWars.getInstance(new connection()), config);
 	}
 }
