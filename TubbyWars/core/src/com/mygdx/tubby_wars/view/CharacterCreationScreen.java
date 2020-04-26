@@ -144,8 +144,7 @@ public class CharacterCreationScreen implements Screen {
     private Button makeNextButton() {
         Button n = new Button(new TextureRegionDrawable(new TextureRegion(nextButtonTexture)));
         n.setSize( Gdx.graphics.getWidth()/10f,Gdx.graphics.getHeight()/7f);
-        n.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-        n.setPosition(Gdx.graphics.getWidth() / 2f - n.getWidth() / 2f, Gdx.graphics.getHeight() / 10f - n.getHeight() / 2f);
+        n.setPosition(Gdx.graphics.getWidth() / 6f*5f - n.getWidth() / 2f, Gdx.graphics.getHeight() / 10f - n.getHeight() / 2f);
         n.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {

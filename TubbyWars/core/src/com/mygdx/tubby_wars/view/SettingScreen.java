@@ -67,23 +67,21 @@ public class SettingScreen implements Screen {
     public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        makeButtons();
+        makeMusicButtons();
 
-        //Initialize title image, logo
+        //MAKE LOGO IMAGE
         final Image logo = new Image(title);
         logo.setSize(Gdx.graphics.getWidth()/7f,  Gdx.graphics.getHeight()/5f);
         logo.setPosition(Gdx.graphics.getWidth()/2f - logo.getWidth()/2f, Gdx.graphics.getHeight()/8f*7f - logo.getHeight()/2f);
 
-        //Initialize text labels, musicText and soundsText
-        final Label musicText = new Label("Music", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        musicText.setPosition((Gdx.graphics.getWidth() / 3f) + (musicButton.getWidth() - musicText.getWidth())/2f, Gdx.graphics.getHeight() / 1.85f);
-        musicText.scaleBy(1.2f);
+        //MAKE BUTTONS
+        Button resumeButton = makeButton(resumeGameB,84f,6f,"PLAY");
+        Button quitButton = makeButton(quitGameB,17f,6f,"MENU");
+        Button menuButton = makeButton(menuScreenB,17f,6f,"MENU");
 
-        final Label soundsText = new Label("Sound effects", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        soundsText.setPosition((Gdx.graphics.getWidth() / 3f)*1.75f + (soundEffectButton.getWidth() - soundsText.getWidth())/2f, Gdx.graphics.getHeight() / 1.85f);
-        soundsText.scaleBy(1.2f);
-
-
+        //MAKE LABELS
+        Label musicText = makeLabel("Music: ", 1);
+        Label soundsText = makeLabel("Sound effects: ", 1.75f);
 
         if (ControllerLogic.loggedIn) {
             stage.addActor(quitButton);
@@ -108,29 +106,23 @@ public class SettingScreen implements Screen {
         game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
         //game.getBatch().draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
         game.getBatch().end();
-
         stage.draw();
-
     }
 
     @Override
     public void resize(int width, int height) {
-
     }
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
     }
 
     @Override
@@ -146,7 +138,28 @@ public class SettingScreen implements Screen {
         click.dispose();
     }
 
-    private void makeButtons() {
+    private Label makeLabel(String text, float xPos){
+        Label l = new Label(text, new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        l.setPosition((Gdx.graphics.getWidth() / 3f)*xPos + (musicButton.getWidth() - l.getWidth())/2f, Gdx.graphics.getHeight() / 1.85f);
+        l.scaleBy(1.2f);
+        return l;
+    }
+
+    private Button makeButton(Texture texture, float xPos, float yPos, final String nextScreen){
+        Button b = new Button(new TextureRegionDrawable(new TextureRegion(texture)));
+        b.setSize( Gdx.graphics.getWidth()/10f,Gdx.graphics.getHeight()/7f);
+        b.setPosition(Gdx.graphics.getWidth() /100f* xPos - b.getWidth()/2f,Gdx.graphics.getHeight() / yPos - b.getHeight() / 2f);
+        b.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
+                game.playSound(click);
+                game.gsm.changeScreen(nextScreen);
+            }
+        });
+        return b;
+    }
+
+    private void makeMusicButtons() {
         //Initialize musicButton
         musicButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOffB)));
         musicButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
@@ -207,56 +220,6 @@ public class SettingScreen implements Screen {
             public void touchUp(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
                 super.touchUp(inputEvent, 100, 100, pointer, button);
                 soundEffectButton.addAction(Actions.scaleTo(1f, 1f, 0.2f)); //Setter størrelsen på knappen tilbake til original størrelse
-            }
-        });
-
-        //Initialiserer resumeButton
-        resumeButton = new Button(new TextureRegionDrawable(new TextureRegion(resumeGameB)));
-        resumeButton.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-        resumeButton.setPosition(Gdx.graphics.getWidth() / 6f*5f - resumeButton.getWidth() / 2f, Gdx.graphics.getHeight() / 6f - resumeButton.getHeight() / 2f);
-        //Add click effect
-        resumeButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                //dispose();
-                if (ControllerLogic.fromHighScoreScreen) {
-                    game.gsm.changeScreen("HIGHSCORE");
-                    ControllerLogic.fromHighScoreScreen = false;
-                }
-                else {
-                    game.setScreen(ControllerLogic.currentGame);
-                }
-            }
-        });
-
-        //Initialiserer quit button, going back to settings
-        quitButton = new Button(new TextureRegionDrawable(new TextureRegion(quitGameB)));
-        quitButton.setSize(100, 50);
-        quitButton.setPosition(Gdx.graphics.getWidth() / 6f - quitButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - quitButton.getHeight() / 2f);
-
-        quitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                game.playSound(click);
-                ControllerLogic.loggedIn = false; //Quits game
-                ControllerLogic.roundCount = 0;
-                game.gsm.changeScreen("MENU");
-                // TODO HER MÅ VI NULLSTILLE ALLE VARIABLER I CONTROLLERLOGIC
-            }
-        });
-
-        //Initialiserer quit button, going back to menu
-        menuButton = new Button(new TextureRegionDrawable(new TextureRegion(menuScreenB)));
-        menuButton.setSize(Gdx.graphics.getWidth()/12f   ,     Gdx.graphics.getHeight()/10f);
-        menuButton.setPosition(Gdx.graphics.getWidth() / 6f - menuButton.getWidth() / 2f , Gdx.graphics.getHeight() / 6f - menuButton.getHeight() / 2f);
-
-        menuButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-                //dispose();
-                game.playSound(click);
-                game.gsm.changeScreen("MENU");
             }
         });
     }
