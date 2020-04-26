@@ -1,4 +1,4 @@
-package com.mygdx.tubby_wars.model;
+package com.mygdx.tubby_wars.model.states;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.badlogic.gdx.audio.Music;
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.controller.PhysicsSystem;
+import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
 public class TrajectoryActor extends Actor {
@@ -21,7 +22,7 @@ public class TrajectoryActor extends Actor {
         this.game = game;
         physicsSystem = engine.getSystem(PhysicsSystem.class);
         physicsEntity = physicsSystem.getEntities().get(0);
-        trajectoryTexture = new Texture("white-circle.png");
+        trajectoryTexture = Assets.getTexture(Assets.trajectory);
     }
 
     @Override

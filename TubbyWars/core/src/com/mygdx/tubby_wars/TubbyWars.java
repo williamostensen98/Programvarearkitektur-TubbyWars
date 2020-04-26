@@ -2,16 +2,15 @@ package com.mygdx.tubby_wars;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.tubby_wars.backend.IBackend;
 import com.mygdx.tubby_wars.controller.ScreenFactory;
 import com.mygdx.tubby_wars.model.Assets;
-import com.mygdx.tubby_wars.model.MusicStateManager;
-import com.mygdx.tubby_wars.model.SoundStateManager;
+import com.mygdx.tubby_wars.model.states.MusicStateManager;
+import com.mygdx.tubby_wars.model.states.SoundStateManager;
 import com.badlogic.gdx.audio.Sound;
-import com.mygdx.tubby_wars.view.states.GameStateManager;
-import com.mygdx.tubby_wars.view.states.LoadingState;
+import com.mygdx.tubby_wars.model.states.GameStateManager;
+import com.mygdx.tubby_wars.model.states.LoadingState;
 
 public class TubbyWars extends Game {
 

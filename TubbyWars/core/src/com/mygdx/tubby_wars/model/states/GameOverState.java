@@ -1,38 +1,42 @@
-package com.mygdx.tubby_wars.view.states;
+package com.mygdx.tubby_wars.model.states;
 
 import com.badlogic.gdx.Screen;
 
-public class PlayState implements State {
+public class GameOverState implements State {
 
 
-    private GameStateManager gsm;
+    GameStateManager gsm;
     private Screen currentScreen;
 
-    PlayState(GameStateManager gsm) {
+
+    GameOverState(GameStateManager gsm) {
+
         this.gsm = gsm;
-        currentScreen = gsm.game.screenFactory.getScreen("PLAY");
+        currentScreen = gsm.game.screenFactory.getScreen("HIGHSCORE");
     }
 
     @Override
     public boolean shouldChangeState(String type) {
-        return type.equalsIgnoreCase("HIGHSCORE") ||
-                type.equalsIgnoreCase("MENU") ;
+        return type.equalsIgnoreCase("MENU");
     }
 
     @Override
     public void changeScreen(String type) {
         if(shouldChangeState(type)){
-            State state = type.equalsIgnoreCase("HIGHSCORE") ? new GameOverState(gsm): new MenuState(gsm);
-            changeState(state);
+            changeState(new MenuState(gsm));
         }
         currentScreen = gsm.game.screenFactory.getScreen(type);
         gsm.game.setScreen(currentScreen);
     }
 
+
+
     @Override
     public void changeState(State state) {
         gsm.changeState(state);
     }
+
+
 
 
 }

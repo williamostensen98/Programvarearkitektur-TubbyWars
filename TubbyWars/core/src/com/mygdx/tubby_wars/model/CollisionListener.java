@@ -32,26 +32,23 @@ public class CollisionListener implements ContactListener {
     private void whenImpact(Fixture player, Fixture bullet){
         // find playerSystem and entity corresponding with the player which is hit by the bullet
         PlayerSystem playerSystem = ((PlayerModel) player.getUserData()).getPlayerSystem();
-        Entity playerEntity = ((PlayerModel) player.getUserData()).getPlayerEntity();
+        Entity playerHit = ((PlayerModel) player.getUserData()).getPlayerEntity();
+        ImmutableArray players = playerSystem.getEntities();
 
         // bullet is fixtureB, calculate damageMultiplier depending on bullet velocity
         float x = ((Bullet) bullet.getUserData()).b2Body.getLinearVelocity().x;
-        float weaponDamage = playerSystem.getWeaponDamage(playerEntity);
-        float damageMultiplier = ((abs(x) + 1)/10) * weaponDamage;
-        bulletDamage(playerSystem, playerEntity, damageMultiplier);
+        float weaponDamage = playerSystem.getWeaponDamage(playerHit == players.get(0) ? (Entity)players.get(1) : (Entity)players.get(0));
+        //float damageMultiplier = ((abs(x) + 1)/10) / weaponDamage;
+        float damageMultiplier = (abs(x) / weaponDamage);
+        bulletDamage(playerSystem, playerHit, damageMultiplier);
     }
 
     private void bulletDamage(PlayerSystem playerSystem, Entity playerEntity, float damageMultiplier){
-        playerSystem.dealDamage(playerEntity, (int)(10 * damageMultiplier));
-        System.out.println(playerSystem.getUsername(playerEntity) + " took " + (int)(10 * damageMultiplier) + " damage");
+        playerSystem.dealDamage(playerEntity, (int)((damageMultiplier * 3) ));
 
         ImmutableArray players = playerSystem.getEntities();
-
-        if(playerEntity == players.get(0)){
-            playerSystem.setScore((Entity) players.get(1),(int)(100 * damageMultiplier));
-        } else{
-            playerSystem.setScore((Entity) players.get(0),(int)(100 * damageMultiplier));
-        }
+        int score = (int)(((damageMultiplier) * (damageMultiplier) * (damageMultiplier)) / 5);
+        playerSystem.setScore(playerEntity == players.get(0) ? (Entity) players.get(1) : (Entity) players.get(0), score);
     }
 
     // check if either one is instance of player and bullet
