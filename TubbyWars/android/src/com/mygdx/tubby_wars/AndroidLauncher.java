@@ -10,7 +10,8 @@ public class AndroidLauncher extends AndroidApplication {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new TubbyWars(new connection()),config);
+		initialize(TubbyWars.getInstance(new connection()), config);
+		//initialize(new TubbyWars(new connection()),config);
 
 	}
 }

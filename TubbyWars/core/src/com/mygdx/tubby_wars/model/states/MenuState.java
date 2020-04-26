@@ -1,17 +1,18 @@
 package com.mygdx.tubby_wars.model.states;
 
 import com.badlogic.gdx.Screen;
+import com.mygdx.tubby_wars.TubbyWars;
 
 public class MenuState implements State {
 
     private GameStateManager gsm;
     private Screen currentScreen;
+    private TubbyWars game = TubbyWars.getInstance();
 
     MenuState(GameStateManager gsm) {
         this.gsm = gsm;
-        currentScreen = gsm.game.screenFactory.getScreen("MENU");
-        gsm.game.setScreen(currentScreen);
-
+        currentScreen = game.screenFactory.getScreen("MENU");
+        game.setScreen(currentScreen);
     }
 
     @Override
@@ -24,11 +25,9 @@ public class MenuState implements State {
         if(shouldChangeState(type)){
             changeState(new PlayState(gsm));
         }
-        currentScreen = gsm.game.screenFactory.getScreen(type);
-        gsm.game.setScreen(currentScreen);
+        currentScreen = game.screenFactory.getScreen(type);
+        game.setScreen(currentScreen);
     }
-
-
 
     @Override
     public void changeState(State state) {

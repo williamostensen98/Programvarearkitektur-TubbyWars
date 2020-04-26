@@ -19,6 +19,7 @@ public class TubbyWars extends Game {
 
 	public SpriteBatch batch;
 	public GameStateManager gsm;
+	private static TubbyWars INSTANCE;
 
     public final static float V_WIDTH = 12.8f;
     public final static float V_HEIGHT = 5.76f;
@@ -30,7 +31,18 @@ public class TubbyWars extends Game {
     public SoundStateManager soundStateManager;
     public ScreenFactory screenFactory;
 
-    public TubbyWars(IBackend backendConn){
+    // Singleton implementation
+    public static TubbyWars getInstance(IBackend backendConn) {
+        if (INSTANCE == null) {
+            INSTANCE = new TubbyWars(backendConn);
+        }
+        return INSTANCE;
+    }
+
+    public static TubbyWars getInstance() {
+        return INSTANCE;
+    }
+    private TubbyWars(IBackend backendConn){
 			this.assets = new Assets();
 			this.engine = new Engine();
 			this.backendConn = backendConn;
@@ -42,8 +54,8 @@ public class TubbyWars extends Game {
 		assets = new Assets();
 		engine = new Engine();
 		batch = new SpriteBatch();
-        screenFactory = new ScreenFactory(this, engine);
-        gsm = new GameStateManager(this);
+        screenFactory = new ScreenFactory();
+        gsm = new GameStateManager();
         gsm.push(new LoadingState(gsm));
 
 		this.musicStateManager = new MusicStateManager(this);

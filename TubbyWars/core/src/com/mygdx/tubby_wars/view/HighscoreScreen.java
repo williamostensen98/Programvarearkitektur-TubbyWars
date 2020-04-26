@@ -163,6 +163,7 @@ public class HighscoreScreen implements Screen {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
+                ControllerLogic.loggedIn = false;
                 game.gsm.changeScreen("MENU");
             }
         });

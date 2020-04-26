@@ -232,6 +232,8 @@ public class ShopScreen implements Screen {
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
                 game.playSound(click);
                 ControllerLogic.loggedIn = false; //Quits game
+                ControllerLogic.isPlayersTurn = false;
+                ControllerLogic.roundCount = 0;
                 game.gsm.changeScreen("MENU");
             }
         });

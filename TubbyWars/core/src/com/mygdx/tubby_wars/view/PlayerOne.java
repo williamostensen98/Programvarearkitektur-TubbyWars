@@ -33,8 +33,8 @@ public class PlayerOne extends PlayerModel {
     private Sound hitSound;
 
     //Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn.
-    public PlayerOne(World world, TubbyWars game, float posX, float posY, Entity playerEntity, Engine engine) {
-        super(world, game, posX, posY, playerEntity, engine);
+    public PlayerOne(World world, float posX, float posY, Entity playerEntity, Engine engine) {
+        super(world, posX, posY, playerEntity, engine);
         definePlayer();
         ps = engine.getSystem(PlayerSystem.class);
         timeToRedefine = false;
