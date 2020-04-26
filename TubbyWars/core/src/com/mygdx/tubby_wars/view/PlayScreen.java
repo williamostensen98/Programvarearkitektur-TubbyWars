@@ -15,7 +15,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -179,15 +178,10 @@ public class PlayScreen implements Screen {
 
         // CHANGES TURNS
         if(ControllerLogic.isPlayersTurn && player2.getBullet() == null){
-            System.out.println("Turn changed to player 1");
             ControllerLogic.isPlayersTurn = false;
-
-
         }
         else if(!ControllerLogic.isPlayersTurn && player1.getBullet() == null){
-            System.out.println("Turn changed to player 2");
             ControllerLogic.isPlayersTurn = true;
-
         }
 
         if(ControllerLogic.isPlayersTurn){
@@ -261,9 +255,8 @@ public class PlayScreen implements Screen {
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent inputEvent, float xpos, float ypos) {
-
-        game.playSound(click);
-        game.gsm.changeScreen("SETTINGS");
+                game.playSound(click);
+                game.gsm.changeScreen("SETTINGS");
             }
         });
         settingsStage.addActor(settingsButton);

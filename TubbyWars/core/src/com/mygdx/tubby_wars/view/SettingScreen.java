@@ -20,13 +20,10 @@ import com.mygdx.tubby_wars.TubbyWars;
 import com.mygdx.tubby_wars.model.Assets;
 import com.mygdx.tubby_wars.model.ControllerLogic;
 
-import javax.naming.ldap.Control;
-
 
 public class SettingScreen implements Screen {
 
     private TubbyWars game;
-    private Engine engine;
     private Stage stage;
 
     //Textures for title of page and the background
@@ -41,9 +38,6 @@ public class SettingScreen implements Screen {
     private Texture soundOffB; //Used for both music and sounds
 
     //Buttons
-    private Button menuButton;
-    private Button quitButton;
-    private Button resumeButton;
     private Button soundEffectButton;
     private Button musicButton;
 
@@ -53,7 +47,6 @@ public class SettingScreen implements Screen {
     public SettingScreen(TubbyWars game, Engine engine) {
         super();
         this.game = game;
-        this.engine = engine;
 
         background = Assets.getTexture(Assets.settingsBackground);
         title = Assets.getTexture(Assets.settingsTitle);
@@ -106,7 +99,6 @@ public class SettingScreen implements Screen {
         game.getBatch().setProjectionMatrix(stage.getCamera().combined);
         game.getBatch().begin(); // Draw elements to Sprite Batch
         game.getBatch().draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Draws background photo
-        //game.getBatch().draw(title,Gdx.graphics.getWidth()/2 - 200,Gdx.graphics.getHeight()/2,400,100); //Draws logo
         game.getBatch().end();
         stage.draw();
     }
@@ -169,7 +161,7 @@ public class SettingScreen implements Screen {
     private void makeMusicButtons() {
         //Initialize musicButton
         musicButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOffB)));
-        musicButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
+        musicButton.setTransform(true); // when this is true we can automatically scale it with click
         musicButton.setSize(Gdx.graphics.getWidth()/15f,Gdx.graphics.getHeight()/5f);
         musicButton.setOrigin(Gdx.graphics.getWidth()/15f,Gdx.graphics.getHeight()/5f);
         musicButton.setChecked(game.musicStateManager.getMuteMusicState());
@@ -188,19 +180,19 @@ public class SettingScreen implements Screen {
             //Runs when the button is pressed down
             @Override
             public boolean touchDown(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
-                musicButton.addAction(Actions.scaleTo(0.96f, 0.96f, 0.2f)); //Minker størrelsen på knappen når den trykkes
+                musicButton.addAction(Actions.scaleTo(0.96f, 0.96f, 0.2f)); //Minimizes size when clicked
                 return super.touchDown(inputEvent, 100, 100, pointer, button);
             }
             //Runs when the button is not pressed down
             public void touchUp(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
                 super.touchUp(inputEvent, 100, 100, pointer, button);
-                musicButton.addAction(Actions.scaleTo(1f, 1f, 0.2f)); //Setter størrelsen på knappen tilbake til original størrelse
+                musicButton.addAction(Actions.scaleTo(1f, 1f, 0.2f)); //reset size
             }
         });
 
         //Initialize soundEffectButton
         soundEffectButton = new Button(new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOnB)), new TextureRegionDrawable(new TextureRegion(soundOffB)));
-        soundEffectButton.setTransform(true); //Automatisk satt til false. Setter den til true så vi kan skalere knappen ved klikk
+        soundEffectButton.setTransform(true);
         soundEffectButton.setSize(Gdx.graphics.getWidth()/15f,Gdx.graphics.getHeight()/5f);
         soundEffectButton.setOrigin(Gdx.graphics.getWidth()/15f,Gdx.graphics.getHeight()/5f);
         soundEffectButton.setChecked(game.soundStateManager.getMuteSoundState());
@@ -220,13 +212,13 @@ public class SettingScreen implements Screen {
             //Runs when the button is pressed down
             @Override
             public boolean touchDown(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
-                soundEffectButton.addAction(Actions.scaleTo(0.96f, 0.96f, 0.2f)); //Minker størrelsen på knappen når den trykkes
+                soundEffectButton.addAction(Actions.scaleTo(0.96f, 0.96f, 0.2f));
                 return super.touchDown(inputEvent, 100, 100, pointer, button);
             }
             //Runs when the button is not pressed down
             public void touchUp(InputEvent inputEvent, float xpos, float ypos, int pointer, int button) {
                 super.touchUp(inputEvent, 100, 100, pointer, button);
-                soundEffectButton.addAction(Actions.scaleTo(1f, 1f, 0.2f)); //Setter størrelsen på knappen tilbake til original størrelse
+                soundEffectButton.addAction(Actions.scaleTo(1f, 1f, 0.2f));
             }
         });
     }

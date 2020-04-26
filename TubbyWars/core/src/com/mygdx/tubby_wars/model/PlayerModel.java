@@ -79,10 +79,6 @@ public abstract class PlayerModel extends Sprite {
         return posX;
     }
 
-    public PlayerComponent getPlayerComponent(){
-        return pm.get(playerEntity);
-    }
-
     Entity getPlayerEntity(){
         return playerEntity;
     }

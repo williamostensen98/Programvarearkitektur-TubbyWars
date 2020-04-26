@@ -26,7 +26,6 @@ import com.mygdx.tubby_wars.model.ControllerLogic;
 public class ShopScreen implements Screen {
 
     private TubbyWars game;
-    private Engine engine;
     private Entity currentPlayer;
     private PlayerSystem ps;
     private ImmutableArray players;
@@ -61,8 +60,6 @@ public class ShopScreen implements Screen {
     private Label gun1Label;
     private Label gun2Label;
     private Label gun3Label;
-    private Label round;
-    private Label infoText;
 
 
     private int currentlyPaying;
@@ -71,7 +68,6 @@ public class ShopScreen implements Screen {
     public ShopScreen(TubbyWars game, Engine engine){
         super();
         this.game = game;
-        this.engine = engine;
         ps = engine.getSystem(PlayerSystem.class);
         this.players = ps.getEntities();
 
@@ -105,9 +101,9 @@ public class ShopScreen implements Screen {
         // MAKE LABELS
         usernameText = makeLabel("USER: " + ps.getUsername((Entity)players.get(0)),50f,71f, Color.BLACK);
         scoreText = makeLabel("SCORE POINTS: " + ps.getScore((Entity)players.get(0)),50f,67f, Color.YELLOW);
-        round = makeLabel("ROUND " + num +" OUT OF 5",50f,63f, Color.BLACK);
-        infoText = makeLabel("When you get a high enough score you can exchange it for a new weapon that does more damage! " +
-                " If you don't want to, press continue ",50f,55f, Color.BLACK);
+        Label round = makeLabel("ROUND " + num + " OUT OF 5", 50f, 63f, Color.BLACK);
+        Label infoText = makeLabel("When you get a high enough score you can exchange it for a new weapon that does more damage! " +
+                " If you don't want to, press continue ", 50f, 55f, Color.BLACK);
         gun1Label = makeLabel("500 SCORE POINTS",23f, 29f, Color.WHITE);
         gun2Label = makeLabel("2500 SCORE POINTS",49f,29f, Color.WHITE);
         gun3Label = makeLabel("5000 SCORE POINTS",75f,29f, Color.WHITE);

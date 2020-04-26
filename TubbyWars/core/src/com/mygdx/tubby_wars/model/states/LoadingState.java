@@ -3,7 +3,7 @@ package com.mygdx.tubby_wars.model.states;
 import com.badlogic.gdx.Screen;
 
 import com.mygdx.tubby_wars.TubbyWars;
-import com.mygdx.tubby_wars.controller.ScreenFactory;
+
 
 
 public class LoadingState implements State{
