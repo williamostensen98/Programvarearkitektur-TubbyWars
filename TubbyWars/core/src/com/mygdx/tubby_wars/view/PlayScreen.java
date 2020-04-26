@@ -228,6 +228,7 @@ public class PlayScreen implements Screen {
             if (ControllerLogic.roundCount == 5) {
                 game.gsm.changeScreen("HIGHSCORE");
                 ControllerLogic.isPlayersTurn = false;
+                ControllerLogic.roundCount = 0;
             }
             else {
                 ps.setHealth((Entity)players.get(0),150);
@@ -239,9 +240,11 @@ public class PlayScreen implements Screen {
     }
 
     private void setTurn(){
+        ps.setScore(ControllerLogic.isPlayersTurn ? (Entity)players.get(1) : (Entity)players.get(0), 500 * ControllerLogic.roundCount);
         float score1 = ps.getScore((Entity)players.get(0));
         float score2 = ps.getScore((Entity)players.get(1));
         ControllerLogic.isPlayersTurn = score1 > score2;
+
     }
     private boolean isRoundOver(){
         return engine.getSystem(PlayerSystem.class).getHealth((Entity) players.get(0)) < 0

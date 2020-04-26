@@ -38,7 +38,6 @@ public class CollisionListener implements ContactListener {
         // bullet is fixtureB, calculate damageMultiplier depending on bullet velocity
         float x = ((Bullet) bullet.getUserData()).b2Body.getLinearVelocity().x;
         float weaponDamage = playerSystem.getWeaponDamage(playerHit == players.get(0) ? (Entity)players.get(1) : (Entity)players.get(0));
-        //float damageMultiplier = ((abs(x) + 1)/10) / weaponDamage;
         float damageMultiplier = (abs(x) / weaponDamage);
         bulletDamage(playerSystem, playerHit, damageMultiplier);
     }
@@ -47,7 +46,7 @@ public class CollisionListener implements ContactListener {
         playerSystem.dealDamage(playerEntity, (int)((damageMultiplier * 3) ));
 
         ImmutableArray players = playerSystem.getEntities();
-        int score = (int)(((damageMultiplier) * (damageMultiplier) * (damageMultiplier)) / 5);
+        int score = (int)(((damageMultiplier) * (damageMultiplier) * (damageMultiplier)) / 2);
         playerSystem.setScore(playerEntity == players.get(0) ? (Entity) players.get(1) : (Entity) players.get(0), score);
     }
 
