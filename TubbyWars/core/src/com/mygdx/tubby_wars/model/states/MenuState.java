@@ -9,6 +9,11 @@ public class MenuState implements State {
     private Screen currentScreen;
     private TubbyWars game = TubbyWars.getInstance();
 
+    /***
+     * All methods in this class is described in the State interface
+     * This state renders the menu screen and all screens in reach before the game has started.
+     * @param gsm: Game state manager
+     */
     MenuState(GameStateManager gsm) {
         this.gsm = gsm;
         currentScreen = game.screenFactory.getScreen("MENU");

@@ -31,7 +31,12 @@ public class TubbyWars extends Game {
     public SoundStateManager soundStateManager;
     public ScreenFactory screenFactory;
 
-    // Singleton implementation
+    /**
+     * SINGLETON IMPLEMENTATION OF THE GAME APPLICATION
+     * ALLOWS FOR ANDROID LAUNCHER TO INSTANTIATE THE TUBBYWARS CLASS
+     * @param backendConn: CONNECTION TO HIGHSCORE LIST BACKEND
+     * @return TUBBYWARS INSTANCE
+     */
     public static TubbyWars getInstance(IBackend backendConn) {
         if (INSTANCE == null) {
             INSTANCE = new TubbyWars(backendConn);
@@ -39,6 +44,11 @@ public class TubbyWars extends Game {
         return INSTANCE;
     }
 
+    /**
+     * SINGLETON IMPLEMENTATION WITHOUT BACKEND CONNECTION
+     * ALLOWS ALL CLASSES A GLOBAL ACCESS POINT TO THE TUBBYWARS INSTANCE
+     * @return TUBBYWARS INSTANCE
+     */
     public static TubbyWars getInstance() {
         return INSTANCE;
     }
@@ -49,6 +59,9 @@ public class TubbyWars extends Game {
             this.backendConn.connect();
 	}
 
+    /**
+     * CREATES THE GAMES SPRITEBATCH AS WELL AS THE GAME STATE MANAGER AND THE SCREEN FACTORY
+     */
 	@Override
 	public void create () {
 		assets = new Assets();

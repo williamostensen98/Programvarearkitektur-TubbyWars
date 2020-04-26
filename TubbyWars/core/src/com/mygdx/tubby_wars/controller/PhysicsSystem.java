@@ -38,10 +38,10 @@ public class PhysicsSystem extends IteratingSystem {
     /***
      * Given the startVelocity and the startpoint of the player this methos calculates the points to the trajectory of the players weapon.
      * It returns a vector with the nth point in the trajectory
-     * @param physicsEntity
-     * @param n
-     * @param startVelocity
-     * @return
+     * @param physicsEntity: entity of the physics component
+     * @param n: number og trajectory points
+     * @param startVelocity: starting velocity
+     * @return: one trajectory point of the path
      */
     public Vector2 getTrajectoryPoint(Entity physicsEntity, float n, Vector2 startVelocity){
         float t = 1 / 60f;
@@ -111,7 +111,7 @@ public class PhysicsSystem extends IteratingSystem {
     /***
      * returns the velocityvector in physicscomponent
      * @param physicsEntity
-     * @return
+     * @return: the calculated velocity vector in which to draw the trajectory points on.
      */
     public Vector2 getVelocityVector(Entity physicsEntity) {
         return pm.get(physicsEntity).velocityVector;

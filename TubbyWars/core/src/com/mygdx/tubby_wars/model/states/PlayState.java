@@ -10,6 +10,12 @@ public class PlayState implements State {
     private Screen currentScreen;
     private TubbyWars game = TubbyWars.getInstance();
 
+    /***
+     * All methods in this class is descirbed in the State interface
+     * This state class takes care of rendering the playscreen and logic.
+     * It also renders the Setting screen that can be reached from the play screen withput changing the state of the game.
+     * @param gsm: Game state manager.
+     */
     PlayState(GameStateManager gsm) {
         this.gsm = gsm;
         currentScreen = game.screenFactory.getScreen("PLAY");

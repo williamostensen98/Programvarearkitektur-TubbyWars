@@ -66,6 +66,11 @@ public class PlayScreen implements Screen {
     private PhysicsSystem physicsSystem;
     private Entity physicsEntity;
 
+    /***
+     * Contains, updates and renders all of the game logic
+     * @param game: Game application
+     * @param engine: Ashley engine containing all entities, systems and components
+     */
     public PlayScreen(TubbyWars game, Engine engine) {
         this.game = game;
         this.engine = engine;
@@ -75,6 +80,7 @@ public class PlayScreen implements Screen {
         physicsSystem = engine.getSystem(PhysicsSystem.class);
         physicsEntity = physicsSystem.getEntities().get(0);
 
+        //Camera and viewport of the screen
         gameCam = new OrthographicCamera(TubbyWars.V_WIDTH, TubbyWars.V_HEIGHT);
         viewPort = new StretchViewport(TubbyWars.V_WIDTH, TubbyWars.V_HEIGHT, gameCam);
         viewPort.apply();
@@ -107,6 +113,7 @@ public class PlayScreen implements Screen {
         gameCamMaxPosition = mapPixelWidth / 100f - gameCam.viewportWidth / 2;
         gameCamMinPosition = gameCam.viewportWidth / 2;
 
+        // INITIALIZES PLAYERS
         player1 = new PlayerOne(world,viewPort.getWorldWidth() / 2  , 1.2f, (Entity) players.get(0), engine);
         player2 = new PlayerTwo(world, mapPixelWidth/100f - viewPort.getWorldWidth() / 2 , 1.2f, (Entity) players.get(1), engine);
         physicsSystem.setPlayer(physicsEntity, player1);
@@ -163,7 +170,6 @@ public class PlayScreen implements Screen {
         player2.update(dt);
         hud.update(dt);
 
-        // TODO CLEAN
         // PROHIBITS PLAYERS FROM SHOOTING WHILE A BULLET IS ACTIVE
         if(gameCam.position.x == player1.b2Body.getPosition().x || gameCam.position.x == player2.b2Body.getPosition().x){
             if(inputMultiplexer.getProcessors().size == 1){
@@ -177,7 +183,7 @@ public class PlayScreen implements Screen {
             Gdx.input.setInputProcessor(inputMultiplexer);
         }
 
-        // CHANGES TURNS
+        // CHANGES TURNS IF THE SENTENCE IS FULFILLED
         if(ControllerLogic.isPlayersTurn && player2.getBullet() == null){
             System.out.println("Turn changed to player 1");
             ControllerLogic.isPlayersTurn = false;
@@ -190,6 +196,7 @@ public class PlayScreen implements Screen {
 
         }
 
+        // LOGIC FOR CAMERA FOLLOWING BALL, RESETTING BALL AND PLAYER AFTER TURN
         if(ControllerLogic.isPlayersTurn){
             physicsSystem.setPlayer(physicsEntity, player2);
 
@@ -224,6 +231,7 @@ public class PlayScreen implements Screen {
             }
         }
 
+        // RESETS PARAMETERS AFTER A ROUND - SENDS TO HIGHSCORE SCREEN IF GAME IS OVER
         if(isRoundOver()){
             if (ControllerLogic.roundCount == 5) {
                 game.gsm.changeScreen("HIGHSCORE");
@@ -269,18 +277,21 @@ public class PlayScreen implements Screen {
         settingsStage.addActor(settingsButton);
     }
 
+    // IF BULLET POS IS BETWEEN THE MAP VIEWPORT EDGES THE CAMERA SHOULD FOLLOW
     private boolean checkBulletPosition(PlayerModel player){
         return (player.getBullet() != null &&
                 player.getBullet().b2Body.getPosition().x <= gameCamMaxPosition) &&
                 player.getBullet().b2Body.getPosition().x >= gameCamMinPosition;
     }
 
+    // IF BULLET STOPS IN THE MIDDLE OF THE VIEWPORT EDGES THE POSITION OF CAMERA SHOULD BE RESET
     private boolean checkCameraPosition(PlayerModel player){
         return gameCam.position.x >= player1.b2Body.getPosition().x &&
                 gameCam.position.x <= player2.b2Body.getPosition().x &&
                 player.getBullet() == null;
     }
 
+    // IF BULLET FALLS OUT OF MAP IT SHOULD BE RESET
     private boolean bulletOutOfBounds(Bullet bullet){
         if(bullet != null && (bullet.b2Body.getPosition().x < 0 || bullet.b2Body.getPosition().x > mapPixelWidth / 100f)){
             return true;
