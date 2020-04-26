@@ -52,7 +52,7 @@ public class PhysicsSystem extends IteratingSystem {
         float stepGravityY = tt * (-9.81f);
 
         float tpx = (Gdx.graphics.getWidth() / 2f) + n * stepVelocityX + 0.5f * (n * n + n) * stepGravityX;
-        float tpy = pm.get(physicsEntity).startpoint.y + n * stepVelocityY + 0.5f * (n * n + n) * stepGravityY;
+        float tpy = (Gdx.graphics.getHeight() / 4f) + n * stepVelocityY + 0.5f * (n * n + n) * stepGravityY;
 
         pm.get(physicsEntity).trajectoryPoints = new Vector2(tpx,tpy);
 
