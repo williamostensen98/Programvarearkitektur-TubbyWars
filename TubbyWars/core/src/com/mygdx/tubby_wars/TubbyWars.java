@@ -32,6 +32,7 @@ public class TubbyWars extends Game {
     public SoundStateManager soundStateManager;
     public ScreenFactory screenFactory;
 
+    // Singleton implementation
     public static TubbyWars getInstance(IBackend backendConn) {
         if (INSTANCE == null) {
             INSTANCE = new TubbyWars(backendConn);
