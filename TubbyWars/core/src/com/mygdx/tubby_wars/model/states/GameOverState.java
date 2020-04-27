@@ -10,6 +10,11 @@ public class GameOverState implements State {
     private Screen currentScreen;
     private TubbyWars game = TubbyWars.getInstance();
 
+    /***
+     * This state handles when the game is over and when game is in this state the highscore screen is rendered.
+     * When the menu or quit button is pressed the game goes back to Menu state.
+     * @param gsm
+     */
     GameOverState(GameStateManager gsm) {
 
         this.gsm = gsm;

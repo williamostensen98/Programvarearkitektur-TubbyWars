@@ -5,6 +5,10 @@ import java.util.Stack;
 public class GameStateManager {
     private Stack<State> states;
 
+    /***
+     * This class manages all of the states and keeps track of current state in the stack.
+     * state top of the stack gets rendered.
+     */
     public GameStateManager() {
         states  = new Stack<>();
     }

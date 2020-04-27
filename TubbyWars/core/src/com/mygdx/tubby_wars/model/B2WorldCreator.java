@@ -12,6 +12,12 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class B2WorldCreator {
 
+    /***
+     * This class takes in the world and a map and renders all objects of the map into a World body
+     * thus giving it the possibilty og collison with other objects.
+     * @param world: game world (Box2D)
+     * @param map: Tiled Map ( map of the curremt game)
+     */
     public B2WorldCreator(World world, TiledMap map) {
         float PPM = 100;
         BodyDef bdef =  new BodyDef();

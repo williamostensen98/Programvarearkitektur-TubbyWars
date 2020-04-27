@@ -8,10 +8,16 @@ public class MapLoader {
 
     private TmxMapLoader mapLoader;
 
+
     public MapLoader(TmxMapLoader mapLoader) {
         this.mapLoader = mapLoader;
     }
 
+    /***
+     * Loads and returns a map based on the number given into the method
+     * @param i : map number wanted
+     * @return: loaded TiledMap map
+     */
     public TiledMap getMap(int i) {
         switch (i) {
             case 1:

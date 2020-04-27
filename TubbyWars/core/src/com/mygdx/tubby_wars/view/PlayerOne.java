@@ -72,10 +72,13 @@ public class PlayerOne extends PlayerModel {
             redefinePlayer();
         }
 
+        // If bullets list is empty and it is players turn - add new bullet to list
         if(ps.getBullets(playerEntity).isEmpty() && !super.isPlayersTurn()){
             addBullet();
         }
 
+        // checks if the bullet in list is destroyed if not it justs updates it. if it is it removes
+        // it from list
         for(Bullet b: ps.getBullets(playerEntity)){
             b.update(dt);
             if(b.isDestroyed()){
