@@ -1,5 +1,7 @@
 package com.mygdx.tubby_wars.model.states;
 
+import com.mygdx.tubby_wars.TubbyWars;
+
 import java.util.Stack;
 
 public class GameStateManager {
