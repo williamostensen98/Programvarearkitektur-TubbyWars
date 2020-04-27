@@ -23,4 +23,6 @@ public interface State {
      */
     void changeScreen(String type);
 
+    void renderScreen();
+
 }

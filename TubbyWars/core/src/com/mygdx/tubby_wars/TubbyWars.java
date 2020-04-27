@@ -68,7 +68,7 @@ public class TubbyWars extends Game {
 		engine = new Engine();
 		batch = new SpriteBatch();
         screenFactory = new ScreenFactory();
-        gsm = new GameStateManager();
+        gsm = new GameStateManager(this);
         gsm.push(new LoadingState(gsm));
 
 		this.musicStateManager = new MusicStateManager(this);
