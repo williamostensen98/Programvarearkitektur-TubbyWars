@@ -2,13 +2,13 @@ package com.mygdx.tubby_wars.model.states;
 
 import com.badlogic.gdx.Screen;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.controller.ScreenFactory;
 
 public class PlayState implements State {
 
 
     private GameStateManager gsm;
     private Screen currentScreen;
-    private TubbyWars game = TubbyWars.getInstance();
 
     /***
      * All methods in this class is descirbed in the State interface
@@ -18,7 +18,14 @@ public class PlayState implements State {
      */
     PlayState(GameStateManager gsm) {
         this.gsm = gsm;
-        currentScreen = game.screenFactory.getScreen("PLAY");
+        currentScreen = ScreenFactory.getScreen("PLAY");
+
+        renderScreen();
+    }
+
+    @Override
+    public void renderScreen() {
+        gsm.game.setScreen(currentScreen);
     }
 
     @Override
@@ -33,8 +40,10 @@ public class PlayState implements State {
             State state = type.equalsIgnoreCase("HIGHSCORE") ? new GameOverState(gsm): new MenuState(gsm);
             changeState(state);
         }
-        currentScreen = game.screenFactory.getScreen(type);
-        game.setScreen(currentScreen);
+        else {
+            currentScreen = ScreenFactory.getScreen(type);
+            renderScreen();
+        }
     }
 
     @Override

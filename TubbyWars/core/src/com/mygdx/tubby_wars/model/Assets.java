@@ -56,8 +56,8 @@ public class Assets {
 
     //Music and sounds
     public static String backgroundMusic = "music/music.mp3";
-    public static String shootingSound = "music/Shotgun-sound.mp3"; //When shooting weapon
-    public static String hitSound = "music/Cartoon-game-ending.mp3"; //When player is hit by opponent
+    public static String shootingSound = "music/gunshot.mp3"; //When shooting weapon
+    public static String hitSound = "music/pain.mp3"; //When player is hit by opponent
     public static String clickSound = "music/Mouse-click-sound.mp3"; //When clicking on button
 
     //Maps

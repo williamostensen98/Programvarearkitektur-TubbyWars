@@ -2,13 +2,14 @@ package com.mygdx.tubby_wars.model.states;
 
 import com.badlogic.gdx.Screen;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.controller.ScreenFactory;
 
 public class GameOverState implements State {
 
 
     private GameStateManager gsm;
     private Screen currentScreen;
-    private TubbyWars game = TubbyWars.getInstance();
+
 
     /***
      * This state handles when the game is over and when game is in this state the highscore screen is rendered.
@@ -16,9 +17,9 @@ public class GameOverState implements State {
      * @param gsm
      */
     GameOverState(GameStateManager gsm) {
-
         this.gsm = gsm;
-        currentScreen = game.screenFactory.getScreen("HIGHSCORE");
+        currentScreen = ScreenFactory.getScreen("HIGHSCORE");
+        renderScreen();
     }
 
     @Override
@@ -31,18 +32,19 @@ public class GameOverState implements State {
         if(shouldChangeState(type)){
             changeState(new MenuState(gsm));
         }
-        currentScreen = game.screenFactory.getScreen(type);
-        game.setScreen(currentScreen);
+        else {
+            currentScreen = ScreenFactory.getScreen(type);
+            renderScreen();
+        }
     }
-
-
 
     @Override
     public void changeState(State state) {
         gsm.changeState(state);
     }
 
-
-
-
+    @Override
+    public void renderScreen() {
+        gsm.game.setScreen(currentScreen);
+    }
 }

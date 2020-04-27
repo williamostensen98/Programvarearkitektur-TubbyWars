@@ -2,13 +2,14 @@ package com.mygdx.tubby_wars.model.states;
 
 import com.badlogic.gdx.Screen;
 import com.mygdx.tubby_wars.TubbyWars;
+import com.mygdx.tubby_wars.controller.ScreenFactory;
 
 public class LoadingState implements State{
 
 
     private GameStateManager gsm;
     private Screen currentScreen;
-    private TubbyWars game = TubbyWars.getInstance();
+
 
     /***
      * All methods in this class is descirbed in the State interface
@@ -17,11 +18,16 @@ public class LoadingState implements State{
      */
     public LoadingState(GameStateManager gsm) {
         this.gsm = gsm;
-        currentScreen = game.screenFactory.getScreen("LOADING");
-        game.setScreen(currentScreen);
+        currentScreen = ScreenFactory.getScreen("LOADING");
+
+        renderScreen();
 
     }
 
+    @Override
+    public void renderScreen() {
+        gsm.game.setScreen(currentScreen);
+    }
     @Override
     public void changeState(State state) {
         gsm.changeState(state);
@@ -36,8 +42,9 @@ public class LoadingState implements State{
     public void changeScreen(String type) {
         if(shouldChangeState(type)){
             changeState(new MenuState(gsm));
+        }else {
+            currentScreen = ScreenFactory.getScreen(type);
+            renderScreen();
         }
-        currentScreen = game.screenFactory.getScreen(type);
-        game.setScreen(currentScreen);
     }
 }

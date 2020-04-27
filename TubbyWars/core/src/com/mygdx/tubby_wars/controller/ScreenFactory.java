@@ -11,10 +11,10 @@ import com.mygdx.tubby_wars.view.PlayScreen;
 import com.mygdx.tubby_wars.view.SettingScreen;
 import com.mygdx.tubby_wars.view.ShopScreen;
 
-public class ScreenFactory {
+public  class ScreenFactory {
 
-    public TubbyWars game = TubbyWars.getInstance();
-    public Engine engine;
+    public static TubbyWars game = TubbyWars.getInstance();
+    public static Engine engine;
 
     /***
      * THis is a Factory method pattern. All creation of screen objects is handled in this method.
@@ -22,7 +22,7 @@ public class ScreenFactory {
      * @param screenType: String with the type of screen to return.
      * @return: new instance of a screen product.
      */
-    public Screen getScreen(String screenType){
+    public static Screen getScreen(String screenType){
         switch (screenType){
             case "LOADING":
                 return new LoadingScreen(game, engine);
