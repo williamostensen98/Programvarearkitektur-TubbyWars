@@ -133,15 +133,6 @@ public class Assets {
 
         assetManager.load(trajectory, Texture.class);
 
-        //Maps
-        /*
-        assetManager.load(map1, TiledMap.class);
-        assetManager.load(map2, TiledMap.class);
-        assetManager.load(map3, TiledMap.class);
-        assetManager.load(map4, TiledMap.class);
-        assetManager.load(map5, TiledMap.class);
-
-         */
     }
 
     public static boolean update(){

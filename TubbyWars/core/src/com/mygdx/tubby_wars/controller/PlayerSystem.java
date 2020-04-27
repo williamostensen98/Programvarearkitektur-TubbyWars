@@ -54,12 +54,6 @@ public class PlayerSystem extends IteratingSystem {
 
     public void dealDamage(Entity playerEntity, int damage){
         pm.get(playerEntity).health -= damage;
-
-    }
-
-    // Set the given weaponEntity to a player
-    public void setWeapon(Entity playerEntity, Entity weaponEntity){
-        pm.get(playerEntity).weapon = weaponEntity;
     }
 
     public float getWeaponDamage(Entity playerEntity){
@@ -78,7 +72,6 @@ public class PlayerSystem extends IteratingSystem {
         return pm.get(playerEntity).characterBody;
     }
 
-
     public void setWeaponTexture(Entity playerEntity, TextureRegion weaponTexture){
         pm.get(playerEntity).weaponTexture = weaponTexture;
     }
@@ -90,7 +83,6 @@ public class PlayerSystem extends IteratingSystem {
     public int getScore(Entity playerEntity){
         return pm.get(playerEntity).score;
     }
-
 
     public void createTextureRegion(Entity playerEntity){
         Texture texture = pm.get(playerEntity).characterBody;

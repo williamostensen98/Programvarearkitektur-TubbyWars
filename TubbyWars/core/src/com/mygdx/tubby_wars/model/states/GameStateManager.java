@@ -1,7 +1,5 @@
 package com.mygdx.tubby_wars.model.states;
 
-import com.mygdx.tubby_wars.TubbyWars;
-
 import java.util.Stack;
 
 public class GameStateManager {
@@ -26,12 +24,9 @@ public class GameStateManager {
     void changeState(State state){
         pop();
         states.push(state);
-        System.out.println(state.toString());
-
     }
 
     public void changeScreen(String type){
         states.peek().changeScreen(type);
-
     }
 }

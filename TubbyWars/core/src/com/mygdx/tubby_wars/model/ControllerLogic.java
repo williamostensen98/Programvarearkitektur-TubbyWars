@@ -3,8 +3,6 @@ package com.mygdx.tubby_wars.model;
 
 import com.mygdx.tubby_wars.view.PlayScreen;
 
-import java.util.ArrayList;
-
 
 public class ControllerLogic {
 
@@ -14,11 +12,9 @@ public class ControllerLogic {
     public static boolean charging = false;
     public static boolean isPlayersTurn = false;
 
-    //Used to check if users need to register usernames
-    public static Boolean loggedIn = false;
 
-    //Counts how many rounds have been played
-    public static int roundCount = 0;
+    public static Boolean loggedIn = false; //Used to check if users need to register usernames
+    public static int roundCount = 0; //Counts how many rounds have been played
 
     //BITS - Collision filtering Box2D
     public static final short PLAYER_1 = 1;
