@@ -14,7 +14,7 @@ import com.mygdx.tubby_wars.view.ShopScreen;
 public  class ScreenFactory {
 
     public static TubbyWars game = TubbyWars.getInstance();
-    public static Engine engine;
+    public static Engine engine = new Engine();
 
     /***
      * THis is a Factory method pattern. All creation of screen objects is handled in this method.
